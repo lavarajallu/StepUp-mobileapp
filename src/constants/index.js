@@ -1,5 +1,5 @@
 "use-strict";
-export * from "./Colors";
+export {colors} from "./Colors";
 export * from "./Fonts";
 export * from "./Images";
 export * from "./Strings";
