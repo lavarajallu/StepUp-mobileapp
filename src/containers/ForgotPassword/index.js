@@ -12,12 +12,13 @@ import {
     Keyboard,
     TouchableOpacity
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
-import {Validations} from '../../helpers'
+import { Validations } from '../../helpers'
 
 class ForgotPassword extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class ForgotPassword extends Component {
             email: text
         })
     }
-   
+
     onSubmit() {
         var email = this.state.email;
         if (email === "") {
@@ -44,6 +45,10 @@ class ForgotPassword extends Component {
             console.log("hello")
         }
     }
+    returnToLoginPage() {
+        Actions.push('otp', { otpValue: '' })
+    }
+
     render() {
         return (
             <>
@@ -72,19 +77,21 @@ class ForgotPassword extends Component {
                             onChangeText={this.onChangeEmail}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         >Email</FloatingLabel>
-                        
-                      
+
+
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onSubmit}>
                                 <ImageBackground style={styles.submiticon}
                                     source={require("../../assets/images/submit.png")}>
                                     <Text style={styles.logintext}>Submit</Text>
                                 </ImageBackground></TouchableOpacity>
-                           
+
                         </View>
                         <View style={styles.bottomview}>
-                            <Text style={styles.helptext}>Return to Login?</Text>
-                           
+                            <TouchableOpacity onPress={this.returnToLoginPage}>
+                                <Text style={styles.helptext}>Return to Login?</Text>
+                            </TouchableOpacity>
+
                         </View>
 
                     </View>
