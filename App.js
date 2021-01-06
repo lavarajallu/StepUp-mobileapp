@@ -6,26 +6,21 @@
  * @flow strict-local
  */
 
-import React,{Component} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
-import Login from './src/containers/Login'
-import Register from "./src/containers/Register"
-import ForgotPassword from "./src/containers/ForgotPassword"
-import Otp from "./src/containers/Otp"
-class App extends Component {
-  render(){
-    return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <Otp/>
-        </SafeAreaView>
-      </>
-    );
-  }
- 
-};
-export default App;
+import React, { Component } from 'react';
+import { Router, Stack, Scene } from 'react-native-router-flux';
+import { Login, Register, ForgotPassword, Otp } from './src/containers'
+
+const App = () => {
+  return (
+    <Router>
+      <Stack key="root" hideNavBar={true}>
+        <Scene key="login" component={Login} initial={true} />
+        <Scene key="register" component={Register} />
+        <Scene key="forgotPassword" component={ForgotPassword} />
+        <Scene key="otp" component={Otp} />
+      </Stack>
+    </Router>
+  )
+}
+
+export default App

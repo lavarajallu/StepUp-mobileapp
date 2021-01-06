@@ -9,10 +9,11 @@ import {
     Dimensions,
     StatusBar,
     Image,
+    Alert,
     TouchableOpacity
 } from 'react-native';
 import styles from "./styles"
-import {Validations} from '../../helpers'
+import { Validations } from '../../helpers'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
@@ -22,72 +23,72 @@ class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email:"",
-            FName:"",
-            LName:"",
-            pincode:"",
-            password:"",
-            confPassword:""
+            email: "",
+            FName: "",
+            LName: "",
+            pincode: "",
+            password: "",
+            confPassword: ""
         };
-        this.onChangeFName=this.onChangeFName.bind(this);
+        this.onChangeFName = this.onChangeFName.bind(this);
         this.onChangeLName = this.onChangeLName.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePincode = this.onChangePincode.bind(this);
-        this.onChangePassword =  this.onChangePassword.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeConfPass = this.onChangeConfPass.bind(this);
         this.onSubmit = this.onSubmit.bind(this)
     }
-    onChangeFName(text){
+    onChangeFName(text) {
         this.setState({
-            FName:text
+            FName: text
         })
     }
-    onChangeLName(text){
+    onChangeLName(text) {
         this.setState({
-            LName:text
+            LName: text
         })
     }
-    onChangeEmail(text){
+    onChangeEmail(text) {
         this.setState({
-            email:text
+            email: text
         })
     }
-    onChangePincode(text){
+    onChangePincode(text) {
         this.setState({
-            pincode:text
+            pincode: text
         })
     }
-    onChangePassword(text){
+    onChangePassword(text) {
         this.setState({
-            password:text
+            password: text
         })
     }
-    onChangeConfPass(text){
+    onChangeConfPass(text) {
         this.setState({
-            confPassword:text
+            confPassword: text
         })
     }
-    onSubmit(){
-        var {email,FName,LName,pincode,password,confPassword} = this.state;
+    onSubmit() {
+        var { email, FName, LName, pincode, password, confPassword } = this.state;
         if (FName === "") {
-            alert("Please enter First Name")
+            Alert.alert('Step Up', "Please enter First Name")
         } else if (LName === "") {
-            alert("please enter Last Name")
+            Alert.alert('Step Up', "please enter Last Name")
         } else if (email === "") {
-            alert("please enter Email")
-        }else if (pincode === "") {
-            alert("please enter Pincode")
-        }else if (password === "") {
-            alert("please enter Password")
-        }else if (confPassword === "") {
-            alert("please enter Confirm Password")
-        }else if (!Validations.email(email)) {
-            alert("please enter valid email")
-        } else if (!Validations.validatePincode(pincode)){
-            alert("please enter valid pincode")
-        } else if (password != confPassword){
-            alert("password and confirm password doesn't match")
-        }else {
+            Alert.alert('Step Up', "please enter Email")
+        } else if (pincode === "") {
+            Alert.alert('Step Up', "please enter Pincode")
+        } else if (password === "") {
+            Alert.alert('Step Up', "please enter Password")
+        } else if (confPassword === "") {
+            Alert.alert('Step Up', "please enter Confirm Password")
+        } else if (!Validations.email(email)) {
+            Alert.alert('Step Up', "please enter valid email")
+        } else if (!Validations.validatePincode(pincode)) {
+            Alert.alert('Step Up', "please enter valid pincode")
+        } else if (password != confPassword) {
+            Alert.alert('Step Up', "password and confirm password doesn't match")
+        } else {
             console.log("hello")
         }
     }
@@ -107,7 +108,7 @@ class Register extends Component {
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
                     <View style={styles.body}>
-                        <Header />
+                        <Header title="register" />
                         <Image source={require("../../assets/images/logo.png")}
                             style={styles.logo} />
                         <FloatingLabel
@@ -162,14 +163,14 @@ class Register extends Component {
                             onSubmitEditing={() => Keyboard.dismiss()}
                         >Confirm Password</FloatingLabel>
                         <View style={styles.subview}>
-                        <View style={styles.createview}>
+                            <View style={styles.createview}>
                                 <Text style={styles.createtext}>Cancel</Text>
                             </View>
                             <TouchableOpacity onPress={this.onSubmit}>
-                            <ImageBackground style={styles.submiticon}
-                                source={require("../../assets/images/submit.png")}>
-                                <Text style={styles.logintext}>Submit</Text>
-                            </ImageBackground>
+                                <ImageBackground style={styles.submiticon}
+                                    source={require("../../assets/images/submit.png")}>
+                                    <Text style={styles.logintext}>Submit</Text>
+                                </ImageBackground>
                             </TouchableOpacity>
                         </View>
                     </View>
