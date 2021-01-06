@@ -6,6 +6,7 @@
 "use strict";
 
 export let colors = {
+  Themecolor:"#D74F15",
   Primary: "#00B3B6",
   Secondary: "#5AABB6",
   Yellow: "#F6CF65",

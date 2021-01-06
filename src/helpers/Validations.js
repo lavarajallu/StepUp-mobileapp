@@ -57,7 +57,9 @@ export const Validations = {
       url,
     );
   },
-
+  validatePincode(val){
+    return  /(^\d{6}$)/.test(val);
+  },
   validatePrice(val) {
     return /^(\d*([.,](?=\d{1}))?\d+)?$/.test(val);
   },
