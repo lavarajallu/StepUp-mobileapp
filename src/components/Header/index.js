@@ -25,7 +25,7 @@ class Header extends Component {
         return (
             <>
                 <ImageBackground source={require("../../assets/images/Banner_back.png")} style={styles.backbanner}>
-                {title==="forgot"|| title === 'otp'? 
+                {title==="forgot"|| title === 'otp' || title === 'change'? 
                 <Image source={require("../../assets/images/left-arrow.png")} style={styles.back} />
                 :null}
                 <Image source={require("../../assets/images/computer.png")} style={styles.computer} />
