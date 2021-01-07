@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import {
-    SafeAreaView,
-    StyleSheet,
     ImageBackground,
-    ScrollView,
-    View,
-    Text,
-    Dimensions,
-    StatusBar,
+    TouchableOpacity,
     Image
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
-
 
 class Header extends Component {
     constructor(props) {
@@ -20,17 +14,25 @@ class Header extends Component {
         };
     }
 
+    onBack() {
+        Actions.pop()
+    }
+
     render() {
-        var {title} = this.props;
+        var { title } = this.props;
         return (
             <>
                 <ImageBackground source={require("../../assets/images/Banner_back.png")} style={styles.backbanner}>
-                {title==="forgot"|| title === 'otp' || title === 'change'? 
-                <Image source={require("../../assets/images/left-arrow.png")} style={styles.back} />
-                :null}
+   {title === "forgot" || title === 'otp' || title === 'register' ?
+                        <TouchableOpacity onPress={this.onBack}>
+                            <Image source={require("../../assets/images/left-arrow.png")} style={styles.back} />
+                        </TouchableOpacity>
+                        : null}
                 <Image source={require("../../assets/images/computer.png")} style={styles.computer} />
-                </ImageBackground>
+                 
                 
+                </ImageBackground>
+
             </>
         );
     }

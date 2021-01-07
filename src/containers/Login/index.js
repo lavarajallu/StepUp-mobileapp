@@ -12,12 +12,13 @@ import {
     Keyboard,
     TouchableOpacity
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
-import {Validations} from '../../helpers'
+import { Validations } from '../../helpers'
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -48,6 +49,12 @@ class Login extends Component {
             checked: !this.state.checked
         })
     }
+    createAccount() {
+        Actions.push('register', { email: 'email' })
+    }
+    forgotPassword() {
+        Actions.push('forgotPassword', { forgotPassword: 'forgotPassword' })
+    }
     onSubmit() {
         var email = this.state.email;
         var password = this.state.password;
@@ -58,6 +65,7 @@ class Login extends Component {
         } else if (!Validations.email(email)) {
             alert("please enter valid email")
         } else {
+            //Actions.push('')
             console.log("hello")
         }
     }
@@ -74,7 +82,7 @@ class Login extends Component {
                     contentInsetAdjustmentBehavior="automatic"
                     style={styles.scrollView}>
                     <View style={styles.body}>
-                        <Header title="login"/>
+                        <Header title="login" />
                         <Image source={require("../../assets/images/logo.png")}
                             style={styles.logo} />
                         <FloatingLabel
@@ -106,7 +114,9 @@ class Login extends Component {
                                     }
                                 </TouchableOpacity>
                                 <Text style={styles.remembertext}>Remember me</Text></View>
-                            <Text style={styles.forgottext}>Forgot Password?</Text>
+                            <TouchableOpacity onPress={this.forgotPassword}>
+                                <Text style={styles.forgottext}>Forgot Password?</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onSubmit}>
@@ -115,7 +125,9 @@ class Login extends Component {
                                     <Text style={styles.logintext}>Log In</Text>
                                 </ImageBackground></TouchableOpacity>
                             <View style={styles.createview}>
-                                <Text style={styles.createtext}>Create Account</Text>
+                                <TouchableOpacity onPress={this.createAccount}>
+                                    <Text style={styles.createtext}>Create Account</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <View style={styles.bottomview}>
