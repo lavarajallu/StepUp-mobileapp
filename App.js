@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
-import { Login, Register, ForgotPassword, Otp } from './src/containers'
+import { Login, Register, ForgotPassword, Otp, Boards,Grades } from './src/containers'
 
 const App = () => {
   return (
@@ -18,6 +18,8 @@ const App = () => {
         <Scene key="register" component={Register} />
         <Scene key="forgotPassword" component={ForgotPassword} />
         <Scene key="otp" component={Otp} />
+        <Scene key="boards" component={Boards} />
+        <Scene key="grades" component={Grades} />
       </Stack>
     </Router>
   )

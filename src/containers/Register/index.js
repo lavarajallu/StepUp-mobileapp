@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import styles from "./styles"
 import { Validations } from '../../helpers'
+import { Actions } from 'react-native-router-flux';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
@@ -69,6 +70,7 @@ class Register extends Component {
         })
     }
     onSubmit() {
+       // Actions.push('boards', { email: 'email' })
         var { email, FName, LName, pincode, password, confPassword } = this.state;
         if (FName === "") {
             Alert.alert('Step Up', "Please enter First Name")

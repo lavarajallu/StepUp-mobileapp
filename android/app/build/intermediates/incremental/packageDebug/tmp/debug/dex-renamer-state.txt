@@ -1,4 +1,4 @@
-#Wed Jan 06 23:11:07 IST 2021
-base.0=/Users/stellent/Documents/smartGen/StepUp-mobileapp/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Thu Jan 07 08:54:48 IST 2021
+base.0=D\:\\SG office\\react native\\StepUp-mobileapp\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
