@@ -86,9 +86,7 @@ class Otp extends Component {
     render() {
         return (
             <>
-                <ScrollView
-                    contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
+                
                     <ImageBackground
                         style={[styles.containter]}
                         source={require("../../assets/images/backblue.png")}
@@ -122,35 +120,13 @@ class Otp extends Component {
                                     <Text style={styles.createtext}>Request OTP</Text>
                                 </View></TouchableOpacity>
                         </View>
-                        <View style={styles.bottomview}>
-                            <FloatingLabel
-                                labelStyle={styles.labelstyle}
-                                inputStyle={styles.input}
-                                style={styles.textinput}
-                                blurOnSubmit={false}
-                                password={true}
-                                onChangeText={this.onChangePassword}
-                                onSubmitEditing={() => Keyboard.dismiss()}
-                            >Create Password</FloatingLabel>
-                            <FloatingLabel
-                                labelStyle={styles.labelstyle}
-                                inputStyle={styles.input}
-                                style={styles.textinput}
-                                blurOnSubmit={false}
-                                password={true}
-                                onChangeText={this.onConfirmPass}
-                                onSubmitEditing={() => Keyboard.dismiss()}
-                            >Confirm Password</FloatingLabel>
-                        </View>
-
-                        <TouchableOpacity onPress={this.onSubmit}>
-                            <ImageBackground style={styles.submiticon}
-                                source={require("../../assets/images/submit.png")}>
-                                <Text style={styles.logintext}>Submit</Text>
-                            </ImageBackground></TouchableOpacity>
+                       <View style={styles.bottomview}>
+                                               
+                                               </View>
+                       
 
                     </View>
-                </ScrollView>
+              
 
 
 

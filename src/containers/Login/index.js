@@ -65,7 +65,7 @@ class Login extends Component {
         } else if (!Validations.email(email)) {
             alert("please enter valid email")
         } else {
-            //Actions.push('')
+            Actions.push('dashboard')
             console.log("hello")
         }
     }

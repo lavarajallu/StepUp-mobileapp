@@ -92,6 +92,7 @@ class Register extends Component {
             Alert.alert('Step Up', "password and confirm password doesn't match")
         } else {
             console.log("hello")
+            Actions.push('boards')
         }
     }
 

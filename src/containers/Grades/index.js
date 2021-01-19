@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import styles from './styles'
 
-
+import { Actions } from 'react-native-router-flux';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 class Grades extends Component {
@@ -25,14 +25,17 @@ class Grades extends Component {
 }
 renderItem({item}){
 	return(
-		<View 
+		<TouchableOpacity onPress={this.onItem.bind(this)}
 		style={styles.listsubview}>
 		 <Image source={require("../../assets/images/gradesam.png")} 
 		 style={styles.gradeimg}/>
 		 <Text style={styles.gradetext}>{item.name}</Text>
 		
-		</View>
+		</TouchableOpacity>
 		)
+}
+onItem(){
+    Actions.push('dashboard')
 }
 
     render() {
@@ -49,7 +52,7 @@ renderItem({item}){
                      </View>
                       <View style={styles.subview}>
 							<FlatList data={data.grades} 
-							renderItem={this.renderItem}
+							renderItem={this.renderItem.bind(this)}
 							 
 							 numColumns={2} 
 							 />

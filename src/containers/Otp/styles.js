@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
   body: {
     backgroundColor: "white",
-    //height:"100%",
+    height:"90%",
     margin: 20,
     borderWidth: 1,
     borderRadius: 20,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   containter: {
     width: "100%",//Dimensions.get("window").width, //for full screen
-    height: "100%",// Dimensions.get("window").height, //for full screen
+    height: "200%",// Dimensions.get("window").height, //for full screen
     zIndex: -1,
     backgroundColor: "red",
     position: "absolute",
