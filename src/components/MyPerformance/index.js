@@ -24,24 +24,24 @@ let sampleData = [
     {
       seriesName: 'Pre Assesment',
       data: [
-        {x: '0', y: 30},
-        {x: 'Physics', y: 20},
-        {x: 'Chemistry', y: 70},
-        {x: 'Biollogy', y: 50},
-        {x:'Mathematics', y :30}
+        {x: '0', y: 20},
+        {x: 'Physics', y: 30},
+        {x: 'Chemistry', y: 50},
+        {x: 'Biollogy', y: 70},
+        {x:'Mathematics', y :90}
       ],
-      color: 'green'
+      color: 'orange'
     },
     {
       seriesName: 'Post Assesment',
       data: [
-        {x: '0', y: 20},
-        {x: 'Physics', y: 80},
-        {x: 'Chemistry', y: 60},
-        {x: 'Biology', y: 40},
-        {x:'Mathematics', y :30}
+        {x: '0', y: 5},
+        {x: 'Physics', y: 20},
+        {x: 'Chemistry', y: 40},
+        {x: 'Biology', y: 60},
+        {x:'Mathematics', y :80}
       ],
-      color: 'orange'
+      color: 'green'
     }
   ]
 class MyPerformance extends Component {
@@ -61,12 +61,23 @@ class MyPerformance extends Component {
 			   showEvenNumberXaxisLabel = {false} 
 			   
                  xAxisColor={'black'}
-            yAxisColor={'red'}
-            xAxisGridLineColor={'grey'}
-            yAxisGridLineColor={'grey'}
-            width={'100%'}
+		            yAxisColor={'black'}
+		            xAxisGridLineColor={'grey'}
+		            yAxisGridLineColor={'grey'}
+		            width={'100%'}
 			      height={windowHeight/4} numberOfYAxisGuideLine={5} 
 			 />
+
+			 <View style={{flex:1,flexDirection: 'row',justifyContent:"space-around",marginVertical: 10}}>
+			 	<View style={{flexDirection:"row"}}>
+			 		<View style={{width:20,height:20,backgroundColor: 'orange'}}/>
+			 		<Text style={{marginLeft:5}}>Pre-Assesment</Text>
+			 	</View>
+			 		<View style={{flexDirection:"row"}}>
+			 		<View style={{width:20,height:20,backgroundColor: 'green'}}/>
+			 		<Text style={{marginLeft:5}}>Post-Assesment</Text>
+			 	</View>
+			 </View>
 			 </View>
 			</View>
 		)

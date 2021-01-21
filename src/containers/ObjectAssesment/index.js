@@ -222,17 +222,17 @@ class ObjectAssesment extends Component{
             <View>
             <Text style={{marginLeft:10}}>Question</Text>
             <View style={{height:40,marginTop:10,borderColor:"grey",borderWidth:1,backgroundColor: 'white',flexDirection:"row",borderRadius: 20,overflow:"hidden"}}>
-            <View style={{backgroundColor: 'purple',width:80,justifyContent:"center",alignItems:"center"}}>
+            <View style={{backgroundColor: '#695174',width:80,justifyContent:"center",alignItems:"center"}}>
             <Text style={{color:"white"}}>View</Text></View>
-            <Image source={require('../../assets/images/magnifier.png')} style={{width:30,height:30,marginHorizontal: 10,tintColor:"grey"}}/>
+            <Image source={require('../../assets/images/view.png')} style={{width:30,height:30,marginHorizontal: 10,alignSelf:"center"}}/>
             </View>
             </View>
             <View>
             <Text style={{marginLeft:10}}>Answers</Text>
             <View style={{height:40,marginTop:10,borderColor:"grey",borderWidth:1,backgroundColor: 'white',flexDirection:"row",borderRadius: 20,overflow:"hidden"}}>
-            <View style={{backgroundColor: 'green',width:80,justifyContent:"center",alignItems:"center"}}>
+            <View style={{backgroundColor: '#277292',width:80,justifyContent:"center",alignItems:"center"}}>
             <Text style={{color:"white"}}>Upload</Text></View>
-            <Image source={require('../../assets/images/magnifier.png')} style={{width:30,height:30,marginHorizontal: 10,tintColor:"grey"}}/>
+            <Image source={require('../../assets/images/attatch.png')} style={{width:30,height:30,marginHorizontal: 10,alignSelf:"center"}}/>
             </View>
             </View>
             </View>

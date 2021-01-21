@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     paddingTop: 30
   },
   rectview:{
-    width: 1724/8,height:1340/5.5,justifyContent:"center",
-        backgroundColor: 'transparent',borderRadius: 20,marginHorizontal:20,overflow:"hidden",
+    width: 1724/10,height:1340/7,justifyContent:"center",
+        backgroundColor: 'transparent',borderRadius: 20,marginHorizontal:10,overflow:"hidden",
           shadowOffset: { width: 0, height: 5 },
           shadowOpacity: 1,
           shadowRadius: 5,

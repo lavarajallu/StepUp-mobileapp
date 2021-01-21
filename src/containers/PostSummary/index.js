@@ -136,7 +136,7 @@ class PostSummary extends Component {
                     
                 </View>
                 <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:20}}>Summary</Text>
+                <Text style={{color:"white",fontSize:18}}>Summary</Text>
                 </View>
                
             </View>

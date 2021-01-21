@@ -91,7 +91,7 @@ class MyTopics extends Component {
 		return (
 
 			<View>
-				<Text style={styles.headertext}>My Topics - in Progress</Text>
+				<Text style={styles.headertext}>My Topics In Progress</Text>
 				<FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
 					showsHorizontalScrollIndicator={false} />

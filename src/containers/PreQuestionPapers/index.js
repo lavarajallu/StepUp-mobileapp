@@ -73,7 +73,8 @@ class PreQuestionPapers extends Component{
 	}
 	renderItem({item}){
 		return(
-			<TouchableOpacity onPress={this.onItem.bind(this)} style={{padding:10,margin:20,backgroundColor: 'white',flexDirection:"row",width:windowWidth/1.2,justifyContent:  'space-around', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
+			<TouchableOpacity onPress={this.onItem.bind(this)} 
+			style={{padding:15,margin:20,backgroundColor: 'white',flexDirection:"row",width:windowWidth/1.2,justifyContent:  'space-around', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
           shadowOpacity: 1,
           borderRadius: 10,
           shadowRadius: 5,

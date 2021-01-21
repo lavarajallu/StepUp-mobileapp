@@ -6,27 +6,27 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   headertext:{
-    fontSize: 20,color:"#5f5d5b",marginLeft:20,marginBottom:15,marginTop:15
+    fontSize: 20,marginLeft:10,marginBottom:10,marginTop:0,
   },
   itemview:{
    paddingVertical: 10,alignItems:"center"
   },
   rectview:{
-    width: windowWidth/1.1,height:windowHeight/8,justifyContent:"center",
+    width: windowWidth/1.1,height:windowHeight/10,justifyContent:"center",
         backgroundColor: 'white',borderRadius: 10,flexDirection:"row",
-          shadowOffset: { width: 0, height: 5 },//marginBottom:20,
+          shadowOffset: { width: 0, height: 10 },//marginBottom:20,
           shadowOpacity: 1,
-          shadowRadius: 5,
-          elevation: 10,
+          shadowRadius: 10,
+          elevation: 5,
         },
        innerrect:{
-        flex:0.3,overflow:"hidden",justifyContent:'center',alignItems:"center"
+        flex:0.25,overflow:"hidden",justifyContent:'center',alignItems:"center"
       },
       inerImage:{
-        width:170/2,height:170/2
+        width:170/3,height:170/3
       },
       leftinnerview:{
-        flex:0.7,justifyContent: 'space-around'
+        flex:0.75,justifyContent: 'space-around'
       },
         subjectname:{
           color:"#4b4b4b",fontSize:20,textAlign: 'left',marginLeft:10

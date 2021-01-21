@@ -72,7 +72,8 @@ class MockTest extends Component{
 	renderItem({item}){
 		return(
 			<TouchableOpacity onPress={this.onItem.bind(this,item)}>
-			<ImageBackground source={item.image} style={{width:566/1.8,height:157/1.8,marginVertical: 20,justifyContent:"center",alignItems:"center"}}>
+			<ImageBackground source={item.image} 
+			style={{width:566/1.6,height:157/1.6,marginVertical: 20,justifyContent:"center",alignItems:"center",alignSelf:"center"}}>
 			<Text style={{color:item.color}}>{item.name}</Text>
 			</ImageBackground>
 			</TouchableOpacity>
@@ -96,7 +97,7 @@ class MockTest extends Component{
 			</View>
 			<Image source={require('../../assets/images/abst.png')} style={{width:339/2,height:242/2}}/>
 			</View>
-			<View style={{marginTop: 40,marginLeft:20}}>
+			<View style={{marginTop: 40}}>
 
 			 <FlatList data={data}
 					renderItem={this.renderItem.bind(this)}

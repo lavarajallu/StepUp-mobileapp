@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
  mainView:{
     flex:1,
-    backgroundColor: '#F9C6B7'
+    //backgroundColor: '#F9C6B7'
  },
  backimage:{
     width:30,height:30,marginVertical:30,tintColor:"#f64068",marginLeft:20
@@ -20,13 +20,20 @@ const styles = StyleSheet.create({
  subjectinner:{
     width: 944 / 6,
     height: 912 / 6,
+    position: 'absolute',
     justifyContent: "center",
     alignItems:"center",
-    marginTop:5,
+    borderRadius:30,
+    top: 30,
+    left: windowWidth/3.2, shadowColor:'black',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+   // elevation: 10
  },
  subjectouter:{
-    width: 944 / 7,
-    height: 912 / 7,
+    width: 944 / 6,
+    height: 912 / 6,
     backgroundColor:"white",
     position: 'absolute',
     justifyContent: "center",
@@ -46,10 +53,10 @@ listview:{
   flex:0.7,
 },
  middleview:{
-   flex:0.2,justifyContent: 'flex-end',alignItems:  'center'
+   flex:0.2,justifyContent: 'center',alignItems:  'center'
  },
  textmain:{
-  color:colors.Themecolor,textAlign: 'center',marginTop: 20, fontSize:20
+  color:colors.Themecolor,textAlign: 'center',marginTop: 60, fontSize:20
  },
  rectview:{
     width: windowWidth/2.3,height:1340/9,justifyContent:"center",

@@ -39,11 +39,15 @@ class Library extends Component{
 			<LearningComponent/>
 			<View style={styles.line}/>
 			<LibraryComponent/>
-			<MyProgress/>
-			<MyPerformance/>
-			<ReferEarn/>
-			<MyTopics/>
 			
+			<MyProgress/>
+			<View style={styles.line}/>
+			<MyPerformance/>
+			<View style={styles.line}/>
+			<ReferEarn/>
+			<View style={styles.line}/>
+			<MyTopics/>
+			<View style={styles.line}/>
 			<RecommendedTopics/>
 			</View>
 			</View>

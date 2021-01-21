@@ -34,13 +34,13 @@ const data = [
 		name: "Physics",
 		image: require('../../assets/images/yellowround.png'),
 		insideimg: require('../../assets/images/subinside.png'),
-		bg: require('../../assets/images/Biology.png'),
+		bg: require('../../assets/images/physics_bg.png'),
 		progress: 0.7, test: 6, read: 40
 	}, {
-		name: "Science",
+		name: "Chemistry",
 		image: require('../../assets/images/yellowround.png'),
 		insideimg: require('../../assets/images/subinside.png'),
-		bg: require('../../assets/images/math_bg.png'),
+		bg: require('../../assets/images/chemistry_bg.png'),
 		progress: 0.3, test: 6, read: 40
 	}, {
 		name: "Biology",
@@ -74,8 +74,8 @@ class LibraryComponent extends Component {
 					<View style={styles.subview}>
 						<View style={styles.topsubview}>
 					<View  style={{
-						width: 944 /9,
-						height: 912 / 9,
+						width: 944 /12,
+						height: 912 / 12,
 						justifyContent: 'center',
 						alignItems:"center",
 						backgroundColor: 'white',
@@ -83,7 +83,7 @@ class LibraryComponent extends Component {
 						marginLeft:10,
 						borderRadius: 20
 						//left: -240,
-					}}><Image source={item.insideimg} style={{width:96,height:96}} />
+					}}><Image source={item.insideimg} style={{width:96/1.5,height:96/1.5}} />
 					</View>
 						</View>
 						<View style={styles.bottomsubview}>
@@ -130,6 +130,7 @@ class LibraryComponent extends Component {
 		return (
 
 			<View>
+			<Text style={{marginLeft:15,marginTop:10,fontSize:20}}>My Library</Text>
 				<FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
 					horizontal={true}

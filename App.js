@@ -13,22 +13,23 @@ import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPape
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary, 
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,
      PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,
- PracticeSolutions,PracticeReview,VideoView,ObjectAssesment} from './src/containers'
+ PracticeSolutions,PracticeReview,VideoView,ObjectAssesment,Main} from './src/containers'
 
 const App = () => {
   return (
     <Router>
       <Stack key="root" hideNavBar={true}>
-        <Scene key="login" component={Login} initial={true} />
+        <Scene key="main" component={Main}/>
+        <Scene key="login" component={Login}  initial={true} />
         <Scene key="register" component={Register} />
         <Scene key="forgotPassword" component={ForgotPassword} />
         <Scene key="otp" component={Otp}/>
         <Scene key="boards" component={Boards}  />
         <Scene key="grades" component={Grades} />
-        <Scene key="dashboard" component={Dashboard}/>
+        <Scene key="dashboard" component={Dashboard}   />
         <Scene key="chapters" component={Chapters} />
         <Scene key="topics" component={Topics}/>
-        <Scene key = "preassesment" component ={PreAssesment} />
+        <Scene key = "preassesment" component ={PreAssesment}/>
         <Scene key = "presummary" component={PreSummary}/>
         <Scene key= "topicindetails" component={TopicInDetails}/>
         <Scene key="videoview" component={VideoView}/>

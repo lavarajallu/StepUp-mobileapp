@@ -83,16 +83,16 @@ const styles = StyleSheet.create({
 		fontSize:15
 	},
 	circlefilled:{
-		 height:50,width:50,borderRadius: 25,borderColor: colors.Themecolor,backgroundColor:colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,backgroundColor:colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	circletext:{
-		textAlign: 'center',color:"white",fontSize:20
+		textAlign: 'center',color:"white",fontSize:15
 	},
 	borderfilled:{
-		 height:50,width:50,borderRadius: 25,borderColor: colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	bordertext:{
-		 textAlign: 'center',color:colors.Themecolor,fontSize:20
+		 textAlign: 'center',color:colors.Themecolor,fontSize:15
 	},
 	bottomview:{
 		flex:0.1,flexDirection:"row"

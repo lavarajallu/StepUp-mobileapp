@@ -50,7 +50,7 @@ class TopicInDetails extends  Component{
                     
                 </View>
                  <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:20}}>Introduction</Text>
+                <Text style={{color:"white",fontSize:18}}>Introduction</Text>
                 </View>
             </View>
 			)

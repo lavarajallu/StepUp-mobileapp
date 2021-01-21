@@ -18,8 +18,10 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
 import Footer from '../../components/Footer'
+import SideMenu from "../../components/SideMenu"
 import ChapterComponent from '../../components/ChapterComponent';
 import { Validations } from '../../helpers'
+import Drawer from 'react-native-drawer'
 
 class Chapters extends Component{
 	constructor(props){
@@ -28,8 +30,21 @@ class Chapters extends Component{
 	onBack(){
 		Actions.pop()
 	}
+	 closeControlPanel = () => {
+    this._drawer.close()
+  };
+  openControlPanel = () => {
+    this._drawer.open()
+  };
 	render(){
 		return(
+			<Drawer
+			type="overlay"
+                ref={(ref) => this._drawer = ref}
+                 tapToClose={true}
+                 openDrawerOffset={0.25} 
+                content={ <SideMenu closeControlPanel={this.closeControlPanel}/>}
+                >                  
 			<View style={styles.mainview}>
 				
 			<View style={styles.topview}>
@@ -38,9 +53,10 @@ class Chapters extends Component{
 			</View>
 			<View style={styles.footerview}>
 
-		    <Footer/>
+		     <Footer openControlPanel={this.openControlPanel}/>
 			</View>
 			</View>	
+			</Drawer>
 			)
 	}
 }

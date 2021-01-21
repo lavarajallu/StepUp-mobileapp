@@ -116,7 +116,12 @@ class ChapterComponent extends Component {
                          elevation: 12,
                     }}><Image source={item.insideimg} style={{
                         width: 944 / 13,
-                        height: 912 /13,alignSelf:"center"}} />
+                        height: 912 /13,alignSelf:"center",position: 'absolute',
+                        justifyContent: "center",
+                        alignSelf:'center',
+                        top: -210,
+                       // left: -140,
+                         elevation: 12,}} />
                     </ImageBackground>
                 </View></View>
 
@@ -144,10 +149,10 @@ class ChapterComponent extends Component {
                              /></View><View style={{flex:0.18,backgroundColor: '#f6f7fb'}}/>
                              </View>
                 </View>
-                <View style={styles.subjectouter}>
+                
                     <ImageBackground source={require('../../assets/images/yellowround.png')} style={styles.subjectinner}>
                         <Image source={require('../../assets/images/math.png')} style={{alignSelf: "center",width:128/1.5,height:128/1.5 }} />
-                    </ImageBackground></View>
+                    </ImageBackground>
             </View>
         )
     }

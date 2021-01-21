@@ -8,20 +8,26 @@ const styles = StyleSheet.create({
 
  mainView:{
     flex:1,
-    backgroundColor: '#F9C6B7'
+    //backgroundColor: '#F9C6B7'
  },
  backimage:{
     width:42,height:42,marginVertical:20,tintColor:"#f64068",marginLeft:20
  },
  mainsubview:{
-    marginTop:30,height:"100%",width:"100%",backgroundColor:"#f6f7fb",borderTopLeftRadius:50,borderTopRightRadius:50
+    marginTop:10,height:"100%",width:"100%",backgroundColor:"#f6f7fb",borderTopLeftRadius:50,borderTopRightRadius:50
  },
  subjectinner:{
-    width: 944 / 6,
+     width: 944 / 6,
     height: 912 / 6,
+    position: 'absolute',
     justifyContent: "center",
     alignItems:"center",
-    marginTop:5,
+    borderRadius:30,
+    top: 30,
+    left: windowWidth/3.2, shadowColor:'black',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
  },
  subjectouter:{
     width: 944 / 7,
@@ -42,13 +48,13 @@ const styles = StyleSheet.create({
   flex:1,
 },
 listview:{
-  flex:0.6
+  flex:0.65
 },
  middleview:{
-   flex:0.2,justifyContent: 'flex-end',alignItems:  'center' 
+   flex:0.2,justifyContent: 'center',alignItems:  'center'
  },
  textmain:{
-  color:colors.Themecolor,textAlign: 'center', fontSize:20
+  color:colors.Themecolor,textAlign: 'center', fontSize:20,marginTop:40
  }, itemview:{
    paddingVertical: 10,alignItems:"center"
   },

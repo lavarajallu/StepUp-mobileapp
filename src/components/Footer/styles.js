@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
         height:"100%",
         width:windowWidth,
         backgroundColor: 'white',
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderColor: 'lightgrey',
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30
   },
   footericon:{
-    width:32,height:32
+    width:30,height:30
   }
 })
 export default styles;

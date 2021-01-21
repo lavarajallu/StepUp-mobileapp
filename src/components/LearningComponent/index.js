@@ -60,6 +60,7 @@ class LearningComponent extends Component{
 		return(
 			
 			<View>
+			<Text style={{marginLeft:15,marginTop:10,fontSize:20}}>My Learning</Text>
 			<FlatList data={data} 
 			renderItem={this.renderItem.bind(this)}
 			 horizontal={true}

@@ -193,10 +193,10 @@ class TopicsComponent extends Component {
                 <View style={{flex:0.08,backgroundColor: '#f6f7fb'}}/>
                 </View>
                 </View>
-                <View style={styles.subjectouter}>
+               
                     <ImageBackground source={require('../../assets/images/yellowround.png')} style={styles.subjectinner}>
                         <Image source={require('../../assets/images/math.png')} style={{alignSelf: "center",width:128/1.5,height:128/1.5 }} />
-                    </ImageBackground></View>
+                    </ImageBackground>
             </View>
         )
     }

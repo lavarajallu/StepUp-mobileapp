@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     flex:1
    },
    topview:{
-    flex:0.9
+    flex:1
   },
   footerview:{
     flex:0.1,justifyContent:"flex-end"
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
         justifyContent:"space-around",
         alignItems:"center",
-        height:80,
+        height:70,
         width:windowWidth,
         backgroundColor: 'white',
         borderWidth: 1,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30
   },
   footericon:{
-    width:32,height:32
+    width:30,height:30
   }
 })
 export default styles;

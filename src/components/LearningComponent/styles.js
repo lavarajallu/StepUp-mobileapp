@@ -20,7 +20,7 @@ fontSize: 20,color:"#5f5d5b",marginLeft:20
 			image:{
 				width:96/2,height:96/2,alignSelf:"center"
 			},subtext:{
-				fontSize: 18,color:"#555656",marginTop:5
+				fontSize: 15,color:"#555656",marginTop:5
 			}
 })
 export default styles;

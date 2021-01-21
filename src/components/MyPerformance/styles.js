@@ -6,13 +6,19 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 	mainview:{
-		margin:15,borderRadius: 10,borderWidth:1,borderColor:"lightgrey",
+		marginHorizontal:10,borderRadius: 10,
 	},
 	headtext:{
-		margin:20,textAlign:"center",fontSize:25
+		marginVertical:10,textAlign:"left",fontSize:20
 	},
 	chartview:{
-		height:windowHeight/3,width: windowWidth/1.1
+		paddingVertical:20,
+		width: windowWidth/1.15,backgroundColor: 'white',
+		shadowColor:'black',justifyContent:"center",alignSelf:"center",
+          shadowOffset: { width: 0, height: 5 },
+          shadowOpacity: 1,
+          shadowRadius: 5,
+          elevation: 10,borderRadius: 10
 	},
 	
 })

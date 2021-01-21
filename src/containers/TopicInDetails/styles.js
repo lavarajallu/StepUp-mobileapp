@@ -11,10 +11,11 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:30,height:30,marginVertical:20,tintColor:"#f64068",marginLeft:20
+    width:30,height:30,marginVertical:15,tintColor:"#f64068",marginLeft:20
  },
  mainsubview:{
-    height:"80%",width:"100%",
+    height:"80%",width:windowWidth/1.08,
+    alignSelf:"center",
     backgroundColor:"white",
     borderRadius:20,
     shadowColor:'black',
@@ -22,19 +23,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 5,
     elevation: 10,
+   // marginRight: 30
     
  },
 
  subjectouter:{
-    width: 200,
-    height: 50,
+    width: 140,
+    height: 40,
     backgroundColor:colors.Themecolor,
     position: 'absolute',
     justifyContent: "center",
     alignItems:"center",
     borderRadius:35,
-    top: 50,
-    left: windowWidth/4, 
+    top: 40,
+    left: windowWidth/3.2, 
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
@@ -46,7 +48,8 @@ const styles = StyleSheet.create({
             height:"20%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20
         },
         nextinner:{
-            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,width:150,justifyContent:"center"
+            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,width:150,
+            justifyContent:"center",alignItems:"center"
         },
         activitytext:{
             textAlign:"center",fontSize:15,color:"white"

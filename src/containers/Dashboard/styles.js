@@ -6,7 +6,8 @@ const windowHeight = Dimensions.get('window').height;
 import { colors } from "../../constants"
 const styles = StyleSheet.create({
    mainview:{
-    flex:1
+    flex:1,
+    backgroundColor: '#000000'
    },
    topview:{
     flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20
@@ -16,10 +17,10 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   middleview:{
-    flex:0.8,
+    flex:1,
   },
   footerview:{
-    flex:0.1,justifyContent:"flex-end"
+    flex:0.1,justifyContent:"center",alignItems:"center",
   },
   footerinnerview:{
       flexDirection: 'row',

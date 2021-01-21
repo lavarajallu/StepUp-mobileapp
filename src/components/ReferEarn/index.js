@@ -31,7 +31,7 @@ class ReferEarn extends Component{
 			<ImageBackground 
 			source={require('../../assets/images/refer.png')}
 			style={styles.imagestyles}>
-                <Text style={styles.textStyles}>Refer & Earn</Text>
+               
 			</ImageBackground>
 			
 			

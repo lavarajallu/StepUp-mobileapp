@@ -6,16 +6,16 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
 	mainview:{
-		margin:15,borderRadius: 10,borderWidth:1,borderColor:"lightgrey",
+		margin:15,borderRadius: 10,
 	},
 	headtext:{
-		margin:20,textAlign:"center",fontSize:25
+		marginVertical:10,textAlign:"left",fontSize:20
 	},
 	bottomview:{
 		flexDirection:'row',flexWrap:"wrap",justifyContent:"center"
 	},
 	innerview:{
-		flexDirection:"row",margin:20,justifyContent:'center',alignItems:"center",flexWrap:"wrap"
+		flexDirection:"row",margin:10,justifyContent:'center',alignItems:"center",flexWrap:"wrap"
 	},
 	subjectview:{
 		width:20,height:20

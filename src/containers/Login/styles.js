@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: "100%",//Dimensions.get("window").width, //for full screen
     height: "100%",// Dimensions.get("window").height, //for full screen
     zIndex: -1,
-    backgroundColor: "red",
+    backgroundColor: "white",
     position: "absolute",
     top: 0,
     left: 0,

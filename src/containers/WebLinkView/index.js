@@ -58,7 +58,7 @@ class WebLinkView extends  Component{
                 <Image source={require("../../assets/images/left-arrow.png")}
                     style={styles.backimage} />
                 <View style={styles.mainsubview}>
-                	<View style={{flex:1}}>
+                	<View style={{flex:1,marginTop:5}}>
                 	 <WebView
                             source={{
                               uri: 'https://en.wikipedia.org/wiki/Physics'//'https://reactnative.dev/'
@@ -77,7 +77,7 @@ class WebLinkView extends  Component{
                     
                 </View>
                  <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:20}}>WebLink</Text>
+                <Text style={{color:"white",fontSize:18}}>WebLink</Text>
                 </View>
                  <Modal isVisible={this.state.isvisible}>
         <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>

@@ -148,7 +148,7 @@ class TopicMainView extends Component {
              
              <ScrollView>
              <View style={{flex:1}}>
-             <View style={{width:windowWidth,height:windowHeight/3,backgroundColor: '#fc8798'}}>
+             <View style={{width:windowWidth,height:windowHeight/3,backgroundColor: '#EE5B7B'}}>
              <View style={{flex:1}}>
              <View style={{flex:0.8}}>
              <Image source={require('../../assets/images/sample.png')} style={{width:350/2,height:379/2,alignSelf:"center"}}/>
@@ -156,7 +156,7 @@ class TopicMainView extends Component {
              <View style={{flex:0.2,backgroundColor: 'grey',opacity:0.5,justifyContent:"center"}}>
             
              </View>
-              <Text style={{color:"white",position:"absolute",marginTop: windowHeight/3.5,marginLeft:  windowWidth/2.5  }}>Introduction</Text>
+              <Text style={{color:"white",position:"absolute",marginTop: windowHeight/3.6,marginLeft:  windowWidth/2.5,fontSize:20  }}>Introduction</Text>
              </View>
              </View>
 

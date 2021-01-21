@@ -26,15 +26,15 @@ const styles = StyleSheet.create({
  },
 
  subjectouter:{
-    width: 200,
-    height: 50,
+    width: 150,
+    height: 40,
     backgroundColor:colors.Themecolor,
     position: 'absolute',
     justifyContent: "center",
     alignItems:"center",
     borderRadius:35,
     top: 50,
-    left: windowWidth/4, 
+    left: windowWidth/3, 
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
             height:"20%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20
         },
         nextinner:{
-            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,width:150,justifyContent:"center"
+            height:40,borderRadius:20,backgroundColor:colors.Themecolor,
+            paddingHorizontal:10,marginTop:10,width:150,justifyContent:"center",alignItems:"center"
         },
         viewsolution:{
             height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,width:150,justifyContent:"center",alignItems:"center"

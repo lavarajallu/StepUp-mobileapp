@@ -9,14 +9,14 @@ const styles = StyleSheet.create({
     flex:1
    },
    topview:{
-    flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20
+    flex:0.07,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20,
   },
   toptext:{
     color:colors.Themecolor,
     fontSize: 20
   },
   middleview:{
-    flex:0.8,
+    flex:0.83,
   },
   footerview:{
     flex:0.1,justifyContent:"flex-end"

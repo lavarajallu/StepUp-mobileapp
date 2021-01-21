@@ -6,16 +6,16 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   mainview:{
-    margin:15,borderRadius: 10,borderWidth:1,borderColor:"lightgrey",
+    margin:10,borderRadius: 10
   },
   headertext:{
-    fontSize: 20,color:"#5f5d5b",marginLeft:20,marginBottom:15,marginTop:15
+    fontSize: 20,marginLeft:10,marginBottom:10,marginTop:0
   },
   itemview:{
-    marginVertical: 20
+    marginVertical: 15
   },
   rectview:{
-    width: windowWidth/1.23,height:windowHeight/16,
+    width: windowWidth/1.13,height:windowHeight/16,
     alignSelf:"center",
         backgroundColor: 'white',borderRadius: 10,
           shadowOffset: { width: 0, height: 5 },
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
           elevation: 10,
         },
         outerview:{
-            width: windowWidth/1.2,height:windowHeight/16,
+            width: windowWidth/1.1,height:windowHeight/17,
             marginTop:25,borderRadius: 10,backgroundColor:"red",position:"absolute",alignSelf:"center"
         },
         subview:{

@@ -30,14 +30,14 @@ const data = [
 		test: 6, read: 40
 	},
 	{
-		name: "Rational Numbers",
+		name: "Volume of Cuboid",
 		image: require('../../assets/images/algebra.png'),
 		insideimg: require('../../assets/images/math.png'),
 		progress: 0.5,
 		test: 6, read: 40
 	},
 	{
-		name: "Rational Numbers",
+		name: "Volume of Cylinder",
 		image: require('../../assets/images/algebra.png'),
 		insideimg: require('../../assets/images/math.png'),
 		progress: 0.5,
