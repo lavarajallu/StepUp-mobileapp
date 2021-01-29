@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		flex:0.3,justifyContent:"center",alignItems:"flex-end"
 	},
 	timerview:{
-		width:90,height:50,backgroundColor: colors.Themecolor,
+		flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,backgroundColor: colors.Themecolor,
             justifyContent:"center",borderTopLeftRadius:20,borderBottomLeftRadius: 20
 	},
 	timertext:{

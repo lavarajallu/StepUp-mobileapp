@@ -19,16 +19,27 @@ const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
 import Footer from '../../components/Footer'
 import Library from '../../components/Library';
+import Loader from "../../components/Loader"
 import { Validations } from '../../helpers'
 
 
 class Dashboard extends Component{
 	constructor(props){
 		super(props)
+		this.state={
+			loader:true
+		}
+	}
+	componentDidMount(){
+		setTimeout(() => {this.setState({loader: false})}, 2000)
+
 	}
 	render(){
 		return(
 			<View style={styles.mainview}>
+			{this.state.loader ? (
+				<Loader/>
+				):
 			<ImageBackground source={require('../../assets/images/dashboard_bg.jpg')} style={{width:"100%",height:"100%"}}>
 			<View style={{flex:1}}>
 				<View style={{flex:0.15,alignItems:"flex-end",justifyContent:"center"}}>
@@ -58,7 +69,7 @@ class Dashboard extends Component{
 				</View>
 			
 			
-						</ImageBackground>
+						</ImageBackground>}
 			</View>	
 			)
 	}

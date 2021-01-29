@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
 	mainbottomview:{
 		flex:0.85
 	},
+	timerview:{
+		flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,backgroundColor: colors.Themecolor,
+            borderTopLeftRadius :15,borderBottomLeftRadius: 15
+        },
 	mainshadowview:{
 		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',
         shadowOffset: { width: 0, height: 5 },
@@ -38,10 +42,6 @@ const styles = StyleSheet.create({
 	},
 	headrightview:{
 		flex:0.3,justifyContent:"center",alignItems:"flex-end"
-	},
-	timerview:{
-		width:90,height:50,backgroundColor: colors.Themecolor,
-            justifyContent:"center",borderTopLeftRadius:20,borderBottomLeftRadius: 20
 	},
 	timertext:{
 		textAlign:"center",

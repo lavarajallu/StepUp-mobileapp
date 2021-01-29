@@ -41,3 +41,4 @@ export { default as WebLinkView} from "./WebLinkView";
   export { default as PracticeReview } from "./PracticeReview"
 
  export { default as ObjectAssesment} from "./ObjectAssesment"
+ export { default as PdfView } from "./PdfView"

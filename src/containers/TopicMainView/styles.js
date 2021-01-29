@@ -35,7 +35,57 @@ const styles = StyleSheet.create({
   },
   footericon:{
     width:32,height:32
-  }
+  },
+  forwardarr:{
+    width:30,height:30,alignSelf:"center",transform:[{rotate:"180deg"}],tintColor:colors.Themecolor
+  },
+  teacheforwardarr:{
+    width:30,height:30,tintColor:colors.Themecolor,marginHorizontal: 10,alignSelf:"center",transform:[{rotate:"180deg"}]
+  },
+    rectview:{
+    width: 1724/10,height:1340/7,justifyContent:"center",
+        backgroundColor: 'white',borderRadius: 20,marginHorizontal:10,overflow:"hidden",
+          shadowOffset: { width: 1, height: 5 },
+          shadowOpacity: 1,
+          shadowRadius: 5,
+          elevation: 1,
+        },
+        subview:{
+          flex:1
+        },
+        topsubview:{
+          flex:0.4,
+        },
+        bottomsubview:{
+          flex:0.6,justifyContent:"space-around"
+        },
+        subjectname:{
+          fontSize:15,textAlign: 'left',marginTop:10,marginLeft:10
+        },
+        progressview:{
+          marginHorizontal: 20
+        },
+        progresstextview:{
+          flexDirection:"row",justifyContent:"space-between"
+        },
+        progresstext:{
+          fontSize: 15
+        },
+        countview:{
+          flexDirection:"row",justifyContent:"space-between",marginHorizontal: 20
+        },
+        innercountview:{
+          flexDirection:"row",alignItems:"center"
+        },
+        iconview:{
+          width:17,height:17,tintColor: 'white'
+        },
+        icontext:{
+          marginLeft:5
+        },
+        relativeview:{
+          position:"relative"
+        }
 })
 export default styles;
 

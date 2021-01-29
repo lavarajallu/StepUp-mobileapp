@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   submiticon: {
     width: 367 / 3, height: 90 / 3,
     marginVertical: 20,
-    borderRadius: 20, overflow: "hidden", justifyContent: "center", alignSelf: 'center'
+    borderRadius: 20, overflow: "hidden", justifyContent: "center", alignSelf: 'center',backgroundColor: colors.Themecolor
   },
   forgottext: {
     color: colors.Themecolor, fontSize: 15

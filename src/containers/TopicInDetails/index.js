@@ -25,8 +25,8 @@ class TopicInDetails extends  Component{
 		return(
 			    <View style={styles.mainView}>
 
-                <Image source={require("../../assets/images/left-arrow.png")}
-                    style={styles.backimage} />
+                {/*<Image source={require("../../assets/images/left-arrow.png")}
+                                    style={styles.backimage} />*/}
                 <View style={styles.mainsubview}>
                 	<View style={{flex:1}}>
                 	<ScrollView>

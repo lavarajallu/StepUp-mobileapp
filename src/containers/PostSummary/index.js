@@ -61,12 +61,14 @@ class PostSummary extends Component {
 		for (var i = 1; i <= 5; i++) {
 			// Set the path to filled stars
 			let path = require('../../assets/images/arrow.png');
+            let style={width:157/3.5,height:77/3.5,tintColor: colors.Themecolor}
 			// If ratings is lower, set the path to unfilled stars
 			if (i > this.state.correctanswer) {
 				path = require('../../assets/images/arrow_gray.png');
+                 style={width:157/3.5,height:77/3.5}
 			}
 			// Push the Image tag in the stars array
-			stars.push((<Image style={{width:157/3.5,height:77/3.5,}} source={path} />));
+			stars.push((<Image style={style} source={path} />));
             var percent = (this.state.correctanswer / this.state.numberofques)*100
 		}
         return (

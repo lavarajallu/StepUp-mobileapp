@@ -17,6 +17,7 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Footer from '../../components/Footer'
+import { colors } from "../../constants"
 import Modal from 'react-native-modal';
 const data=[
 {
@@ -80,6 +81,10 @@ class PreQuestionPapers extends Component{
           shadowRadius: 5,
           elevation: 10,shadowColor: 'grey'  }}>
 			<Text>{item.name}</Text>
+			{/*<View style={{width:24,height:24,borderRadius: 12,backgroundColor: colors.Themecolor,justifyContent:"center",alignItems:"center"}}>
+							<Image source={require('../../assets/images/left-arrow.png')}
+							 style={{width:18,height:18,tintColor: 'white',transform:[{rotate:"180deg"}]}}/>
+						</View>*/}
 			<Image source={require('../../assets/images/paperarrow.png')} style={{width:25,height:25}}/>
 			</TouchableOpacity>
 			)
@@ -119,7 +124,8 @@ this.setState({
 			<View style={{flexDirection:"row",justifyContent:"space-between"}}>
 			<View style={{marginTop: 40,marginLeft:20}}>
 			<TouchableOpacity onPress={this.onBack.bind(this)}>
-			<Image source={require('../../assets/images/left-arrow.png')} style={{width:30,height:30,tintColor:"orange"}}/>
+			<Image source={require('../../assets/images/left-arrow.png')} 
+			style={styles.backimage}/>
 			</TouchableOpacity>
 			<Text style={{marginTop: 20,fontSize:15}}>Previous Question Papers</Text>
 			</View>
@@ -143,7 +149,7 @@ this.setState({
 		         <View style={{backgroundColor: 'white',borderRadius: 15,margin: 25,overflow:"hidden"}}>
 		        	
 		        	<ImageBackground source={require("../../assets/images/modalimage.png")}
-		        	 style={{width:windowWidth/1.1,height:306/3,}}>
+		        	 style={{width:windowWidth/1.1,height:306/3,tintColor: '#000000'}}>
 		        	<View style={{flex:0.2,}}>
 		        	<Text style={{textAlign:"center",color:"white",marginTop:5}}>Mathematics JEE Mains 2020</Text>
 		        	</View>
@@ -158,7 +164,7 @@ this.setState({
 		        	   </View>
 		        	</View>
 		        	</ImageBackground>
-		        	<View style={{height:1,backgroundColor: 'orange',opacity:0.5, shadowOffset: { width: 0, height: 5 },marginTop:10,
+		        	<View style={{height:1,backgroundColor: colors.Themecolor,opacity:0.5, shadowOffset: { width: 0, height: 5 },marginTop:10,
 				          shadowOpacity: 1,
 				          shadowRadius: 5,
 				          elevation: 15,shadowColor:"orange"}}>
@@ -166,18 +172,18 @@ this.setState({
 		            <View>
 		            <Text style={{textAlign:"center",fontSize:20,marginTop:5}}>Instructions</Text>
 		            <View style={{flexDirection:"row",marginLeft: 15,marginTop:15}}>
-		            <Image source={require('../../assets/images/modalhelp.png')} style={{width:77/3,height:72/3}}/>
+		            <Image source={require('../../assets/images/modalhelp.png')} style={{width:77/3,height:72/3,tintColor:colors.Themecolor}}/>
 		            <Text style={{marginLeft:10,paddingRight:50}}>1.0 marks are awarded for correct attempts and 0.0 marks for wrong attempts.</Text>
 		            </View>
 		            <View style={{flexDirection:"row",marginLeft: 15,marginTop:15}}>
-		            <Image source={require('../../assets/images/modalhelp.png')} style={{width:77/3,height:72/3}}/>
+		            <Image source={require('../../assets/images/modalhelp.png')} style={{width:77/3,height:72/3,tintColor:colors.Themecolor}}/>
 		            <Text style={{marginLeft:10,marginRight:10}}>Tap on options to select the correct answer.</Text>
 		            </View>
 		            <View style={{justifyContent:"center",alignItems:"center"}}>
 		            <TouchableOpacity onPress={this.onStarttext.bind(this)}>
-		            <ImageBackground source={require('../../assets/images/modalbutton.png')} style={{width:256/2,height:97/2,marginVertical: 10,justifyContent:"center",alignItems:"center"}}>
+		            <View  style={{width:256/2,height:97/2,marginVertical: 10,justifyContent:"center",alignItems:"center",backgroundColor: colors.Themecolor,borderRadius: 20}}>
 		              <Text style={{color:"white",fontSize:15}}>Start Test</Text>
-		            </ImageBackground>
+		            </View>
 		            </TouchableOpacity>
 		            </View>
 		            </View>

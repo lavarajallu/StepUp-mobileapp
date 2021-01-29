@@ -91,7 +91,8 @@ class PreviousPapers extends Component{
 			<View style={{flexDirection:"row",justifyContent:"space-between"}}>
 			<View style={{marginTop: 40,marginLeft:20}}>
 			<TouchableOpacity onPress={this.onBack.bind(this)}>
-			<Image source={require('../../assets/images/left-arrow.png')} style={{width:30,height:30,tintColor:"orange"}}/>
+			<Image source={require('../../assets/images/left-arrow.png')}
+			 style={styles.backimage}/>
 			</TouchableOpacity>
 			<Text style={{marginTop: 20,fontSize:15}}>Previous Question Papers</Text>
 			</View>

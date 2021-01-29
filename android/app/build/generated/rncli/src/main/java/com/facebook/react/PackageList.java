@@ -29,6 +29,8 @@ import com.swmansion.rnscreens.RNScreensPackage;
 import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
+// react-native-view-pdf
+import com.rumax.reactnative.pdfviewer.PDFViewPackage;
 // react-native-webview
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 
@@ -85,6 +87,7 @@ public class PackageList {
       new RNScreensPackage(),
       new SvgPackage(),
       new VectorIconsPackage(),
+      new PDFViewPackage(),
       new RNCWebViewPackage()
     ));
   }

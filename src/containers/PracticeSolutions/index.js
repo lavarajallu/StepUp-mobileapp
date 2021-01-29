@@ -16,6 +16,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
 import styles from "./styles"
+import { colors } from "../../constants";
 import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -279,7 +280,7 @@ class PracticeSolutions extends Component{
             
             <View style={styles.mainshadowview}>
             <View style={styles.headerview}>
-            <Text style={{color:"orange"}}>Chapter-1</Text>
+            <Text style={{color:colors.Themecolor}}>Chapter-1</Text>
             </View>
             <View style={styles.listview}>
             <View style={styles.circlesview}>

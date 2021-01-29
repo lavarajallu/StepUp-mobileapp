@@ -35,23 +35,7 @@ class Main extends Component{
   };
 	render(){
 		return(
-			<Drawer
-			type="overlay"
-                ref={(ref) => this._drawer = ref}
-                 tapToClose={true}
-                 openDrawerOffset={0.25} 
-                content={ <SideMenu closeControlPanel={this.closeControlPanel}/>}
-                >                  
-			<View style={{flex:1}}>
-			<View style={{flex:0.9}}>
-			    <Dashboard />
-			</View>
-			<View style={{flex:0.1}}>
-
-		    <Footer openControlPanel={this.openControlPanel}/>
-			</View>
-			</View>	
-			</Drawer>
+			<Image source={require('../../assets/images/step-up2.gif')} style={{width:300,height:280}}/>
 			)
 	}
 }

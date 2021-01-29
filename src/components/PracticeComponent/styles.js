@@ -8,10 +8,9 @@ const styles = StyleSheet.create({
 
  mainView:{
     flex:1,
-    backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:42,height:42,marginVertical:30,tintColor:"#f64068",marginLeft:20
+    width:30,height:30,marginVertical:30,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
     //marginTop:50,
@@ -23,6 +22,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems:"center",
     marginTop:5,
+     position: 'absolute',
+    justifyContent: "center",
+    alignItems:"center",
+    borderRadius:30,
+    top: 20,
+    left: windowWidth/3.5, 
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
  },
  subjectouter:{
     width: 944 / 7,
@@ -43,13 +51,13 @@ const styles = StyleSheet.create({
   flex:1
 },
 listview:{
-  flex:0.7,
+  flex:0.7
 },
  middleview:{
-   flex:0.2,justifyContent: 'flex-end',alignItems:  'center'
+   flex:0.2,justifyContent: 'center',alignItems:  'center',
  },
  textmain:{
-  color:colors.Themecolor,textAlign: 'center',marginTop: 20, fontSize:20
+  color:colors.Themecolor,textAlign: 'center',marginTop: 50, fontSize:20
  },
  rectview:{
     width: windowWidth/2.3,height:1340/9,justifyContent:"center",

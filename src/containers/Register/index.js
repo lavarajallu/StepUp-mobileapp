@@ -170,10 +170,9 @@ class Register extends Component {
                                 <Text style={styles.createtext}>Cancel</Text>
                             </View>
                             <TouchableOpacity onPress={this.onSubmit}>
-                                <ImageBackground style={styles.submiticon}
-                                    source={require("../../assets/images/submit.png")}>
+                                <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Submit</Text>
-                                </ImageBackground>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     </View>

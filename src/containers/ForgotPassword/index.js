@@ -80,11 +80,11 @@ class ForgotPassword extends Component {
 
 
                         <View style={styles.subview}>
-                            <TouchableOpacity onPress={this.onSubmit}>
-                                <ImageBackground style={styles.submiticon}
+                            <TouchableOpacity onPress={this.onSubmit.bind(this)}>
+                                <View style={styles.submiticon}
                                     source={require("../../assets/images/submit.png")}>
                                     <Text style={styles.logintext}>Submit</Text>
-                                </ImageBackground></TouchableOpacity>
+                                </View></TouchableOpacity>
 
                         </View>
                         <View style={styles.bottomview}>

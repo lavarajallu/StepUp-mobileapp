@@ -11,6 +11,9 @@ const styles = StyleSheet.create({
    topview:{
     flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20
   },
+  backimage:{
+    width:30,height:30,tintColor:colors.Themecolor
+  },
   toptext:{
     color:colors.Themecolor,
     fontSize: 20

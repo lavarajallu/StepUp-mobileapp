@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
    mainview:{
     flex:1
    },
+   backimage:{
+    width:30,height:30,tintColor:colors.Themecolor
+  },
    topview:{
     flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20
   },

@@ -183,11 +183,11 @@ class ObjectAssesment extends Component{
             
             </View>
             <View style={styles.headrightview}>
-             <ImageBackground source={require('../../assets/images/timerview.png')} style={{flexDirection:"row",justifyContent:"center",width:187/2,height:82/2}}>
+             <View style={styles.timerview}>
             <Image source={require('../../assets/images/timer.png')} style={{width:25,height:25,alignSelf:"center",marginRight:10}}/>
             <Text style={styles.timertext}>5:00</Text>
            
-            </ImageBackground>
+            </View>
             </View>
             </View>
             <View style={styles.listview}>

@@ -3,7 +3,7 @@ import {
   } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+import { colors } from "../../constants"
 const styles = StyleSheet.create({
 
   footerinnerview:{
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30
   },
   footericon:{
-    width:30,height:30
+    width:30,height:30,tintColor:colors.Themecolor
   }
 })
 export default styles;

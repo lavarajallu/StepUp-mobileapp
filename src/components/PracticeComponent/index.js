@@ -45,6 +45,18 @@ const data = [
     progress: 0.5,
     image: require('../../assets/images/yellowround.png'),
     insideimg: require('../../assets/images/math.png'),
+},{
+    name:"Chemistry",
+    reads:30,
+    progress: 0.5,
+    image: require('../../assets/images/yellowround.png'),
+    insideimg: require('../../assets/images/math.png'),
+},{
+    name:"Biology",
+    reads:30,
+    progress: 0.5,
+    image: require('../../assets/images/yellowround.png'),
+    insideimg: require('../../assets/images/math.png'),
 }]
 class PracticeComponent extends Component {
     constructor(props) {
@@ -59,7 +71,7 @@ class PracticeComponent extends Component {
     renderItem({item}){
         var percent = item.progress*100
     return(
-        <View  style={{ paddingTop: 30,marginTop: 20 }}>
+        <View  style={{ paddingTop: 30,marginTop: 10,marginBottom:20 }}>
                 <TouchableOpacity onPress={this.onItem.bind(this,item)}
                     style={styles.rectview}>
                     <View style={styles.subview}>
@@ -135,13 +147,12 @@ class PracticeComponent extends Component {
                             style={{alignSelf: 'center'  }}
                              numColumns={2} 
                             // showVerticalScrollIndicator={false}
-                             /></View><View style={{flex:0.18,backgroundColor: '#f6f7fb'}}/>
+                             /></View><View style={{flex:0.1}}/>
                              </View>
                 </View>
-                <View style={styles.subjectouter}>
                     <ImageBackground source={require('../../assets/images/yellowround.png')} style={styles.subjectinner}>
                         <Image source={require('../../assets/images/math.png')} style={{alignSelf: "center",width:128/1.5,height:128/1.5 }} />
-                    </ImageBackground></View>
+                    </ImageBackground>
             </View>
         )
     }

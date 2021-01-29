@@ -113,9 +113,9 @@ class PracticeChapter extends Component{
 		console.log("slknkldsf",index, data.length)
 		var color;
 		if(item.locked){
-			color="orange"
+			color=colors.Themecolor
 		}else{
-			color="orange"
+			color=colors.Themecolor
 		}
 		return(
 			index%2 === 0 ? 

@@ -11,10 +11,11 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:30,height:30,marginVertical:15,tintColor:"#f64068",marginLeft:20
+    width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
-    height:"80%",width:windowWidth/1.08,
+    marginTop:40,
+    height:"85%",width:windowWidth/1.08,
     alignSelf:"center",
     backgroundColor:"white",
     borderRadius:20,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems:"center",
     borderRadius:35,
-    top: 40,
+    top: 20,
     left: windowWidth/3.2, 
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
  },
 
      nextactivityview:{
-            height:"20%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20
+            height:"10%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20
         },
         nextinner:{
             height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,width:150,

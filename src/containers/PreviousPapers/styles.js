@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
     color:colors.Themecolor,
     fontSize: 20
   },
+  backimage:{
+    width:30,height:30,tintColor:colors.Themecolor
+  },
   middleview:{
     flex:0.9,
   },

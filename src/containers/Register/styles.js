@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
       width: 367 /3, height: 90 /3, borderRadius: 20, borderWidth: 1.5, borderColor: colors.Themecolor, justifyContent: "center"
     },
     submiticon:{
-      width: 367 / 3, height: 90 / 3, borderRadius: 20, overflow: "hidden", justifyContent: "center"
+      width: 367 / 3, height: 90 / 3, borderRadius: 20, overflow: "hidden", justifyContent: "center",backgroundColor: colors.Themecolor
     },
   
   });

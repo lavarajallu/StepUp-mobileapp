@@ -111,10 +111,9 @@ class Otp extends Component {
 
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onVerify}>
-                                <ImageBackground style={styles.submiticon}
-                                    source={require("../../assets/images/submit.png")}>
+                                <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Verify</Text>
-                                </ImageBackground></TouchableOpacity>
+                                </View></TouchableOpacity>
                             <TouchableOpacity onPress={this.onSent}>
                                 <View style={styles.createview}>
                                     <Text style={styles.createtext}>Request OTP</Text>

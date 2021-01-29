@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:30,height:30,marginVertical:15,tintColor:"#f64068",marginLeft:20
+    width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
      height:"80%",width:windowWidth/1.08,

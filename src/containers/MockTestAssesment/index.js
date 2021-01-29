@@ -19,7 +19,7 @@ import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { Strings } from "../../constants";
+import { Strings , colors } from "../../constants";
 const data = Strings.data;
 class MockTestAssesment extends Component{
     constructor(props){
@@ -157,11 +157,11 @@ class MockTestAssesment extends Component{
             
             </View>
             <View style={styles.headrightview}>
-             <ImageBackground source={require('../../assets/images/timerview.png')} style={{flexDirection:"row",justifyContent:"center",width:187/2,height:82/2}}>
+             <View style={styles.timerview}>
             <Image source={require('../../assets/images/timer.png')} style={{width:25,height:25,alignSelf:"center",marginRight:10}}/>
             <Text style={styles.timertext}>5:00</Text>
            
-            </ImageBackground>
+            </View>
             </View>
             </View>
             <View style={styles.listview}>
@@ -217,20 +217,22 @@ class MockTestAssesment extends Component{
         
         <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15}}>
         <TouchableOpacity onPress={this.onCancel.bind(this)}>
-        <Image source={require('../../assets/images/modalpapercross.png')} style={{width:25,height:25,alignSelf:"flex-end"}}/>
+        <Image source={require('../../assets/images/modalpapercross.png')} 
+        style={{width:25,height:25,alignSelf:"flex-end"}}/>
          </TouchableOpacity>
-         <Image source={require("../../assets/images/modalpapericon.png")} style={{width:301/3,height:265/3,alignSelf: 'center'}}/>
+         <Image source={require("../../assets/images/modalpapericon.png")} 
+         style={{width:301/3,height:265/3,alignSelf: 'center',tintColor:colors.Themecolor}}/>
           <Text style={{fontSize: 20,textAlign: 'center',marginTop:10}}>Are you sure you want to submit assesment?</Text>
          <View style={{flexDirection:'row',justifyContent:"space-around",marginTop:20 }}>
            <TouchableOpacity onPress={this.onCancel.bind(this)} >
-             <ImageBackground source={require('../../assets/images/modalcancelbutton.png')} style={{width:265/2.2,height:108/2.2,justifyContent:"center",alignItems:"center"}}>
-                <Text style={{color:"orange"}}>CANCEL</Text>
-             </ImageBackground>
+             <View style={{width:265/2.2,height:108/2.2,justifyContent:"center",alignItems:"center",borderRadius: 25,borderWidth: 1,borderColor: colors.Themecolor}}>
+                <Text style={{color:colors.Themecolor}}>CANCEL</Text>
+             </View>
            </TouchableOpacity>
              <TouchableOpacity onPress={this.onsubmitmodal.bind(this)}>
-          <ImageBackground source={require('../../assets/images/modalsubmitbutton.png')} style={{width:256/2,height:103/2,justifyContent:"center",alignItems:"center"}}>
+          <View style={{width:256/2,height:103/2,justifyContent:"center",alignItems:"center",backgroundColor:colors.Themecolor,borderRadius: 25}}>
                 <Text style={{color:"white"}}>SUBMIT</Text>
-             </ImageBackground>
+             </View>
            </TouchableOpacity>
            </View>
           </View>

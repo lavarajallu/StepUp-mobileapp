@@ -120,10 +120,10 @@ class Login extends Component {
                         </View>
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onSubmit}>
-                                <ImageBackground style={styles.submiticon}
-                                    source={require("../../assets/images/submit.png")}>
+                                <View style={styles.submiticon}
+                                    >
                                     <Text style={styles.logintext}>Log In</Text>
-                                </ImageBackground></TouchableOpacity>
+                                </View></TouchableOpacity>
                             <View style={styles.createview}>
                                 <TouchableOpacity onPress={this.createAccount}>
                                     <Text style={styles.createtext}>Create Account</Text>

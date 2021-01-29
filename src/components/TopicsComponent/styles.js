@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:42,height:42,marginVertical:20,tintColor:"#f64068",marginLeft:20
+    width:30,height:30,marginVertical:20,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
     marginTop:10,height:"100%",width:"100%",backgroundColor:"#f6f7fb",borderTopLeftRadius:50,borderTopRightRadius:50
@@ -54,7 +54,7 @@ listview:{
    flex:0.2,justifyContent: 'center',alignItems:  'center'
  },
  textmain:{
-  color:colors.Themecolor,textAlign: 'center', fontSize:20,marginTop:40
+  color:colors.Themecolor,textAlign: 'center', fontSize:20,marginTop:70
  }, itemview:{
    paddingVertical: 10,alignItems:"center"
   },
