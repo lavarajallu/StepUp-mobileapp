@@ -7,7 +7,7 @@ import {
     View,
     Text,
     Dimensions,
-    StatusBar,
+    TextInput,
     Image,
     Keyboard,
     TouchableOpacity
@@ -42,11 +42,12 @@ class ForgotPassword extends Component {
         } else if (!Validations.email(email)) {
             alert("please enter valid email")
         } else {
+            Actions.push('otp')
             console.log("hello")
         }
     }
     returnToLoginPage() {
-        Actions.push('otp', { otpValue: '' })
+        Actions.login({type:"reset"})
     }
 
     render() {
@@ -67,16 +68,18 @@ class ForgotPassword extends Component {
                             style={styles.logo} />
                         <Image source={require("../../assets/images/forgoticon.png")}
                             style={styles.forgoticon} />
-                        <Text style={styles.forgottext}>Forgotton Password?</Text>
+                        <Text style={styles.forgottext}>Forgot Password?</Text>
                         <Text style={styles.pleasetext}>Please Enter your email or mobile number </Text>
-                        <FloatingLabel
+                        <TextInput
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
                             style={styles.textinput}
                             blurOnSubmit={false}
+                            keyboardType={"email-address"}
+                            placeholder={"Email/Mobile-number"}
                             onChangeText={this.onChangeEmail}
                             onSubmitEditing={() => Keyboard.dismiss()}
-                        >Email</FloatingLabel>
+                        ></TextInput>
 
 
                         <View style={styles.subview}>

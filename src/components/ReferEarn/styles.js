@@ -6,7 +6,11 @@ const windowHeight = Dimensions.get('window').height;
 import { colors } from "../../constants"
 const styles = StyleSheet.create({
 	imagestyles:{
-        width:973/2.7,height:266/2.7,alignSelf:"center",justifyContent:"center"
+        width:414,height:93,alignSelf:"center",justifyContent:"center",marginVertical:10,shadowColor: 'black',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 10, 
     },
     textStyles:{
         color:"#595757",fontSize:25,textAlign:"center",marginLeft:30

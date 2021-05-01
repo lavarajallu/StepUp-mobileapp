@@ -26,10 +26,10 @@ const styles = StyleSheet.create({
 	},
 	mainshadowview:{
 		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-         elevation: 10
+        // shadowOffset: { width: 0, height: 5 },
+        // shadowOpacity: 1,
+        // shadowRadius: 5,
+        //  elevation: 10
 	},
 	headerview:{
 		flex:0.1,flexDirection:"row",justifyContent:"center",alignItems:"center"

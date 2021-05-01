@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
 		flex:1
 	},
 	itemview:{
-		padding:15,backgroundColor: 'white',margin:10,borderWidth:1,borderRadius: 10,borderColor:"transparent",
-			    shadowOffset: { width: 0, height: 5 },
+		flex:1,padding:10,backgroundColor: 'white',marginHorizontal:20,borderWidth:1,borderRadius: 10,borderColor:"transparent",
+			    shadowOffset: { width: 0, height: 5 },marginVertical:5,
 			    shadowOpacity: 1,
 			    shadowColor:"black",
 			    shadowRadius: 5,elevation:10
@@ -22,38 +22,38 @@ const styles = StyleSheet.create({
 				flex:0.8
 			},
 			itemsubbottomview:{
-				flex:0.2,flexDirection:"row",justifyContent:"space-between",marginVertical: 20
+				flex:0.2,flexDirection:"row",justifyContent:"space-around",marginVertical: 5
 			},
 			itemtopmainview:{
 				flex:1,flexDirection:"row"
 			},
 			itemtopleftview:{
-				flex:0.4,justifyContent:"center",alignItems:"center"
+				flex:0.4,justifyContent:"center",alignItems:"center",
 			},
 			itemtoprightview:{
-				flex:0.6,marginLeft:20
+				flex:0.6,justifyContent:"center",
 			},
 			testname:{
-				fontSize:20,
+				fontSize:15,
 				color:colors.Themecolor
 			},
 			descriptionview:{
 				flexDirection:"row",marginTop:10
 			},
 			descriptionicon:{
-				width:18,height:18,alignSelf:"center"
+				width:15,height:15,alignSelf:"center"
 			},
 			descriptiontext:{
-				fontSize:20,marginLeft:10
+				fontSize:12,paddingLeft:10,color:"#686262"
 			},
 			itesmbottomsubview:{
-				flexDirection:"row",marginTop:10,alignItems:"center"
+				flexDirection:"row",marginTop:10,alignItems:"center",
 			},
 			iconview:{
-				width:20,height:20,alignSelf:"center"
+				width:18,height:18,alignSelf:"center"
 			},
 			icontext:{
-				fontSize:18,marginLeft:10
+				fontSize:12,paddingLeft:10,color:"#686262"
 			}
 })
 export default styles;

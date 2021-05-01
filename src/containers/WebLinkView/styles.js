@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 5,
     elevation: 10,
-    
+
  },
 
  subjectouter:{
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems:"center",
     borderRadius:35,
-    overflow: 'hidden', 
+    overflow: 'hidden',
     top: 40,
-    left: windowWidth/3,
+    alignSelf:"center",
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
@@ -49,19 +49,18 @@ const styles = StyleSheet.create({
             height:"20%",justifyContent:"space-between",alignItems:"flex-start",marginHorizontal:10,flexDirection:"row"
         },
         nextinner:{
-            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,width:150,
+            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,
             justifyContent:"center",alignItems:"center"
         },
         activitytext:{
             textAlign:"center",fontSize:15,color:"white"
         },
 
-      
+
         relativeview:{
           position:"relative"
         },
-        
- 
+
+
 })
 export default styles;
-

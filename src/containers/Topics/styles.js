@@ -6,13 +6,13 @@ const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
    mainview:{
-    flex:1
+    flex:1,
    },
    topview:{
-    flex:0.9
+    flex:0.92
   },
   footerview:{
-    flex:0.1,justifyContent:"flex-end"
+    flex:0.08,justifyContent:"flex-end"
   },
   footerinnerview:{
       flexDirection: 'row',

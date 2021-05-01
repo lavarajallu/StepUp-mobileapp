@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#F9C6B7'
  },
  backimage:{
-    width:30,height:30,marginVertical:20,tintColor:colors.Themecolor,marginLeft:20
+    width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
     height:"80%",width:"100%",
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 5,
     elevation: 10,
-    
+
  },
 
  subjectouter:{
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems:"center",
     borderRadius:35,
-    top: 50,
-    left: windowWidth/3, 
+    top: 40,
+    left: windowWidth/3,
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
 },
 
  middleview:{
-   flex:0.2,justifyContent: 'flex-end',alignItems:  'center' 
+   flex:0.2,justifyContent: 'flex-end',alignItems:  'center'
  },
  textmain:{
   color:colors.Themecolor,textAlign: 'center',marginBottom: 10, fontSize:20
  },
- 
-      
+
+
         relativeview:{
           position:"relative"
         },
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
         activitytext:{
             textAlign:"center",fontSize:15,color:"white"
         }
- 
+
 })
 export default styles;
-

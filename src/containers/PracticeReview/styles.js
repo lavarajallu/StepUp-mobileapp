@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
       flex:1
      },
      topview:{
-      flex:0.1,flexDirection: 'row' 
+      flex:0.08,flexDirection: 'row' 
     },
     topleftview:{
       flex:0.1,justifyContent:"center",marginLeft:10
@@ -28,13 +28,14 @@ const styles = StyleSheet.create({
       flex:0.1
     },
     middleview:{
-      flex:0.9
+      flex:0.92
     },
     subview:{
-      flex:1,margin:10,backgroundColor: 'white',borderRadius: 10, shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
-              shadowOpacity: 1,
-              shadowRadius: 5,
-              elevation: 10,
+      flex:1,margin:5,backgroundColor: 'white',borderRadius: 10,
+      //  shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
+      //         shadowOpacity: 1,
+      //         shadowRadius: 5,
+      //         elevation: 10,
             },
             headtext:{
               marginLeft:15,marginTop:15,fontSize:20,color:colors.Themecolor
@@ -44,13 +45,14 @@ const styles = StyleSheet.create({
               width:"100%",height:1,backgroundColor: 'grey',marginVertical: 10
             },
             scoreview:{
-              margin:20,padding:20,backgroundColor: 'white',shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
+              margin:10,backgroundColor: 'white',shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
               shadowOpacity: 1,
               shadowRadius: 5,
               elevation: 10,
+              paddingVertical:10
             },
             progressview:{
-              flexDirection:"row",justifyContent:"space-around",marginTop:20
+              flexDirection:"row",justifyContent:"space-around",
             }
 
   

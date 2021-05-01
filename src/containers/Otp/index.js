@@ -3,14 +3,15 @@ import {
     SafeAreaView,
     StyleSheet,
     ImageBackground,
-    ScrollView,
+    TextInput,
     View,
     Text,
     Dimensions,
     StatusBar,
     Image,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +19,7 @@ const windowHeight = Dimensions.get('window').height;
 var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
+import { Actions } from 'react-native-router-flux';
 
 class Otp extends Component {
     constructor(props) {
@@ -26,6 +28,9 @@ class Otp extends Component {
             mobile: '',
             password: "",
             confpassword: false,
+            showCnfpass: false,
+            hidecnfPassword: true,
+            hidePassword: true
         };
         this.onChangeMobile = this.onChangeMobile.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -64,10 +69,15 @@ class Otp extends Component {
     onVerify() {
         var mobile = this.state.mobile;
         if (mobile === "") {
-            alert("Please enter email")
-        } else if (!Validations.validateMobileWithCC(mobile)) {
-            alert("please enter valid mobile number")
-        } else {
+            alert("Please enter mobile number")
+        }
+        //  else if (!Validations.validateMobileWithCC(mobile)) {
+        //     alert("please enter valid mobile number")
+        // }
+         else {
+             this.setState({
+                 showCnfpass: true
+             })
             console.log("hello")
         }
     }
@@ -80,13 +90,29 @@ class Otp extends Component {
         } else if (password != confpassword) {
             alert("password and confirm password doesn't match")
         } else {
-            console.log("hello")
+            Alert.alert(
+                "Step Up",
+                "Password Changed Successfully Please login.",
+                [
+                  { text: "OK", onPress: () => Actions.login({type:"reset"}) }
+                ]
+              );
         }
+    }
+    setPasswordVisibility = ()=>{
+        this.setState({
+            hidePassword: false
+        })
+    }
+    setNewPasswordVisibility = ()=>{
+        this.setState({
+            hidecnfPassword: false
+        })
     }
     render() {
         return (
             <>
-                
+
                     <ImageBackground
                         style={[styles.containter]}
                         source={require("../../assets/images/backblue.png")}
@@ -98,34 +124,88 @@ class Otp extends Component {
                         <Header title="otp" />
                         <Image source={require("../../assets/images/logo.png")}
                             style={styles.logo} />
-                        <Text style={styles.helptext}>An OTP has been sent to your email/mobile</Text>
-                        <FloatingLabel
+                        {this.state.showCnfpass ? 
+
+                        <View style={{flex:1,justifyContent:"space-evenly"}}>
+                              <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
+                        
+                        <TextInput
+                            ref={(input) => { this.firstTextInput = input; }}
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
+                            style={{height:"100%",width:"100%",borderBottomWidth:1}}
+                            placeholder="Password"
+                            value={this.state.password}
+                            secureTextEntry={this.state.hidePassword}
+                            onChangeText={this.onChangePassword}
+                            onSubmitEditing={() => Keyboard.dismiss()}
+                        ></TextInput>
+                           <TouchableOpacity activeOpacity={0.8}
+                           style={{ position: 'absolute', right: 3, height: 40, width: 35, padding: 2 }}
+                            onPress={this.setPasswordVisibility}>
+                            <Image source={(this.state.hidePassword) ? require('../../assets/images/ic_visibility.png') : require('../../assets/images/ic_visibility_off.png')} style={{ resizeMode: 'contain', height: '100%', width: '70%', }} />
+                        </TouchableOpacity>
+                        </View>
+                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
+                        
+                        <TextInput
+                            ref={(input) => { this.secondTextInput = input; }}
+                            labelStyle={styles.labelstyle}
+                            inputStyle={styles.input}
+                            style={{height:"100%",width:"100%",borderBottomWidth:1}}
+                            placeholder="Confirm Password"
+                            value={this.state.confpassword}
+                            secureTextEntry={this.state.hidecnfPassword}
+                            onChangeText={this.onConfirmPass}
+                            onSubmitEditing={() => Keyboard.dismiss()}
+                        ></TextInput>
+                           <TouchableOpacity activeOpacity={0.8} 
+                           style={{ position: 'absolute', right: 3, height: 40, width: 35, padding: 2 }} 
+                           onPress={this.setNewPasswordVisibility}>
+                            <Image source={(this.state.hidecnfPassword) ? require('../../assets/images/ic_visibility.png') : require('../../assets/images/ic_visibility_off.png')} style={{ resizeMode: 'contain', height: '100%', width: '70%', }} />
+                        </TouchableOpacity>
+                        </View>
+                        <View style={styles.subview}>
+                            <TouchableOpacity onPress={this.onSubmit}>
+                                <View style={styles.submiticon}>
+                                    <Text style={styles.logintext}>Submit</Text>
+                                </View></TouchableOpacity>
+                            {/* <TouchableOpacity onPress={this.onSent}>
+                                <View style={styles.createview}>
+                                    <Text style={styles.createtext}>Request OTP</Text>
+                                </View></TouchableOpacity> */}
+                        </View>
+                        </View>
+
+                        :
+
+                        <View>
+                        <Text style={styles.helptext}>An OTP has been sent to your email/mobile</Text>
+                        <TextInput
+                          
                             style={styles.textinput}
                             blurOnSubmit={false}
+                            value={this.state.otp}
                             keyboardType={"numeric"}
+                            placeholder={"Enter OTP"}
                             onChangeText={this.onChangeMobile}
                             onSubmitEditing={() => Keyboard.dismiss()}
-                        >Mobile</FloatingLabel>
+                        ></TextInput>
 
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onVerify}>
                                 <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Verify</Text>
                                 </View></TouchableOpacity>
-                            <TouchableOpacity onPress={this.onSent}>
+                            {/* <TouchableOpacity onPress={this.onSent}>
                                 <View style={styles.createview}>
                                     <Text style={styles.createtext}>Request OTP</Text>
-                                </View></TouchableOpacity>
+                                </View></TouchableOpacity> */}
                         </View>
-                       <View style={styles.bottomview}>
-                                               
-                                               </View>
-                       
+                        </View>}
 
                     </View>
-              
+
 
 
 

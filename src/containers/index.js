@@ -5,7 +5,8 @@ export { default as ForgotPassword } from './ForgotPassword';
 export { default as Otp } from './Otp';
 export { default as Boards } from './Boards';
 export {default as Grades} from "./Grades";
-export {default as Dashboard} from "./Dashboard"
+export { default as Subjects} from './Subjects';
+export {default as Dashboard} from "./Dashboard/newindex"
 export {default as Chapters} from "./Chapters"
 export {default as Topics} from "./Topics"
 export {default as PreAssesment} from "./PreAssesment"
@@ -17,7 +18,9 @@ export { default as WebLinkView} from "./WebLinkView";
  export { default as PostSummary} from "./PostSummary"
  export { default as ViewSolutions } from "./ViewSolutions"
  export { default as TopicMainView } from "./TopicMainView";
- 
+
+ export { default as ProgressTopics } from './ProgressTopics'
+ export { default as Settings } from './Settings'
  export { default as PreviousPapers } from "./PreviousPapers";
  export { default as PreQuestionPapers } from "./PreQuestionPapers"
  export { default as ReviewPostSummary } from "./ReviewPostSummary"
@@ -41,4 +44,16 @@ export { default as WebLinkView} from "./WebLinkView";
   export { default as PracticeReview } from "./PracticeReview"
 
  export { default as ObjectAssesment} from "./ObjectAssesment"
- export { default as PdfView } from "./PdfView"
+ export { default as PdfViewNew } from "./PdfView"
+export { default as NormalVideo} from "./NormalVideo"
+export { default as Games} from './Games'
+export { default as ReferView} from './ReferView'
+export { default as ChangePassword } from './ChangePassword'
+export { default as ContactUs} from "./ContactUs"
+export { default as Notifications } from './Notifications'
+export { default as Profile } from './Profile'
+export { default as EditProfile } from './EditProfile'
+export { default as Analysis} from './Analysis'
+export { default as PreSolutions } from './PreSolutions';
+
+export { default as LeaderBoard } from './LeaderBoard'

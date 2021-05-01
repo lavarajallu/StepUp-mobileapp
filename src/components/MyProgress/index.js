@@ -28,32 +28,36 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import ActivityRings from "react-native-activity-rings";  
+import * as Progress from 'react-native-progress';
 
 const activityData = [
   {
     value: 0.8, 
     title:"Mathematics",
-    color:"#dc9332",
-    backgroundColor:"lightgrey",// ring will use color from theme
+    color:"#695276",
+    image: require('../../assets/images/dashboard/Math_Icon.png'),
   },
   {
     label: "ACTIVITY",
     value: 0.7,
-    color: "#4286a0",
+    color: "#B74D2D",
     title:"Physics",
      backgroundColor:"lightgrey",
+      image: require('../../assets/images/dashboard/phyprogress.png'),
   },
   {
     label: "RINGS",
     value: 0.6,
     title:"Chemistry",
-    color: "#e0ba42",//"#4286a0",
+    color: "#267093",//"#4286a0",
      backgroundColor:"lightgrey",
+      image: require('../../assets/images/dashboard/chemprogress.png'),
   }, {
     value: 0.5,
     title:"Biology",
-    color:"#aec282",//"#dc9332",
+    color:"#98A86C",//"#dc9332",
      backgroundColor:"lightgrey", // ring will use color from theme
+      image: require('../../assets/images/dashboard/bioprogress.png'),
   },
 
 ];
@@ -78,16 +82,18 @@ class MyProgress extends Component {
           shadowOpacity: 1,
           shadowRadius: 5,
           elevation: 10,borderRadius: 10}}>
-		   	<ActivityRings  data={activityData} config={activityConfig} />
-			  <View style={styles.bottomview}>
-			    {activityData.map((item,i)=>
-    				<View style={styles.innerview}>
-    			 <View style={[styles.subjectview,{backgroundColor:item.color}]}></View>
-    			 <Text style={styles.subjecttext}>{item.title}</Text>
-    			 </View>
-			  	)}
-			
-			  </View>
+          {activityData.map((res,i)=>
+            <View style={{paddingVertical: 10,flexDirection: 'row',flex:1,alignItems:"center"}}>
+            <View style={{width:50,height:50,borderWidth: 5,borderColor:res.color,borderRadius: 25,justifyContent:"center"}}>
+             <Image source={res.image} style={{width:"100%",height:"90%"}}/>
+            </View>
+             <View style={{height:25,width: windowWidth/1.5,borderRadius: 3,overflow: 'hidden' }}>
+             <Progress.Bar progress={res.value} width={windowWidth/1.5} height={20} color={res.color}/>
+             <Text style={{position:"absolute",alignSelf:"flex-end",right:5}}>{(res.value)*100}%</Text>
+             </View>
+            </View>
+          )}
+		  
         </View>
 			</View>
 		)

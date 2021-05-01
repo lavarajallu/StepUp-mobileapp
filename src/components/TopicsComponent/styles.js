@@ -14,17 +14,17 @@ const styles = StyleSheet.create({
     width:30,height:30,marginVertical:20,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
-    marginTop:10,height:"100%",width:"100%",backgroundColor:"#f6f7fb",borderTopLeftRadius:50,borderTopRightRadius:50
+    marginTop:10,height:windowHeight,width:"100%",backgroundColor:"#f6f7fb",borderTopLeftRadius:50,borderTopRightRadius:50
  },
  subjectinner:{
-     width: 944 / 6,
-    height: 912 / 6,
+     width: 944 / 7,
+    height: 912 / 7,
     position: 'absolute',
     justifyContent: "center",
     alignItems:"center",
     borderRadius:30,
-    top: 30,
-    left: windowWidth/3.2, shadowColor:'black',
+    top: 20,
+    alignSelf: 'center' , shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 1,
     shadowRadius: 5,
@@ -48,21 +48,22 @@ const styles = StyleSheet.create({
   flex:1,
 },
 listview:{
-  flex:0.65
+  flex:0.85,paddingBottom:windowHeight/15
 },
  middleview:{
-   flex:0.2,justifyContent: 'center',alignItems:  'center'
+  flex:0.15,justifyContent: 'center',alignItems:  'center',
  },
  textmain:{
   color:colors.Themecolor,textAlign: 'center', fontSize:20,marginTop:70
  }, itemview:{
-   paddingVertical: 10,alignItems:"center"
+   marginTop:10,
+   marginBottom:10
   },
   rectview:{
    justifyContent:"center",
         backgroundColor: 'white',borderRadius: 10,flexDirection:"row",
           shadowOffset: { width: 0, height: 5 },//marginBottom:20,
-          paddingVertical: 15,
+          paddingVertical: 5,
           marginHorizontal: 10,
           shadowOpacity: 1,
           shadowRadius: 5,
@@ -72,13 +73,13 @@ listview:{
         flex:0.2,overflow:"hidden",justifyContent:'center',alignItems:"center"
       },
       inerImage:{
-        width:170/3,height:170/3
+        width:170/3,height:170/3,resizeMode:"cover"
       },
       leftinnerview:{
         flex:0.8,justifyContent: 'space-around'
       },
         subjectname:{
-          color:"#4b4b4b",fontSize:20,textAlign: 'left',marginLeft:10
+          color:"#4b4b4b",fontSize:15,textAlign: 'left',marginLeft:10
         },
         progressview:{
           marginHorizontal: 10
@@ -87,22 +88,20 @@ listview:{
           flexDirection:"row",justifyContent:"space-between"
         },
         progresstext:{
-          color:"#4b4b4b",fontSize: 15
+          color:"#4b4b4b",fontSize: 12
         },
         relativeview:{
           position:"relative"
         },
         tabstyle:{
-          height:50,backgroundColor:"transparent",borderBottomWidth: 2,borderColor:"lightgrey",borderTopWidth: 0,borderLeftWidth: 0,borderRightWidth: 0
-        },
-        activetab:{
-          borderBottomWidth: 2,borderRightWidth:0,borderLeftWidth:0,borderColor: colors.Themecolor,backgroundColor: 'transparent'
+          height:40,borderBottomWidth: 2,borderColor:"lightgrey",borderRadius:30,
+          borderTopWidth: 0,borderLeftWidth: 0,borderRightWidth: 0,marginHorizontal:20,marginVertical:20,
         },
         activetabtext:{
           color:colors.Themecolor
         },
         tabtext:{
-          fontSize: 20,color:"black"
+          fontSize: 15,color:"black"
         }
  
 })

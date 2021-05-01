@@ -11,7 +11,8 @@ import {
     Image,
     Keyboard,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
@@ -20,6 +21,8 @@ import { colors } from "../../constants";
 import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseUrl } from "../../constants"
 const data = [
 {
     questionno:1,
@@ -131,13 +134,98 @@ class PracticeSolutions extends Component{
             previousItem:null,
             isvisible:false,
             finalarray: [],
+            spinner: true,
+            questionno: 0,
+            questionsarray:[],
             answerobj:{}
         }
     }
-    renderItem({item}){
+    componentDidMount() {
+        //alert(JSON.stringify(this.props.testid))
+           this.getData()
+         }
+         getData = async () => {
+           try {
+             const value = await AsyncStorage.getItem('@user')
+             //alert(JSON.stringify(value))
+             if (value !== null) {
+               var data = JSON.parse(value)
+               this.setState({
+                 useDetails: data
+               })
+               const token = await AsyncStorage.getItem('@access_token')
+               if (token && data) {
+               //    alert("hiii")
+                   this.setState({token: JSON.parse(token)})
+                     this.getDataquestions(data, JSON.parse(token))
+               } else {
+                 console.log("hihii")
+               }
+       
+             } else {
+               alert("errorrr")
+             }
+           } catch (e) {
+             return null;
+           }
+       }
+       getDataquestions(user,token){
+
+        var url =baseUrl+"/user-test/"+this.props.testid
+
+        console.log("urrlll",url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'token': token
+            },
+          }).then((response) =>
+          
+           response.json())
+            .then((json) => {
+            //  alert("jon"+JSON.stringify(json))
+             /// const data = json.data;
+            
+              if (json.data) {
+                  const data =  json.data
+                   console.log("summary",json.data.questions[0])
+                   this.setState({
+                    // analysis: json.data.analysis,
+                    // marks:json.data.marks,
+                    questionsarray: json.data.questions,
+                    testid: data.reference_id,
+                        selectedItem: data.questions[0],
+                        questionno: 0,
+                        spinner: false
+                   })
+                  
+
+              } else {
+                this.setState({
+                    questionsarray: [],
+                    selectedItem: null,
+                    questionno: 0,
+                    spinner: false
+                })
+                alert(JSON.stringify(json.message))
+                 
+                alert(JSON.stringify(json.message))
+               
+              }
+            }
+      
+            )
+            .catch((error) =>  alert("gggg"+error))
+
+       }
+
+    //http://65.1.123.182:3000/user-test/a060ba6a-c010-416c-8208-c8e9c8183e0c
+    renderItem({item,index}){
+        console.log("itemmm",item)
         let viewstyle;
         let textstyle;
-        if(item.correctanswer === item.attempted){
+        if(item.is_correct){
             viewstyle=styles.circlefilled;
             textstyle=styles.circletext
         }else{
@@ -145,65 +233,116 @@ class PracticeSolutions extends Component{
             textstyle=styles.bordertext
         }
        return(
-         <TouchableOpacity onPress={this.onItem.bind(this,item)} 
+         <TouchableOpacity onPress={this.onItem.bind(this,item,index)} 
          style={viewstyle}>
-         <Text style={textstyle} >{item.questionno}</Text>
+         <Text style={textstyle}>{index+1}</Text>
          </TouchableOpacity>
         )
     }
-    onItem(item){
-        this.setState({
-            selectedItem:item,
-        })
+    onItem(item,index){
+        alert(this.state.questionsarray.length)
+        // if (index === this.state.questionsarray.length) {
+        //     // this.setState({
+        //     //     questionno: index+1
+        //     // })
+        // } else {
+            this.setState({
+                questionno: index
+            }, () => {
+                var nextItem = this.state.questionsarray[index];
+                this.setState({
+                    selectedItem: nextItem,
+
+                }, () => console.log("arraya", this.state.selectedItem))
+            })
+      //  }
     }
     onNext(){
-        var answerobj = this.state.answerobj
-        var item = this.state.selectedItem;
-        var questionno = item.questionno;
-        var nextnumber = questionno
-        var nextItem = data[nextnumber];
-        // this.state.finalarray.map((res,i)=>{
-        //     if(res.questionno === answerobj.questionno)
-        //     {
-        //         this.state.finalarray.splice(i,1)
-        //     }
-        // })
-       // this.state.finalarray.push(answerobj)
-        this.setState({
-            selectedItem : nextItem,
-           
-        })
+        if (this.state.questionno + 1 === this.state.questionsarray.length) {
+           Alert.alert(
+               'Step Up',
+               'Are you sure you want to quit?',
+               [
+                {
+                    text: "Cancel", onPress: () => {
+                        //this.ongoback()
+                    }
+                },
+                {
+                    text: "Ok", onPress: () => {
+                        Actions.practicechapter({type:"reset",data:this.props.subjectData})
+                    }
+                }
+
+            ]
+           )
+        } else {
+            this.setState({
+                questionno: this.state.questionno + 1
+            }, () => {
+                var nextItem = this.state.questionsarray[this.state.questionno];
+                this.setState({
+                    selectedItem: nextItem,
+
+                }, () => console.log("arraya", this.state.selectedItem))
+            })
+        }
     }
     onPrevious(){
-        var item = this.state.selectedItem;
-        var questionno = item.questionno;
-        //alert(questionno)
-        var prenumber = questionno-1
-        var preItem = data[prenumber-1];
-        this.setState({
-            selectedItem : preItem
-        })
+        if (this.state.questionno - 1 === this.state.questionsarray.length) {
+            alert("dfd")
+            // this.setState({
+            //     isvisible: true
+            // })
+            //this.onSubmit()
+        } else {
+            this.setState({
+                questionno: this.state.questionno - 1
+            }, () => {
+                var nextItem = this.state.questionsarray[this.state.questionno];
+                this.setState({
+                    selectedItem: nextItem,
+
+                }, () => console.log("arraya", this.state.selectedItem))
+            })
+        }
     }
 
     onSubmit(){
-        var answerobj = this.state.answerobj
-        var item = this.state.selectedItem;
-        var questionno = item.questionno;
-        var nextnumber = questionno
-        var nextItem = data[nextnumber];
-       // // alert(nextnumber-1)
-       //  this.state.finalarray.map((res,i)=>{
-       //      if(res.questionno === answerobj.questionno)
-       //      {
-       //          this.state.finalarray.splice(i,1)
-       //      }
-       //  })
-       //  this.state.finalarray.push(answerobj)
-       //  console.log("finalarr",this.state.finalarray)
-        // this.setState({
-        //     isvisible: true
-        // })
-        Actions.pop()
+    //     var answerobj = this.state.answerobj
+    //     var item = this.state.selectedItem;
+    //     var questionno = item.questionno;
+    //     var nextnumber = questionno
+    //     var nextItem = data[nextnumber];
+    //    // // alert(nextnumber-1)
+    //    //  this.state.finalarray.map((res,i)=>{
+    //    //      if(res.questionno === answerobj.questionno)
+    //    //      {
+    //    //          this.state.finalarray.splice(i,1)
+    //    //      }
+    //    //  })
+    //    //  this.state.finalarray.push(answerobj)
+    //    //  console.log("finalarr",this.state.finalarray)
+    //     // this.setState({
+    //     //     isvisible: true
+    //     // })
+    Alert.alert(
+        'Step Up',
+        'Are you sure you want to quit?',
+        [
+         {
+             text: "Cancel", onPress: () => {
+                 //this.ongoback()
+             }
+         },
+         {
+             text: "Ok", onPress: () => {
+                Actions.practicechapter({type:"reset",data:this.props.subjectData})
+             }
+         }
+
+     ]
+    )
         
     }
     onCancel(){
@@ -248,43 +387,54 @@ class PracticeSolutions extends Component{
         // },()=>console.log("dddd",this.state.answerobj))
         // //finalarray.push(obj);
     }
+     returnBoxColor = (option) => {
+         const selectedItem =  this.state.selectedItem;
+        let correct_answer = this.state.selectedItem?.correct_answer.split(',')
+        console.log("correct_answer...",correct_answer,option.key);
+        if ((selectedItem.is_correct && selectedItem.user_answer == option.key) || (!selectedItem.is_correct && correct_answer.includes(option.key))) {
+          return 'green'
+        } else if (!selectedItem.is_correct && selectedItem.user_answer && selectedItem.user_answer != option.key) {
+          return 'lightgrey'
+        }
+        else if (!selectedItem.is_correct && selectedItem.user_answer == option.key) {
+          return '#f14d65'
+        }
+        else {
+          return 'lightgrey'
+        }
+      }
 
     render(){
-        var color = "grey"
-        for(var i = 0 ; i <this.state.selectedItem.answers.length ; i++){
-                // Set the path to filled stars
-        
-             if(this.state.selectedItem.answers[i].attempted === this.state.selectedItem.answers[i].correctanswer){
-                color="green"
-             }else if (this.state.selectedItem.answers[i].attempted !=  this.state.selectedItem.answers[i].answerid){
-                color="pink"
-             }else{
-                color = "grey"
-             }
-            // Push the Image tag in the stars array
-            //stars.push((<Image style={{width:157/3.5,height:77/3.5,}} source={path} />));
-        }
+     
         return(
                 <View style={styles.mainview}>
             <View style={styles.topview}>
-            <View style={{flex:0.1,justifyContent:"center"}}>
-            <TouchableOpacity onPress={this.onBack.bind(this)}>
+            <View style={{flex:1,justifyContent:"center",flexDirection:"row"}}>
+                <View style={{flex:0.1,justifyContent:"center",alignItems:"center"}}>
+                <TouchableOpacity onPress={this.onBack.bind(this)}>
             <Image source={require("../../assets/images/left-arrow.png")} style={styles.backimage}/>
+           
             </TouchableOpacity>
+                </View>
+                <View style={{flex:0.8,justifyContent:"center",alignItems:"center"}}>
+                <Text style={styles.toptext}>Practice Test(Review)</Text>
+                </View>
+                <View style={{flex:0.1}}>
+             
+                </View>
+            
+          
             </View>
-            <View style={{flex:0.2,justifyContent:"flex-start"}}>
-            <Text style={styles.toptext}>Practice</Text>
-            </View>
+          
             </View>
             <View style={styles.mainbottomview}>
             
             <View style={styles.mainshadowview}>
-            <View style={styles.headerview}>
-            <Text style={{color:colors.Themecolor}}>Chapter-1</Text>
-            </View>
+         
+            {this.state.questionsarray.length > 0 ?
             <View style={styles.listview}>
             <View style={styles.circlesview}>
-           <FlatList data={data}
+           <FlatList data={this.state.questionsarray}
                     renderItem={this.renderItem.bind(this)}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false} />
@@ -292,54 +442,54 @@ class PracticeSolutions extends Component{
             <View style={styles.questionsview}>
             <ScrollView>
             <View style={styles.questioninnerview}>
-            <Text style={styles.questionnum}>{this.state.selectedItem.questionno}. </Text>
-            <Text style={styles.questiontext}>{this.state.selectedItem.question}</Text>
+            <Text style={styles.questionnum}>{this.state.questionno+1}.  </Text>
+            <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
             </View>
-            {this.state.selectedItem.answers.map((res,i)=>
+            {this.state.selectedItem.question.options.map((res,i)=>
             <View style={styles.answermain}>
             <View style={styles.answersub}>
-            <Text style={styles.answernum}>{res.answerid}. </Text>
+            <Text style={styles.answernum}>{i+1}. </Text>
             <TouchableOpacity onPress={this.onAnswer.bind(this,res)} 
             style={[styles.answertextview,
-                {borderColor: this.state.selectedItem.result && res.answerid === this.state.selectedItem.correctanswer ? "green" : 
-                    res.answerid === this.state.selectedItem.correctanswer ?  "green":
-                    res.answerid === this.state.selectedItem.attempted ?
-                    "red" : "lightgrey"}]}>
-            <Text style={styles.answertext}>{res.title}</Text>
+                {borderColor: this.returnBoxColor(
+                    res,
+                  )}]}>
+            <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
             </TouchableOpacity>
             </View>
             </View>
                 )}
            <View style={{marginTop:20,marginLeft:10}}>
              <Text style={{fontSize:15,marginBottom:10}}>Solution :</Text>
-             <View style={[styles.answertextview,{borderColor:"grey"}]}>
+             <View style={[styles.answertextview,{borderColor:"lightgrey"}]}>
              <Text>hello Enndrocrne system is one of the main communication systems.</Text>
              </View>
              </View>
               </ScrollView>
             </View>
             
-            </View>
+            </View> : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+            <Text>Loading......</Text></View>}
             </View>
             </View>
 
             <View style={styles.bottomview}>
             <View style={styles.bottomleftview}>
 
-                {this.state.selectedItem.questionno === 1  ? null : 
+                {this.state.questionno === 0  ? null : 
                 <TouchableOpacity onPress={this.onPrevious.bind(this)}>
-                <Text style={{fontSize:20}}>Previous</Text>
+                <Text style={{fontSize:15}}>Previous</Text>
                 </TouchableOpacity>
                 }
             </View>
             <View style={styles.bottomrightview}>
-             {this.state.selectedItem.questionno === data.length  ? 
+             {this.state.questionno === this.state.questionsarray.length  ? 
                     <TouchableOpacity onPress={this.onSubmit.bind(this)}>
-                <Text style={{fontSize:20}}>Close</Text>
+                <Text style={{fontSize:15}}>Close</Text>
                 </TouchableOpacity>
               : 
                  <TouchableOpacity onPress={this.onNext.bind(this)}>
-                <Text style={{fontSize:20}}>Next</Text>
+                <Text style={{fontSize:15}}>Next</Text>
                 </TouchableOpacity> }
             </View>
             </View>

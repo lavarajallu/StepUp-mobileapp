@@ -10,7 +10,8 @@ import {
     StatusBar,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableHighlight
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
@@ -18,6 +19,9 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Footer from '../../components/Footer'
 import { Validations } from '../../helpers'
+import Drawer from 'react-native-drawer'
+import SideMenu from "../../components/SideMenu"
+
 const data=[
 {
 	image:require('../../assets/images/jeepap.png'),
@@ -71,25 +75,40 @@ class PreviousPapers extends Component{
 	}
 	renderItem({item}){
 		return(
-			<TouchableOpacity onPress={this.onItem.bind(this,item)}>
-			<ImageBackground source={item.image} 
-			style={{width:566/1.6,height:157/1.6,marginVertical: 20,justifyContent:"center",alignItems:"center",alignSelf:"center"}}>
+			<TouchableHighlight onPress={this.onItem.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}>
+			<ImageBackground source={item.image}
+			style={{width:566/1.6,height:157/1.6,marginVertical: 10,justifyContent:"center",alignItems:"center",alignSelf:"center"}}>
 			<Text style={{color:item.color}}>{item.name}</Text>
 			</ImageBackground>
-			</TouchableOpacity>
+			</TouchableHighlight>
 			)
 	}
+  closeControlPanel = () => {
+    this._drawer.close()
+    };
+    openControlPanel = () => {
+    this._drawer.open()
+    };
 	onBack(){
-		Actions.dashboard()
+		Actions.pop()
 	}
 	render(){
 		return(
+      <Drawer
+      type="overlay"
+        ref={(ref) => this._drawer = ref}
+         tapToClose={true}
+         openDrawerOffset={100}
+          content={ <SideMenu
+
+          closeControlPanel={this.closeControlPanel}/>}
+        >
 			<View style={styles.mainview}>
-			
+
 			<View style={styles.middleview}>
-			
+
 			<View style={{flexDirection:"row",justifyContent:"space-between"}}>
-			<View style={{marginTop: 40,marginLeft:20}}>
+			<View style={{marginTop: 20,marginLeft:20}}>
 			<TouchableOpacity onPress={this.onBack.bind(this)}>
 			<Image source={require('../../assets/images/left-arrow.png')}
 			 style={styles.backimage}/>
@@ -98,7 +117,7 @@ class PreviousPapers extends Component{
 			</View>
 			<Image source={require('../../assets/images/abst.png')} style={{width:339/2,height:242/2}}/>
 			</View>
-			<View style={{marginTop: 40}}>
+			<View style={{flex:1,marginTop: 10}}>
 
 			 <FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
@@ -109,9 +128,10 @@ class PreviousPapers extends Component{
 			</View>
 			<View style={styles.footerview}>
 
-		    <Footer/>
+		 <Footer openControlPanel={this.openControlPanel}/>
+			</View> 
 			</View>
-			</View>	
+      </Drawer>
 			)
 	}
 }

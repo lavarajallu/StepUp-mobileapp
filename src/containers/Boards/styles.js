@@ -33,7 +33,10 @@ const styles = StyleSheet.create({
     elevation: 10,
 },
 boardimg:{
-	width:windowWidth/3.2,height:windowWidth/3.2
+	width:windowWidth/3.2,
+	//height:"100%",
+	resizeMode:'contain',
+	height:windowWidth/3
 },
 boardtext:{
 	marginTop:10,color:"#2e2e2e",fontSize: 18,textAlign:'center'

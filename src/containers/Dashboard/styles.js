@@ -7,7 +7,7 @@ import { colors } from "../../constants"
 const styles = StyleSheet.create({
    mainview:{
     flex:1,
-    backgroundColor: '#000000'
+   // backgroundColor: '#000000'
    },
    topview:{
     flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   footerview:{
-    flex:0.1,justifyContent:"center",alignItems:"center",
+    flex:0.08,justifyContent:"center",alignItems:"center",backgroundColor:"transparent"
   },
   footerinnerview:{
       flexDirection: 'row',

@@ -55,35 +55,55 @@ const data = [
 
 ]
 class SummaryGraph extends Component {
+
+  constructor(props){
+    super(props);
+    this.state  = {
+      questionsarray:null
+    }
+  }
+  componentDidMount(){
+    if(this.props.questionsarray){
+      this.setState({
+        questionsarray: this.props.questionsarray
+      })
+    }
+  }
   render(){
 
     return(
+      this.state.questionsarray ? 
       <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
               <View style={{padding:5,flexDirection:"row",justifyContent:"center"}}>
-                    <View style={{height:220,width:20,marginRight:5,justifyContent:"space-around",}}>
-                    
+                    <View style={{height:320,width:20,marginRight:5,justifyContent:"space-around",}}>
+                    <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>30</Text>
+                      </View>
+                    <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>25</Text>
+                      </View>
                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>100</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>80</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>60</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>40</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
                       <Text>20</Text>
                       </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>15</Text>
+                      </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>10</Text>
+                      </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>5</Text>
+                      </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>0</Text>
+                      </View>
                     </View>
-                    <View style={{width:windowWidth/1.5,height:220,borderWidth: 1,borderColor:"black",borderRadius: 10,backgroundColor: 'white',justifyContent:"space-around",flexDirection:"row",alignItems: 'flex-end' }}>
-                    {data.map((res,i)=>
-                      res.result === "correct" ? 
-                      <LinearGradient colors={['#239816', '#32e625']}  style={{width:20,borderTopLeftRadius: 10,borderTopRightRadius: 10,height: res.percent*2}}/>
+                    <View style={{width:windowWidth/1.5,height:320,borderWidth: 1,borderColor:"black",borderRadius: 10,backgroundColor: 'white',justifyContent:"space-around",flexDirection:"row",alignItems: 'flex-end' }}>
+                    {this.state.questionsarray.map((res,i)=>
+                      res.analysis !== "poor" ? 
+                      <LinearGradient colors={['#239816', '#32e625']}  style={{width:20,borderTopLeftRadius: 10,borderTopRightRadius: 10,height: res.test_taken_time*20}}/>
                        :
-                       <LinearGradient colors={['#f14d65', '#fc8798']}  style={{width:20,borderTopLeftRadius: 10,borderTopRightRadius: 10,height: res.percent*2}}/>
+                       <LinearGradient colors={['#f14d65', '#fc8798']}  style={{width:20,borderTopLeftRadius: 10,borderTopRightRadius: 10,height: res.test_taken_time*20}}/>
                       )}
                      
                      
@@ -92,15 +112,15 @@ class SummaryGraph extends Component {
                     </View>
                      <View style={{width:windowWidth/1.5,height:20,marginLeft: 30,justifyContent:"space-around",flexDirection:"row"}}>
                     
-                      {data.map((res,i)=>
+                      {this.state.questionsarray.map((res,i)=>
                       <View style={{width:20,height:20,justifyContent:"center",}}>
-                      <Text style={{textAlign:"center"}}>{res.questionno}</Text>
+                      <Text style={{textAlign:"center"}}>{i+1}</Text>
                       </View>
                       )}
                      
                      
                     </View>
-                    </View>
+                    </View> : null
       )
     }
 }

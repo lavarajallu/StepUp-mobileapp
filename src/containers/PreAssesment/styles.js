@@ -18,18 +18,17 @@ const styles = StyleSheet.create({
 		fontSize:15
 	},
 	mainbottomview:{
-		flex:0.85
-	},
+		flex:1},
 	timerview:{
 		flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,backgroundColor: colors.Themecolor,
             borderTopLeftRadius :15,borderBottomLeftRadius: 15
         },
 	mainshadowview:{
-		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-         elevation: 10
+		flex:1,backgroundColor: 'white',shadowColor:'black',
+        // shadowOffset: { width: 0, height: 5 },
+        // shadowOpacity: 1,
+        // shadowRadius: 5,
+        //  elevation: 10
 	},
 	headerview:{
 		flex:0.15,flexDirection:"row",justifyContent:"space-between"
@@ -50,25 +49,25 @@ const styles = StyleSheet.create({
 		fontSize:15
 	},
 	listview:{
-		flex:0.85
+		flex:0.9,overflow:"hidden"
 	},
 	circlesview:{
 		flex:0.15,justifyContent:"center"
 	},
 	questionsview:{
-		flex:0.85,margin:20
+		flex:0.85,margin:20,
 	},
 	questioninnerview:{
 		flexDirection:"row"
 	},
 	questionnum:{
-		fontSize: 20,textAlign:"left"
+		fontSize: 15,textAlign:"left"
 	},
 	questiontext:{
-		fontSize:20,textAlign:"left",marginLeft:15
+		fontSize:15,textAlign:"left",marginLeft:15,paddingRight:10
 	},
 	answermain:{
-		marginTop:20
+		marginTop:20,
 	},
 	answersub:{
 		flexDirection:"row",alignItems:"center"
@@ -77,10 +76,12 @@ const styles = StyleSheet.create({
 		fontSize:15,textAlign:"center"
 	},
 	answertextview:{
-		marginLeft:15,paddingLeft:15,width:windowWidth/1.2,borderWidth:1,borderRadius:20,paddingVertical:15
+		marginLeft:15,
+		paddingLeft:15,width:windowWidth/1.2,borderWidth:1,
+		borderRadius:20,justifyContent:"center",
 	},
 	answertext:{
-		fontSize:15
+		fontSize:15,marginTop:10
 	},
 	circlefilled:{
 		 height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,backgroundColor:colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
 		 textAlign: 'center',color:colors.Themecolor,fontSize:15
 	},
 	bottomview:{
-		flex:0.1,flexDirection:"row"
+		flex:0.1,flexDirection:"row",
 	},
 	bottomleftview:{
 		flex:0.5,justifyContent: 'center',alignItems:"flex-start",marginLeft:20

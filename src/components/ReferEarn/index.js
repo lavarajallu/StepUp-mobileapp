@@ -19,20 +19,23 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-
 class ReferEarn extends Component{
 	constructor(props){
 		super(props)
 	}
-
+    onRefer(){
+        Actions.push('referview')
+    }
 	render(){
 		return(
-			
-			<ImageBackground 
-			source={require('../../assets/images/refer.png')}
+			<TouchableOpacity onPress={this.onRefer.bind(this)}>
+            <ImageBackground 
+			source={require('../../assets/images/dashboard/new/referimg_new.png')}
 			style={styles.imagestyles}>
                
 			</ImageBackground>
+            </TouchableOpacity>
+			
 			
 			
 			)

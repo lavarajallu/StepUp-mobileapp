@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 		flex:1
 	},
 	topview:{
-		flex:0.15,
+		flex:0.1,
 		justifyContent:"center",
 		//flexDirection:"row"
 	},
@@ -18,21 +18,22 @@ const styles = StyleSheet.create({
 		width:30,height:30,marginLeft:10,tintColor:colors.Themecolor
 	},
 	toptext:{
-		textAlign:"left",
-		fontSize:20,
-		marginTop: 20,
-		marginLeft:20
+		//textAlign:"left",
+		fontSize:15,
+		color:colors.Themecolor,
+		// marginTop: 20,
+		// marginLeft:20
 	},
 	mainbottomview:{
-		flex:0.85,
+		flex:0.9,
 	},
 	mainshadowview:{
-		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-         elevation: 10,
-         overflow:"hidden"
+		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',marginTop:20,
+        // shadowOffset: { width: 0, height: 5 },
+        // shadowOpacity: 1,
+        // shadowRadius: 5,
+        //  elevation: 10,
+        //  overflow:"hidden"
 	},
 	headerview:{
 		flex:0.1,flexDirection:"row",justifyContent:"center",alignItems:"center"
@@ -60,19 +61,19 @@ const styles = StyleSheet.create({
 		flex:1,
 	},
 	circlesview:{
-		flex:0.15,justifyContent:"center"
+		flex:0.1,justifyContent:"center"
 	},
 	questionsview:{
-		flex:0.85,margin:20
+		flex:0.9,padding:10
 	},
 	questioninnerview:{
-		flexDirection:"row"
+		flexDirection:"row",
 	},
 	questionnum:{
-		fontSize: 20,textAlign:"left"
+		fontSize: 18,textAlign:"left"
 	},
 	questiontext:{
-		fontSize:20,textAlign:"left",marginLeft:15
+		fontSize:18,textAlign:"left",marginLeft:20
 	},
 	answermain:{
 		marginTop:20
@@ -84,22 +85,22 @@ const styles = StyleSheet.create({
 		fontSize:15,textAlign:"center"
 	},
 	answertextview:{
-		marginLeft:15,paddingLeft:15,width:windowWidth/1.3,borderWidth:2,borderRadius:20,paddingVertical:10
+		marginLeft:15,paddingLeft:15,width:windowWidth/1.3,borderWidth:1,borderRadius:20,paddingVertical:10
 	},
 	answertext:{
 		fontSize:15
 	},
 	circlefilled:{
-		 height:50,width:50,borderRadius: 25,borderColor: "#239816",backgroundColor:"#239816",borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderColor: "#239816",backgroundColor:"#239816",borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	circletext:{
-		textAlign: 'center',color:"white",fontSize:20
+		textAlign: 'center',color:"white",fontSize:15
 	},
 	borderfilled:{
-		 height:50,width:50,borderRadius: 25,borderColor:"#f14d65",backgroundColor: '#f14d65',borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderColor:"#f14d65",backgroundColor: '#f14d65',borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	bordertext:{
-		 textAlign: 'center',color:'white',fontSize:20
+		 textAlign: 'center',color:'white',fontSize:15
 	},
 	bottomview:{
 		flex:0.1,flexDirection:"row",

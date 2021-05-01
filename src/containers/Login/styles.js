@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: "transparent",
     overflow: "hidden",
-
+     position:'relative'
   },
   containter: {
     width: "100%",//Dimensions.get("window").width, //for full screen
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     overflow: "hidden"
   },
-  logo: { margin: 30, width: 539 / 3, height: 158 / 3, alignSelf: "center" },
+  logo: {  width: 539 / 3, height: 158 / 3, alignSelf: "center" },
   backbanner: {
     width: "100%", height: windowHeight / 3, overflow: "hidden", justifyContent: "center"
   },
@@ -44,18 +44,18 @@ const styles = StyleSheet.create({
     color: '#2e2e2e', fontSize: 15
   },
   input: {
-    borderWidth: 0, color: "#606060",
+    borderWidth: 0, color: "#606060",fontSize:15,backgroundColor:"green"
   },
   textinput: {
-    borderBottomWidth: 1, borderColor: "#959595",
-    margin: 10,
+    borderBottomWidth: 1, borderColor: "lightgrey",paddingLeft:8,
+    
     borderColor: '#2e2e2e'
   },
   subview: {
-    margin: 15, flexDirection: "row", justifyContent: "space-between",
+    flexDirection: "row", justifyContent: "space-between",
   },
   bottomview: {
-    margin: 10, flex: 0.3, justifyContent: 'space-around'
+     flex: 0.3, justifyContent: 'space-around'
   },
   helptext: {
     fontSize: 13, alignSelf: "center", color: "#595858"
@@ -73,11 +73,12 @@ const styles = StyleSheet.create({
     textAlign: "center", color: colors.Themecolor, fontSize: 15
   },
   createview: {
-    width: 367 / 3, height: 90 / 3, borderRadius: 20, borderWidth: 1.5, borderColor: colors.Themecolor,
+    borderRadius: 20, borderWidth: 1.5, borderColor: colors.Themecolor,paddingHorizontal:10,
     justifyContent: "center"
   },
   submiticon: {
-    width: 367 / 3, height: 90 / 3,backgroundColor: colors.Themecolor, borderRadius: 20, overflow: "hidden", justifyContent: "center"
+    backgroundColor: colors.Themecolor, borderRadius: 20, overflow: "hidden", justifyContent: "center",
+    paddingHorizontal:40,paddingVertical:5
   },
   forgottext: {
     color: colors.Themecolor, fontSize: 15

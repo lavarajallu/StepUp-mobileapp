@@ -9,17 +9,17 @@ const styles = StyleSheet.create({
     flex:1
    },
    topview:{
-    flex:0.07,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20,
+    height:50,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20,
   },
   toptext:{
     color:colors.Themecolor,
     fontSize: 20
   },
   middleview:{
-    flex:0.83,
+    flex:0.92,
   },
   footerview:{
-    flex:0.1,justifyContent:"flex-end"
+    flex:0.08,justifyContent:"flex-end"
   },
   footerinnerview:{
       flexDirection: 'row',
@@ -37,18 +37,18 @@ const styles = StyleSheet.create({
     width:32,height:32
   },
   forwardarr:{
-    width:30,height:30,alignSelf:"center",transform:[{rotate:"180deg"}],tintColor:colors.Themecolor
+    width:30,height:30,alignSelf:"flex-start",marginTop:5,transform:[{rotate:"180deg"}],tintColor:colors.Themecolor
   },
   teacheforwardarr:{
-    width:30,height:30,tintColor:colors.Themecolor,marginHorizontal: 10,alignSelf:"center",transform:[{rotate:"180deg"}]
+    width:30,height:30,tintColor:colors.Themecolor,marginHorizontal: 5,marginTop:5,alignSelf:"flex-start",transform:[{rotate:"180deg"}]
   },
     rectview:{
-    width: 1724/10,height:1340/7,justifyContent:"center",
+         width: 1724/10,height:1340/7,justifyContent:"center", 
         backgroundColor: 'white',borderRadius: 20,marginHorizontal:10,overflow:"hidden",
           shadowOffset: { width: 1, height: 5 },
           shadowOpacity: 1,
           shadowRadius: 5,
-          elevation: 1,
+          elevation: 10,
         },
         subview:{
           flex:1

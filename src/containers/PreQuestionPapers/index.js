@@ -19,6 +19,9 @@ const windowHeight = Dimensions.get('window').height;
 import Footer from '../../components/Footer'
 import { colors } from "../../constants"
 import Modal from 'react-native-modal';
+import Drawer from 'react-native-drawer'
+import SideMenu from "../../components/SideMenu"
+
 const data=[
 {
 	image:require('../../assets/images/jeepap.png'),
@@ -72,10 +75,16 @@ class PreQuestionPapers extends Component{
 			newmodal:true
 		})
 	}
+  closeControlPanel = () => {
+    this._drawer.close()
+    };
+    openControlPanel = () => {
+    this._drawer.open()
+    };
 	renderItem({item}){
 		return(
-			<TouchableOpacity onPress={this.onItem.bind(this)} 
-			style={{padding:15,margin:20,backgroundColor: 'white',flexDirection:"row",width:windowWidth/1.2,justifyContent:  'space-around', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
+			<TouchableOpacity onPress={this.onItem.bind(this)}
+			style={{padding:15,marginHorizontal:20,marginVertical:10,backgroundColor: 'white',flexDirection:"row",width:windowWidth/1.2,justifyContent:  'space-around', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
           shadowOpacity: 1,
           borderRadius: 10,
           shadowRadius: 5,
@@ -102,7 +111,7 @@ class PreQuestionPapers extends Component{
 			isvisible:false,
 			newmodal:false,
 		},()=>Actions.push('prepaperassesment'))
-		
+
 	}
 	onReview(){
 this.setState({
@@ -117,21 +126,30 @@ this.setState({
 	}
 	render(){
 		return(
+      <Drawer
+      type="overlay"
+        ref={(ref) => this._drawer = ref}
+         tapToClose={true}
+         openDrawerOffset={100}
+          content={ <SideMenu
+
+          closeControlPanel={this.closeControlPanel}/>}
+        >
 			<View style={styles.mainview}>
-			
+
 			<View style={styles.middleview}>
-			
+
 			<View style={{flexDirection:"row",justifyContent:"space-between"}}>
-			<View style={{marginTop: 40,marginLeft:20}}>
+			<View style={{marginTop: 20,marginLeft:20}}>
 			<TouchableOpacity onPress={this.onBack.bind(this)}>
-			<Image source={require('../../assets/images/left-arrow.png')} 
+			<Image source={require('../../assets/images/left-arrow.png')}
 			style={styles.backimage}/>
 			</TouchableOpacity>
 			<Text style={{marginTop: 20,fontSize:15}}>Previous Question Papers</Text>
 			</View>
 			<Image source={require('../../assets/images/abst.png')} style={{width:339/2,height:242/2}}/>
 			</View>
-			<View style={{flex:1,marginTop:30}}>
+			<View style={{flex:1,marginTop:10}}>
 
 			 <FlatList data={this.props.item.papers}
 					renderItem={this.renderItem.bind(this)}
@@ -140,14 +158,14 @@ this.setState({
 
 
 			</View>
-			<View style={styles.footerview}>
+			 <View style={styles.footerview}>
 
-		    <Footer/>
+		   <Footer openControlPanel={this.openControlPanel}/>
 			</View>
 			 <Modal isVisible={this.state.isvisible}>
 		        <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>
 		         <View style={{backgroundColor: 'white',borderRadius: 15,margin: 25,overflow:"hidden"}}>
-		        	
+
 		        	<ImageBackground source={require("../../assets/images/modalimage.png")}
 		        	 style={{width:windowWidth/1.1,height:306/3,tintColor: '#000000'}}>
 		        	<View style={{flex:0.2,}}>
@@ -193,7 +211,7 @@ this.setState({
 		          style={{width:144/4,height:144/4}}/>
 		          </TouchableOpacity>
 		         </View>
-	
+
 		      </Modal>
 		       <Modal isVisible={this.state.newmodal} onBackdropPress={this.onBackdrop.bind(this)} style={{justifyContent:"center",margin:0}}>
                 <View style={{ flex: 1,justifyContent:"flex-end" }}>
@@ -210,8 +228,9 @@ this.setState({
                   </View>
                 </View>
              </Modal>
-		     
-			</View>	
+
+			</View>
+      </Drawer>
 			)
 	}
 }

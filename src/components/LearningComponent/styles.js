@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
 fontSize: 20,color:"#5f5d5b",marginLeft:20
 	},
 	itemview:{
-		width: 1724/10,height:1340/10,justifyContent:"center",
-				alignItems:"center",backgroundColor: 'white',borderRadius: 10,margin:20,
+		width: 1724/11,height:1340/11,justifyContent:"center",
+				alignItems:"center",backgroundColor: 'white',borderRadius: 10,margin:10,
 			 shadowColor:'black',
 			    shadowOffset: { width: 0, height: 5 },
 			    shadowOpacity: 1,
@@ -18,9 +18,14 @@ fontSize: 20,color:"#5f5d5b",marginLeft:20
 			    elevation: 10,
 			},
 			image:{
-				width:96/2,height:96/2,alignSelf:"center"
+				width:95,height:95,alignSelf:"center"
 			},subtext:{
-				fontSize: 15,color:"#555656",marginTop:5
-			}
+				fontSize: 12,color:"#555656",marginTop:5,paddingHorizontal: 5,textAlign: 'center'},
+				headText:{
+					marginLeft:15,marginTop:10,fontSize:16,color:colors.Themecolor
+				},
+				seelalltext:{
+					marginRight:15,marginTop:10,fontSize:15,color:colors.Themecolor
+				}
 })
 export default styles;

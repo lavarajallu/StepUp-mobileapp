@@ -3,13 +3,13 @@ import {
   } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+import { colors } from "../../constants"
 const styles = StyleSheet.create({
 	mainview:{
 		margin:15,borderRadius: 10,
 	},
 	headtext:{
-		marginVertical:10,textAlign:"left",fontSize:20
+		marginVertical:10,textAlign:"left",fontSize:18,color:colors.Themecolor
 	},
 	bottomview:{
 		flexDirection:'row',flexWrap:"wrap",justifyContent:"center"

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   middleview:{
-    flex:0.9,
+    flex:0.9
   },
   footerview:{
     flex:0.1,justifyContent:"flex-end"

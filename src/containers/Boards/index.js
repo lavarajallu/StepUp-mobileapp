@@ -11,10 +11,13 @@ import {
     StatusBar,
     Image,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import styles from './styles'
 import { Actions } from 'react-native-router-flux';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const data =[
 {name: 'CBSC',grades:[{name: 'Grade-1'},{name:"Grade-2"},{name:"Grade-3"},{name:"Grade-4"}]},
  {name: 'ICSE',grades:[{name: 'Grade-1'},{name:"Grade-2"},{name:"Grade-3"},{name:"Grade-4"}]},
@@ -28,14 +31,72 @@ class Boards extends Component {
     constructor(props) {
         super(props);
         this.onItem = this.onItem.bind(this)
+        this.state={
+            boardsData:null,
+            spinner: true
+        }
      
+}
+async componentDidMount(){
+    const value = await AsyncStorage.getItem('@access_token')
+    if(value !== null) {
+        console.log('val',value)
+       this.getBoards(JSON.parse(value))
+    }
+}
+getBoards(value)
+{
+         console.log(value)
+        fetch('http://65.1.123.182:3000/board?offset=0&limit=10', {
+                 method: 'GET',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'token': value
+                 }
+                 }).then((response) =>
+                 
+                  response.json())
+                 .then((json) =>{
+                     const data = json.data;
+                     
+                     if(data){
+                       if(data.boards){
+                        console.log("boards",json.data.boards)
+                           this.setState
+                           ({
+                            spinner:false,
+                               boardsData: data.boards
+                           })
+                       }else{
+                        this.setState
+                        ({
+                           spinner: false,
+                            boardsData: []
+                        }) 
+                       }
+                        //  AsyncStorage.setItem('@access-token', data.access_token)
+                        //  Actions.push('dashboard')
+                     }else{
+                        this.setState
+                        ({
+                         spinner:false,
+                            boardsData: []
+                        })
+                         alert(JSON.stringify(json))
+                     }
+                 }
+                  
+                 )
+                 .catch((error) => console.error(error))
+             //Actions.push('boards')
 }
 
 renderItem({item}){
+    const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"
 	return(
 		<TouchableOpacity onPress={()=>this.onItem(item)} 
 		style={styles.listsubview}>
-		 <Image source={require("../../assets/images/3.png")} 
+		 <Image source={{uri: url+item.image}} resizeMode={"cover"} 
 		 style={styles.boardimg}/>
 		 <Text style={styles.boardtext}>{item.name}</Text>
 		
@@ -44,10 +105,11 @@ renderItem({item}){
 }
 onItem(item){
     //alert(JSON.stringify(item))
-    Actions.push('grades',{data:item})
+    Actions.push('grades',{data:item,userData: this.props.userData})
 }
 
     render() {
+        
         return (
             <>
                 <ImageBackground
@@ -59,11 +121,24 @@ onItem(item){
                             style={styles.logo} />
                      </View>
                       <View style={styles.subview}>
-							<FlatList data={data} 
+
+                           {this.state.spinner ? 
+                           <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                           <ActivityIndicator color={"black"}/>
+                           </View>  : 
+                              this.state.boardsData &&
+                             this.state.boardsData.length > 0 ?
+							<FlatList data={this.state.boardsData} 
 							renderItem={this.renderItem.bind(this)}
 							 
 							 numColumns={2} 
-							 />
+							 /> :     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                            <Text>No Data</Text>
+                             </View> 
+                              
+
+
+                              }
                       </View>
                     </View>
                     </ImageBackground>

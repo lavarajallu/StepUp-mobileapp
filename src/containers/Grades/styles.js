@@ -21,18 +21,17 @@ const styles = StyleSheet.create({
    	flex:0.8,
    },
    listsubview:{
-   	flexGrow:1,
-			justifyContent:"center",backgroundColor: 'white',borderColor: 'white',
-        		alignItems:"center",margin:15,borderWidth: 1,borderRadius: 10,paddingVertical: 20,
-
+			  padding:20,backgroundColor:"white",margin:20,
+           flex:1,
         	 shadowColor:'#fde7da',
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 1,
             shadowRadius: 5,
             elevation: 10,
+            borderRadius:5,
         },
-        gradeimg:{
-        	width:windowWidth/3,height:windowHeight/13,alignSelf: "center" 
+        gradeimg1:{
+        	width:windowWidth/3,height:windowHeight/8,resizeMode:'contain'
         },
         gradetext:{
         	color:"#2e2e2e",fontSize: 18,textAlign:'center',marginTop: 10

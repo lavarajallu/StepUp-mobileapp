@@ -40,17 +40,18 @@ const styles = StyleSheet.create({
     computer:{
       width: 581 / 2.5, height: 519 / 2.5, alignSelf: "center" 
     },
-    labelstyle:{
+    labelstyle: {
       color: '#2e2e2e', fontSize: 15
     },
-    input:{
-      borderWidth: 0, color: "#606060",
+    input: {
+      borderWidth: 0, color: "#606060",fontSize:15,
     },
-    textinput:{
+    textinput: {
       borderBottomWidth: 1, borderColor: "#959595",
-                  marginHorizontal: 20,
-                  marginVertical:10,
-                  borderColor: '#2e2e2e'
+      margin:10,
+      marginHorizontal:10,
+      
+      borderColor: '#2e2e2e'
     },
     forgoticon:{
         width:96/1.5,

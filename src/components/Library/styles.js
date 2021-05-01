@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 	},bottomtext:{
 		fontSize:20,textAlign:"center",paddingBottom:20
 	},line:{
-		height:1,marginHorizontal: 0,backgroundColor: 'lightgrey',marginVertical: 20,opacity:0.8
+		height:1,marginHorizontal: 10,backgroundColor: 'lightgrey',opacity:0.8,marginVertical:15
 	},
 	subview:{
 		flex:1

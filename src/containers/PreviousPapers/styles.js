@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
     width:30,height:30,tintColor:colors.Themecolor
   },
   middleview:{
-    flex:0.9,
+    flex:0.92
   },
   footerview:{
-    flex:0.1,justifyContent:"flex-end"
+    flex:0.08,justifyContent:"flex-end"
   },
   footerinnerview:{
       flexDirection: 'row',

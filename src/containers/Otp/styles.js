@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   subview: {
-    marginVertical: 10, marginHorizontal: 15, flexDirection: "row", justifyContent: "space-between", alignItems: 'center'
+    marginVertical: 10, marginHorizontal: 15, flexDirection: "row", justifyContent: "center", alignItems: 'center'
   },
   bottomview: {
     backgroundColor: 'transparent'

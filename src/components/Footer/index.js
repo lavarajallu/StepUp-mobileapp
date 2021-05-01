@@ -7,16 +7,35 @@ import {
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 
-
 class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            selected:'dashboard'
         };
     }
     onMenu(){
-       //this.props.openControlPanel()
+       this.props.openControlPanel()
 
+    }
+    componentDidMount(){
+        if(this.props.value){
+            this.setState({
+                selected:this.props.value
+            })
+        }
+    }
+    onPressIcon(value){
+        this.setState({selected:value},()=>{
+            if(value==="notifications"){
+          
+                Actions.push('notifications',{title:"tabs"})
+            }else if(value==='dashboard'){
+                Actions.push('dashboard')
+            }
+        })
+
+        
     }
 
     render() {
@@ -24,13 +43,34 @@ class Footer extends Component {
         return (
             <>
             <View style={styles.footerinnerview}>
-            <TouchableOpacity onPress={this.onMenu.bind(this)}>
+                <View style={{flex:1,flexDirection:"row"}}>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'menu'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onMenu.bind(this)}>
 			 <Image  source={require("../../assets/images/menu.png")} style={styles.footericon}/>
              </TouchableOpacity>
-             <Image  source={require("../../assets/images/bell.png")} style={styles.footericon}/>
+                    </View>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'bell'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <Image  source={require("../../assets/images/bell.png")} style={styles.footericon}/>
+                    </View>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'dashboard'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'dashboard')}>
              <Image  source={require("../../assets/images/home.png")} style={styles.footericon}/>
+             </TouchableOpacity>
+                    </View>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'notifications'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'notifications')}>
               <Image  source={require("../../assets/images/notification.png")} style={styles.footericon}/>
-               <Image  source={require("../../assets/images/calander.png")} style={styles.footericon}/>
+              </TouchableOpacity>
+                    </View>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'calander'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <Image  source={require("../../assets/images/calander.png")} style={styles.footericon}/>
+                    </View>
+                </View>
+          
+             
+             
+          
+             
 			</View>
              
             </>

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 		flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 1,
-        shadowRadius: 5,
+        shadowRadius: 5,marginHorizontal:10,
          elevation: 10
 	},
 	headerview:{
@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
 		flexDirection:"row"
 	},
 	questionnum:{
-		fontSize: 20,textAlign:"left"
+		fontSize: 15,textAlign:"left"
 	},
 	questiontext:{
-		fontSize:20,textAlign:"left",marginLeft:15
+		fontSize:15,textAlign:"left",marginLeft:10
 	},
 	answermain:{
 		marginTop:20
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 		fontSize:15,textAlign:"center"
 	},
 	answertextview:{
-		marginLeft:15,paddingLeft:15,width:windowWidth/1.2,borderWidth:1,borderRadius:20,paddingVertical:15
+		marginLeft:15,paddingLeft:15,width:windowWidth/1.4,borderWidth:1,borderRadius:20,paddingVertical:10
 	},
 	answertext:{
 		fontSize:15

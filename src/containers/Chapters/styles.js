@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
     flex:1
    },
    topview:{
-    flex:1
+    flex:0.92,
   },
   footerview:{
-    flex:0.1,justifyContent:"flex-end"
+    flex:0.08,justifyContent:"flex-end",backgroundColor:"transparent"
   },
   footerinnerview:{
       flexDirection: 'row',

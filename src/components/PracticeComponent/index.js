@@ -11,148 +11,176 @@ import {
     StatusBar,
     Image,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableHighlight,
+    ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
+import * as Progress from 'react-native-progress';
 const windowHeight = Dimensions.get('window').height;
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
+import { ProgressView } from "@react-native-community/progress-view";
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 import { Validations } from '../../helpers'
 const data = [
-{
-    name:"Mathematics",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-},{
-    name:"Physics",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-},{
-    name:"Chemistry",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-},{
-    name:"Biology",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-},{
-    name:"Chemistry",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-},{
-    name:"Biology",
-    reads:30,
-    progress: 0.5,
-    image: require('../../assets/images/yellowround.png'),
-    insideimg: require('../../assets/images/math.png'),
-}]
+    {
+        name: "Mathematics",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }, {
+        name: "Physics",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }, {
+        name: "Chemistry",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }, {
+        name: "Biology",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }, {
+        name: "Chemistry",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }, {
+        name: "Biology",
+        reads: 30,
+        progress: 0.5,
+        image: require('../../assets/images/yellowround.png'),
+        insideimg: require('../../assets/images/math.png'),
+    }]
 class PracticeComponent extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state = {
+            subjectsData: this.props.subjectsData,
+            spineer: true
+        }
     }
-    onItem(item){
-        Actions.push("practicechapter",{"data":data})
+    onItem(item) {
+        Actions.push("practicechapter", {data: item })
     }
-    onBack(){
+    onBack() {
         this.props.onBack()
     }
-    renderItem({item}){
-        var percent = item.progress*100
-    return(
-        <View  style={{ paddingTop: 30,marginTop: 10,marginBottom:20 }}>
-                <TouchableOpacity onPress={this.onItem.bind(this,item)}
-                    style={styles.rectview}>
-                    <View style={styles.subview}>
-                        <View style={styles.topsubview}></View>
-                        <View style={styles.bottomsubview}>
-                            <Text style={styles.subjectname}>{item.name}</Text>
-                            {Platform.OS === 'android' ?
-                                <View style={styles.progressview}>
-                                    <View style={styles.progresstextview}>
-                                        <Text style={styles.progresstext}>Progress</Text>
-                                        <Text style={styles.progresstext}>{percent}%</Text></View>
-                                        {Platform.OS === 'android' ? 
-                                         <ProgressBar
-                                              color="green"
-                                              styleAttr="Horizontal"
-                                              indeterminate={false}
-                                              progress={0.5}
-                                            />
-                                         :
-                                    <ProgressView
-                                              progressTintColor="orange"
-                                              trackTintColor="blue"
-                                              progress={0.7}
-                                    />}</View> : null}
+    componentDidMount() {
+        if (this.props.subjectsData) {
+            console.log(JSON.stringify(this.props.subjectsData))
+            this.setState({
+                subjectsData: this.props.subjectsData,
+                spineer: false
+            })
+        }
+    }
+    renderItem({ item }) {
+        var imagesarray=[
+            require('../../assets/images/dashboard/new/mathsbg.png'),
+            require('../../assets/images/dashboard/new/physicsbg.png'),
+            require('../../assets/images/dashboard/new/chemistrybg.png'),
+            require('../../assets/images/dashboard/new/biologybg.png')
+        ]
+        var percent = item.percent * 100
+        var colorsarray =imagesarray //["#267093", "#697077", "#a4b96e", "#c54721"]
+        var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
+        var bgcolor = randomItem
+        console.log("item,item", item)
+        const url = "https://smarttesting.s3.ap-south-1.amazonaws.com" + item.image
+        var progress = 0 + (0.4 * Math.random())
+        // var percent = (item.percent) * 100;
+        var color;
+        if (percent > 50) {
+            color = "green"
+        } else if (color < 50) {
+            color = "red"
+        } else {
+            color = "orange"
+        }
+        return (
+            <TouchableHighlight onPress={() => this.onItem(item)} underlayColor="transparent" activeOpacity={0.9} style={{ backgroundColor: 'transparent', borderWidth: 0.1, borderColor: 'transparent', margin: 5, flex: 1 }}>
 
+                <ImageBackground source={bgcolor}
+                    style={[styles.rectview]}>
+                    <View style={styles.subview}>
+                        <View style={styles.topsubview}>
+
+                            {item.image ?
+
+                                <Image source={{ uri: url }} style={{ alignSelf: "center", width: 128 / 2.5, height: 128 / 2.5, marginTop: 8, marginRight: 5 }} />
+                                : <Image source={require('../../assets/images/noimage.png')}
+                                    style={{ width: 128 / 2.5, height: 128 / 2.5, resizeMode: "contain" }} />}
+
+                            <Text style={styles.subjectname}>{item.name}</Text>
+
+
+
+                        </View>
+                        <View style={styles.bottomsubview}>
                             <View style={styles.countview}>
-                                <View style={styles.innercountview}>
-                                    <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
-                                    <Text style={styles.icontext}>{item.reads}</Text>
+                                <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3, }}>
+                                    <View style={{ justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 5 }}>
+                                        <Text style={{ fontSize: 12, color: "white" }}>Progress</Text>
+                                        <Text style={{ color: "white", fontSize: 12 }}>{item.percent}%</Text>
+                                    </View>
+                                    <View style={{ alignItems: "center", marginTop: 10 }}>
+                                        <Progress.Bar progress={item.percent / 100} width={1724 / 11} height={5} color={'lightgreen'} />
+                                    </View>
+
+
                                 </View>
-                                 <View style={styles.innercountview}>
-                                    <Image source={require('../../assets/images/magnifier.png')} style={[styles.iconview,{tintColor:"grey"}]} />
-                                    <Text style={styles.icontext}>{item.reads}</Text>
-                                </View>
-                                </View>
+                            </View>
                         </View>
                     </View>
-                </TouchableOpacity>
-                <View style={styles.relativeview}>
-                    <ImageBackground source={item.image} style={{
-                        width: 944 / 9,
-                        height: 912 /9,
-                        position: 'absolute',
-                        justifyContent: "center",
-                        alignSelf:'center',
-                        top: -210,
-                       // left: -140,
-                         elevation: 12,
-                    }}><Image source={item.insideimg} style={{
-                        width: 944 / 13,
-                        height: 912 /13,alignSelf:"center"}} />
-                    </ImageBackground>
-                </View></View>
+                </ImageBackground>
+
+            </TouchableHighlight>
 
         )
-}
+    }
     render() {
         return (
-            <View style={styles.mainView}>
-                <TouchableOpacity onPress={this.onBack.bind(this)}>
-                <Image source={require("../../assets/images/left-arrow.png")}
-                    style={styles.backimage} />
+
+            <View style={{ flex: 1 }}>
+
+                {/* <View style={{ flex: 0.1, justifyContent: "center" }}>
+                    <TouchableOpacity onPress={this.onBack.bind(this)}>
+                        <Image source={require("../../assets/images/left-arrow.png")}
+                            style={styles.backimage} />
                     </TouchableOpacity>
-                <View style={styles.mainsubview}>
-                <View style={styles.mainmiddleview}>
-                <View style={styles.middleview}>
-                <Text style={styles.textmain}>Practice</Text>
                 </View>
-                <View style={styles.listview}>
-                
-                <FlatList data={data} 
-                            renderItem={this.renderItem.bind(this)}
-                            style={{alignSelf: 'center'  }}
-                             numColumns={2} 
-                            // showVerticalScrollIndicator={false}
-                             /></View><View style={{flex:0.1}}/>
-                             </View>
-                </View>
-                    <ImageBackground source={require('../../assets/images/yellowround.png')} style={styles.subjectinner}>
-                        <Image source={require('../../assets/images/math.png')} style={{alignSelf: "center",width:128/1.5,height:128/1.5 }} />
+                <View style={{ flex: 0.2, justifyContent: "flex-start", alignItems: "center", }}>
+                    <ImageBackground source={require('../../assets/images/Asset_2.png')}
+                        style={{ width: 123 / 1.5, height: 127 / 1.5, justifyContent: "center", alignItems: "center", alignSelf: "center" }}>
+                        <Image source={require('../../assets/images/math.png')} style={{ alignSelf: "center", width: 128 / 2.5, height: 128 / 2.5, borderRadius: 32, marginTop: 8, marginRight: 5 }} />
                     </ImageBackground>
+
+                    <Text style={styles.textmain}>{"Practice"}</Text>
+
+                </View> */}
+                <View style={{ flex: 1 }}>
+                    {this.state.spineer ?
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                            <ActivityIndicator color={"black"} /></View>
+                        :
+                        <FlatList data={this.state.subjectsData}
+                            renderItem={this.renderItem.bind(this)}
+                            numColumns={2}
+                        // showVerticalScrollIndicator={false}
+                        />
+                    }
+                </View>
+
             </View>
         )
     }

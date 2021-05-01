@@ -21,56 +21,125 @@ import Footer from '../../components/Footer'
 import Library from '../../components/Library';
 import Loader from "../../components/Loader"
 import { Validations } from '../../helpers'
+import SideMenu from "../../components/SideMenu"
+import Drawer from 'react-native-drawer'
+import { colors } from "../../constants"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 class Dashboard extends Component{
 	constructor(props){
 		super(props)
+		this.getData = this.getData.bind(this)
 		this.state={
-			loader:true
+			loader:false,
+			userName: "null",
+			profile_pic: "null",
+			gradeName:"null",
+			schoolname:"null"
 		}
 	}
 	componentDidMount(){
-		setTimeout(() => {this.setState({loader: false})}, 2000)
-
+		setTimeout(() => {
+			this.setState({loader: false});
+			this.getData()
+		}, 2000)
+		
+       
 	}
+
+getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@user')
+    //  alert(JSON.stringify(value))
+      if(value !== null) {
+        var data = JSON.parse(value)
+		console.log("dataaa",data)
+        this.setData(data)
+       
+      }else{
+        //Actions.push('login')
+      }
+    } catch(e) {
+       return null;
+    }
+  }
+ 
+  setData(data){
+	 // alert(data.profile_pic)
+	  this.setState({
+		  userName: data.name ? data.name : data.first_name+" "+data.last_name,
+		  profile_pic: data.profile_pic ? 'https://smarttesting.s3.ap-south-1.amazonaws.com'+data.profile_pic : "null",
+		  gradeName: data.grade ? data.grade.name : "null",
+		   schoolname: data.school ? data.school.name : "null"})
+  }
+	closeControlPanel = () => {
+		this._drawer.close()
+	  };
+	  openControlPanel = () => {
+		this._drawer.open()
+	  };
 	render(){
+		const url = 'https://smarttesting.s3.ap-south-1.amazonaws.com'+ this.state.profile_pic
 		return(
+			<>
+			<ImageBackground source={require('../../assets/images/Mobile_bg_2.png')}
+			style={{width:"100%",height:"100%",opacity:0.4}}/>
+			<View style={{width:"100%",height:"100%",position:"absolute"}}>
 			<View style={styles.mainview}>
 			{this.state.loader ? (
 				<Loader/>
 				):
-			<ImageBackground source={require('../../assets/images/dashboard_bg.jpg')} style={{width:"100%",height:"100%"}}>
+				<Drawer
+				type="overlay"
+					ref={(ref) => this._drawer = ref}
+					 tapToClose={true}
+					 openDrawerOffset={100} 
+					  content={ <SideMenu
+
+						closeControlPanel={this.closeControlPanel}/>}
+					>
+			<View style={{width:"100%",height:"100%",}}>
 			<View style={{flex:1}}>
-				<View style={{flex:0.15,alignItems:"flex-end",justifyContent:"center"}}>
-					<Image style={{width:200/1.5,height:200/1.5}} source={require('../../assets/images/dash_image.png')}/>
-					<View 
-					style={{paddingVertical:2,flexDirection:"row",width:windowWidth/1.08,borderRadius: 10,backgroundColor: 'white',position: 'absolute',alignSelf:"center" }}>
-					<View style={{flex:0.3,justifyContent: 'center',alignItems:"center"}}>
-						<Image source={require('../../assets/images/dash_logo.png')} style={{width:279/4,height:298/4}}/>
-						</View>
-						<View style={{flex:0.6,justifyContent:  'center',alignItems:"center"  }}>
-						<Text style={{fontSize:15,color:"#2d5283"}}>Welcome</Text>
-						<Text style={{fontSize:20,color:"#2d5283"}}>Kumar</Text>
-						</View>
-						<View style={{flex:0.3}}/>
+				<View style={{flex:1}}>
+			<ScrollView contentContainerStyle={{flexGrow:1,}}>
+				<View style={{flex:0.3,alignItems:"flex-end",justifyContent:"center",}}>
+					<Image source={require('../../assets/images/dashboard/abstract.png')} style={{width:263/1.2,height:235/1.2}}/>
+					<View style={{position: 'absolute' ,flex:1,height:"100%",width:"100%" ,justifyContent: 'center'}}>
+					<Image source={require('../../assets/images/logo_icon.png')}
+					style={{width:80,height:80,marginLeft: 20}}/>
+                     <View style={{padding:20,flexDirection: 'row' ,}}>
+                      <View style={{width:60,height:60,borderRadius:30,borderWidth: 3,borderColor:colors.Themecolor,justifyContent: 'center'}}>
+						  {this.state.profile_pic != 'null' ?
+                      <Image source={{uri: this.state.profile_pic}} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>
+                      :  <Image source={require('../../assets/images/dashboard/user.png')} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>}
+                      </View>
+                      <View style={{marginLeft:10}}>
+                       <Text style={{fontSize: 15,color:"black"}}>{this.state.userName}</Text>
+                       <View style={{paddingLeft:5,paddingRight: 5,borderWidth: 1,borderRadius: 10,borderColor: colors.Themecolor,marginTop: 3}}>
+                        <Text style={{color:colors.Themecolor}}>{this.state.gradeName}</Text>
+                        </View>
+                       
+                      </View>
+                     </View>
+
 					</View>
 				</View>
-				<View style={{flex:0.75,marginHorizontal: 10}}>
-                <View style={styles.middleview}>
-			           <Library/>
+				<View style={{flex:0.6,marginHorizontal: 0,}}>
+                  <Library/>
+			    </View>
+				</ScrollView>
+				</View>
+	    	       <View style={styles.footerview}>
 
-			    </View>
-			    </View>
-	    	<View style={styles.footerview}>
-			
-					    <Footer/>
+					    <Footer openControlPanel={this.openControlPanel}/>
 						</View>
 				</View>
-			
-			
-						</ImageBackground>}
-			</View>	
+
+
+						</View></Drawer>}
+			</View>
+			</View></>
 			)
 	}
 }

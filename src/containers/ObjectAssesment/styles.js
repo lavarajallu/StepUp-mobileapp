@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     },
     mainshadowview:{
         flex:1,backgroundColor: 'white',borderRadius: 15,shadowColor:'black',borderWidth:1,borderColor:"lightgrey",
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
+        // shadowOffset: { width: 0, height: 5 },
+        // shadowOpacity: 1,
+        // shadowRadius: 5,
        //  elevation: 10
     },
     headerview:{

@@ -7,10 +7,9 @@ import { colors } from "../../constants"
 const styles = StyleSheet.create({
 
   footerinnerview:{
-      flexDirection: 'row',
-        justifyContent:"space-around",
-        alignItems:"center",
+        //alignItems:"center",
         height:"100%",
+        overflow:"hidden",
         width:windowWidth,
         backgroundColor: 'white',
         borderWidth: 0.5,
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30
   },
   footericon:{
-    width:30,height:30,tintColor:colors.Themecolor
+    width:25,height:25,tintColor:colors.Themecolor
   }
 })
 export default styles;

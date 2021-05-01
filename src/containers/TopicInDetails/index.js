@@ -19,7 +19,7 @@ const data={
 }
 class TopicInDetails extends  Component{
     onNext(){
-        Actions.push('weblinkview')
+        Actions.push('videoview')
     }
 	render(){
 		return(
@@ -31,7 +31,7 @@ class TopicInDetails extends  Component{
                 	<View style={{flex:1}}>
                 	<ScrollView>
                 	 <Text style={{fontSize: 20,margin: 30}}>{data.text}</Text>
-                  <View 
+                  <View
                   style={{padding:10,shadowColor:'black',
 					    shadowOffset: { width: 0, height: 5 },
 					    marginHorizontal: 20,
@@ -47,7 +47,7 @@ class TopicInDetails extends  Component{
                     <TouchableOpacity onPress={this.onNext.bind(this)} style={styles.nextinner}>
                     <Text style={styles.activitytext}>Next Activity</Text>
                     </TouchableOpacity>
-                    
+
                 </View>
                  <View style={styles.subjectouter}>
                 <Text style={{color:"white",fontSize:18}}>Introduction</Text>

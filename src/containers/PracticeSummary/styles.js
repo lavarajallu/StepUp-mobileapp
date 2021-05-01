@@ -25,6 +25,22 @@ const styles = StyleSheet.create({
     elevation: 10,
     
  },
+ subjectouter:{
+    width: 150,
+    height: 40,
+    backgroundColor:colors.Themecolor,
+    position: 'absolute',
+    justifyContent: "center",
+    alignItems:"center",
+    borderRadius:35,
+    top: 30,
+    alignSelf:"center",
+    shadowColor:'black',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 10
+ },
 viewsolution:{
     height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,width:150,alignItems:"center",justifyContent:"center",alignSelf:"center"
 },
@@ -56,14 +72,14 @@ absview:{
 absview2:{
      padding:10,
     width:150,height:40,elevation: 11,
-    backgroundColor: colors.Themecolor,borderRadius: 20,top:windowHeight/2.2,left:windowWidth/3.4,
-    justifyContent:"center",alignItems:"center",position:"absolute"
+    backgroundColor: colors.Themecolor,borderRadius: 20,top:windowHeight/2.0,//left:windowWidth/3.4,
+    justifyContent:"center",alignItems:"center",position:"absolute",alignSelf:"center"
 },
 absview3:{
      padding:10,
     width:150,height:40,elevation: 11,
-    backgroundColor: colors.Themecolor,borderRadius: 20,top:windowHeight/1.18,left:windowWidth/3.4,
-    justifyContent:"center",alignItems:"center",position:"absolute"
+    backgroundColor: colors.Themecolor,borderRadius: 20,top:windowHeight/1.06,//left:windowWidth/3.4,
+    justifyContent:"center",alignItems:"center",position:"absolute",alignSelf:"center"
 }
  
 })

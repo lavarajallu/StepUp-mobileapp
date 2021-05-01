@@ -26,6 +26,10 @@ const data=[
 	name:"Helloooo",
 	image: require('../../assets/images/algebra.png'),
 	type:"view"
+},{
+  name:"Helloooo",
+  image: require('../../assets/images/algebra.png'),
+  type:"join"
 }]
 
 
@@ -41,12 +45,12 @@ class LiveSession extends Component{
           <View style={styles.itemsubtopview}>
            <View style={styles.itemtopmainview}>
            <View style={styles.itemtopleftview}>
-           <Image source={item.image} style={{width:170/2,height:170/2}}/>
+           <Image source={item.image} style={{width:170/2.5,height:170/2.5}}/>
            </View>
             <View style={styles.itemtoprightview}>
             <Text style={styles.testname}>Morning test</Text>
             <View style={styles.descriptionview}>
-            <Image source={require('../../assets/images/1.png')} style={styles.descriptionicon} />
+            <Image source={require('../../assets/images/dashboard/new/desliveicon.png')} style={styles.descriptionicon} />
             <Text style={styles.descriptiontext}>Description</Text>
             </View>
             
@@ -55,20 +59,22 @@ class LiveSession extends Component{
           </View>
            <View style={styles.itemsubbottomview}>
            <View style={styles.itesmbottomsubview}>
-            <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+            <Image source={require('../../assets/images/dashboard/new/clockliveicon.png')} style={styles.iconview} />
             <Text style={styles.icontext}>8:35 AM</Text>
             </View>
             <View style={styles.itesmbottomsubview}>
-            <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+            <Image source={require('../../assets/images/dashboard/new/calliveicon.png')} style={styles.iconview} />
             <Text style={styles.icontext}>1/3/21</Text>
             </View>
             {item.type === 'view' ? 
-            <View style={{paddingVertical: 12,paddingHorizontal: 30,borderWidth:1,borderRadius:20,backgroundColor: 'blue'}}>
-              <Text style={{color:"white"}}>VIEW</Text>
+            <View style={{paddingVertical: 8,paddingHorizontal: 20,borderWidth:1,borderRadius:30,
+            backgroundColor: this.props.topicData.color,borderWidth:0}}>
+              <Text style={{color:"white",fontSize:12}}>VIEW</Text>
             </View>
             :
-             <View style={{paddingVertical: 12,paddingHorizontal: 30,borderWidth:1,borderRadius:20,borderColor: 'transparent',backgroundColor: 'orange'}}>
-              <Text style={{color:"white"}}>JOIN</Text>
+             <View style={{paddingVertical: 8,paddingHorizontal: 20,borderWidth:1,borderRadius:20,
+             borderColor: 'transparent',backgroundColor: '#E32346'}}>
+              <Text style={{color:"white",fontSize:12}}>JOIN</Text>
             </View>
            }
            </View>
