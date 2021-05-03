@@ -278,9 +278,9 @@ class Login extends Component {
                        <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20}}>
                        <Image source={require("../../assets/images/logo.png")}
                             style={styles.logo} />
-                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
+                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey",}}>
                         <TextInput
-                            style={styles.textinput}
+                            style={{width:"100%",fontSize:15}}
                             placeholder={StringsOfLanguages.emailtextinput}
                             blurOnSubmit={false}
                             value={this.state.email}
@@ -289,21 +289,23 @@ class Login extends Component {
                             onSubmitEditing={() => this.secondTextInput.focus()}
                         ></TextInput>
                         </View>
-                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
+                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,flexDirection:"row", borderBottomWidth: 1, borderColor: "lightgrey",}}>
                         
                         <TextInput
                             ref={(input) => { this.secondTextInput = input; }}
-                            labelStyle={styles.labelstyle}
-                            inputStyle={styles.input}
-                            style={styles.textinput}
+                            style={{paddingLeft:8,width:"85%",
+    
+                            borderColor: '#2e2e2e'}}
                             placeholder={StringsOfLanguages.passwordtextinput}
                             value={this.state.password}
                             secureTextEntry={this.state.hidePassword}
                             onChangeText={this.onChangePassword}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         ></TextInput>
-                           <TouchableOpacity activeOpacity={0.8} style={{ position: 'absolute', right: 3, height: 40, width: 35, padding: 2 }} onPress={this.setPasswordVisibility}>
-                            <Image source={(this.state.hidePassword) ? require('../../assets/images/ic_visibility.png') : require('../../assets/images/ic_visibility_off.png')} style={{ resizeMode: 'contain', height: '100%', width: '70%', }} />
+                           <TouchableOpacity activeOpacity={0.8}
+                            style={{width:"15%",height:50,justifyContent:"center",alignItems:"center"}}
+                            onPress={this.setPasswordVisibility}>
+                            <Image source={(this.state.hidePassword) ? require('../../assets/images/ic_visibility.png') : require('../../assets/images/ic_visibility_off.png')} style={{ resizeMode: 'contain', height: '50%', width: '50%', }} />
                         </TouchableOpacity>
                         </View>
                          <View style={styles.subview}>

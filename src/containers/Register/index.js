@@ -234,6 +234,7 @@ class Register extends Component {
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     keyboardShouldPersistTaps={'handled'}
+                    contentContainerStyle={{flexGrow: 1}}
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="register" />

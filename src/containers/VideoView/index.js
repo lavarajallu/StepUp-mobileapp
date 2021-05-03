@@ -239,7 +239,7 @@ class VideoView extends  Component{
           
             
           } else {
-            this.setState({questionsArray:[]})
+            this.setState({questionsArray:[]},()=>  this.getActivityInfo())
             alert("stepup"+JSON.stringify(json.message))
   
           }
@@ -261,7 +261,7 @@ class VideoView extends  Component{
         .then((json) => {
   
           const data = json.data;
-          // alert(JSON.stringify(data))
+          alert(JSON.stringify(data))
          
           if (data) {
            this.setState({youtubedata: data})

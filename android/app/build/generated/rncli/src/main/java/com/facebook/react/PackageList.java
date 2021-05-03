@@ -11,28 +11,72 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @react-native-async-storage/async-storage
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // @react-native-community/art
 import com.reactnativecommunity.art.ARTPackage;
 // @react-native-community/progress-bar-android
 import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
 // @react-native-community/progress-view
 import com.reactnativecommunity.progressview.RNCProgressViewPackage;
+// @react-native-community/slider
+import com.reactnativecommunity.slider.ReactSliderPackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
+// react-native-device-constants
+import com.reactlibrary.deviceconstants.DeviceConstantsPackage;
+// react-native-file-access
+import com.alpha0010.fs.FileAccessPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-i18n
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+// react-native-image-crop-picker
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
+// react-native-image-picker
+import com.imagepicker.ImagePickerPackage;
+// react-native-languages
+import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 // react-native-linear-gradient
 import com.BV.LinearGradient.LinearGradientPackage;
+// react-native-localization
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
+// react-native-localize
+import com.zoontek.rnlocalize.RNLocalizePackage;
+// react-native-orientation-locker
+import org.wonday.orientation.OrientationPackage;
+// react-native-pdf
+import org.wonday.pdf.RCTPdfView;
+// react-native-pdf-light
+import com.alpha0010.pdf.PdfViewPackage;
+// react-native-pdf-to-image
+import com.RNPdfToImageConverter.RNPdfToImagePackage;
+// react-native-push-notification
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-share
+import cl.json.RNSharePackage;
+// react-native-snackbar
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
-// react-native-view-pdf
-import com.rumax.reactnative.pdfviewer.PDFViewPackage;
+// react-native-video
+import com.brentvatne.react.ReactVideoPackage;
 // react-native-webview
 import com.reactnativecommunity.webview.RNCWebViewPackage;
+// react-native-youtube
+import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
+// react-native-youtube-sdk
+import com.srfaytkn.reactnative.YouTubeSdkPackage;
+// rn-fetch-blob
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class PackageList {
   private Application application;
@@ -78,17 +122,39 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new AsyncStoragePackage(),
       new ARTPackage(),
       new RNCProgressBarPackage(),
       new RNCProgressViewPackage(),
+      new ReactSliderPackage(),
+      new ReactNativeFirebaseAppPackage(),
+      new RNCPickerPackage(),
+      new DeviceConstantsPackage(),
+      new FileAccessPackage(),
       new RNGestureHandlerPackage(),
+      new RNI18nPackage(),
+      new PickerPackage(),
+      new ImagePickerPackage(),
+      new RNLanguagesPackage(),
       new LinearGradientPackage(),
+      new ReactNativeLocalizationPackage(),
+      new RNLocalizePackage(),
+      new OrientationPackage(),
+      new RCTPdfView(),
+      new PdfViewPackage(),
+      new RNPdfToImagePackage(),
+      new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
       new RNScreensPackage(),
+      new RNSharePackage(),
+      new SnackbarPackage(),
       new SvgPackage(),
       new VectorIconsPackage(),
-      new PDFViewPackage(),
-      new RNCWebViewPackage()
+      new ReactVideoPackage(),
+      new RNCWebViewPackage(),
+      new ReactNativeYouTube(),
+      new YouTubeSdkPackage(),
+      new RNFetchBlobPackage()
     ));
   }
 }
