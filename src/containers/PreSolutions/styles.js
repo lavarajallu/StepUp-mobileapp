@@ -61,7 +61,7 @@ import {
           flex:1,
       },
       circlesview:{
-          flex:0.1,justifyContent:"center"
+          flex:0.1,justifyContent:"center",alignItems:"center"
       },
       questionsview:{
           flex:0.9,padding:10

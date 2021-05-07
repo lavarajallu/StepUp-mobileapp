@@ -90,7 +90,7 @@ class ChapterComponent extends Component {
         var percent = item.percent
         var percent = (item.percent)
 		var color;
-		if(percent > 50 ){
+		if(percent > 70 ){
 			color = "green"
 		}else if (color< 50) {
 			color = "red"

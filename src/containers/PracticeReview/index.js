@@ -136,27 +136,38 @@ getData = async () => {
 				  if(data){
 					if (data && data.length > 0) {
 						let newdata = data.filter(obj => obj.reference_id == this.props.data.reference_id)
-						console.log("subjects", newdata)
+						
 						this.setState({
 							testdata : newdata?.[0].tests || [],
 							//spinner:false
 						})
+						console.log("subjects", newdata[0].tests)
 					     var newarraynew = [];
 						 var newdataarray = []
-						 if(newdata?.[0].tests.length > 8){
-							newdata?.[0].tests.map((res,i)=>{
+						 if(newdata[0].tests.length > 8){
+							newdata[0].tests.map((res,i)=>{
 						
 								if(i%5 === 0){
 								   newarraynew.push("Test"+i)
-								   newdataarray.push(res.score)
+								   if(res.score){
+									newdataarray.push(res.score)
+								   }else{
+									newdataarray.push(0)
+								   }
+								   
 								}
 							   
 							})
 						 }else{
-							newdata?.[0].tests.map((res,i)=>{
+							newdata[0].tests.map((res,i)=>{
 						
 								   newarraynew.push("Test"+i)
-								   newdataarray.push(res.score)
+								   if(res.score){
+									newdataarray.push(res.score)
+								   }else{
+									newdataarray.push(0)
+								   }
+								 //  newdataarray.push(res.score)
 							
 							   
 							})
@@ -240,20 +251,20 @@ getData = async () => {
 					this.state.testdata.length > 0 ? 
 					
                    <ScrollView>
-					   <View style={{width:windowWidth,height:350,backgroundColor:"red",justifyContent:"center"}}>
+					   <View style={{width:windowWidth,height:350,justifyContent:"center"}}>
 					   <LineChart
-			bezier
-			withHorizontalLabels={true}
-			withVerticalLabels={true}
-			data={{
-				labels:this.state.newlabels,
-				datasets: [
-					{
-						data: this.state.newdataarray,
-						strokeWidth: 2,
-						color: (opacity = 1) => `rgba(106,81,119,${opacity})`, // optional
-					},
-				],
+						bezier
+						withHorizontalLabels={true}
+						withVerticalLabels={true}
+						data={{
+							labels:this.state.newlabels,
+							datasets: [
+								{
+									data: this.state.newdataarray,
+									strokeWidth: 2,
+									color: (opacity = 1) => `rgba(106,81,119,${opacity})`, // optional
+								},
+							],
 			}}
 			bezier
 			width={Dimensions.get('window').width}

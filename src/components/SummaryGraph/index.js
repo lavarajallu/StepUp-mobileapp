@@ -80,19 +80,19 @@ class SummaryGraph extends Component {
                       <Text>30</Text>
                       </View>
                     <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>25</Text>
+                      <Text>40</Text>
                       </View>
                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>30</Text>
+                      </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
+                      <Text>25</Text>
+                      </View>
+                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
                       <Text>20</Text>
                       </View>
                       <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>15</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
                       <Text>10</Text>
-                      </View>
-                      <View style={{width:40,height:20,justifyContent:  'center'  }}>
-                      <Text>5</Text>
                       </View>
                       <View style={{width:40,height:20,justifyContent:  'center'  }}>
                       <Text>0</Text>

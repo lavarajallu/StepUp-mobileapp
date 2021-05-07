@@ -26,6 +26,7 @@ import Drawer from 'react-native-drawer'
 import { colors } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import StringsOfLanguages from '../../StringsOfLanguages';
+import { color } from 'react-native-reanimated';
 const newdata=[
 	{
 		name:StringsOfLanguages.leaderboard,
@@ -135,42 +136,14 @@ getData = async () => {
 			Actions.push('analysis')
 		}
 	}
-	renderItemLearning({item}){
-		return(
-		   
-			
-			<TouchableOpacity onPress={this.onItem.bind(this,item)}  underlayColor="transparent" activeOpacity={0.9}>
-				<View style={{margin:6,justifyContent:"center",alignItems:"center",}}>
-			{/* <LinearGradient colors={[item.color1,item.color2]} 
-			style={{height:60,width:60,backgroundColor: item.color,marginHorizontal: 10,marginTop: 10,marginBottom:10,
-			shadowOffset: { width: 0, height: 10 },borderRadius: 10,
-			  shadowOpacity: 1,
-			  shadowRadius: 10,
-			  elevation: 5,
-			justifyContent: 'center' ,alignItems:"center"}}> */}
-				<View style={{height:80,width:80,backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
-					{item.name === "Leader Board" ? 
-				<Image source={item.image} style={{width:item.width/1.2,height:item.height/1.2}}/>:
-				item.name === "Mock Test" ? 
-				<Image source={item.image} style={{width:item.width,height:item.height,tintColor:item.tintcolor}}/>
-				:<Image source={item.image} style={{width:item.width,height:item.height}}/>
-				
-		}
-				 
-				</View>
-			
-				{/* </LinearGradient> */}
-				<Text style={{fontSize:12}}>{item.name}</Text></View>
-				</TouchableOpacity>
-			)
-	}
+
 	render(){
 		const url = 'https://smarttesting.s3.ap-south-1.amazonaws.com'+ this.state.profile_pic
 		return(
 			<>
-			{/* <ImageBackground source={require('../../assets/images/Mobile_bg_2.png')}
-			style={{width:"100%",height:"100%",opacity:0.4}}/>
-			<View style={{width:"100%",height:"100%",position:"absolute"}}> */}
+		 <ImageBackground source={require('../../assets/images/Mobile_bg_1.png')}
+			style={{width:"100%",height:"100%",opacity:0.5}}/>
+			<View style={{width:"100%",height:"100%",position:"absolute"}}>
 			<View style={styles.mainview}>
 			{this.state.loader ? (
 				<Loader/>
@@ -195,8 +168,10 @@ getData = async () => {
 					{/* <Image source={require('../../assets/images/logo_icon.png')}
 					style={{width:70,height:70,marginLeft: 20}}/> */}
                     <View style={{marginLeft:20,marginTop:20}}>
-                    <Text style={{color:"#FFB13D",fontSize:15}}>{StringsOfLanguages.hello}</Text>
-                       <Text style={{color:"#FFB13D",fontWeight:"bold",fontSize:25}}>{this.state.userName}</Text>
+                    <Text style={{color:colors.Themecolor//"#FFB13D"
+					,fontSize:15}}>{StringsOfLanguages.hello}</Text>
+                       <Text style={{color:colors.Themecolor//"#FFB13D"
+					   ,fontWeight:"bold",fontSize:25}}>{this.state.userName}</Text>
                     </View>
                        
 					</View>
@@ -216,7 +191,7 @@ getData = async () => {
 
 						</View></Drawer>}
 			</View>
-			{/* </View> */}
+			 </View>
 			</>
 			)
 	}

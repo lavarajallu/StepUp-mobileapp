@@ -44,7 +44,7 @@ var graphicData = [
     { y: 50, x: '50%', name: "English" },
     { y: 60, x: '60%', name: "Hindi" },
 ];
-var colorarray = ["#6a5177", "#d88212", "#277292", "#a3ba6d", "#deb026", "#c44921"]
+var colorarray = ["#6a5177", "#d88212", "#277292", "#a3ba6d", "#deb026", "#c44921","red","green","blue"]
 const chartConfig = {
     backgroundGradientFrom: "#1E2923",
     backgroundGradientFromOpacity: 0,
@@ -65,6 +65,9 @@ class Analysis extends Component {
             chaptersData: [],
             loading: false,
             piesections: [],
+            allavergae:"",
+            allsectiondata:[],
+            mainsubjects:[],
             user: {}
         }
     }
@@ -116,6 +119,22 @@ class Analysis extends Component {
                     const data = json.data;
                     if (data.subjects) {
                         let newArray = data.subjects.slice(0, 9)
+                        var newarray1 = []
+                        var count = 0
+                        data.subjects.map((res, i) => {
+                            count = count+ res.percent
+                            var obj  = { y: 20, x: +res.percent+'%', name: res.name }
+                            newarray1.push(obj)
+                            
+                        })
+                       
+
+                     this.setState({
+                         allsectiondata:newarray1 ,
+                         allavergae:  Math.floor(count / data.subjects.length)
+                     })
+
+                        // })
                         newArray.unshift({
                             name: 'All',
                             image: require('../../assets/images/dashboard/new/alllearning.png')
@@ -123,6 +142,7 @@ class Analysis extends Component {
                         this.setState
                             ({
                                 spinner: false,
+                                mainsubjects:data.subjects,
                                 subjectsData: newArray,
                                 selectedTab: newArray[0],
                                 loading: true,
@@ -434,7 +454,7 @@ class Analysis extends Component {
                                                                 <Text style={{ fontSize: 20, color: "#656565", fontWeight: '800' }}>All Subjects</Text>
                                                                <View style={{height:250,justifyContent:"center",alignItems:"center"}}>
                                                                <VictoryPie
-                                                                    data={graphicData}
+                                                                    data={this.state.allsectiondata}
                                                                     // width={250}
                                                                     height={300}
                                                                     innerRadius={50}
@@ -442,7 +462,7 @@ class Analysis extends Component {
                                                                         duration: 2000
                                                                     }}
                                                                     labelRadius={({ innerRadius }) => innerRadius + 5}
-                                                                    colorScale={colorarray}
+                                                                    colorScale={["#6a5177", "#d88212", "#277292", "#a3ba6d", "#deb026", "#c44921",]}
                                                                     // labelPosition={({ index }) => index
                                                                     //         ? "centroid"
                                                                     //         : "startAngle"
@@ -456,11 +476,11 @@ class Analysis extends Component {
                                                                
 
                                                                 <View style={{ position: "absolute", height: 250, top: 70, justifyContent: "center", alignItems: "center" }}>
-                                                                    <Text style={{ fontSize: 15, color: "#656565", textAlign: "center" }}>80%{"\n"}overall</Text>
+                                                                    <Text style={{ fontSize: 15, color: "#656565", textAlign: "center" }}>{this.state.allavergae}%{"\n"}overall</Text>
                                                                 </View>
                                                                 <View style={{marginHorizontal:10,flexDirection:"row",justifyContent:"space-evenly",
                                                                 flexWrap:"wrap"}}>
-                                                                {graphicData.map((res,i)=>(
+                                                                {this.state.allsectiondata.map((res,i)=>(
                                                                     <View style={{paddingHorizontal:10,alignSelf:"flex-start",flexDirection:"row",marginTop:10,justifyContent:"center",alignItems:"center"}}>
                                                                         <View style={{width:10,height:10,backgroundColor:colorarray[i]}}/>
                                                                         <Text style={{textAlign:"center",marginLeft:5}}>{res.name}</Text>

@@ -142,7 +142,7 @@ class Library extends Component {
                     <RecommendedTopics />
 					{/* <MyProgress />*/}
 
-					<MyPerformance /> 
+					{/* <MyPerformance />  */}
 
 				
 				

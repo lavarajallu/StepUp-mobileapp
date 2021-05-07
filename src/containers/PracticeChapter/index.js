@@ -336,7 +336,7 @@ getData = async () => {
 			})
 		
 		   }else{
-			   Actions.push('practiceassesment',{data: item,subjectData: this.state.data,type:type})
+			   Actions.push('practiceassesment',{data: item,subjectData: this.state.data,type:"Chapter"})
 		   }
 		}
 	}

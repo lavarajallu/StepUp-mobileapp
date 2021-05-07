@@ -367,6 +367,7 @@ class PracticeAssesment extends Component {
         }, () => {
             var url = baseUrl + "/user-test/" + this.state.testid
             var body = { questions: this.state.finalarray }
+            console.log("bodyyy",body)
             this.setState({ testloader: true })
             fetch(url, {
                 method: 'PUT',
@@ -384,6 +385,7 @@ class PracticeAssesment extends Component {
 
                     if (json.data) {
                         const data = json.data
+                        console.log("jsonssss",json.data)
                         this.setState({ testloader: false })
                         Alert.alert(
                             "Step Up",
@@ -443,6 +445,7 @@ class PracticeAssesment extends Component {
             "user_answer": answerkey,
             "test_taken_time": timess
         }
+        console.log("objjjj",obj)
         this.state.finalarray.push(obj);
         this.setState({
 
@@ -465,6 +468,7 @@ class PracticeAssesment extends Component {
                     selectedItem: nextItem,
 
                 })
+                this.scrollToIndex(this.state.questionno)
             })
         }
 
@@ -495,6 +499,13 @@ class PracticeAssesment extends Component {
         // },()=>console.log("dddd",this.state.answerobj))
         // //finalarray.push(obj);
     }
+    getItemLayout = (data, index) => (
+        { length: 50, offset: 50 * index, index }
+      )
+    scrollToIndex = (index) => {
+        let randomIndex = index;
+        this.flatListRef.scrollToIndex({animated: true, index: randomIndex});
+      }
 
     render() {
         return (
@@ -530,6 +541,9 @@ class PracticeAssesment extends Component {
                                         >
                                             <View style={styles.circlesview}>
                                                 <FlatList data={this.state.questiosnarray}
+                                                 ref={(ref) => { this.flatListRef = ref; }}
+                                                 initialScrollIndex={0}
+                                                 getItemLayout={this.getItemLayout}
                                                     keyExtractor={(item, index) => String(index)}
                                                     renderItem={this.renderItem.bind(this)}
                                                     horizontal={true}

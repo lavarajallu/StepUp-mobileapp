@@ -14,6 +14,8 @@ import {
     ActivityIndicator
 } from 'react-native';
 import styles from "./styles"
+import Toast from 'react-native-simple-toast';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Modal from 'react-native-modal';
@@ -121,7 +123,13 @@ class VideoView extends  Component{
           .catch((error) => console.error(error))
     }
     updateAnalytics(){
-      //alert(this.state.analyticsData.reference_id)
+      var body = {
+        activity_status : 0,
+        video_played: parseInt(this.refs.ve.state.currentTime),
+        pdf_page: 0,
+        video_duration: parseInt(this.refs.ve.state.duration)
+      }
+      console.log("bodyyy",body)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
       fetch(url ,{
         method: 'PUT',
@@ -129,6 +137,7 @@ class VideoView extends  Component{
           'Content-Type': 'application/json',
           'token': this.state.token
         },
+        body: JSON.stringify(body)
         }).then((response) =>
         
          response.json())
@@ -136,7 +145,7 @@ class VideoView extends  Component{
           
           if(json.data){
             const data = json.data;
-          //   alert(JSON.stringify(json));
+             console.log(JSON.stringify(json));
              this.setState({
                analyticsData: data
              })
@@ -239,6 +248,7 @@ class VideoView extends  Component{
           
             
           } else {
+            Toast.show(json.message, Toast.LONG);
             this.setState({questionsArray:[]},()=>  this.getActivityInfo())
             alert("stepup"+JSON.stringify(json.message))
   
@@ -261,7 +271,7 @@ class VideoView extends  Component{
         .then((json) => {
   
           const data = json.data;
-          alert(JSON.stringify(data))
+        //  alert(JSON.stringify(data))
          
           if (data) {
            this.setState({youtubedata: data})

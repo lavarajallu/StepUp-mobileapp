@@ -91,8 +91,9 @@ class PracticeComponent extends Component {
             require('../../assets/images/dashboard/new/chemistrybg.png'),
             require('../../assets/images/dashboard/new/biologybg.png')
         ]
+        
         var percent = item.percent * 100
-        var colorsarray =imagesarray //["#267093", "#697077", "#a4b96e", "#c54721"]
+        var colorsarray =["#267093", "#697077", "#a4b96e", "#c54721"]
         var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
         var bgcolor = randomItem
         console.log("item,item", item)
@@ -110,8 +111,8 @@ class PracticeComponent extends Component {
         return (
             <TouchableHighlight onPress={() => this.onItem(item)} underlayColor="transparent" activeOpacity={0.9} style={{ backgroundColor: 'transparent', borderWidth: 0.1, borderColor: 'transparent', margin: 5, flex: 1 }}>
 
-                <ImageBackground source={bgcolor}
-                    style={[styles.rectview]}>
+<ImageBackground source={require('../../assets/images/dashboard/pattern.png')}
+					style={[styles.rectview, { backgroundColor: bgcolor }]} opacity={0.7} >
                     <View style={styles.subview}>
                         <View style={styles.topsubview}>
 

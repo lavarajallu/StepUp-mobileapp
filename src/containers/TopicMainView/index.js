@@ -382,9 +382,9 @@ class TopicMainView extends Component {
     if (this.state.smartres[index - 1]) {
       // alert(this.state.smartres[index-1].status)
       var status = this.state.smartres[index - 1].status
-      if (status === 0 || status === 2) {
+      if (status === 0 ) {
         Toast.show('Please complete the previous activity to open this.', Toast.LONG);
-      } else if (status === 1) {
+      } else if (status === 1|| status === 2) {
         if (item.type === 'WEB') {
           Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
         } else if (item.type === "PDF") {

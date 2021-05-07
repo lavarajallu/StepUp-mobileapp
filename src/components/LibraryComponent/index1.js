@@ -111,7 +111,7 @@ updateAnalytics(){
   getSubjects(user,toekn)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = baseUrl+'/student/subjects/'+user.reference_id+"?offset=0&limit=2&order_by=name&sort_order=DESC"
+         var url = baseUrl+'/student/subjects/'+user.reference_id
          console.log("value",url)
         fetch(url ,{
                  method: 'GET',
@@ -222,7 +222,7 @@ getanalytics(user,token){
 		}else{
 			color = "orange"
 		}
-		console.log("urlll",bgimage)
+		console.log("urlll",url)
 		var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
 		item["color"] = newitem
@@ -259,6 +259,22 @@ getanalytics(user,token){
 					</ImageBackground>
 					
 					</TouchableHighlight>
+		
+	// 	<View style={{width:110,marginVertical:5,marginHorizontal:10,alignItems:"center"}}>
+	// 		<View style={{width:80,height:80,backgroundColor:newitem,borderRadius:40,justifyContent:"center",alignItems:"center", shadowColor: newitem,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.9,
+    // shadowRadius: 3,
+    // elevation: 10,}}>
+	// 		{item.image ? 
+	// 									<Image source={{uri: url}} style={{width: 50,height:50,borderRadius:25,}} />
+	// 									:
+	// 									<Image source={require('../../assets/images/noimage.png')}
+	// 									style={{width:60,height:60,resizeMode:"contain"}}/>}
+	// 		</View>
+	// 		<Text style={{textAlign:"center",fontSize:10,marginTop:10}}>{item.name}</Text>
+	// 				</View>
+		
 
 		)
 	}
@@ -283,11 +299,12 @@ getanalytics(user,token){
                            </View>  : 
                               this.state.subjectsData &&
                              this.state.subjectsData.length > 0 ?
-							 <View style={{flex:1,justifyContent:"center"}}>
+							 <View style={{flex:1,marginHorizontal:10,justifyContent:"center",}}>
 							<FlatList data={this.state.subjectsData} 
 							renderItem={this.renderItem.bind(this)}
-							//numColumns={2}
+							//numColumns={3}
 							horizontal={true}
+							
 							showsHorizontalScrollIndicator={false}
 							 /></View> :   
 						 <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>

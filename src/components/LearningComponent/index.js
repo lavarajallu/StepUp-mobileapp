@@ -96,7 +96,7 @@ class LearningComponent extends Component {
 
 			<TouchableHighlight onPress={this.onItem.bind(this, item)} underlayColor="transparent" activeOpacity={0.9}>
 				<View style={{ margin: 6, justifyContent: "center", alignItems: "center", }}>
-					<View style={{ height: 80, width: 80, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+					<View style={{ height: 80, width: 80, backgroundColor: "red", justifyContent: "center", alignItems: "center" }}>
 						{item.name === "Leader Board" ?
 							<Image source={item.image} style={{ width: item.width / 1.2, height: item.height / 1.2 }} /> :
 							item.name === "Mock Test" ?
@@ -121,28 +121,28 @@ class LearningComponent extends Component {
 					<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 						<TouchableHighlight onPress={this.onItem.bind(this, "Leader Board")} underlayColor="transparent" activeOpacity={0.9}>
 							<View style={{ margin: 6, justifyContent: "center", alignItems: "center", }}>
-								<View style={{ height: 80, width: 80, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+								<View style={{ height: 80, width: 80,  justifyContent: "center", alignItems: "center" }}>
 								<Image source={require("../../assets/images/dashboard/new/leader_board.png")} style={{ width:44 / 1.2, height: 74 / 1.2 }} /> 
 								</View>
 								<Text style={{ fontSize: 12 }}>{StringsOfLanguages.leaderboard}</Text></View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "Learning Analysis")} underlayColor="transparent" activeOpacity={0.9}>
 							<View style={{ margin: 6, justifyContent: "center", alignItems: "center", }}>
-								<View style={{ height: 80, width: 80, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+								<View style={{ height: 80, width: 80, justifyContent: "center", alignItems: "center" }}>
 								<Image source={require("../../assets/images/dashboard/new/analysis_new.png")} style={{ width:49, height: 43}} /> 
 								</View>
 								<Text style={{ fontSize: 12 }}>{StringsOfLanguages.learninganalysis}</Text></View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "My Practice")} underlayColor="transparent" activeOpacity={0.9}>
 							<View style={{ margin: 6, justifyContent: "center", alignItems: "center", }}>
-								<View style={{ height: 80, width: 80, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+								<View style={{ height: 80, width: 80,  justifyContent: "center", alignItems: "center" }}>
 								<Image source={require("../../assets/images/dashboard/new/practice_new.png")} style={{ width:51, height: 52}} /> 
 								</View>
 								<Text style={{ fontSize: 12 }}>{StringsOfLanguages.mypractice}</Text></View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "Mock Test")} underlayColor="transparent" activeOpacity={0.9}>
 							<View style={{ margin: 6, justifyContent: "center", alignItems: "center", }}>
-								<View style={{ height: 80, width: 80, backgroundColor: "white", justifyContent: "center", alignItems: "center" }}>
+								<View style={{ height: 80, width: 80,justifyContent: "center", alignItems: "center" }}>
 								<Image source={require("../../assets/images/dashboard/new/mock_new.png")} style={{ width:52, height:55,tintColor:"#6B9B1A"}} /> 
 								</View>
 								<Text style={{ fontSize: 12 }}>{StringsOfLanguages.mocktest}</Text></View>

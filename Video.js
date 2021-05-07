@@ -1,189 +1,405 @@
-import React, { Component } from 'react';
-import  { StyleSheet,  View,  Text,  Slider, Image,  PixelRatio, Platform,  Button,  Dimensions, } from 'react-native';
-import YouTube, { YouTubeStandaloneIOS, YouTubeStandaloneAndroid } from 'react-native-youtube';
-import Modal from 'react-native-modal';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-const data = [];
-import YoutubePlayer from 'react-native-youtube-iframe';
-import VideoQuestionModal from './src/components/VideoQuestionModal'
-var initial = 0
-export default class Video extends Component {
-state = {
-  isReady: false,
-  status: null,
-  quality: null,
-  error: null,
-  isPlaying: true,
-  isLooping: true,
-  duration: 0,
-  currentTime: 0,
-  fullscreen: false,
-  playerWidth: Dimensions.get('window').width,
-  elapsed: 0 ,
-  time:0,
-  singleSliderValues: [],
-  value:0,
-  isvisible:false
- };
- constructor(props){
-    super(props);
- }
- _youTubeRef = React.createRef();
-onquestionSubmit(time){
+import React, { Component } from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, BackHandler, Dimensions, PanResponder } from 'react-native'
+// import COLORS from '../styles/color';
+// import { STRING, url } from '../values/string';
+//import GLOBALSTYLE from '../values/style';
+import Video from 'react-native-video';
+// import AsyncStorage from '@react-native-community/async-storage';
+// import KeepAwake from 'react-native-keep-awake';
 
-  this.setState({
-    isVisible: false
-  },()=>this.setState({isPlaying: true},()=>
-  {
-     console.log("dfndnflkdnfkl",this.state.isVisible)
+var db, videoURL, videoBaseURL, counter = 0;
+import * as Progress from 'react-native-progress';
+import { NativeModules } from 'react-native';
+import Orientation from 'react-native-orientation-locker';
+import { log } from 'react-native-reanimated';
+// import DBMigrationHelper from '../dbhelper/DBMigrationHelper';
+// var ServiceModule = NativeModules.ServiceModule;
+import Icon from 'react-native-vector-icons/FontAwesome'
+class VideoActivity extends Component {
 
-  const interval = setInterval(async () => {
-  var count = null
-var compare = false
-    const elapsed_sec = await  this. _youTubeRef.current.getCurrentTime();
-      console.log("elaps",elapsed_sec)
+    constructor(props) {
+        super(props);
+        // counter = 0;
+        // this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+        // this.stopTouch = this.visibleInteractivePoints.bind(this);
+        // db = DBMigrationHelper.getInstance();
 
-  //  console.log(",,,",elapsed_sec,"mm",count)
-
-  // calculations
-  // const elapsed_ms = Math.floor(elapsed_sec * 1000);
-  // const ms = elapsed_ms % 1000;
-  // const min = Math.floor(elapsed_ms / 60000);
-  // const seconds = Math.floor((elapsed_ms - min * 60000) / 1000);
-
-  // var newelapsed =
-  //   min.toString().padStart(2, '0') +':' +seconds.toString().padStart(2, '0')
-   if(parseInt(elapsed_sec) === 10 ){
-     console.log("naflafklalkfjkl")
-
-      this.setState({ isPlaying: false},()=>this.setState({isVisible: true}));
-       clearInterval(interval);
-
-
-   }
-  this.setState({
-    time: elapsed_sec,
-    elapsed: elapsed_sec,
-
-  })
-}, 600);
-
-}
-   ))
-}
-
-
-
-onStateChange (e){
-  if(initial === 0) {
-    if(e === 'playing'){
-      this.onReady(5,false)
+        this.state = {
+            isLoading: false,
+        
+            topicName: '',
+            videoURL:  'https://smarttesting.s3.ap-south-1.amazonaws.com/media/TW123/Time_And_Work-1617271400907.mp4',
+            fileName: '',
+            isNoteAvailable: false,
+            iconName: require('./src/assets/images/fullscreen.png'),
+            getViewX: 0,
+            getViewY: 0,
+            shouldHideInteractivePoints: false,
+            interactiveData: [],
+            interactiveQuestionData: [],
+            videoDuration: 0,
+            setX: [],
+            isPaused: false,
+            progress:0,
+            userID: '',
+            // typeId: this.props.navigation.getParam("typeId", -1),
+            // teacherResourceId: this.props.navigation.getParam("teacherResourceId", -1),
+        }
     }
-  }
 
+    componentDidMount() {
+        //KeepAwake.activate();
+        this.setStates();
+
+        // this.props.navigation.addListener(
+        //     'didFocus',
+        //     payload => {
+        //         console.log(payload);
+        //         this.setState({
+        //             isPaused: false,
+        //         })
+        //     }
+        // );
+        this.timer = setInterval(this.tick, 1000);
+
+        //this.getUserData();
+    }
+
+    getUserData() {
+        db.getUserDetails(user => {
+            console.log('user', user);
+            if (user == null) {
+                SimpleToast.show(MESSAGE.wentWrong);
+            } else {
+                this.setState({
+                    userID: user.id,
+                });
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    tick = () => {
+        counter++;
+    }
+
+
+
+    async setStates() {
+        // videoBaseURL = await url(STRING.videoBaseURL);
+
+        // this.setState({
+        //     topicId: await AsyncStorage.getItem(STRING.TOPICID),
+        //     topicName: await AsyncStorage.getItem(STRING.TOPICNAME),
+        //     languageId: await AsyncStorage.getItem(STRING.LANGUAGEID),
+        //     fileName: await AsyncStorage.getItem(STRING.VIDEOURL),
+        // })
+
+        // if (this.state.isEncrypted) {
+        //     ServiceModule.getDynamicPort((err) => {
+        //     }, (PORT) => {
+        //         videoURL = STRING.servieBaseURL + PORT + "/" + videoBaseURL + this.state.fileName;
+
+        //         console.log(videoBaseURL + this.state.fileName);
+        //         this.setState({
+        //             videoURL: videoURL,
+        //         });
+        //     });
+        // } else {
+        //     // this.setState({
+        //     //     videoURL: 'https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4',
+        //     // });
+        // }
+
+        // this.getInteractivePointsAPI();
+    }
+
+    goBack() {
+        // db.insertProgressData(code => {
+        //     Orientation.lockToPortrait();
+        //     this.props.navigation.goBack(null)
+        // }, this.state.userID, this.state.topicId, this.state.typeId, this.state.teacherResourceId, counter);
+    }
+
+    handleBackButtonClick() {
+        // this.goBack();
+        // return true;
+    }
+
+    doFullScreen() {
+        // Orientation.getOrientation((err, orientation) => {
+        //     if (orientation === 'PORTRAIT') {
+                Orientation.lockToLandscape();
+                this.setState({
+                    iconName: require('./src/assets/images/halfscreen.png'),
+                   // interactiveData: this.state.interactiveData,
+                });
+            // } else {
+            //     Orientation.lockToPortrait();
+            //     this.setState({
+            //         iconName: require('./src/assets/images/fullscreen.png'),
+            //         //interactiveData: this.state.interactiveData,
+            //     });
+            // }
+        //})
+    }
+
+    async getInteractivePointsAPI() {
+        // this.setState({
+        //     isLoading: true,
+        // });
+
+        // console.log(await url(STRING.liveClassBaseUrl) + STRING.topicInteractive + this.state.topicId + "&language=" + this.state.languageId);
+        // return fetch(await url(STRING.liveClassBaseUrl) + STRING.topicInteractive + this.state.topicId + "&language=" + this.state.languageId, {
+        //     // return fetch('http://3.6.66.252:5001/api/InteractiveVideo/TopicInteractive?id=PH12041&language=ENG-101', {
+        //     method: 'GET',
+        //     headers: {
+        //         "Content-type": "application/json; charset=UTF-8"
+        //     }
+        // })
+        //     .then(response => {
+        //         const statusCode = response.status;
+        //         const data = response.json();
+        //         return Promise.all([statusCode, data]);
+        //     })
+        //     .then(([statusCode, responseJson]) => {
+        //         if (statusCode == 200) {
+        //             this.setState({
+        //                 interactiveData: responseJson.quizDetailsList,
+        //                 interactiveQuestionData: responseJson.quizDetailsList,
+        //                 isLoading: false,
+        //             }, () => {
+        //                 console.log(this.state.duration);
+        //             });
+        //         } else {
+        //             this.setState({
+        //                 isLiveClassAvailable: false,
+        //                 isLoading: false,
+        //             });
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         this.setState({
+        //             isLoading: false
+        //         });
+        //     });
+    }
+
+    displayOptions() {
+        if (this.state.shouldHideInteractivePoints || this.state.isLoading || this.state.setX.length <= 0) {
+            return null
+        } else {
+            console.log('FINAL: ', this.state.setX);
+            return this.state.setX.map(data => (
+                <View
+                    style={{ position: 'absolute', left: data, top: this.state.getViewY - 40 }}>
+                    
+                </View>
+            ));
+        }
+    }
+
+    visibleInteractivePoints() {
+        clearInterval(this.interval);
+        this.interval = setInterval(() =>
+            this.setState({
+                shouldHideInteractivePoints: true,
+            }, () => {
+                clearInterval(this.interval);
+            })
+            , 4900);
+        this.setState({
+            shouldHideInteractivePoints: false,
+        })
+    }
+
+    setInteractiveAxis(event) {
+        // let setX = [];
+        // for (let i = 0; i < this.state.interactiveData.length; i++) {
+        //     let x1 = 50;
+        //     let x2 = this.state.getViewX - 50;
+        //     let temp = (this.state.interactiveData[i].duration * 100) / event.duration
+
+        //     setX[i] = ((x1 + ((x2 - x1) * temp) / 100) - 5);
+        //     console.log('setX: ', setX[i]);
+        // }
+
+        // this.setState({
+        //     videoDuration: event.duration,
+        //     setX: setX
+        // }, () => {
+        //     this.visibleInteractivePoints();
+        // });
+    }
+
+    checkForPoints(seekPos) {
+        // this.state.interactiveQuestionData.forEach(element => {
+        //     if (element.duration < seekPos) {
+        //         this.setState({
+        //             isPaused: true,
+        //             interactiveQuestionData: this.state.interactiveQuestionData.splice(1, this.state.interactiveQuestionData.length - 1),
+        //         }, () => {
+        //             this.props.navigation.navigate('quizInteractiveActivity', { 'data': element });
+        //         });
+        //         return true;
+        //     }
+        // });
+    }
+    handleMainButtonTouch(){
+        this.setState( state =>{
+            return{
+                isPaused : !state.isPaused
+            }
+        })
+    }
+    handleOnEnd(){this.setState({isPaused:true})}
+    handleProgress  = (data) => {
+        this.setState({
+            progress : data.currentTime / this.state.videoDuration
+        })
+    }
+    handleLoad(meta){
+
+        this.setState({
+            videoDuration: meta.duration
+        })
+
+    }
+    handleProgressBarTouch (e) {
+        
+        const position = e.nativeEvent.locationX;
+        const progress = (position / 250)  * this.state.videoDuration
+      
+        if(progress/ this.state.videoDuration < this.state.progress){
+            this.player.seek(progress)
+           console.log(progress/ this.state.videoDuration +  " "+ this.state.progress)
+        }
+      
+
+    }
+    secondsToTime(time){
+          return ~~(time/60)+":"+(time%60 < 10 ? "0" : "")+time%60;
+    }
+    render() {
+        const width = Dimensions.get('window');
+        const height = width*.5625
+        return (
+            // <View
+            //     style={{ backgroundColor: 'green', flex:1}}>
+            //     <StatusBar hidden={true} />
+               
+            //         <Video source={{ uri: this.state.videoURL }}   // Can be a URL or a local file.
+            //             onBuffer={this.onBuffer}                // Callback when remote video is buffering
+            //             onError={this.videoError}               // Callback when video cannot be loaded
+            //             style={{ position: 'absolute',
+            //             top: 0,
+            //             left: 0,
+            //             bottom: 0,
+            //             right: 0,}}
+            //             controls={true}
+            //             resizeMode = {"contain"}
+            //             paused={this.state.isPaused}
+            //             onLoad={event => {
+            //                 this.setInteractiveAxis(event)
+            //             }}
+            //             onProgress={event => {
+            //              //   this.checkForPoints(Number(event.currentTime))
+            //             }}
+            //             onLayout={event => {
+            //                 const layout = event.nativeEvent.layout;
+            //                 this.setState({
+            //                     getViewX: layout.width,
+            //                     getViewY: layout.height,
+            //                 });
+            //             }}
+            //             {...this._panResponder.panHandlers} />
+            //         {/* {this.displayOptions()} */}
+            //      <TouchableOpacity
+            //         activeOpacity={0.7}
+            //         style={{ justifyContent: 'center', alignSelf: 'flex-end', position: 'absolute', padding: 8, marginEnd: 10, marginTop: 10, borderRadius: 8, }}
+            //         onPress={() => this.doFullScreen()}>
+            //         <Image
+            //             style={{ height: 25, width: 25, alignSelf: 'flex-start' }}
+            //             source={this.state.iconName} />
+            //     </TouchableOpacity>
+            //     <TouchableOpacity
+            //         activeOpacity={0.7}
+            //         style={{ justifyContent: 'center', flex: 0.33, position: 'absolute', padding: 8, marginStart: 10, marginTop: 10, borderRadius: 8, }}
+            //         onPress={() => this.goBack()}>
+            //         <Image
+            //             style={{ height: 20, width: 20, alignSelf: 'flex-start',tintColor:"white" }}
+            //             source={require('./src/assets/images/left-arrow.png')} />
+            //     </TouchableOpacity>
+
+
+            //     {/* <View style={{ width: '100%', position: 'absolute', bottom: 0, backgroundColor: COLORS.white, borderTopStartRadius: 25, borderTopEndRadius: 25, borderColor: COLORS.darkGrey, borderWidth: 0.5 }}>
+            //         <TouchableOpacity
+            //             onPress={() => { this.state.isFromDetailActivity ? this.props.navigation.goBack(null) : this.props.navigation.replace('quizActivity', { 'isPreAssessment': false }) }}
+            //             style={{ textAlign: 'center', bottom: 0, padding: 10, color: COLORS.blue, fontWeight: 'bold' }}>
+            //             <Text style={GLOBALSTYLE.nextPrevBtn}>{this.state.isFromDetailActivity ? 'Close' : 'Next'}</Text>
+            //         </TouchableOpacity>
+            //     </View> */}
+            // </View >
+
+            <View style={{flex:1,backgroundColor:"red",justifyContent:"center"}}>
+              <View>
+                  <Video
+                    paused={this.state.isPaused}
+                    source={{ uri: this.state.videoURL }}
+                    style={{width:"100%",height:"100%"}}
+                    resizeMode={"contain"}
+                    onLoad = {this.handleLoad.bind(this)}
+                     onProgress={this.handleProgress.bind(this)}
+                     onEnd={this.handleOnEnd.bind(this)}
+                     ref={ref=>this.player = ref}
+                     />
+
+                     <View style={{
+                         backgroundColor:"rgba(0,0,0,0.5)",
+                         height:48,
+                         left:0,
+                         right:0,
+                         bottom:0,
+                         position:"absolute",
+                         flexDirection:"row",
+                         alignItems:"center",
+                         justifyContent:"space-around",
+                         paddingHorizontal:10
+                     }}>
+                         <TouchableOpacity onPress={this.handleMainButtonTouch.bind(this)}>
+                             {!this.state.isPaused ? 
+                             <Image source={require('./src/assets/images/pause.png')}
+                             style={{width:30,height:30,tintColor:"white"}} /> : 
+                             <Image source={require('./src/assets/images/play.png')}
+                             style={{width:30,height:30,tintColor:"white"}} /> 
+                            }
+                         </TouchableOpacity>
+                         <TouchableWithoutFeedback onPress={this.handleProgressBarTouch.bind(this)}>
+                         <Progress.Bar progress={this.state.progress} width={250} height={20} color={"#FFF"}/>
+                         </TouchableWithoutFeedback>
+                        <Text style={{marginLeft:15}}>
+                            {this.secondsToTime(Math.floor(this.state.progress * this.state.videoDuration))}
+                        </Text>
+
+                     </View>
+                            </View>
+            </View>
+        )
+    }
 }
- onReady(e,close){
-   initial =1;
-   if(e === 5){
-    this. _youTubeRef.current?.getDuration().then(
-      getDuration => this.setState({duration:parseInt(getDuration)})
-    );
-   }
-   console.log("lkadflkjdfkljdfklj")
 
-    //     this.setState({ isReady: true });
-      const interval = setInterval(async () => {
-       const elapsed_sec = await  this. _youTubeRef.current.getCurrentTime();
+export default VideoActivity
 
-        // this is a promise. dont forget to await
-       //console.log("djdsd",parseInt(elapsed_sec))
-      // calculations
-      // const elapsed_ms = Math.floor(elapsed_sec * 1000);
-      // const ms = elapsed_ms % 1000;
-      // const min = Math.floor(elapsed_ms / 60000);
-      // const seconds = Math.floor((elapsed_ms - min * 60000) / 1000);
-
-      // var newelapsed =
-      //   min.toString().padStart(2, '0') +':' +seconds.toString().padStart(2, '0')
-       if(parseInt(elapsed_sec) === e){
-        this.setState({ isPlaying: false},()=>this.setState({isVisible: true}));
-         clearInterval(interval);
-       }
-      this.setState({
-        time: elapsed_sec,
-        elapsed: elapsed_sec,
-
-      })
-    }, 100);
- }
-
-render(){
-  const data=[]
-  for(var i = 0 ; i< this.state.duration;i++){
-    data.push({"value":i})
-  }
-  const YOUR_API_KEY = "paste yout api key here";
-
- return (<View style={{flex:1,justifyContent:"center",position:"relative"}}>
-     <YoutubePlayer
-        height={250}
-        ref={this. _youTubeRef}
-         play={this.state.isPlaying}
-
-        videoId={'FUiu-cdu6mA'}
-        //onReady={()=>this.onReady()}
-        onChangeState={this.onStateChange.bind(this)}
-      />
-<View style={{width:10,height:10,position:"absolute",width:"100%",backgroundColor:"transparent",top:Dimensions.get('window').height/1.75}}>
-      <View style={{flex:1,flexDirection:"row"}}>
-        <View style={{flex:0.06,}}/>
-        <View style={{flex:0.84,}}>
-        <View style={{justifyContent:'space-evenly',flexDirection:"row",flex:1,alignItems:"center",}}>
-          {data.map((res,i)=>
-
-
-          <Text style={{color:res.value === 5 ? "white":
-          res.value===10 ? "white" :
-          "transparent",fontSize:13}} >?</Text>
-          )}
-          </View>
-        </View>
-        <View style={{flex:0.1,}}/>
-      </View>
-    </View>
-    {this.state.isVisible ?
-      <View style={{width:"100%",height:"100%",position:"absolute",backgroundColor:"rgba(52, 52, 52, 0.6)",justifyContent:"center",}}>
-    <View style={{width:"90%",height:"85%",alignSelf:"center",borderRadius:15,overflow:"hidden"}}>
-
-             <VideoQuestionModal onquestionSubmit={this.onquestionSubmit.bind(this,20)}/>
-        </View>
-        </View> : null}
-    </View>
-   );
- }
-}
-
-const styles = StyleSheet.create({
-  container: {
-   backgroundColor: 'white',
- },
-welcome: {
-  fontSize: 20,
-  textAlign: 'center',
-  margin: 10,
-},
-buttonGroup: {
-flexDirection: 'row',
-alignSelf: 'center',
-paddingBottom: 5,
-},
-instructions: {
-  textAlign: 'center',
-  color: '#333333',
-  marginBottom: 5,
- },
-player: {
-  alignSelf: 'stretch',
-  marginVertical: 10,
- },
+var styles = StyleSheet.create({
+    backgroundVideo: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        
+    },
 });

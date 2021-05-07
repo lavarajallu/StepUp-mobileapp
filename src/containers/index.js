@@ -1,4 +1,4 @@
-export { default as Main} from "./Main";
+
 export { default as Login } from './Login';
 export { default as Register } from './Register';
 export { default as ForgotPassword } from './ForgotPassword';
@@ -18,7 +18,7 @@ export { default as WebLinkView} from "./WebLinkView";
  export { default as PostSummary} from "./PostSummary"
  export { default as ViewSolutions } from "./ViewSolutions"
  export { default as TopicMainView } from "./TopicMainView";
-
+ export { default as Announcements } from "./Announcements"
  export { default as ProgressTopics } from './ProgressTopics'
  export { default as Settings } from './Settings'
  export { default as PreviousPapers } from "./PreviousPapers";

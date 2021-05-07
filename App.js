@@ -10,22 +10,21 @@
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
 import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPapers,MockTestSolutions,
-    MockTestAssesment,MockTestSummary,MockTest,PrePaperSummary,Register,PrePaperSolutions,
+    MockTestAssesment,MockTestSummary,MockTest,PrePaperSummary,Register,PrePaperSolutions,Announcements,
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,
-     PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,TopicsNew,Settings,
- PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Main,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions} from './src/containers'
+     PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,
+ PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions} from './src/containers'
 
- import Video from './Video'
+ import VideoActivity from './Video'
  import LoadingScreen from './src/containers/LoadingScreen'
 
 const App = () => {
   return (
     <Router>
       <Stack key="root" hideNavBar={true}>
-        <Scene key="video" component={Video}/>
-         <Scene key="main" component={Main}  />
-         <Scene key = 'loadingscreen' component={LoadingScreen} initial={true}/>
+        <Scene key="video" component={VideoActivity} />
+         <Scene key = 'loadingscreen' component={LoadingScreen}  initial={true}/>
         <Scene key="login" component={Login} />
         <Scene key="register" component={Register} />
         <Scene key="forgotPassword" component={ForgotPassword}  />
@@ -80,7 +79,7 @@ const App = () => {
         <Scene key="analysis" component={Analysis}/>
         <Scene key="games" component={Games}/>
         <Scene key="settings" component={Settings}/>
-
+        <Scene key="announcements" component={Announcements}/>
         <Scene key="leaderboard" component={LeaderBoard} />
       </Stack>
     </Router>

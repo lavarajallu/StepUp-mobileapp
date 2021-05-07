@@ -32,6 +32,8 @@ class Footer extends Component {
                 Actions.push('notifications',{title:"tabs"})
             }else if(value==='dashboard'){
                 Actions.push('dashboard')
+            }else if ( value === 'bell'){
+                Actions.push('announcements',{title:"tabs"})
             }
         })
 
@@ -49,9 +51,9 @@ class Footer extends Component {
 			 <Image  source={require("../../assets/images/menu.png")} style={styles.footericon}/>
              </TouchableOpacity>
                     </View>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'bell'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'bell')} style={{flex:0.25,backgroundColor:this.state.selected === 'bell'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
                     <Image  source={require("../../assets/images/bell.png")} style={styles.footericon}/>
-                    </View>
+                    </TouchableOpacity>
                     <View style={{flex:0.25,backgroundColor:this.state.selected === 'dashboard'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
                     <TouchableOpacity onPress={this.onPressIcon.bind(this,'dashboard')}>
              <Image  source={require("../../assets/images/home.png")} style={styles.footericon}/>

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		flex:0.9,overflow:"hidden"
 	},
 	circlesview:{
-		flex:0.15,justifyContent:"center"
+		flex:0.15,justifyContent:"center",alignItems:"center"
 	},
 	questionsview:{
 		flex:0.85,margin:20,

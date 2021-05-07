@@ -165,7 +165,11 @@ onquestionSubmit(time){
      var compare = false
      var elapsed_sec
      if(this._youTubeRef){
+      
       elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+      this.setState({
+        currentTime: elapsed_sec
+      })
      }
      
         console.log("elaps",elapsed_sec)
@@ -195,7 +199,13 @@ onquestionSubmit(time){
       const interval = setInterval(async () => {
         var count = null
          var compare = false
-          const elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+         var elapsed_sec 
+         if(this._youTubeRef){
+           elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+          this.setState({
+            currentTime: elapsed_sec
+          })
+        }
             console.log("elaps",elapsed_sec)
          if(parseInt(elapsed_sec) === this.state.pausedtime ){
           this.setState({ isPlaying: false,data:this.state.questiondisplay,show: true},()=>this.props.onPause(this.state.data));
@@ -239,9 +249,12 @@ onStateChange (e){
     initial =1;
     const interval = setInterval(async () => {
      const elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
-     console.log("djdsd", parseInt(elapsed_sec)+ "   "+this.state.pausedtime)
+     console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
+     this.setState({
+      currentTime: elapsed_sec
+    })
     if(parseInt(elapsed_sec) === this.state.pausedtime){
-        console.log("0show",this.state.show)
+        console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
       if(this.state.show == true){
         console.log("ifff")
       }else{
@@ -326,6 +339,41 @@ onfullscreen(value) {
  
  //   Orientation.lockToLandscapeLeft();
 }
+setInteractiveAxis(event) {
+  console.lof("eeeeee")
+  let setX = [];
+  for (let i = 0; i < this.state.newarr.length; i++) {
+      let x1 = 50;
+      let x2 = this.state.getViewX - 50;
+      let temp = (this.state.newarr * 100) / event.duration
+
+      setX[i] = ((x1 + ((x2 - x1) * temp) / 100) - 5);
+      console.log('setX: ', setX[i]);
+  }
+
+  this.setState({
+      videoDuration: event.duration,
+      setX: setX
+  }, () => {
+      this.visibleInteractivePoints();
+  });
+}
+displayOptions() {
+  if (this.state.shouldHideInteractivePoints || this.state.isLoading || this.state.setX.length <= 0) {
+      return null
+  } else {
+      console.log('FINAL: ', this.state.setX);
+      return this.state.setX.map(data => (
+          <View
+              style={{ position: 'absolute', left: data, top: this.state.getViewY - 40 }}>
+              <Image
+                  style={{ width: 25, height: 25, }}
+                  source={require('../../assets/images/videos/point.png')}
+              />
+          </View>
+      ));
+  }
+}
 render(){
   const data=[]
   for(var i = 0 ; i< this.state.duration;i++){
@@ -353,7 +401,6 @@ render(){
     
   )}
   var heightfull;
-  console.log("fullsxreen",this.state.fullscreen)
   if(this.state.fullscreen){
     heightfull =Dimensions.get('window').height/2.5
   }else{
@@ -378,6 +425,9 @@ render(){
          fullscreen={true}
         // style={{height:Dimensions.get('window').height,width:Dimensions.get('window').width}}
         videoId={this.state.videoid}
+      //   onReady={event => {
+      //     this.setInteractiveAxis(event)
+      // }}
         //onReady={this.ongetReady.bind(this)}
         onChangeState={this.onStateChange.bind(this)}
       />

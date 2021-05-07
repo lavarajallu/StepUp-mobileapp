@@ -153,7 +153,6 @@ export default class NormalVideoViewComponent extends Component {
          
           var time  = parseInt(res.question.timeinsec)
           newarr.push(time)
-        console.log("vvvvv",newarr)
           this.setState({
            newarr:newarr,
            //loading: false
@@ -172,7 +171,7 @@ export default class NormalVideoViewComponent extends Component {
 
  }
  static getDerivedStateFromProps(nextProps, prevState) {
-  console.log("newpropslogin",nextProps.data)
+ // console.log("newpropslogin",nextProps.data)
   if(prevState.normaldata === nextProps.data[0]){
     
         }else {
@@ -278,10 +277,12 @@ onnext(){
   }
 onProgress(data){
   //alert("dmf;ldf")
-  
+        this.setState({
+          currentTime: data.currentTime
+        })
         const elapsed_sec =parseInt(data.currentTime)
           
-          console.log("progress",elapsed_sec, this.state.pausedtime)
+          //console.log("progress",elapsed_sec, this.state.pausedtime)
           if(elapsed_sec === this.state.pausedtime){
           
             if(this.state.show){
@@ -416,14 +417,6 @@ render(){
     )
     
   )}
-  console.log("vv",count)
-  // if(count == 0){
-  //   timesarray.push( <Text style={{color: "red",fontSize:13}} >?</Text>)
-  // }else{
-  //   console.log("....",count)
-  //   timesarray.push( <Image source={require('../../assets/images/videos/point.png')}
-  //   style={{width:10,height:10}} />)
-  // }
  return (
   this.state.loading ? <Text>Loading...</Text> :
  <View style={styles.mainView}>

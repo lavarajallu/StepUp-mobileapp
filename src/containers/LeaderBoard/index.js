@@ -25,9 +25,9 @@ class LeaderBoard extends Component {
         super(props)
     }
 
-    onBack() {
-
-    }
+    onBack(){
+		Actions.pop()
+	}
 
     render() {
         return (

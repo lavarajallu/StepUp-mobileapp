@@ -392,7 +392,7 @@ class EditProfile extends Component {
                             style: "cancel"
                           },
                           { text: "OK", onPress: () => {
-                           Actions.main();
+                           Actions.dashboard();
                           }}
                         ]
                       );

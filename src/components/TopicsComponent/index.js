@@ -55,13 +55,13 @@ class TopicsComponent extends Component {
     renderItem({ item, index }) {
         var percent = (item.percent);
         let color
-        if (percent > 80) {
-            color = "green"
-        } else if (percent < 60) {
-            color = "red"
-        } else {
-            color = "orange"
-        }
+        if(percent > 70 ){
+			color = "green"
+		}else if (color< 50) {
+			color = "red"
+		}else{
+			color = "orange"
+		}
         const starStyle = {
             width: 50,
             height: 10,

@@ -121,7 +121,14 @@ class NormalVideo extends  Component{
           .catch((error) => console.error(error))
     }
     updateAnalytics(){
-      //alert(this.state.analyticsData.reference_id)
+      console.log("mmmmmm",this.refs.ve.state.currentTime)
+      var body = {
+        activity_status : 0,
+        video_played: parseInt(this.refs.ve.state.currentTime),
+        pdf_page: 0,
+        video_duration: parseInt(this.refs.ve.state.duration)
+      }
+      console.log("bodyyy",body)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
       fetch(url ,{
         method: 'PUT',
@@ -129,6 +136,7 @@ class NormalVideo extends  Component{
           'Content-Type': 'application/json',
           'token': this.state.token
         },
+        body: JSON.stringify(body)
         }).then((response) =>
         
          response.json())
@@ -136,7 +144,7 @@ class NormalVideo extends  Component{
           
           if(json.data){
             const data = json.data;
-          //   alert(JSON.stringify(json));
+          console.log(JSON.stringify(json));
              this.setState({
                analyticsData: data
              })
@@ -225,7 +233,7 @@ class NormalVideo extends  Component{
     onBack(){
       //this.refs.ve.onPause();
       this.updateAnalytics();
-      Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+       Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
      
     }
     onNewBack(){
@@ -239,11 +247,7 @@ class NormalVideo extends  Component{
       )
     }
     onNext(){
-      // this.refs.ve.state.isPlaying =false
-      // this.setState({
-      //   newmodal : false
-
-      // },()=>{
+        
          this.updateAnalytics()
         var newarray = this.props.smartres;
         var newobj = newarray[this.props.index+1]

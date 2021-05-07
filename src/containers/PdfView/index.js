@@ -40,7 +40,8 @@ class PdfViewNew extends Component {
       analyticsData: {},
       token: "",
       isvisible: false,
-      selectedPage:0
+      selectedPage:0,
+      visibleItem:{}
     }
   }
   componentDidMount() {
@@ -139,12 +140,12 @@ class PdfViewNew extends Component {
         if (data) {
           var string = data[0].pdfpages
           var newarr = string.split(',');
-          console.log("newarr", newarr)
-          const url =  "https://smarttesting.s3.ap-south-1.amazonaws.com"+ data[0].url,
-          cachePath = await FileSystem.fetch(url, {path:  Dirs.CacheDir + '/name.pdf'});
-          console.log("dddd",cachePath)
+          // console.log("newarr", newarr)
+          // const url =  "https://smarttesting.s3.ap-south-1.amazonaws.com"+ data[0].url,
+          // cachePath = await FileSystem.fetch(url, {path:  Dirs.CacheDir + '/name.pdf'});
+          // console.log("dddd",cachePath)
           this.setState({
-            pdfdata: cachePath,
+            pdfdata: data[0].url,
            
             pdfpagesarray: newarr,
             spinner: false,
@@ -168,6 +169,13 @@ class PdfViewNew extends Component {
   }
   updateAnalytics() {
   //  alert("ddddt"+this.state.analyticsData.reference_id)
+  var body = {
+    activity_status : 1,
+    video_played: 0,
+    pdf_page: this.state.visibleItem.item,
+    video_duration: 0
+  }
+  console.log("boddyy",body)
     var url = baseUrl + '/analytics/' + this.state.analyticsData.reference_id
     fetch(url, {
       method: 'PUT',
@@ -175,6 +183,8 @@ class PdfViewNew extends Component {
         'Content-Type': 'application/json',
         'token': this.state.token
       },
+      body: JSON.stringify(body)
+
     }).then((response) =>
 
       response.json())
@@ -266,52 +276,50 @@ class PdfViewNew extends Component {
   }
   renderItem({ item }) {
 
-    console.log("item",item)
+    console.log("0000000",item)
     const source = { uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true};
     
     return (
-      <View onPress={this.onPDFVIew.bind(this,item)} style={{
+      <Pdf
+      ref={(pdf) => { this.pdf = pdf; }}
+
+      page={parseInt(item)}
+      source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true}}
+      //resourceType={resourceType}
+      singlePage={true}
+      onLoadComplete={(numberOfPages, filePath) => {
+        console.log(`number of pages: ${numberOfPages}`);
+      }}
+      onPageChanged={this.onPageChanged.bind(this)}
+      onError={(error) => {
+        console.log("ffffe",error);
+      }}
+      onPressLink={(uri) => {
+        console.log(`Link presse: ${uri}`)
+      }}
+     spacing={5}
+      style={{
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-      }}>
-        {/* <Pdf
-          ref={(pdf) => { this.pdf = pdf; }}
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height / 1.3,
 
-          page={parseInt(item)}
-          source={source}
-          //resourceType={resourceType}
-          singlePage={true}
-          onLoadComplete={(numberOfPages, filePath) => {
-            console.log(`number of pages: ${numberOfPages}`);
-          }}
-          onPageChanged={this.onPageChanged.bind(this)}
-          onError={(error) => {
-            console.log("ffffe",error);
-          }}
-          onPressLink={(uri) => {
-            console.log(`Link presse: ${uri}`)
-          }}
-          spacing={5}
-          style={{
-            flex: 1,
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height / 1.3,
-
-          }} /> */}
-          <PdfView  source={cachePath}
-          page={parseInt(item)} />
-
-      </View>
+      }} />
 
     )
 
 
 
   }
+ 
+   onViewableItemsChanged = ({ viewableItems, changed }) => {
+
+    this.setState({
+      visibleItem: viewableItems[0]
+    })
+    console.log("Visible items are", viewableItems);
+    console.log("Changed in this iteration", changed);
+  }
   render() {
-    console.log("Ffff",this.state.pdfdata)
-        const url = 'https://smarttesting.s3.ap-south-1.amazonaws.com'+this.state.pdfdata;
 
     return (
       <>
@@ -325,11 +333,15 @@ class PdfViewNew extends Component {
 
           <Text>Loading.....</Text></View>:
           <View style={{ flex: 1 }}>
-            {/* <FlatList data={this.state.pdfpagesarray} 
+            <FlatList data={this.state.pdfpagesarray} 
 			renderItem={this.renderItem.bind(this)}
+      onViewableItemsChanged={this.onViewableItemsChanged }
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 50
+      }}
 			
-			 showsHorizontalScrollIndicator={false}/> */}
-       <ScrollView>
+			 showsHorizontalScrollIndicator={false}/>
+       {/* <ScrollView>
        {this.state.pdfpagesarray.map((item,i)=>
 
             // <PdfView 
@@ -339,32 +351,9 @@ class PdfViewNew extends Component {
             // onError={(error)=>console.log("ffff",error)}/>
           
        
-        <Pdf
-        ref={(pdf) => { this.pdf = pdf; }}
-
-        page={parseInt(item)}
-        source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true}}
-        //resourceType={resourceType}
-        singlePage={true}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`number of pages: ${numberOfPages}`);
-        }}
-        onPageChanged={this.onPageChanged.bind(this)}
-        onError={(error) => {
-          console.log("ffffe",error);
-        }}
-        onPressLink={(uri) => {
-          console.log(`Link presse: ${uri}`)
-        }}
-       spacing={5}
-        style={{
-          flex: 1,
-          width: Dimensions.get('window').width,
-          height: Dimensions.get('window').height / 1.3,
-
-        }} />
+       
        )}
-       </ScrollView>
+       </ScrollView> */}
       
 
 
