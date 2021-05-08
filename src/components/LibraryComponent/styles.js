@@ -13,9 +13,8 @@ const styles = StyleSheet.create({
     paddingTop: 10
   },
   rectview:{
-    width: windowWidth/2.2,height:245,justifyContent:"center",
-        backgroundColor: 'transparent',borderRadius: 10,
-        marginHorizontal:5,overflow:"hidden",
+    width: windowWidth/2.3,height:1340/10,justifyContent:"center",
+      backgroundColor: 'white',borderRadius: 10,overflow:"hidden",
           // shadowOffset: { width: 0, height: 5 },
           // shadowOpacity: 1,
           // shadowRadius: 5,

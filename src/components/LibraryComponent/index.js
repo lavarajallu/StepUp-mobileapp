@@ -84,7 +84,7 @@ class LibraryComponent extends Component {
 		}
 	}
 	getSubjects(user, toekn) {
-		var url = baseUrl + '/student/subjects/' + user.reference_id + "?offset=0&limit=5&order_by=name&sort_order=DESC"
+		var url = baseUrl + '/student/subjects/' + user.reference_id + "?offset=0&limit=2&order_by=name&sort_order=DESC"
 		console.log("value", url)
 		fetch(url, {
 			method: 'GET',

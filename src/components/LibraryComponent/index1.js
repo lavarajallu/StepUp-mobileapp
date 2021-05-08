@@ -111,7 +111,7 @@ updateAnalytics(){
   getSubjects(user,toekn)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = baseUrl+'/student/subjects/'+user.reference_id
+         var url = baseUrl+'/student/subjects/'+user.reference_id+"?offset=0&limit=4&order_by=name&sort_order=DESC"
          console.log("value",url)
         fetch(url ,{
                  method: 'GET',
@@ -224,34 +224,33 @@ getanalytics(user,token){
 		}
 		console.log("urlll",url)
 		var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
-		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
+		var newitem = newarray[index] //newarray[Math.floor(Math.random()*newarray.length)];
 		item["color"] = newitem
 		return (
 		   <TouchableHighlight onPress={this.onChapter.bind(this,item)}  underlayColor="transparent" 
-		   activeOpacity={0.9} style={{padding:10}}>
+		   activeOpacity={0.9} style={{padding:8}}>
 					
-					<ImageBackground source={bgimage} style={{width:176,height:243}}>
+					<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.5} >
 					<View style={{flex:1,}}>
-						<View style={{flex:0.25,justifyContent:"center",alignItems:"center"}}>
-							<Text style={{fontSize:18,color:"white"}}>{item.name}</Text></View>
-						<View style={{flex:0.5,justifyContent:"center",alignItems:"center",}}>
+						<View style={{flex:0.75,justifyContent:"space-around",alignItems:"center",flexDirection:"row"}}>
 							
 						{item.image ? 
-							 <Image source={{uri: url}} style={{width:"60%",height:"80%",resizeMode:"contain"}} />
+							 <Image source={{uri: url}}
+							 style={{width:60,height:60,resizeMode:"cover"}} />
 							 :
 							  <Image source={require('../../assets/images/noimage.png')}
-							  style={{width:60,height:60,resizeMode:"contain"}}/>}</View>
-						<View style={{flex:0.25,marginHorizontal:20}}>
+							  style={{width:60,height:60,resizeMode:"cover"}}/>}
+							  <Text style={{fontSize:12,color:"white"}}>{item.name}</Text>
+							  </View>
+						<View style={{flex:0.25,marginHorizontal:10}}>
 						<View style={styles.countview}>
 								 <View style={styles.innercountview}>
 									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
 									 <Text style={styles.icontext}>{item.chaptersCount}</Text>
 								 </View>
+							
 								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
-								 </View>
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+									 <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
 									 <Text style={styles.icontext}>{item.topicsCount}</Text>
 								 </View></View>
 						</View>
@@ -302,8 +301,8 @@ getanalytics(user,token){
 							 <View style={{flex:1,marginHorizontal:10,justifyContent:"center",}}>
 							<FlatList data={this.state.subjectsData} 
 							renderItem={this.renderItem.bind(this)}
-							//numColumns={3}
-							horizontal={true}
+							 numColumns={2}
+							//horizontal={true}
 							
 							showsHorizontalScrollIndicator={false}
 							 /></View> :   

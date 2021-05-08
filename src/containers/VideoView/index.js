@@ -122,12 +122,12 @@ class VideoView extends  Component{
           )
           .catch((error) => console.error(error))
     }
-    updateAnalytics(){
+    updateAnalytics(data,duration){
       var body = {
         activity_status : 0,
-        video_played: parseInt(this.refs.ve.state.currentTime),
+        video_played: data,
         pdf_page: 0,
-        video_duration: parseInt(this.refs.ve.state.duration)
+        video_duration: parseInt(this.refs.ve.state.duration) !== 0 ? this.refs.ve.state.duration : duration
       }
       console.log("bodyyy",body)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
@@ -285,30 +285,21 @@ class VideoView extends  Component{
         .catch((error) => console.error(error))
   
     }
-    onBack(){
-      //this.refs.ve.state.play = false
-      this.updateAnalytics()
-      Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+    onBackNew(data,duration){
+        console.log("fffff",data,"vvv",duration)
+        if(data){
+          this.updateAnalytics(data,duration)
+        }else{
+          this.updateAnalytics(0)
+        }
+         Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+        
     }
-    // onNext(){
-    //   this.setState({
-    //     newmodal : false
-
-    //   },()=>{
-    //     this.refs.ve.onnext()
-    //      Actions.push('weblinkview')
-    //   })
-
-    // }
-    // onPrevious(){
-    //   this.setState({
-    //     newmodal : false
-
-    //   },()=>{
-    //     this.refs.ve.onnext()
-    //      Actions.pop()
-    //   })
-    // }
+    onBack(){
+      this.refs.ve.getcurrentTime();
+      //this.updateAnalytics()
+      
+    }
     onOk(){
         this.setState({
             isvisible:false
@@ -364,7 +355,9 @@ class VideoView extends  Component{
                     <View style={[styles.mainsubview,{ height:this.state.showfullscreen ? "100%" :"80%",}]}>
                 	<View style={{flex:1}}>
                  {this.state.youtubedata ? 
-                 <VideoViewComponent ref = "ve"  onfullscreen={this.onfullscreen.bind(this)} onPause={this.onPause.bind(this)} data={this.state.youtubedata} questionsArray={this.state.questionsArray}/>: 
+                 <VideoViewComponent ref = {"ve"}
+                 onBackNew={this.onBackNew.bind(this)}
+                 onfullscreen={this.onfullscreen.bind(this)} onPause={this.onPause.bind(this)} data={this.state.youtubedata} questionsArray={this.state.questionsArray}/>: 
                  <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                  <Text>Loading...</Text></View>}
                 	</View>

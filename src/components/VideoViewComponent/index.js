@@ -91,10 +91,11 @@ export default class VideoViewComponent extends Component {
       loading: false,
       data:[]
      };
+     this._youTubeRef = React.createRef();
     }
     
 
- _youTubeRef = React.createRef();
+
  componentDidMount(){
   Orientation.addOrientationListener(this.handleOrientation.bind(this));
 //  alert(JSON.stringify(this.props.data[0].url))
@@ -167,9 +168,8 @@ onquestionSubmit(time){
      if(this._youTubeRef){
       
       elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
-      this.setState({
-        currentTime: elapsed_sec
-      })
+     
+      
      }
      
         console.log("elaps",elapsed_sec)
@@ -202,9 +202,7 @@ onquestionSubmit(time){
          var elapsed_sec 
          if(this._youTubeRef){
            elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
-          this.setState({
-            currentTime: elapsed_sec
-          })
+          
         }
             console.log("elaps",elapsed_sec)
          if(parseInt(elapsed_sec) === this.state.pausedtime ){
@@ -250,9 +248,9 @@ onStateChange (e){
     const interval = setInterval(async () => {
      const elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
      console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
-     this.setState({
-      currentTime: elapsed_sec
-    })
+    //  this.setState({
+    //   currentTime: elapsed_sec
+    // })
     if(parseInt(elapsed_sec) === this.state.pausedtime){
         console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
       if(this.state.show == true){
@@ -357,6 +355,14 @@ setInteractiveAxis(event) {
   }, () => {
       this.visibleInteractivePoints();
   });
+}
+async getcurrentTime(){
+  if(this._youTubeRef){
+    let elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+    let duration = await this. _youTubeRef.current.getDuration()
+    this.props.onBackNew(elapsed_sec,duration)
+  }
+ 
 }
 displayOptions() {
   if (this.state.shouldHideInteractivePoints || this.state.isLoading || this.state.setX.length <= 0) {
