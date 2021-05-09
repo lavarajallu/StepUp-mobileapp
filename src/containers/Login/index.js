@@ -275,12 +275,12 @@ class Login extends Component {
                        <View style={{flex:0.3,backgroundColor:"red",}}>
                        <Header title="login" />
                        </View>
-                       <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20}}>
-                       <Image source={require("../../assets/images/logo.png")}
-                            style={styles.logo} />
+                       <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20,}}>
+                       <Image source={require("../../assets/images/logo_icon.png")}
+                            style={{width:80,height:80,alignSelf:"center"}} />
                         <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey",}}>
                         <TextInput
-                            style={{width:"100%",fontSize:15}}
+                            style={{width:"100%",paddingLeft:8}}
                             placeholder={StringsOfLanguages.emailtextinput}
                             blurOnSubmit={false}
                             value={this.state.email}
@@ -340,14 +340,14 @@ class Login extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={styles.bottomview}>
+                        {/* <View style={styles.bottomview}>
                             
-                            <View style={styles.socialiconview}>
+                            {/* <View style={styles.socialiconview}>
                                 <Image source={require("../../assets/images/fb.png")} style={styles.socialicon} />
                                 <Image source={require("../../assets/images/google.png")} style={styles.socialicon} />
                                 <Image source={require("../../assets/images/twitter.png")} style={styles.socialicon} />
-                            </View>
-                        </View>
+                            </View> 
+                        </View> */}
                        </View>
                     </View>
                     {this.state.spinner ? 

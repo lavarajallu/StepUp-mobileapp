@@ -220,6 +220,10 @@ class Register extends Component {
          .catch((error) => console.error(error))
    }
 
+   onCancel(){
+       Actions.login({type:"reset"})
+   }
+
     render() {
         return (
             <>
@@ -238,8 +242,8 @@ class Register extends Component {
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="register" />
-                        <Image source={require("../../assets/images/logo.png")}
-                            style={styles.logo} />
+                        <Image source={require("../../assets/images/logo_icon.png")}
+                            style={{width:80,height:80,alignSelf:"center",marginTop:10}} />
                         <FloatingLabel
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
@@ -302,9 +306,9 @@ class Register extends Component {
                             onSubmitEditing={() => Keyboard.dismiss()}
                         >Confirm Password</FloatingLabel>
                         <View style={styles.subview}>
-                            <View style={styles.createview}>
+                            <TouchableOpacity onPress={this.onCancel.bind(this)} style={styles.createview}>
                                 <Text style={styles.createtext}>Cancel</Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={this.onSubmit}>
                                 <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Submit</Text>

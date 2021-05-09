@@ -161,13 +161,13 @@ class VideoView extends  Component{
         )
         .catch((error) => console.error(error))
       }
-    onNext(){
+    onNext1(){
       // this.refs.ve.state.isPlaying =false
       // this.setState({
       //   newmodal : false
 
       // },()=>{
-        this.updateAnalytics()
+       // this.updateAnalytics()
         var newarray = this.props.smartres;
         var newobj = newarray[this.props.index+1]
         var index= this.props.index
@@ -191,8 +191,8 @@ class VideoView extends  Component{
        }
 
     }
-    onPrevious(){
-      this.updateAnalytics()
+    onPrevious2(){
+      //this.updateAnalytics()
         var newarray = this.props.smartres;
         var newobj = newarray[this.props.index-1]
         var index= this.props.index
@@ -295,10 +295,34 @@ class VideoView extends  Component{
          Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
         
     }
+    onActivityNext(data,duration){
+      console.log("11111111",data,"vvv",duration)
+      if(data){
+        this.updateAnalytics(data,duration)
+      }else{
+        this.updateAnalytics(0)
+      }
+      this.onNext1()
+    }
+    onActivityPrevious(data,duration){
+      console.log("fffff",data,"vvv",duration)
+      if(data){
+        this.updateAnalytics(data,duration)
+      }else{
+        this.updateAnalytics(0)
+      }
+      this.onPrevious2()
+    }
     onBack(){
       this.refs.ve.getcurrentTime();
       //this.updateAnalytics()
       
+    }
+    onNext(){
+      this.refs.ve.onNext();
+    }
+    onPrevious(){
+      this.refs.ve.onPrevious();
     }
     onOk(){
         this.setState({
@@ -356,7 +380,9 @@ class VideoView extends  Component{
                 	<View style={{flex:1}}>
                  {this.state.youtubedata ? 
                  <VideoViewComponent ref = {"ve"}
+                 onActivityNext={this.onActivityNext.bind(this)}
                  onBackNew={this.onBackNew.bind(this)}
+                 onActivityPrevious={this.onActivityPrevious.bind(this)}
                  onfullscreen={this.onfullscreen.bind(this)} onPause={this.onPause.bind(this)} data={this.state.youtubedata} questionsArray={this.state.questionsArray}/>: 
                  <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                  <Text>Loading...</Text></View>}

@@ -364,6 +364,22 @@ async getcurrentTime(){
   }
  
 }
+async onNext(){
+  if(this._youTubeRef){
+    let elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+    let duration = await this. _youTubeRef.current.getDuration()
+    this.props.onActivityNext(elapsed_sec,duration)
+  }
+ 
+}
+async onPrevious(){
+  if(this._youTubeRef){
+    let elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
+    let duration = await this. _youTubeRef.current.getDuration()
+    this.props.onActivityPrevious(elapsed_sec,duration)
+  }
+ 
+}
 displayOptions() {
   if (this.state.shouldHideInteractivePoints || this.state.isLoading || this.state.setX.length <= 0) {
       return null

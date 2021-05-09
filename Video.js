@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, BackHandler, Dimensions, PanResponder } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, BackHandler, Dimensions, Slider } from 'react-native'
 // import COLORS from '../styles/color';
 // import { STRING, url } from '../values/string';
 //import GLOBALSTYLE from '../values/style';
@@ -377,9 +377,21 @@ class VideoActivity extends Component {
                              style={{width:30,height:30,tintColor:"white"}} /> 
                             }
                          </TouchableOpacity>
-                         <TouchableWithoutFeedback onPress={this.handleProgressBarTouch.bind(this)}>
+                         {/* <TouchableWithoutFeedback onPress={this.handleProgressBarTouch.bind(this)}>
                          <Progress.Bar progress={this.state.progress} width={250} height={20} color={"#FFF"}/>
-                         </TouchableWithoutFeedback>
+                        
+                         </TouchableWithoutFeedback> */}
+                         <Slider
+                         width={250}
+                        value={this.state.progress} // Which is updated by videoRef.onProgress listener
+                        minimumValue={0}
+                        maximumValue={this.state.videoDuration}
+                        onValueChange={value => {
+                            this.setState({
+                                progress : value / this.state.videoDuration
+                            })
+                            this.player.seek(value)}} 
+                    />
                         <Text style={{marginLeft:15}}>
                             {this.secondsToTime(Math.floor(this.state.progress * this.state.videoDuration))}
                         </Text>

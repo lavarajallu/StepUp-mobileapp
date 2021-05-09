@@ -24,7 +24,7 @@ const App = () => {
     <Router>
       <Stack key="root" hideNavBar={true}>
         <Scene key="video" component={VideoActivity} />
-         <Scene key = 'loadingscreen' component={LoadingScreen}  initial={true}/>
+         <Scene key = 'loadingscreen' component={LoadingScreen}  initial={true} />
         <Scene key="login" component={Login} />
         <Scene key="register" component={Register} />
         <Scene key="forgotPassword" component={ForgotPassword}  />

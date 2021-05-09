@@ -36,17 +36,14 @@ class Otp extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onConfirmPass = this.onConfirmPass.bind(this)
         this.onVerify = this.onVerify.bind(this)
-        this.onSent = this.onSent.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
     onChangeMobile(text) {
-        console.log("lkdfjkdjfk", text)
         this.setState({
             mobile: text
         })
     }
     onChangePassword(text) {
-        console.log("lkdfjkdjfk", text)
         this.setState({
             password: text
         })
@@ -56,29 +53,16 @@ class Otp extends Component {
             confpassword: text
         })
     }
-    onSent() {
-        var mobile = this.state.mobile;
-        if (mobile === "") {
-            alert("Please enter mobile number")
-        } else if (!Validations.validateMobileWithCC(mobile)) {
-            alert("please enter valid mobile number")
-        } else {
-            console.log("hello")
-        }
-    }
     onVerify() {
         var mobile = this.state.mobile;
         if (mobile === "") {
-            alert("Please enter mobile number")
+            alert("Please enter OTP")
         }
-        //  else if (!Validations.validateMobileWithCC(mobile)) {
-        //     alert("please enter valid mobile number")
-        // }
+     
          else {
              this.setState({
                  showCnfpass: true
              })
-            console.log("hello")
         }
     }
     onSubmit() {
@@ -92,7 +76,7 @@ class Otp extends Component {
         } else {
             Alert.alert(
                 "Step Up",
-                "Password Changed Successfully Please login.",
+                "Password Changed Successfully, Please login again",
                 [
                   { text: "OK", onPress: () => Actions.login({type:"reset"}) }
                 ]
@@ -101,12 +85,12 @@ class Otp extends Component {
     }
     setPasswordVisibility = ()=>{
         this.setState({
-            hidePassword: false
+            hidePassword: !this.state.hidePassword
         })
     }
     setNewPasswordVisibility = ()=>{
         this.setState({
-            hidecnfPassword: false
+            hidecnfPassword: !this.state.hidecnfPassword
         })
     }
     render() {
@@ -122,8 +106,8 @@ class Otp extends Component {
 
                     <View style={styles.body}>
                         <Header title="otp" />
-                        <Image source={require("../../assets/images/logo.png")}
-                            style={styles.logo} />
+                        <Image source={require("../../assets/images/logo_icon.png")}
+                            style={{width:100,height:100,alignSelf:"center",marginTop:10}} />
                         {this.state.showCnfpass ? 
 
                         <View style={{flex:1,justifyContent:"space-evenly"}}>
@@ -170,17 +154,13 @@ class Otp extends Component {
                                 <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Submit</Text>
                                 </View></TouchableOpacity>
-                            {/* <TouchableOpacity onPress={this.onSent}>
-                                <View style={styles.createview}>
-                                    <Text style={styles.createtext}>Request OTP</Text>
-                                </View></TouchableOpacity> */}
                         </View>
                         </View>
 
                         :
 
                         <View>
-                        <Text style={styles.helptext}>An OTP has been sent to your email/mobile</Text>
+                        <Text style={styles.helptext}>An OTP has been sent to your email</Text>
                         <TextInput
                           
                             style={styles.textinput}
@@ -197,10 +177,6 @@ class Otp extends Component {
                                 <View style={styles.submiticon}>
                                     <Text style={styles.logintext}>Verify</Text>
                                 </View></TouchableOpacity>
-                            {/* <TouchableOpacity onPress={this.onSent}>
-                                <View style={styles.createview}>
-                                    <Text style={styles.createtext}>Request OTP</Text>
-                                </View></TouchableOpacity> */}
                         </View>
                         </View>}
 
