@@ -113,22 +113,24 @@ class Announcements extends Component {
                                   finalarray.push(obj)
                               }else{
                                  
-                                  finalarray.map((newres,j)=>{
-                                    console.log("else",newres.title,"   ",res.from_date)
-                                      if(newres.title === res.from_date){
-                                          newres.data.map((resi,k)=>{
-                                            if(resi !== res){
-                                                newres.data.push(res)
-                                            }
-                                        })      
-                                      }else{
-                                        var newobjarray = [];
-                                        newobjarray.push(res)
-
-                                        var obj = {title: res.from_date,data: newobjarray}
-                                        finalarray.push(obj)
-                                      }
-                                  })
+                                var count = 0
+                                finalarray.map((newrews, j) => {
+                                  
+                                  if (newrews.title === res.from_date) {
+                                   
+                                    newrews.data.push(res);
+                                  } else {
+                                    count =  1
+                                  }
+                                });
+                                if(count !== 0){
+                                  console.log("fila,", res);
+                                  var newobjarray = [];
+                                  newobjarray.push(res);
+                                  var obj = { title: res.from_date, data: newobjarray };
+                                  finalarray.push(obj);
+                                }
+                               
                               }
                           })}
                           console.log("finalarray",finalarray)
@@ -139,7 +141,7 @@ class Announcements extends Component {
 
                          }]
                          this.setState({
-                            announcementsData:newarray,loading: false,datacount:json.data.length
+                            announcementsData:finalarray,loading: false,datacount:json.data.length
                         })
                        console.log("newrr",newarray)
                      }else{

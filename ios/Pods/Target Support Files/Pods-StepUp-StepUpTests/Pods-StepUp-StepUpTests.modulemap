@@ -1,6 +1,0 @@
-module Pods_StepUp_StepUpTests {
-  umbrella header "Pods-StepUp-StepUpTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

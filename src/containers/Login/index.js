@@ -278,7 +278,7 @@ class Login extends Component {
                        <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20,}}>
                        <Image source={require("../../assets/images/logo_icon.png")}
                             style={{width:80,height:80,alignSelf:"center"}} />
-                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey",}}>
+                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey", justifyContent: 'center',}}>
                         <TextInput
                             style={{width:"100%",paddingLeft:8}}
                             placeholder={StringsOfLanguages.emailtextinput}
@@ -289,7 +289,7 @@ class Login extends Component {
                             onSubmitEditing={() => this.secondTextInput.focus()}
                         ></TextInput>
                         </View>
-                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,flexDirection:"row", borderBottomWidth: 1, borderColor: "lightgrey",}}>
+                        <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,flexDirection:"row", borderBottomWidth: 1, borderColor: "lightgrey", justifyContent: 'center',}}>
                         
                         <TextInput
                             ref={(input) => { this.secondTextInput = input; }}

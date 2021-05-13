@@ -69,9 +69,9 @@ class AnnounceComponent extends Component {
                             keyExtractor={(item, index) => item + index}
                             renderItem={this.Item.bind(this)}
                             ItemSeparatorComponent={this.seperator.bind(this)}
-                            // renderSectionHeader={({ section: { title } }) => (
-                            //     <Text style={styles.sectiontext}>{title}</Text>
-                            // )}
+                            renderSectionHeader={({ section: { title } }) => (
+                                <Text style={styles.sectiontext}>{title}</Text>
+                            )}
                         />
                     </View>
                     {/* <View style={styles.bottomView}>
