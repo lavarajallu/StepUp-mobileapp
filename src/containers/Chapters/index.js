@@ -17,7 +17,6 @@ import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import Footer from '../../components/Footer'
 import SideMenu from "../../components/SideMenu"
 import ChapterComponent from '../../components/ChapterComponent';
@@ -234,22 +233,31 @@ class Chapters extends Component {
                   flexDirection: "row", marginLeft: 10, alignItems: "center",
                   justifyContent: "space-between"
                 }}>
-                  <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",marginTop:10}}>
-                    <View>
-                    <TouchableOpacity onPress={this.onBack.bind(this)}>
-                    <Image source={require("../../assets/images/left-arrow.png")}
-                      style={{ width: 30, height: 30, tintColor: "white" }} />
-                  </TouchableOpacity>
-                    <Text style={{ color: "white", marginLeft: 10,marginTop:10, fontSize: 20 }}>{this.props.data.name}</Text>
-                    </View>
-                    {this.props.data.image !== "null" ?
-                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+                  <View style={{flex:1,flexDirection:"row",justifyContent:"space-between",marginTop:10,}}>
+                    <View style={{flex:0.7}}>
 
-                    : <Image source={require('../../assets/images/noimage.png')}
-                      style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />}
+                      <View style={{flex:1,flexDirection:"row",marginTop:10}}>
+                        <View style={{flex:0.1}}>
+                        <TouchableOpacity onPress={this.onBack.bind(this)}>
+                        <Image source={require("../../assets/images/left-arrow.png")}
+                          style={{ width: 30, height: 30, tintColor: "white" }} />
+                      </TouchableOpacity>
+                        </View>
+                        <View style={{flex:0.9,justifyContent:"space-between"}}>
+                        <Text style={{ color: "white", fontSize: 20,marginLeft:20 }}>{this.props.data.name}</Text>
+                        <Text style={{color:"white",marginLeft:20}}>{this.props.data.chaptersCount} Chapters | {this.props.data.topicsCount} Topics</Text>
+                        </View>
+                      </View>
+
+                    </View>
+                    <View style={{flex:0.3,justifyContent:"center"}}>
+                    {this.props.data.image !== "null" ?
+<Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
+
+: <Image source={require('../../assets/images/noimage.png')}
+style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+                    </View>
                   </View>
-                 
-                  
                 </View>
               
 

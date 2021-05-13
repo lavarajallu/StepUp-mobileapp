@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
-  width:"100%",
+  width:"95%",alignSelf:"center",
   backgroundColor:"white",
   borderRadius:20,
   shadowColor:'black',

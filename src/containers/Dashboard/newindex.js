@@ -16,14 +16,13 @@ import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import Footer from '../../components/Footer'
 import Library from '../../components/Library';
 import Loader from "../../components/Loader"
 import { Validations } from '../../helpers'
 import SideMenu from "../../components/SideMenu"
 import Drawer from 'react-native-drawer'
-import { colors } from "../../constants"
+import { colors, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import StringsOfLanguages from '../../StringsOfLanguages';
 import { color } from 'react-native-reanimated';
@@ -114,7 +113,7 @@ getData = async () => {
 	 // alert(data.profile_pic)
 	  this.setState({
 		  userName: data.name ? data.name : data.first_name+" "+data.last_name,
-		  profile_pic: data.profile_pic ? 'https://smarttesting.s3.ap-south-1.amazonaws.com'+data.profile_pic : "null",
+		  profile_pic: data.profile_pic ? imageUrl +data.profile_pic : "null",
 		  gradeName: data.grade ? data.grade.name : "null",
 		  newdata:newdata,
 		   schoolname: data.school ? data.school.name : "null"})
@@ -138,7 +137,7 @@ getData = async () => {
 	}
 
 	render(){
-		const url = 'https://smarttesting.s3.ap-south-1.amazonaws.com'+ this.state.profile_pic
+		const url = imageUrl + this.state.profile_pic
 		return(
 			<>
 		 <ImageBackground source={require('../../assets/images/Mobile_bg_1.png')}

@@ -17,8 +17,6 @@ import {
 } from 'react-native';
 import Drawer from 'react-native-drawer'
 import { Actions } from 'react-native-router-flux';
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

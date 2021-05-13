@@ -22,13 +22,21 @@ import Drawer from 'react-native-drawer'
 import Footer from '../../components/Footer'
 import SideMenu from "../../components/SideMenu"
 import AnnounceComponent from '../../components/AnnounceComponent';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseUrl, imageUrl } from "../../constants"
+
 
 class Announcements extends Component {
     constructor(props) {
         super(props)
         this.state={
+            token:"",
+            announcementsData: null,
+            datacount:0,
+            loading: true,
             notifications:{
                 notification_count: 5,
+                
                 notificcation_data:[
                     {
                         title: "Today",
@@ -67,6 +75,84 @@ class Announcements extends Component {
             },
         }
     }
+    async componentDidMount(){
+        const value = await AsyncStorage.getItem('@access_token')
+        if(value !== null) {
+            console.log('val',value)
+           this.setState({token: JSON.parse(value)},()=>this.getAnnouncements())
+        }
+    }
+    getAnnouncements()
+{
+        console.log(baseUrl+'/announcements/student/logs')
+        console.log(this.state.token)
+        fetch(baseUrl+'/announcements/student/logs', {
+                 method: 'GET',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'token': this.state.token
+                 }
+                 }).then((response) =>
+                 
+                  response.json())
+                 .then((json) =>{
+                  //  console.log("announcemnets....",json)
+                     
+                     if(json.data){
+                         console.log("announcemnets",json.data)
+                        
+                         var obj;
+                         var newdata=[]
+                         var finalarray =[]
+                          {json.data.map((res,i)=>{
+                              if(finalarray.length === 0){
+                                console.log("if")
+                                  var newobjarray = [];
+                                  newobjarray.push(res)
+                                  var obj = {title: res.from_date,data: newobjarray}
+                                  finalarray.push(obj)
+                              }else{
+                                 
+                                  finalarray.map((newres,j)=>{
+                                    console.log("else",newres.title,"   ",res.from_date)
+                                      if(newres.title === res.from_date){
+                                          newres.data.map((resi,k)=>{
+                                            if(resi !== res){
+                                                newres.data.push(res)
+                                            }
+                                        })      
+                                      }else{
+                                        var newobjarray = [];
+                                        newobjarray.push(res)
+
+                                        var obj = {title: res.from_date,data: newobjarray}
+                                        finalarray.push(obj)
+                                      }
+                                  })
+                              }
+                          })}
+                          console.log("finalarray",finalarray)
+
+                         var newarray = [{
+                             title:"Today",
+                             data:json.data
+
+                         }]
+                         this.setState({
+                            announcementsData:newarray,loading: false,datacount:json.data.length
+                        })
+                       console.log("newrr",newarray)
+                     }else{
+                        this.setState({
+                            announcementsData: [],loading: false
+                        })
+                     }
+                    }
+                  
+                 )
+                 .catch((error) => console.error(error))
+             //Actions.push('boards')
+}
 
     onBack(){
         Actions.pop()
@@ -93,16 +179,16 @@ class Announcements extends Component {
                         style={styles.topShadow}>
                             <View style={styles.topsubview}>
                                 <View style={styles.topleftview}>
-                                    {this.props.title === 'menu' ? 
+                                    
                                 <TouchableOpacity onPress={this.onBack.bind(this)}>
                             <Image source={require('../../assets/images/refer/back.png')} style={styles.backIcon} />
-                            </TouchableOpacity>: null}
+                            </TouchableOpacity>
                                 </View>
                                 <View style={styles.topmiddleview}>
                                 <Text style={styles.topHead}>Notifications</Text>
                                 </View>
                                 <View style={styles.toprightview}>
-                                <Text style={styles.counttext}>{this.state.notifications.notification_count}</Text>
+                                <Text style={styles.counttext}>{this.state.datacount}</Text>
                             <Text style={styles.inboxText}>Inbox</Text>
                             <Image source={require("../../assets/images/refer/delete.png")}
                             style={styles.deleteButton}/>
@@ -110,7 +196,15 @@ class Announcements extends Component {
                             </View>
                     </View>
                 </View>
-                {this.state.notifications.length === 0 ?
+                {this.state.loading ? 
+
+                <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                    <Text>Loading...</Text>
+                </View>
+             
+                 : 
+
+                this.state.announcementsData.length === 0 ?
                 <View style={styles.bottomView}>
                     <ImageBackground source={require("../../assets/images/refer/notilogo.png")}
                         style={styles.referlogo}>
@@ -125,10 +219,10 @@ class Announcements extends Component {
                 </View> :
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>
-                        <View style={{flex:0.9}}>
-                        <AnnounceComponent  data={this.state.notifications.notificcation_data}/>
+                        <View style={{flex:0.92}}>
+                        <AnnounceComponent  data={this.state.notifications.notificcation_data} newdata={this.state.announcementsData} />
                         </View>
-                        <View style={{flex:0.1}}>
+                        <View style={{flex:0.08}}>
                         <Footer openControlPanel={this.openControlPanel} value="bell"/>
                         </View>
                     </View>

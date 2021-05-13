@@ -98,7 +98,7 @@ class SummaryGraph extends Component {
                       <Text>0</Text>
                       </View>
                     </View>
-                    <View style={{width:windowWidth/1.5,height:320,borderWidth: 1,borderColor:"black",borderRadius: 10,backgroundColor: 'white',justifyContent:"space-around",flexDirection:"row",alignItems: 'flex-end' }}>
+                    <View style={{width:windowWidth/1.4,height:320,borderWidth: 1,borderColor:"black",borderRadius: 10,backgroundColor: 'white',justifyContent:"space-around",flexDirection:"row",alignItems: 'flex-end' }}>
                     {this.state.questionsarray.map((res,i)=>
                       res.analysis !== "poor" ? 
                       <LinearGradient colors={['#239816', '#32e625']}  style={{width:20,borderTopLeftRadius: 10,borderTopRightRadius: 10,height: res.test_taken_time*20}}/>

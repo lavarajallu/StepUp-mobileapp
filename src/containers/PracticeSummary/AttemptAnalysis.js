@@ -15,7 +15,6 @@ import {
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
 const AttemptAnalysis = (props) => {

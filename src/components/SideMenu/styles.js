@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		color: "white", marginTop: 5 
 	},
 	gradeview:{
-		justifyContent: "center", marginTop: 5, alignItems: "center", width: "25%", height: 20, borderRadius: 20, borderWidth: 1, borderColor: "white"
+		justifyContent: "center", marginTop: 5, alignItems: "center", padding:10, height: 25, borderRadius: 20, borderWidth: 1, borderColor: "white"
 	},
 	graderText:{
 		color: "white"
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white", width: "30%", justifyContent: "center", alignItems: "center"
 	},
 	rowView:{
-		height: 20, flexDirection: "row", width: "80%", marginVertical: 20, marginHorizontal: 20
+		height: 40, flexDirection: "row", width: "80%", marginVertical: 10, marginHorizontal: 20
 	},
 	rowLeft:{
 		flex: 0.2, justifyContent: "center"

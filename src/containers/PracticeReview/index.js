@@ -15,11 +15,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from "./styles"
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl } from "../../constants"
 import * as Progress from 'react-native-progress';

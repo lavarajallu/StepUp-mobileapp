@@ -22,8 +22,6 @@ import styles from "./styles"
 import Drawer from 'react-native-drawer'
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
-import { ProgressView } from "@react-native-community/progress-view";
-import { ProgressBar } from '@react-native-community/progress-bar-android';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -507,7 +505,7 @@ class TopicMainView extends Component {
           <View style={{ flexDirection: "row", alignItems: "flex-start", alignItems: "center",marginTop:10,}}>
             <View style={{ width: 100,alignItems:"center"}}>
               <View style={{width:35,height:35,backgroundColor:color,justifyContent:"center",alignItems:"center"}}>
-              <Image source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + item.faIcon }}
+              <Image source={{ uri: imageUrl + item.faIcon }}
                 style={{ width: 20, height: 20, alignSelf: "center",tintColor:"white" }} />
               </View>
              
@@ -545,7 +543,7 @@ class TopicMainView extends Component {
           <View style={{ flexDirection: "row", alignItems: "flex-start", alignItems: "center",marginTop:10,}}>
             <View style={{ width: 100,alignItems:"center"}}>
               <View style={{width:35,height:35,backgroundColor:color,justifyContent:"center",alignItems:"center"}}>
-              <Image source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + item.faIcon }}
+              <Image source={{ uri: imageUrl + item.faIcon }}
                 style={{ width: 20, height: 20, alignSelf: "center",tintColor:"white" }} />
               </View>
              
@@ -615,7 +613,7 @@ class TopicMainView extends Component {
                        backgroundColor: '#EE5B7B', alignSelf: "center",}}>
                       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <Image
-                          source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.topicData.image }}
+                          source={{ uri: imageUrl + this.state.topicData.image }}
                           style={{ width: "100%", height: "100%", alignSelf: "center", }} />
                       <View style={{position:"absolute",backgroundColor:"rgba(42,42,55,0.7)",width:"100%",height:40,bottom:0,justifyContent:"center",alignItems:"center"}}>
                        <Text style={{ textAlign: "center", fontSize: 18,color:"white"}}>{this.state.topicData.name}</Text>

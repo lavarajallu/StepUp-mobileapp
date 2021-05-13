@@ -150,6 +150,13 @@ class PreAssesment extends Component {
             )
             .catch((error) => console.error(error))
       }
+      getItemLayout = (data, index) => (
+        { length: 50, offset: 50 * index, index }
+      )
+    scrollToIndex = (index) => {
+        let randomIndex = index;
+        this.flatListRef.scrollToIndex({animated: true, index: randomIndex});
+      }
       updateAnalytics(){
         //alert(this.state.analyticsData.reference_id)
         var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
@@ -212,7 +219,11 @@ class PreAssesment extends Component {
                                         text: "OK", onPress: () => {
                                             this.ongoback()
                                         }
-                                    }
+                                    },{
+                                        text: "Review Previous Test", onPress: () => {
+                                            Actions.push('reviewpostsummary',{ from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                        }
+                                    },
                                 ]
                             );
                         } else {
@@ -573,6 +584,7 @@ class PreAssesment extends Component {
                     }
                 }))
             })
+            this.scrollToIndex(this.state.questionno)
         }
 
 
@@ -637,6 +649,9 @@ class PreAssesment extends Component {
                                         >
                                             <View style={styles.circlesview}>
                                                 <FlatList data={this.state.questiosnarray}
+                                                 ref={(ref) => { this.flatListRef = ref; }}
+                                                 initialScrollIndex={0}
+                                                 getItemLayout={this.getItemLayout}
                                                     keyExtractor={(item, index) => String(index)}
                                                     renderItem={this.renderItem.bind(this)}
                                                     horizontal={true}

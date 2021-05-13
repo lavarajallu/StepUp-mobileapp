@@ -12,7 +12,7 @@ import {
 import Toast from 'react-native-simple-toast';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
-import { baseUrl } from "../../constants"
+import { baseUrl, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 class LibraryComponent extends Component {
 	constructor(props) {
@@ -180,7 +180,7 @@ class LibraryComponent extends Component {
 		var colorsarray = ["#267093", "#697077", "#a4b96e", "#c54721"]
 		var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
 		var bgcolor = randomItem
-		const url = "https://smarttesting.s3.ap-south-1.amazonaws.com" + item.image
+		const url = imageUrl + item.image
 		var progress = 0 + (0.4 * Math.random())
 		var percent = (item.percent) * 100;
 		var color;

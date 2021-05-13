@@ -55,14 +55,17 @@ const styles = StyleSheet.create({
         flex:1,alignItems:"center"
     },
     bottomsubView:{
-        flex:0.7,justifyContent:"space-evenly",alignItems:"center"
+        flex:0.7,alignItems:"center"
     },
     textInput:{
         width: "80%",
-                            height: 41,
-                            paddingLeft:8,
-                            backgroundColor: "#F6F5F7",
-                            borderRadius: 10
+        height: 44,
+        paddingLeft:8,
+        backgroundColor: "#F6F5F7",
+        borderRadius: 10,
+        borderWidth:1,borderColor:colors.Themecolor,
+        marginVertical:20,
+        color:colors.Themecolor
     }
     
 })

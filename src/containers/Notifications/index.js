@@ -125,10 +125,10 @@ class Notifications extends Component {
                 </View> :
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>
-                        <View style={{flex:0.9}}>
+                        <View style={{flex:0.92}}>
                         <NotifyComponent  data={this.state.notifications.notificcation_data}/>
                         </View>
-                        <View style={{flex:0.1}}>
+                        <View style={{flex:0.08}}>
                         <Footer openControlPanel={this.openControlPanel} value="notifications"/>
                         </View>
                     </View>

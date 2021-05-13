@@ -19,7 +19,6 @@ import * as Progress from 'react-native-progress';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import Footer from '../../components/Footer'
 import Library from '../../components/Library';
 import Loader from "../../components/Loader"

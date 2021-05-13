@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 	answertextview:{
 		marginLeft:15,
 		paddingLeft:15,width:windowWidth/1.2,borderWidth:1,
-		borderRadius:20,justifyContent:"center",
+		borderRadius:20,justifyContent:"center",paddingBottom:10
 	},
 	answertext:{
 		fontSize:15,marginTop:10

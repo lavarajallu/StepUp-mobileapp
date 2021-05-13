@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     SafeAreaView,
-    StyleSheet,
+    ActivityIndicator,
     ImageBackground,
     ScrollView,
     View,
@@ -10,24 +10,29 @@ import {
     TextInput,
     Image,
     Keyboard,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
+import { baseUrl } from '../../constants';
 
 class ForgotPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
+            spinner: false,
+            token:""
         };
         this.onChangeEmail = this.onChangeEmail.bind(this);
     }
+  
     onChangeEmail(text) {
         console.log("lkdfjkdjfk", text)
         this.setState({
@@ -42,7 +47,41 @@ class ForgotPassword extends Component {
         } else if (!Validations.email(email)) {
             alert("please enter valid email")
         } else {
-            Actions.push('otp')
+            this.setState({ spinner: true })
+           var body = { email: email }
+           console.log("Boyyy",body)
+           fetch(baseUrl+'/user/forgot-password', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+            }).then((response) => 
+                response.json())
+            .then((json) =>{
+               // alert(JSON.stringify(json))
+                if(json){
+                    this.setState({ spinner: false })
+                    if(json.statusCode === 200){
+                       
+                        Alert.alert(
+                            "Step Up",
+                            json.message,
+                            [
+                            { text: "OK", onPress: () => Actions.push('otp',{email: email})}
+                            ]
+                        );
+                    }else{
+                        alert(json.message)
+                    }
+                    // this.setState({ spinner: false })
+                    // Actions.push('otp',{email: email})
+                }
+            }
+             
+            )
+            .catch((error) => console.error(error))
         }
     }
     returnToLoginPage() {
@@ -99,7 +138,10 @@ class ForgotPassword extends Component {
                     </View>
                 </ScrollView>
 
-
+                {this.state.spinner ? 
+                    <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
+                   <ActivityIndicator color={"black"}/>
+                    </View> : null}
 
             </>
         );

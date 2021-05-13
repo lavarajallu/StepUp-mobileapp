@@ -1,4 +1,4 @@
-import HorizontalBarGraph from '@chartiful/react-native-horizontal-bar-graph';
+
 import { View, StyleSheet,Dimensions,Text } from 'react-native';
 import React, { Component } from 'react';
 const windowWidth = Dimensions.get('window').width;

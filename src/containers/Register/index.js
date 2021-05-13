@@ -23,6 +23,7 @@ import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerUser,loginUser } from '../../store/auth/actions'
 import { isUserAuthenticated } from '../../utils/helpers/authUtils'
+import { baseUrl } from '../../constants';
 
 class Register extends Component {
     constructor(props) {
@@ -124,7 +125,7 @@ class Register extends Component {
             }
            // this.props.registerUser(body)
             // console.log("hello",body)
-            fetch('http://65.1.123.182:3000/user/register', {
+            fetch(baseUrl+'/user/register', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -193,7 +194,7 @@ class Register extends Component {
      }
     
      console.log("hello",body)
-     fetch('http://65.1.123.182:3000/user/login', {
+     fetch(baseUrl+'/user/login', {
          method: 'POST',
          headers: {
              Accept: 'application/json',

@@ -20,7 +20,7 @@ class AnnounceComponent extends Component {
     constructor(props) {
         super(props)
         this.state={
-            data: this.props.data
+            data: this.props.newdata
         }
     }
     componentDidMount(){
@@ -41,12 +41,12 @@ class AnnounceComponent extends Component {
                     }
                 </View>
                 <View style={styles.itemmiddleview}>
-                    <Text style={styles.middleheadtext}>{item.name}</Text>
+                    <Text style={styles.middleheadtext}>{item.title}</Text>
                     <Text style={styles.descriptiontext}>{item.description}</Text>
-                    <Text style={styles.timetext}>{item.time}</Text>
+                    <Text style={styles.timetext}>{item.from_date}</Text>
                 </View>
                 <View style={styles.itemrightview}>
-                {item.new ? 
+                {!item.is_read ? 
                 <Image source={require('../../assets/images/refer/orangecl.png')} style={styles.orangeeclipse} />:
                     <Image source={require('../../assets/images/refer/Vector.png')} style={styles.rigtarrow} />}
                 </View>
@@ -69,16 +69,16 @@ class AnnounceComponent extends Component {
                             keyExtractor={(item, index) => item + index}
                             renderItem={this.Item.bind(this)}
                             ItemSeparatorComponent={this.seperator.bind(this)}
-                            renderSectionHeader={({ section: { title } }) => (
-                                <Text style={styles.sectiontext}>{title}</Text>
-                            )}
+                            // renderSectionHeader={({ section: { title } }) => (
+                            //     <Text style={styles.sectiontext}>{title}</Text>
+                            // )}
                         />
                     </View>
-                    <View style={styles.bottomView}>
+                    {/* <View style={styles.bottomView}>
                     <LinearGradient colors={["#A473E2","#EF929C"]}  start={{ x: 0, y: 0.5 }} style={styles.buttonview}>
                             <Text style={styles.buttontext}>VIEW ALL</Text>
                         </LinearGradient>
-                    </View>
+                    </View> */}
 
                 </LinearGradient>
 

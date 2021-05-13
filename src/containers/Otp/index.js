@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    SafeAreaView,
+    ActivityIndicator,
     StyleSheet,
     ImageBackground,
     TextInput,
@@ -16,11 +16,10 @@ import {
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
 import { Actions } from 'react-native-router-flux';
-
+import { baseUrl } from '../../constants';
 class Otp extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +29,9 @@ class Otp extends Component {
             confpassword: false,
             showCnfpass: false,
             hidecnfPassword: true,
-            hidePassword: true
+            hidePassword: true,
+            spinner: false,
+            loading: false
         };
         this.onChangeMobile = this.onChangeMobile.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -55,18 +56,47 @@ class Otp extends Component {
     }
     onVerify() {
         var mobile = this.state.mobile;
+        var email = this.props.email
         if (mobile === "") {
             alert("Please enter OTP")
         }
      
          else {
-             this.setState({
-                 showCnfpass: true
-             })
+            this.setState({ spinner: true })
+            var body ={email: email,otp: mobile}
+            console.log("Boyyy",body)
+            fetch(baseUrl+'/user/verify-otp', {
+             method: 'POST',
+             headers: {
+                 Accept: 'application/json',
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(body)
+             }).then((response) =>
+                 response.json())
+             .then((json) =>{
+               //  alert(JSON.stringify(json))
+                 if(json){
+                     if(json.statusCode === 200){
+                        this.setState({ spinner: false, showCnfpass: true })
+                     }
+                     else{
+                        this.setState({ spinner: false })
+                         alert(json.message)
+                     }
+                 }
+             }
+              
+             )
+             .catch((error) => console.error(error))
+            //  this.setState({
+            //      showCnfpass: true
+            //  })
         }
     }
     onSubmit() {
         var { password, confpassword } = this.state
+        var email = this.props.email
         if (password === "") {
             alert("please enter Password")
         } else if (confpassword === "") {
@@ -74,13 +104,41 @@ class Otp extends Component {
         } else if (password != confpassword) {
             alert("password and confirm password doesn't match")
         } else {
-            Alert.alert(
-                "Step Up",
-                "Password Changed Successfully, Please login again",
-                [
-                  { text: "OK", onPress: () => Actions.login({type:"reset"}) }
-                ]
-              );
+            this.setState({ loading: true })
+            var body = {email: email , password: confpassword}
+            console.log("Boyyy",body)
+            fetch(baseUrl+'/user/change-password', {
+             method: 'POST',
+             headers: {
+                 Accept: 'application/json',
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(body)
+             }).then((response) =>
+                 response.json())
+             .then((json) =>{
+                 if(json){
+                  //   alert(JSON.stringify(json))
+                     this.setState({ loading: false })
+                     if(json.statusCode === 200){
+                        Alert.alert(
+                        "Step Up",
+                        "Password Changed Successfully, Please login again",
+                        [
+                        { text: "OK", onPress: () => Actions.login({type:"reset"}) }
+                        ]
+                    );
+                     }else{
+                         alert(json.messgae)
+                     }
+                     
+                    
+                 }
+             }
+              
+             )
+             .catch((error) => console.error(error))
+
         }
     }
     setPasswordVisibility = ()=>{
@@ -181,6 +239,14 @@ class Otp extends Component {
                         </View>}
 
                     </View>
+                    {this.state.spinner ? 
+                    <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
+                   <ActivityIndicator color={"black"}/>
+                    </View> : null}
+                    {this.state.loading ? 
+                    <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
+                   <ActivityIndicator color={"black"}/>
+                    </View> : null}
 
 
 

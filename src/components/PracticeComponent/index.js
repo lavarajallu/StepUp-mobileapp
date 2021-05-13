@@ -20,9 +20,8 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 import * as Progress from 'react-native-progress';
 const windowHeight = Dimensions.get('window').height;
-import { ProgressView } from "@react-native-community/progress-view";
-import { ProgressBar } from '@react-native-community/progress-bar-android';
 import { Validations } from '../../helpers'
+import { imageUrl } from '../../constants';
 const data = [
     {
         name: "Mathematics",
@@ -97,7 +96,7 @@ class PracticeComponent extends Component {
         var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
         var bgcolor = randomItem
         console.log("item,item", item)
-        const url = "https://smarttesting.s3.ap-south-1.amazonaws.com" + item.image
+        const url = imageUrl + item.image
         var progress = 0 + (0.4 * Math.random())
         // var percent = (item.percent) * 100;
         var color;

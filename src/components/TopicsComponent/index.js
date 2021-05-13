@@ -20,8 +20,6 @@ import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { ProgressView } from "@react-native-community/progress-view";
-import { ProgressBar } from '@react-native-community/progress-bar-android';
 import { Validations } from '../../helpers'
 import LiveSession from "../../components/LiveSession"
 import * as Progress from 'react-native-progress';
@@ -68,7 +66,7 @@ class TopicsComponent extends Component {
             color: "grey"
         };
         console.log("dfd",item.image)
-        const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+item.image
+        const url = imageUrl+item.image
         return ( 
              <TouchableOpacity onPress={this.onTopicPress.bind(this, item)} style={{borderWidth: 0, borderColor: "lightgrey",height:80,width:windowWidth/1.15,alignSelf:"center",
         backgroundColor: 'white', shadowColor: 'black',
@@ -139,7 +137,7 @@ class TopicsComponent extends Component {
 
     render() {
         const { topicData,topicsArray} = this.props;
-        const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+topicData.image
+        const url = imageUrl +topicData.image
         return (
             <View style={{flex:1}}>
                 <View style={{flex:1}}>
@@ -148,7 +146,7 @@ class TopicsComponent extends Component {
                 values={["Topics", "Live Sessions"]}
                 tabsContainerStyle={{margin:20,}}
                 borderRadius={20}
-                tabStyle={{height:40,borderColor:this.props.topicData.color}}
+                tabStyle={{height:35,borderColor:this.props.topicData.color}}
                 firstTabStyle={{ borderRightWidth: 0 }}
                 activeTabStyle={{backgroundColor:this.props.topicData.color,}}
                 activeTabTextStyle={{color:"white"}}

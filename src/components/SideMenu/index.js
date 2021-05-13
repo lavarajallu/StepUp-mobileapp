@@ -18,6 +18,7 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { imageUrl } from '../../constants';
 const data = [
 	{
 		name: "Profile",
@@ -70,7 +71,7 @@ getData = async () => {
     //  alert(JSON.stringify(value))
       if(value !== null) {
         var data = JSON.parse(value)
-		console.log("dataaa",data)
+		console.log("dataaa2222",data.grade)
         this.setData(data)
        
       }else{
@@ -83,7 +84,7 @@ getData = async () => {
   setData(data){
 	  this.setState({
 		  userName: data.name,
-		  profile_pic: data.profile_pic ? 'https://smarttesting.s3.ap-south-1.amazonaws.com'+data.profile_pic : "null",
+		  profile_pic: data.profile_pic ? imageUrl +data.profile_pic : "null",
 		  gradeName: data.grade ? data.grade.name  : "null",
 		   schoolname: data.school ? data.school.name : "null"})
   }
@@ -145,7 +146,7 @@ getData = async () => {
 	}
 
 	render() {
-		const url = 'https://smarttesting.s3.ap-south-1.amazonaws.com'+ this.state.profile_pic
+		const url = imageUrl + this.state.profile_pic
 		return (
 
 			<View style={styles.mainview}>
@@ -160,7 +161,7 @@ getData = async () => {
                       <Image source={{uri: this.state.profile_pic}} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>
                       :  <Image source={require('../../assets/images/dashboard/user.png')} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>}
 							<Text style={styles.profilename}>{this.state.userName}</Text>
-							<View style={styles.gradeview}>
+							<View style={{borderWidth:1,borderColor:"white",paddingHorizontal:10,borderRadius:30,marginTop:10}}>
 								<Text style={styles.graderText}>{this.state.gradeName}</Text>
 							</View>
 						</View>

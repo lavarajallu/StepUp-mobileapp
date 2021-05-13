@@ -15,8 +15,6 @@ import {
 	FlatList
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import styles from "./styles"
 import * as Progress from 'react-native-progress';
 const windowWidth = Dimensions.get('window').width;

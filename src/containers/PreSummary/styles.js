@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
           position:"relative"
         },
         nextactivityview:{
-            height:"15%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20,
+            height:"20%",justifyContent:"flex-start",alignItems:"flex-end",marginRight:20,
         },
         nextinner:{
             height:40,borderRadius:20,

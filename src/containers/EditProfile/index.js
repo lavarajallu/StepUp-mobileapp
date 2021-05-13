@@ -26,6 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import { createNativeWrapper } from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { baseUrl, imageUrl } from '../../constants';
 var radio_props = [
     { label: 'Male', value: 0 },
     { label: 'Female', value: 1 }
@@ -106,14 +107,14 @@ class EditProfile extends Component {
             state: data.state,
             boardvalue: data.board_id,
             grade: data.grade.name,
-            profilepic: data.profile_pic ? 'https://smarttesting.s3.ap-south-1.amazonaws.com'+data.profile_pic: null,
+            profilepic: data.profile_pic ? imageUrl +data.profile_pic: null,
             gradeselect: data.grade.reference_id
         },()=>console.log("JSasfdf"))
 
     }
     getBoards(value) {
         console.log(value)
-        fetch('http://65.1.123.182:3000/board', {
+        fetch(baseUrl+'/board', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -260,7 +261,7 @@ class EditProfile extends Component {
     getGrades(token,value)
     {
         //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-             var url = 'http://65.1.123.182:3000/grade?offset=0&limit=10&board='+value+'&branch=-1'
+             var url = baseUrl+'/grade?offset=0&limit=10&board='+value+'&branch=-1'
              console.log("value",url)
             fetch(url ,{
                      method: 'GET',
@@ -365,7 +366,7 @@ class EditProfile extends Component {
     //    formdata.append('grade_id', grade_id)
     //    formdata.append("board_id", board_id);
     //     console.log("submit",formdata)
-        fetch('http://65.1.123.182:3000/user/'+this.state.userID, {
+        fetch(baseUrl+'/user/'+this.state.userID, {
             method: 'PUT',
             headers: {
               'Content-Type': 'multipart/form-data',

@@ -18,6 +18,7 @@ import styles from './styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Actions } from 'react-native-router-flux';
+import { baseUrl, imageUrl } from '../../constants';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 class Grades extends Component {
@@ -48,9 +49,8 @@ async componentDidMount(){
     }
 }
 renderItem({item}){
-    //https://smarttesting.s3.ap-south-1.amazonaws.com/myprofessorlive-university/10-1615197745282.png
     //alert(item.image)
-    const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+item.image
+    const url = imageUrl +item.image
 	return(
         <TouchableOpacity onPress={this.onItem.bind(this,item)} style={styles.listsubview}>
 		<View style={{  flex:1,justifyContent:"space-evenly",alignItems:"center",backgroundColor: 'white'}}>
@@ -104,7 +104,7 @@ onItem(item){
      this.setState({
         loading: true
      })
-     fetch('http://65.1.123.182:3000/user/'+userData.reference_id, {
+     fetch(baseUrl+'/user/'+userData.reference_id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ onItem(item){
 getGrades(value,item)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = 'http://65.1.123.182:3000/grade?offset=0&limit=10&board='+item.reference_id+'&branch=-1'
+         var url = baseUrl+'/grade?offset=0&limit=10&board='+item.reference_id+'&branch=-1'
          console.log("value",url)
         fetch(url ,{
                  method: 'GET',

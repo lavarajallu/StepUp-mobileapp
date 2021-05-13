@@ -20,8 +20,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import * as Progress from 'react-native-progress';
 
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import { Validations } from '../../helpers'
 import { weekdaysMin } from 'moment';
 import { baseUrl,imageUrl } from "../../constants"
@@ -160,18 +158,18 @@ class ChapterComponent extends Component {
                    <Text style={{color:"#2E2E2E",fontWeight:"600",fontSize:15}}>{item.name}</Text>
                </View>
            </View>
-           <Progress.Bar progress={percent/100} width={windowWidth/1.15} height={5} color={color}/>
+           <Progress.Bar progress={percent/100} width={windowWidth/1.15} height={5} color={color}
+           unfilledColor={"lightgrey"} borderColor={"transparent"}/>
        </TouchableOpacity>
 
         )
 }
     render() {
         const {userData,chapters} = this.props;
-        const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+userData.image
+        const url = imageUrl+userData.image
         return (
             chapters.length > 0 ? 
             <View style={{flex:1,padding:20}}>
-                <Text >Select Chapters</Text>
                    <FlatList data={chapters} 
                                 renderItem={this.renderItem.bind(this)}
                                 keyExtractor={(item)=>item.reference_id}

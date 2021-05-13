@@ -320,10 +320,10 @@ class Topics extends Component {
                     <Text style={{ color: "white", marginLeft: 10,marginTop:10, fontSize: 20 }}>{this.props.data.name}</Text>
                     </View>
                     {this.props.data.image !== "null" ?
-                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
 
                     : <Image source={require('../../assets/images/noimage.png')}
-                      style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />}
+                      style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
                   </View>
                  
                   
@@ -332,7 +332,7 @@ class Topics extends Component {
 
               </ImageBackground>
        <View style={{height:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
-       position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
+       position:"absolute",bottom:0,borderTopRightRadius:25,borderTopLeftRadius:25}}>
         {this.state.spinner ? 
          <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
            <Text>Loading...</Text>

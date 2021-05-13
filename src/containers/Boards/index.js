@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import styles from './styles'
 import { Actions } from 'react-native-router-flux';
-
+import { baseUrl, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const data =[
 {name: 'CBSC',grades:[{name: 'Grade-1'},{name:"Grade-2"},{name:"Grade-3"},{name:"Grade-4"}]},
@@ -47,7 +47,7 @@ async componentDidMount(){
 getBoards(value)
 {
          console.log(value)
-        fetch('http://65.1.123.182:3000/board?offset=0&limit=10', {
+        fetch(baseUrl+'/board?offset=0&limit=10', {
                  method: 'GET',
                  headers: {
                      'Content-Type': 'application/json',
@@ -92,11 +92,11 @@ getBoards(value)
 }
 
 renderItem({item}){
-    const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"
+   
 	return(
 		<TouchableOpacity onPress={()=>this.onItem(item)} 
 		style={styles.listsubview}>
-		 <Image source={{uri: url+item.image}} resizeMode={"cover"} 
+		 <Image source={{uri: imageUrl +item.image}} resizeMode={"cover"} 
 		 style={styles.boardimg}/>
 		 <Text style={styles.boardtext}>{item.name}</Text>
 		

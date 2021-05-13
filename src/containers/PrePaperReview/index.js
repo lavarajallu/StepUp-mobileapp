@@ -15,11 +15,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from "./styles"
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var FloatingLabel = require('react-native-floating-labels');
 
 
 class PrePaperReview extends Component{
@@ -60,7 +57,7 @@ class PrePaperReview extends Component{
 		          <Text>Test 01</Text>
 		          <View style={styles.progressview}>
 		         
-		          {Platform.OS === 'android' ? 
+		          {/* {Platform.OS === 'android' ? 
 					 <ProgressBar
 					      color="#fe742b"
 					      width={windowWidth/1.6}
@@ -74,7 +71,7 @@ class PrePaperReview extends Component{
 				          progressTintColor="orange"
 				          trackTintColor="blue"
 				          progress={0.7}
-				/>}
+				/>} */}
 		          <Text style={{marginLeft:5}}>2/5</Text>
 		          </View>
           </TouchableOpacity>
@@ -82,7 +79,7 @@ class PrePaperReview extends Component{
 		           <Text>Test 02</Text>
 		          <View style={styles.progressview}>
 
-		          {Platform.OS === 'android' ? 
+		          {/* {Platform.OS === 'android' ? 
 					 <ProgressBar
 					      color="green"
 					      width={windowWidth/1.6}
@@ -96,7 +93,7 @@ class PrePaperReview extends Component{
 				          progressTintColor="orange"
 				          trackTintColor="blue"
 				          progress={0.7}
-				/>}
+				/>} */}
 		          <Text style={{marginLeft:5}}>4/5</Text>
 		          </View>
           </TouchableOpacity>

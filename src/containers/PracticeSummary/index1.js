@@ -14,8 +14,6 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -274,7 +272,7 @@ class PracticeSummary extends Component {
                         <View style={{flex:0.9,justifyContent: 'center',alignItems:"center" }}>
                         
                         
-                         {Platform.OS === 'android' ? 
+                         {/* {Platform.OS === 'android' ? 
                                          <ProgressBar
                                          width={windowWidth/1.7}
                                               color={res.time === 0 ? "#fe742b" : "#37a157"}
@@ -287,7 +285,7 @@ class PracticeSummary extends Component {
                                               progressTintColor="orange"
                                               trackTintColor="blue"
                                               progress={0.7}
-                                    />}
+                                    />} */}
                         </View>
                         <View style={{flex:0.1,}}>
                         <Text>{res.time}s</Text>

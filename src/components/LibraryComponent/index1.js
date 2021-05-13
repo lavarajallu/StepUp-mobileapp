@@ -18,12 +18,10 @@ import {
 import Snackbar from 'react-native-snackbar';
 
 import { Actions } from 'react-native-router-flux';
-import {ProgressView} from "@react-native-community/progress-view";
-import {ProgressBar} from '@react-native-community/progress-bar-android';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { baseUrl } from "../../constants"
+import { baseUrl, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-gesture-handler';
 import StringsOfLanguages from './../../StringsOfLanguages';
@@ -211,7 +209,7 @@ getanalytics(user,token){
 		// bgimage = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 		// var newitem = colorsarray.splice(bgimage,1);
 		// colorsarray.push(newitem);
-		const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+item.image
+		const url = imageUrl+item.image
 		var progress = 0+ (0.4 * Math.random())
 		var percent = (item.percent) * 100;
 		var color;
@@ -232,15 +230,18 @@ getanalytics(user,token){
 					
 					<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.5} >
 					<View style={{flex:1,}}>
-						<View style={{flex:0.75,justifyContent:"space-around",alignItems:"center",flexDirection:"row"}}>
-							
-						{item.image ? 
+						<View style={{flex:0.75,alignItems:"center",justifyContent:"space-around",flexDirection:"row"}}>
+							<View style={{flex:0.4,justifyContent:"center",alignItems:"center"}}>
+							{item.image ? 
 							 <Image source={{uri: url}}
-							 style={{width:60,height:60,resizeMode:"cover"}} />
+							 style={{width:60,height:60,resizeMode:"contain"}} />
 							 :
-							  <Image source={require('../../assets/images/noimage.png')}
-							  style={{width:60,height:60,resizeMode:"cover"}}/>}
-							  <Text style={{fontSize:12,color:"white"}}>{item.name}</Text>
+							  <Image source={require('../../assets/images/dashboard/new/stepuplogo.png')}
+							  style={{width:60,height:60,resizeMode:"contain"}}/>}
+							</View>
+							<View style={{flex:0.55,justifyContent:"center",alignItems:"center"}}>
+							  <Text style={{fontSize:13,color:"white"}}>{item.name}</Text>
+							  </View>
 							  </View>
 						<View style={{flex:0.25,marginHorizontal:10}}>
 						<View style={styles.countview}>

@@ -25,11 +25,11 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from "react-native-push-notification";
-var FloatingLabel = require('react-native-floating-labels');
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
 
 import StringsOfLanguages from './../../StringsOfLanguages';
+import { baseUrl } from '../../constants';
 
 var isAuthTokenValid 
 class Login extends Component {
@@ -222,7 +222,7 @@ class Login extends Component {
                 device_token: this.state.device_token.token
              }
              console.log("hello",body)
-             fetch('http://65.1.123.182:3000/user/login', {
+             fetch(baseUrl+'/user/login', {
                  method: 'POST',
                  headers: {
                      Accept: 'application/json',

@@ -5,8 +5,6 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import org.wonday.pdf.RCTPdfView;
-import com.reactnativecommunity.progressview.RNCProgressViewPackage;
-import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package
 
 import com.RNFetchBlob.RNFetchBlobPackage;

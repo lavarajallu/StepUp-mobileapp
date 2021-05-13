@@ -27,8 +27,6 @@ import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-device-constants
 import com.reactlibrary.deviceconstants.DeviceConstantsPackage;
-// react-native-file-access
-import com.alpha0010.fs.FileAccessPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-i18n
@@ -49,14 +47,12 @@ import com.zoontek.rnlocalize.RNLocalizePackage;
 import org.wonday.orientation.OrientationPackage;
 // react-native-pdf
 import org.wonday.pdf.RCTPdfView;
-// react-native-pdf-light
-import com.alpha0010.pdf.PdfViewPackage;
-// react-native-pdf-to-image
-import com.RNPdfToImageConverter.RNPdfToImagePackage;
 // react-native-push-notification
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
+// react-native-safe-area-context
+import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-share
@@ -73,8 +69,6 @@ import com.brentvatne.react.ReactVideoPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 // react-native-youtube
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
-// react-native-youtube-sdk
-import com.srfaytkn.reactnative.YouTubeSdkPackage;
 // rn-fetch-blob
 import com.RNFetchBlob.RNFetchBlobPackage;
 
@@ -130,7 +124,6 @@ public class PackageList {
       new ReactNativeFirebaseAppPackage(),
       new RNCPickerPackage(),
       new DeviceConstantsPackage(),
-      new FileAccessPackage(),
       new RNGestureHandlerPackage(),
       new RNI18nPackage(),
       new PickerPackage(),
@@ -141,10 +134,9 @@ public class PackageList {
       new RNLocalizePackage(),
       new OrientationPackage(),
       new RCTPdfView(),
-      new PdfViewPackage(),
-      new RNPdfToImagePackage(),
       new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
+      new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new RNSharePackage(),
       new SnackbarPackage(),
@@ -153,7 +145,6 @@ public class PackageList {
       new ReactVideoPackage(),
       new RNCWebViewPackage(),
       new ReactNativeYouTube(),
-      new YouTubeSdkPackage(),
       new RNFetchBlobPackage()
     ));
   }

@@ -19,6 +19,7 @@ export { default as WebLinkView} from "./WebLinkView";
  export { default as ViewSolutions } from "./ViewSolutions"
  export { default as TopicMainView } from "./TopicMainView";
  export { default as Announcements } from "./Announcements"
+ export { default as CalendarNew } from './Calendar'
  export { default as ProgressTopics } from './ProgressTopics'
  export { default as Settings } from './Settings'
  export { default as PreviousPapers } from "./PreviousPapers";

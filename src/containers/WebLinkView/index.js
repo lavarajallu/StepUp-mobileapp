@@ -144,7 +144,7 @@ class WebLinkView extends  Component{
       }
     getActivityInfo(token) {
       const { data } = this.props
-      const url = "http://65.1.123.182:3000/activities/info/" + data.reference_id
+      const url = baseUrl+"/activities/info/" + data.reference_id
       fetch(url, {
         method: 'GET',
         headers: {

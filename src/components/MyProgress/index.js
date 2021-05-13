@@ -27,7 +27,6 @@ import {
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import ActivityRings from "react-native-activity-rings";  
 import * as Progress from 'react-native-progress';
 
 const activityData = [

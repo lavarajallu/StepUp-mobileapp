@@ -220,7 +220,6 @@ class PreSolutions extends Component{
 
        }
 
-    //http://65.1.123.182:3000/user-test/a060ba6a-c010-416c-8208-c8e9c8183e0c
     renderItem({item,index}){
         console.log("itemmm",item)
         let viewstyle;

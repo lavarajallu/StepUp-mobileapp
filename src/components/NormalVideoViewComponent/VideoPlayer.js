@@ -18,6 +18,7 @@ import Video, {
 import Orientation from 'react-native-orientation-locker';
 import PlayerControls from './PlayerControls';
 import ProgressBar from "./ProgressBar"
+import { imageUrl } from '../../constants';
 
 var videoRef = React.createRef();
 
@@ -155,7 +156,7 @@ export default class VideoPlayer extends Component {
     data.push({"value":i})
   }
   const YOUR_API_KEY = "paste yout api key here";
-  const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+this.state.normaldata.url
+  const url = imageUrl+this.state.normaldata.url
   
   var timesarray =[]
   var count = 0

@@ -91,7 +91,7 @@ class PreSummary extends Component {
        }
        getDataquestions(user,token){
 
-        //alert(token)
+        console.log("this.props.testid",this.props.testid)
         var url =baseUrl+"/user-test/"+this.props.testid
 
         console.log("urrlll",url)
@@ -232,11 +232,11 @@ class PreSummary extends Component {
 		// Loop 5 times
         if(!this.state.spinner){
              for(var i = 0 ; i < this.state.correctarray.length ; i++){
-                  stars.push((<Image style={{width:157/3.5,height:77/3.5,tintColor:colors.Themecolor}}
+                  stars.push((<Image style={{width:157/3.5,height:77/3.5,tintColor:colors.Themecolor,marginTop:10}}
                     source={require('../../assets/images/arrow.png')} />))
              }
                 for(var i = 0 ; i < this.state.wrongarray.length ; i++){
-                 stars.push((<Image style={{width:157/3.5,height:77/3.5}} source={require('../../assets/images/arrow_gray.png')} />))
+                 stars.push((<Image style={{width:157/3.5,height:77/3.5,marginTop:10}} source={require('../../assets/images/arrow_gray.png')} />))
              }
                var percent = (this.state.correctarray.length / this.state.questionsarray.length)*10
         }
@@ -305,13 +305,13 @@ class PreSummary extends Component {
                          shadowOffset: { width: 0, height: 5 },paddingVertical:20,
                             shadowOpacity: 1,
                             shadowRadius: 5,
-                            elevation: 10,
+                            borderColor:"lightgrey",borderWidth:0.5,
                             shadowColor: 'lightgrey',
                         marginTop:60,borderRadius: 10,
                         backgroundColor: 'white',justifyContent:'space-around',marginHorizontal: 20, }}>
                           <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
                                 <View style={{padding:5,marginHorizontal:30,}}>
-                                    <View style={{padding:10,flexDirection:"row",justifyContent:"space-between"}}>
+                                    <View style={{padding:10,flexDirection:"row",flexWrap:"wrap"}}>
                                     { stars }
                                     </View>
                                 </View>
@@ -338,7 +338,7 @@ class PreSummary extends Component {
                              </View>
                             <View style={{shadowOpacity: 1,
                                     shadowRadius: 5,
-                                    elevation: 10,
+                                    borderColor:"lightgrey",borderWidth:0.5,
                                     shadowColor: 'lightgrey',marginHorizontal: 20,paddingVertical:10,
                                     borderRadius:10,marginTop:40,marginBottom:20,backgroundColor: 'white'}}>
                                       <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10,marginVertical:20}}>Score</Text>

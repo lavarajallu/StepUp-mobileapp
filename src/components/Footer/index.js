@@ -34,6 +34,8 @@ class Footer extends Component {
                 Actions.push('dashboard')
             }else if ( value === 'bell'){
                 Actions.push('announcements',{title:"tabs"})
+            }else if(value === 'calendar'){
+                Actions.push('calendar',{title:"tabs"})
             }
         })
 
@@ -64,8 +66,10 @@ class Footer extends Component {
               <Image  source={require("../../assets/images/notification.png")} style={styles.footericon}/>
               </TouchableOpacity>
                     </View>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'calander'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'calendar'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'calendar')}>
                     <Image  source={require("../../assets/images/calander.png")} style={styles.footericon}/>
+                    </TouchableOpacity>
                     </View>
                 </View>
           

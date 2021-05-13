@@ -14,14 +14,14 @@ backimage:{
    width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
 },
 mainsubview:{
-   height:"80%",width:"100%",
+   height:"80%",width:"95%",alignSelf:"center",
    backgroundColor:"white",
    borderRadius:20,
    shadowColor:'black',
    shadowOffset: { width: 0, height: 5 },
    shadowOpacity: 1,
    shadowRadius: 5,
-   elevation: 10,
+   elevation: 10,overflow:"hidden"
 
 },
 
@@ -44,7 +44,7 @@ subjectouter:{
 },
 
     nextactivityview:{
-           height:"20%",justifyContent:"space-between",alignItems:"flex-start",marginHorizontal:10,flexDirection:"row"
+           height:"20%",justifyContent:"space-between",alignItems:"flex-start",marginHorizontal:10,flexDirection:"row",marginTop:5,
        },
        nextinner:{
            height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,justifyContent:"center"

@@ -225,7 +225,7 @@ class VideoView extends  Component{
         assignedactivityId: this.props.data.reference_id,
 
      }
-      const url = "http://65.1.123.182:3000/user-test"
+      const url = baseUrl+"/user-test"
       fetch(url, {
         method: 'POST',
         headers: {
@@ -248,9 +248,9 @@ class VideoView extends  Component{
           
             
           } else {
-            Toast.show(json.message, Toast.LONG);
+          //  Toast.show(json.message, Toast.LONG);
             this.setState({questionsArray:[]},()=>  this.getActivityInfo())
-            alert("stepup"+JSON.stringify(json.message))
+           // alert("stepup"+JSON.stringify(json.message))
   
           }
         }
@@ -260,7 +260,7 @@ class VideoView extends  Component{
     }
     getActivityInfo(token) {
       const { data } = this.props
-      const url = "http://65.1.123.182:3000/activities/info/" + data.reference_id
+      const url = baseUrl+"/activities/info/" + data.reference_id
       fetch(url, {
         method: 'GET',
         headers: {

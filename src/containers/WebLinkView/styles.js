@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width:30,height:30,marginVertical:15,tintColor:colors.Themecolor,marginLeft:20
  },
  mainsubview:{
-     height:"80%",width:windowWidth/1.08,
+     height:"80%",width:"98%",
     alignSelf:"center",
     overflow:"hidden",
     backgroundColor:"white",
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
  },
 
      nextactivityview:{
-            height:"20%",justifyContent:"space-between",alignItems:"flex-start",marginHorizontal:10,flexDirection:"row"
+            height:"20%",justifyContent:"space-between",alignItems:"flex-start",marginHorizontal:10,flexDirection:"row",
+            marginTop:5
         },
         nextinner:{
             height:40,borderRadius:20,backgroundColor:colors.Themecolor,paddingHorizontal:10,marginTop:10,

@@ -13,7 +13,7 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from 'react-native';
-import { colors } from "../../constants"
+import { colors, imageUrl } from "../../constants"
 import {
     PieChart,
 } from "react-native-chart-kit";
@@ -187,10 +187,6 @@ class Analysis extends Component {
     getpiechatdata() {
         const { user, token } = this.state
         var url;
-
-        // http://65.1.123.182:3000/student/learningAnalytics/chapterTest/4c57ef1b-de78-4859-87bc-0d9b47756199/e9abfb6b-4f72-47ed-bd26-cd4df119a6de?section_id=&school_id=
-
-        //  http://65.1.123.182:3000/student/chapters/4c57ef1b-de78-4859-87bc-0d9b47756199/e9abfb6b-4f72-47ed-bd26-cd4df119a6de?school_id=''&section_id=''
         if (user.user_role === 'Student') {
             url = baseUrl + "/student/learningAnalytics/chapters/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
         } else if (user.user_role === 'General Student') {
@@ -265,10 +261,6 @@ class Analysis extends Component {
     getChaptersdata() {
         const { user, token } = this.state
         var url;
-
-        // http://65.1.123.182:3000/student/learningAnalytics/chapterTest/4c57ef1b-de78-4859-87bc-0d9b47756199/e9abfb6b-4f72-47ed-bd26-cd4df119a6de?section_id=&school_id=
-
-        //  http://65.1.123.182:3000/student/chapters/4c57ef1b-de78-4859-87bc-0d9b47756199/e9abfb6b-4f72-47ed-bd26-cd4df119a6de?school_id=''&section_id=''
         if (user.user_role === 'Student') {
             url = baseUrl + "/student/learningAnalytics/chapterTest/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
         } else if (user.user_role === 'General Student') {
@@ -421,7 +413,7 @@ class Analysis extends Component {
                                                                     paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center"
                                                                 }}>
                                                                 <ImageBackground source={bgcolor} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center" }}>
-                                                                    <Image source={{uri: "https://smarttesting.s3.ap-south-1.amazonaws.com"+res.image}} style={{ width: 35, height: 35,
+                                                                    <Image source={{uri: imageUrl +res.image}} style={{ width: 35, height: 35,
                                                                      alignSelf: "center",  }} />
 
                                                                 </ImageBackground>

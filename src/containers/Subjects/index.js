@@ -26,7 +26,7 @@ import Loader from "../../components/Loader"
 import { Validations } from '../../helpers'
 import SideMenu from "../../components/SideMenu"
 import Drawer from 'react-native-drawer'
-import { colors } from "../../constants"
+import { colors, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { color } from 'react-native-reanimated';
 
@@ -147,7 +147,7 @@ class Subjects extends Component{
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 		var bgcolor = randomItem
         colorsarray.splice(randomItem)
-		const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+item.image
+		const url = imageUrl +item.image
         console.log("ssssss",item.percent)
 		var progress = 0+ (0.4 * Math.random())
 		var percent = (item.percent)
@@ -164,15 +164,15 @@ class Subjects extends Component{
         item["color"] = bgcolor
 		return (
 		   <TouchableOpacity onPress={this.onChapter.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}
-		   style={{ height:170,backgroundColor: 'transparent',width:windowWidth/1.1,borderWidth:0.1,borderColor: 'transparent',
+		   style={{ height:155,backgroundColor: 'transparent',width:windowWidth/1.1,borderWidth:0.1,borderColor: 'transparent',
            marginVertical:5,overflow:"hidden",borderRadius:10,alignSelf:"center"}}>
 					
 					 <ImageBackground source={require('../../assets/images/dashboard/new/subjects_bg.png')} 
-					 style={{width:windowWidth/1.1,height:175,alignSelf:"center",backgroundColor:item.color}}
+					 style={{width:windowWidth/1.1,height:145,alignSelf:"center",backgroundColor:item.color}}
                      opacity={0.5}>
 
                          <View style={{flex:1}}>
-                             <View style={{flex:0.5}}>
+                             <View style={{flex:0.5,}}>
                                  <View style={{flex:1,flexDirection:"row"}}>
                                      <View style={{flex:0.6,paddingLeft:20,justifyContent:"center"}}>
                                          <View style={{width:70,height:70,borderRadius:50,backgroundColor:"transparent",justifyContent:"center",alignItems:"center"}}>
@@ -192,7 +192,7 @@ class Subjects extends Component{
                              </View>
 
                              <View style={{flex:0.3,justifyContent:"center"}}>
-                                 <Text style={{color:"white",fontSize:20,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
+                                 <Text style={{color:"white",fontSize:15,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
                              </View>
                              <View style={{flex:0.3,flexDirection:"row",justifyContent:"space-around"}}>
                              <View style={styles.innercountview}>
@@ -237,8 +237,9 @@ class Subjects extends Component{
 						 </View>
 					 </View> */}
            </ImageBackground>
-           <Progress.Bar progress={percent/100} width={windowWidth/1.1} height={5} color={color}/>
-						
+           <Progress.Bar progress={percent/100} width={windowWidth/1.1} height={5} color={color}
+           unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+					
 					</TouchableOpacity>
 
 		)

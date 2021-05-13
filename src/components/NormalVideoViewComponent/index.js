@@ -11,7 +11,7 @@ import styles from './styles'
 import { LineChart } from 'react-native-chart-kit';
 import { parse } from 'react-native-svg';
 import Orientation from 'react-native-orientation-locker';
-import { colors } from '../../constants';
+import { colors, imageUrl } from '../../constants';
 const questionsarray=[{
   questionid:1,
   question:"The digit immediate to the right of the ten lakhs shows____place.",
@@ -395,7 +395,6 @@ render(){
     data.push({"value":i})
   }
   const YOUR_API_KEY = "paste yout api key here";
-  //const url = "https://smarttesting.s3.ap-south-1.amazonaws.com"+this.state.normaldata.url
   
   var timesarray =[]
   var count = 0
@@ -423,7 +422,7 @@ render(){
   <View style={{width:"100%",height:this.state.fullscreen ? "100%" : "50%"}}>
     <View style={{flex:1}}>
       <View style={{flex:1}}>
-      <Video source={{uri: "https://smarttesting.s3.ap-south-1.amazonaws.com"+this.state.normaldata.url}}   // Can be a URL or a local file.
+      <Video source={{uri: imageUrl+this.state.normaldata.url}}   // Can be a URL or a local file.
        ref={(ref) => {
          this.playerRef = ref
        }}    

@@ -14,18 +14,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Pdf from 'react-native-pdf';
 
 import { Actions } from 'react-native-router-flux';
-import { baseUrl } from "../../constants"
+import { baseUrl, imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Modal from 'react-native-modal';
-//import { PdfView } from 'react-native-pdf-light';
 const resources = {
   file: Platform.OS === 'ios' ? 'downloadedDocument.pdf' : '/sdcard/Download/downloadedDocument.pdf',
   url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
   base64: 'JVBERi0xLjMKJcfs...',
 }
-import {Dirs, FileSystem} from 'react-native-file-access';
 var cachePath;
 class PdfViewNew extends Component {
   constructor(props) {
@@ -41,7 +39,8 @@ class PdfViewNew extends Component {
       token: "",
       isvisible: false,
       selectedPage:0,
-      visibleItem:{}
+      visibleItem:{},
+      error: false
     }
   }
   componentDidMount() {
@@ -124,7 +123,7 @@ class PdfViewNew extends Component {
   }
   getActivityInfo(token) {
     const { data } = this.props
-    const url = "http://65.1.123.182:3000/activities/info/" + data.reference_id
+    const url = baseUrl+"/activities/info/" + data.reference_id
     fetch(url, {
       method: 'GET',
       headers: {
@@ -140,10 +139,7 @@ class PdfViewNew extends Component {
         if (data) {
           var string = data[0].pdfpages
           var newarr = string.split(',');
-          // console.log("newarr", newarr)
-          // const url =  "https://smarttesting.s3.ap-south-1.amazonaws.com"+ data[0].url,
-          // cachePath = await FileSystem.fetch(url, {path:  Dirs.CacheDir + '/name.pdf'});
-          // console.log("dddd",cachePath)
+         
           this.setState({
             pdfdata: data[0].url,
            
@@ -275,16 +271,20 @@ class PdfViewNew extends Component {
   
   }
   renderItem({ item }) {
-
-    console.log("0000000",item)
-    const source = { uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true};
     
     return (
+      this.state.error ? 
+     <View style={{flex: 1,
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height / 1.3,justifyContent:"center",alignItems:"center"}}>
+        <Text>Unable to load PDF</Text>
+     </View>
+     :
       <Pdf
       ref={(pdf) => { this.pdf = pdf; }}
 
       page={parseInt(item)}
-      source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true}}
+      source={{ uri: imageUrl + this.state.pdfdata , cache: true}}
       //resourceType={resourceType}
       singlePage={true}
       onLoadComplete={(numberOfPages, filePath) => {
@@ -293,6 +293,9 @@ class PdfViewNew extends Component {
       onPageChanged={this.onPageChanged.bind(this)}
       onError={(error) => {
         console.log("ffffe",error);
+        this.setState({
+          error: true
+        })
       }}
       onPressLink={(uri) => {
         console.log(`Link presse: ${uri}`)
@@ -386,7 +389,7 @@ class PdfViewNew extends Component {
           ref={(pdf) => { this.pdf = pdf; }}
 
           page={parseInt(this.state.selectedPage)}
-          source={{uri: "https://smarttesting.s3.ap-south-1.amazonaws.com" + this.state.pdfdata , cache: true}}
+          source={{uri: imageUrl + this.state.pdfdata , cache: true}}
           //resourceType={resourceType}
           singlePage={true}
           onLoadComplete={(numberOfPages, filePath) => {

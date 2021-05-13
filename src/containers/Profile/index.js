@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Progress from 'react-native-progress';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { imageUrl } from '../../constants';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -78,7 +79,7 @@ getData = async () => {
                                 width: 80, height: 80, borderRadius: 80 / 2,
                                 backgroundColor: 'white',
                                 borderColor: 'white',
-                            }} source={{ uri: "https://smarttesting.s3.ap-south-1.amazonaws.com"+this.state.userDetails.profile_pic }}></Image>
+                            }} source={{ uri: imageUrl +this.state.userDetails.profile_pic }}></Image>
                             : <Image style={{
                                 width: 80, height: 80, borderRadius: 80 / 2,
                                 backgroundColor: 'white',
