@@ -328,7 +328,7 @@ class PdfViewNew extends Component {
       <>
       <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
       resizeMode={"stretch"}
-      style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+      style={{width:'100%',height:'100%',backgroundColor:topicindata.color}} opacity={0.5}>
         <View style={{flex:1}}>
           <View style={{flex:0.15,flexDirection:"row"}}>
           <View style={{flex:0.7}}>
@@ -353,7 +353,7 @@ class PdfViewNew extends Component {
               style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
               </View>
           </View>
-          <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+          <View style={{flex:0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
           {this.state.spinner ? 
            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
 
@@ -369,7 +369,7 @@ class PdfViewNew extends Component {
 	 	 showsHorizontalScrollIndicator={false}/>
       </View>}
           </View>
-          <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+          <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:'center'}}>
           
           <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
         justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>

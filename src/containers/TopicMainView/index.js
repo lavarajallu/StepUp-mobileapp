@@ -606,7 +606,7 @@ class TopicMainView extends Component {
               
 
               </ImageBackground>
-              <View style={{height:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+              <View style={{height:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
              position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
                <ScrollView>
                <View style={{ flex: 1 }}>
