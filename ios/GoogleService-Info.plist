@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>468079785640-povbrbcd9s43ijrgver7nifdl00o1sm5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.468079785640-povbrbcd9s43ijrgver7nifdl00o1sm5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDQRR1QEo85Cyf4NFmP4Uipu7brSYldw8c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>468079785640</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.smartgentech.stepup</string>
+	<key>PROJECT_ID</key>
+	<string>stepup-f6c13</string>
+	<key>STORAGE_BUCKET</key>
+	<string>stepup-f6c13.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:468079785640:ios:31aabd0e4224ee545c349d</string>
+</dict>
+</plist>

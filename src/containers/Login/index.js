@@ -27,7 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from "react-native-push-notification";
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
-
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import StringsOfLanguages from './../../StringsOfLanguages';
 import { baseUrl } from '../../constants';
 
@@ -40,7 +40,8 @@ class Login extends Component {
             password: "",
             checked: false,
             hidePassword: true,
-            spinner:false
+            spinner:false,
+            device_token : '',
         };
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -52,7 +53,7 @@ class Login extends Component {
         //alert(this.props.localevalue)
         var _this  = this
      
-        PushNotification.configure({
+        PushNotificationIOS.configure({
             // (optional) Called when Token is generated (iOS and Android)
             onRegister: function (token) {
               console.log("TOKEN:", token);

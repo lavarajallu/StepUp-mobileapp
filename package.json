@@ -35,6 +35,7 @@
     "react-native-calendars": "^1.1260.0",
     "react-native-chart-kit": "^6.10.0",
     "react-native-charts": "^3.0.0",
+    "react-native-codegen": "0.0.7",
     "react-native-device-constants": "git+https://github.com/parkwithpark/react-native-device-constants.git",
     "react-native-drawer": "^2.5.1",
     "react-native-events-calendar": "^1.0.8",
