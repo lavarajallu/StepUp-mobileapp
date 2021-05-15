@@ -23,8 +23,10 @@ import Footer from '../../components/Footer'
 import SideMenu from "../../components/SideMenu"
 import AnnounceComponent from '../../components/AnnounceComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseUrl, imageUrl } from "../../constants"
-
+import { baseUrl, colors, imageUrl } from "../../constants"
+import Modal from 'react-native-modal';
+import { G } from 'react-native-svg';
+import moment from 'moment'
 
 class Announcements extends Component {
     constructor(props) {
@@ -32,6 +34,8 @@ class Announcements extends Component {
         this.state={
             token:"",
             announcementsData: null,
+            isvisible: false,
+            selectedItem:{},
             datacount:0,
             loading: true,
             notifications:{
@@ -78,14 +82,28 @@ class Announcements extends Component {
     async componentDidMount(){
         const value = await AsyncStorage.getItem('@access_token')
         if(value !== null) {
-            console.log('val',value)
+            console.log("vv",value)
            this.setState({token: JSON.parse(value)},()=>this.getAnnouncements())
         }
     }
+    reducer = (acc, cur) => {
+        const item = acc.find((x) => x.from_date === cur.from_date);
+        console.log("acccc",item)
+        if (item) {
+          item.data.push(cur);
+        } else {
+          acc.push({
+            from_Date: cur.from_date,
+            data: [cur]
+          });
+        }
+        
+        return acc;
+       
+      };
     getAnnouncements()
 {
-        console.log(baseUrl+'/announcements/student/logs')
-        console.log(this.state.token)
+       
         fetch(baseUrl+'/announcements/student/logs', {
                  method: 'GET',
                  headers: {
@@ -96,54 +114,82 @@ class Announcements extends Component {
                  
                   response.json())
                  .then((json) =>{
-                  //  console.log("announcemnets....",json)
-                     
+                   // console.log("announcemnets....",json)
+                    
                      if(json.data){
-                         console.log("announcemnets",json.data)
+                         if(json.data.length > 0){
+                            console.log("announcemnets",json.data)
                         
-                         var obj;
-                         var newdata=[]
-                         var finalarray =[]
-                          {json.data.map((res,i)=>{
-                              if(finalarray.length === 0){
-                                console.log("if")
-                                  var newobjarray = [];
-                                  newobjarray.push(res)
-                                  var obj = {title: res.from_date,data: newobjarray}
-                                  finalarray.push(obj)
-                              }else{
-                                 
-                                var count = 0
-                                finalarray.map((newrews, j) => {
-                                  
-                                  if (newrews.title === res.from_date) {
+                            var obj;
+                            var newdata=[]
+                            var finalarray =[]
+                            //  {json.data.map((res,i)=>{
+                            //      if(finalarray.length === 0){
+                             
+                            //          var newobjarray = [];
+                            //          newobjarray.push(res)
+                            //          var obj = {title: res.from_date,data: newobjarray}
+                            //          finalarray.push(obj)
+                            //      }else{
+                            //        var count = 0
                                    
-                                    newrews.data.push(res);
+                            //        finalarray.map((newrews, j) => {
+                                     
+                            //          if (newrews.title === res.from_date) {
+                            //            newrews.data.push(res);
+                            //         //   count = 0
+                            //          } else {
+                            //            count =  1
+                            //          }
+                            //        });
+                            //        if(count !== 0){
+                            //          var newobjarray = [];
+                            //          newobjarray.push(res);
+                            //          var obj = { title: res.from_date, data: newobjarray };
+                            //          finalarray.push(obj);
+                            //        }
+                                  
+                            //      }
+                            //  })}
+                            //  console.log("finalarray",finalarray)
+                            let localeData = json.data.map((item) => {
+                                item.key = moment(item.from_date).format('YYYY-MM-DD')
+                                return item
+                              });
+                              
+                              // Sort data by datetime
+                              localeData.sort((a,b) => {
+                                return moment(b.from_date).unix() - moment(a.from_date).unix()
+                              })
+                              
+                              // Reduce data for SectionList
+                              const groupedData = localeData.reduce((accumulator, currentValue, currentIndex, array, key = currentValue.key) => {
+                                  const keyObjectPosition = accumulator.findIndex((item) => item.key == key)
+                                  if (keyObjectPosition >= 0) {
+                                    accumulator[keyObjectPosition].data.push(currentValue)
+                                    return accumulator    
                                   } else {
-                                    count =  1
+                                    return accumulator.concat({ data: [currentValue], key: key })
                                   }
-                                });
-                                if(count !== 0){
-                                  console.log("fila,", res);
-                                  var newobjarray = [];
-                                  newobjarray.push(res);
-                                  var obj = { title: res.from_date, data: newobjarray };
-                                  finalarray.push(obj);
-                                }
-                               
-                              }
-                          })}
-                          console.log("finalarray",finalarray)
+                              }, [])
+                              
+                              console.log(",,,,,,",JSON.stringify(groupedData))
 
-                         var newarray = [{
-                             title:"Today",
-                             data:json.data
-
-                         }]
-                         this.setState({
-                            announcementsData:finalarray,loading: false,datacount:json.data.length
-                        })
-                       console.log("newrr",newarray)
+                            var newarray = [{
+                                title:"Today",
+                                data:json.data
+   
+                            }]
+                            this.setState({
+                               announcementsData:groupedData,loading: false,datacount:json.data.length
+                           })
+                          console.log("newrr",newarray)
+                         }else{
+                            this.setState({
+                                announcementsData: [],loading: false
+                            })
+                         }
+                        
                      }else{
                         this.setState({
                             announcementsData: [],loading: false
@@ -165,7 +211,59 @@ class Announcements extends Component {
       openControlPanel = () => {
         this._drawer.open()
       };
-
+      onBacktoFeed(){
+          Actions.dashboard({type:"reset"})
+      }
+      onItemPress(item){
+          //alert(JSON.stringify(item))
+          this.setState({
+              selectedItem: item
+          },()=>{
+             
+               if(item.is_read){
+                this.setState({
+                    isvisible:true
+           })
+               }else{
+                console.log("ggg",this.state.selectedItem)
+                this.setState({
+                    isvisible:true
+           })
+                var body = {
+                  
+                      "announcement_id" : item.reference_id,
+                      "is_read" : true 
+                  
+                }
+              fetch(baseUrl+'/announcements/student/logs', {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'token': this.state.token
+                  },
+                  body:JSON.stringify(body)
+                  }).then((response) =>
+                  
+                   response.json())
+                  .then((json) =>{
+                     console.log("isread....",json)
+                      
+                     
+                          this.getAnnouncements()
+                          this.setState({loading: true})
+                     
+                     }
+                   
+                  )
+                  .catch((error) => console.error(error))
+               }
+               
+                    
+            //  }
+            
+         })
+          
+      }
     render() {
         return (
             <Drawer
@@ -214,15 +312,17 @@ class Announcements extends Component {
                         </ImageBackground>
                       <Text style={styles.headText}>Can’t find notifications</Text>
                       <Text style={styles.subtext}>Let’s explore more content around you.</Text>
+                      
                        <LinearGradient colors={["#A28FB0","#543361","#543361"]}
                 style={styles.gradientstyles}>
-                   <Text style={styles.buttonText}>Back to Feed</Text>
+                    <TouchableOpacity onPress={this.onBacktoFeed.bind(this)} >
+                   <Text style={styles.buttonText}>Back to Feed</Text></TouchableOpacity>
                    </LinearGradient>
                 </View> :
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>
                         <View style={{flex:0.92}}>
-                        <AnnounceComponent  data={this.state.notifications.notificcation_data} newdata={this.state.announcementsData} />
+                        <AnnounceComponent onItemPress={this.onItemPress.bind(this)}  data={this.state.notifications.notificcation_data} newdata={this.state.announcementsData} />
                         </View>
                         <View style={{flex:0.08}}>
                         <Footer openControlPanel={this.openControlPanel} value="bell"/>
@@ -232,6 +332,23 @@ class Announcements extends Component {
                  </View>
                 }
             </View>
+            <Modal isVisible={this.state.isvisible}>
+            <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15,width:windowWidth/1.2,height:"60%"}}>
+            <View style={{flex:1,justifyContent:"space-around",alignItems:"center"}}>
+              <Text style={{fontSize:20,color:colors.Themecolor}}>{this.state.selectedItem.title}</Text>
+              <View style={{width:"100%",height:1,backgroundColor:colors.Themecolor}}/>
+                <Text style={{fontSize:15,color:colors.Themecolor,marginHorizontal:20,paddingVertical:10}}>{this.state.selectedItem.description}</Text>
+                <View>
+                    <Text>From Date:  {this.state.selectedItem.from_date}</Text>
+                    <Text style={{marginTop:10}}>To Date:   {this.state.selectedItem.to_date}</Text>
+                </View>
+                <TouchableOpacity onPress={()=>this.setState({isvisible:false})} style={{paddingVertical:10,paddingHorizontal:30,backgroundColor:colors.Themecolor}}>
+                    <Text style={{color:"white"}}>Close</Text>
+                </TouchableOpacity>
+            </View>
+           
+            </View>
+      </Modal>
             </Drawer>
 
         )

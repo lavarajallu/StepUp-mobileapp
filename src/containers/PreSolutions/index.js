@@ -22,7 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseUrl } from "../../constants"
+import { baseUrl,imageUrl } from "../../constants"
 const data = [
 {
     questionno:1,
@@ -404,36 +404,129 @@ class PreSolutions extends Component{
       }
 
     render(){
-     
+      const { data } = this.props;
+      const topicindata = data
         return(
-                <View style={styles.mainview}>
-            <View style={styles.topview}>
-            <View style={{flex:1,justifyContent:"center",flexDirection:"row"}}>
-                <View style={{flex:0.1,justifyContent:"center",alignItems:"center"}}>
-                <TouchableOpacity onPress={this.onBack.bind(this)}>
-            <Image source={require("../../assets/images/left-arrow.png")} style={styles.backimage}/>
+    //         <View style={styles.mainview}>
+        //     <View style={styles.topview}>
+        //     <View style={{flex:1,justifyContent:"center",flexDirection:"row"}}>
+        //         <View style={{flex:0.1,justifyContent:"center",alignItems:"center"}}>
+        //         <TouchableOpacity onPress={this.onBack.bind(this)}>
+        //     <Image source={require("../../assets/images/left-arrow.png")} style={styles.backimage}/>
            
-            </TouchableOpacity>
-                </View>
-                <View style={{flex:0.8,justifyContent:"center",alignItems:"center"}}>
-                <Text style={styles.toptext}>Review Solutions</Text>
-                </View>
-                <View style={{flex:0.1}}>
+        //     </TouchableOpacity>
+        //         </View>
+        //         <View style={{flex:0.8,justifyContent:"center",alignItems:"center"}}>
+        //         <Text style={styles.toptext}>Review Solutions</Text>
+        //         </View>
+        //         <View style={{flex:0.1}}>
              
-                </View>
+        //         </View>
             
           
-            </View>
+        //     </View>
           
-            </View>
-            <View style={styles.mainbottomview}>
+        //     </View>
+        //     <View style={styles.mainbottomview}>
             
-            <View style={styles.mainshadowview}>
+        //     <View style={styles.mainshadowview}>
          
-            {this.state.questionsarray.length > 0 ?
-            <View style={styles.listview}>
-            <View style={styles.circlesview}>
-           <FlatList data={this.state.questionsarray}
+        //     {this.state.questionsarray.length > 0 ?
+        //     <View style={styles.listview}>
+        //     <View style={styles.circlesview}>
+        //    <FlatList data={this.state.questionsarray}
+        //             renderItem={this.renderItem.bind(this)}
+        //             horizontal={true}
+        //             showsHorizontalScrollIndicator={false} />
+        //     </View>
+        //     <View style={styles.questionsview}>
+        //     <ScrollView>
+        //     <View style={styles.questioninnerview}>
+        //     <Text style={styles.questionnum}>{this.state.questionno+1}.  </Text>
+        //     <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+        //     </View>
+        //     {this.state.selectedItem.question.options.map((res,i)=>
+        //     <View style={styles.answermain}>
+        //     <View style={styles.answersub}>
+        //     <Text style={styles.answernum}>{i+1}. </Text>
+        //     <TouchableOpacity onPress={this.onAnswer.bind(this,res)} 
+        //     style={[styles.answertextview,
+        //         {borderColor: this.returnBoxColor(
+        //             res,
+        //           )}]}>
+        //     <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+        //     </TouchableOpacity>
+        //     </View>
+        //     </View>
+        //         )}
+        //    <View style={{marginTop:20,marginLeft:10}}>
+        //      <Text style={{fontSize:15,marginBottom:10}}>Solution :</Text>
+        //      <View style={[styles.answertextview,{borderColor:"lightgrey"}]}>
+        //      <Text>hello Enndrocrne system is one of the main communication systems.</Text>
+        //      </View>
+        //      </View>
+        //       </ScrollView>
+        //     </View>
+            
+        //     </View> : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+        //     <Text>Loading......</Text></View>}
+        //     </View>
+        //     </View>
+
+        //     <View style={styles.bottomview}>
+        //     <View style={styles.bottomleftview}>
+
+        //         {this.state.questionno === 0  ? null : 
+        //         <TouchableOpacity onPress={this.onPrevious.bind(this)}>
+        //         <Text style={{fontSize:15}}>Previous</Text>
+        //         </TouchableOpacity>
+        //         }
+        //     </View>
+        //     <View style={styles.bottomrightview}>
+        //      {this.state.questionno === this.state.questionsarray.length  ? 
+        //             <TouchableOpacity onPress={this.onSubmit.bind(this)}>
+        //         <Text style={{fontSize:15}}>Close</Text>
+        //         </TouchableOpacity>
+        //       : 
+        //          <TouchableOpacity onPress={this.onNext.bind(this)}>
+        //         <Text style={{fontSize:15}}>Next</Text>
+        //         </TouchableOpacity> }
+        //     </View>
+        //     </View>
+        //     </View> 
+            <>
+            <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+            resizeMode={"stretch"}
+            style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+              <View style={{flex:1}}>
+                <View style={{flex:0.15,flexDirection:"row"}}>
+                <View style={{flex:0.7}}>
+  
+                    <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+                     
+                      <TouchableOpacity onPress={this.onBack.bind(this)}>
+                      <Image source={require("../../assets/images/left-arrow.png")}
+                        style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+                    </TouchableOpacity>
+                   
+                      <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{"Review Solutions"}</Text>
+                     
+                    </View>
+  
+                    </View>
+                    <View style={{flex:0.3,justifyContent:"center"}}>
+                    {topicindata.image !== "null" ?
+                    <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+  
+                    : <Image source={require('../../assets/images/noimage.png')}
+                    style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+                    </View>
+                </View>
+                <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                      {this.state.questionsarray.length > 0 ?
+                        <View style={styles.listview}>
+                        <View style={styles.circlesview}>
+                    <FlatList data={this.state.questionsarray}
                     renderItem={this.renderItem.bind(this)}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false} />
@@ -460,7 +553,7 @@ class PreSolutions extends Component{
                 )}
            <View style={{marginTop:20,marginLeft:10}}>
              <Text style={{fontSize:15,marginBottom:10}}>Solution :</Text>
-             <View style={[styles.answertextview,{borderColor:"lightgrey"}]}>
+             <View style={[styles.answertextview,{borderColor:"lightgrey",paddingVertical:10}]}>
              <Text>hello Enndrocrne system is one of the main communication systems.</Text>
              </View>
              </View>
@@ -469,30 +562,42 @@ class PreSolutions extends Component{
             
             </View> : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
             <Text>Loading......</Text></View>}
-            </View>
-            </View>
+                    </View> 
+                <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+                
+      
+       <View style={styles.bottomleftview}>
 
-            <View style={styles.bottomview}>
-            <View style={styles.bottomleftview}>
-
-                {this.state.questionno === 0  ? null : 
-                <TouchableOpacity onPress={this.onPrevious.bind(this)}>
-                <Text style={{fontSize:15}}>Previous</Text>
-                </TouchableOpacity>
+              {this.state.questionno === 0  ? null : 
+                 <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                 justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+                       <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
+                  </TouchableOpacity>
                 }
             </View>
             <View style={styles.bottomrightview}>
-             {this.state.questionno === this.state.questionsarray.length  ? 
-                    <TouchableOpacity onPress={this.onSubmit.bind(this)}>
-                <Text style={{fontSize:15}}>Close</Text>
-                </TouchableOpacity>
+             {this.state.questionno +1 === this.state.questionsarray.length  ? 
+                      <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                      justifyContent:"center",alignItems:"center"}} onPress={this.onSubmit.bind(this)}>
+                            <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>close</Text>
+                       </TouchableOpacity>
               : 
-                 <TouchableOpacity onPress={this.onNext.bind(this)}>
-                <Text style={{fontSize:15}}>Next</Text>
-                </TouchableOpacity> }
+              <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+              justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
+               </TouchableOpacity>
+                }
             </View>
             </View>
-            </View>
+              </View>
+            </ImageBackground>
+  
+          <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+          borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+              <Text style={{color:"white",fontSize:17}}>{"Summary"}</Text>
+              </View>
+      </>
+      
             )
     }
 }

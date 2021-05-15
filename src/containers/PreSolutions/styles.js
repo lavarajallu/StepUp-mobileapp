@@ -58,7 +58,7 @@ import {
           fontSize:15
       },
       listview:{
-          flex:1,
+          flex:1,marginTop:40
       },
       circlesview:{
           flex:0.1,justifyContent:"center",alignItems:"center"
@@ -70,10 +70,10 @@ import {
           flexDirection:"row",
       },
       questionnum:{
-          fontSize: 18,textAlign:"left"
-      },
+		fontSize: 15,textAlign:"left"
+	},
       questiontext:{
-          fontSize:18,textAlign:"left",marginLeft:20
+        fontSize:15,textAlign:"left",marginLeft:15,marginRight:10
       },
       answermain:{
           marginTop:20
@@ -85,11 +85,13 @@ import {
           fontSize:15,textAlign:"center"
       },
       answertextview:{
-          marginLeft:15,paddingLeft:15,width:windowWidth/1.3,borderWidth:1,borderRadius:20,paddingVertical:10
-      },
-      answertext:{
-          fontSize:15
-      },
+		marginLeft:15,
+		paddingLeft:15,width:windowWidth/1.3,borderWidth:1,
+		borderRadius:20,justifyContent:"center",
+	},
+	answertext:{
+		fontSize:15,marginTop:10
+	},
       circlefilled:{
            height:40,width:40,borderRadius: 20,borderColor: "#239816",backgroundColor:"#239816",borderWidth: 2,marginHorizontal:10,justifyContent:"center"
       },
@@ -106,10 +108,10 @@ import {
           flex:0.1,flexDirection:"row",
       },
       bottomleftview:{
-          flex:0.5,justifyContent: 'center',alignItems:"flex-start",marginLeft:20
+          flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"
       },
       bottomrightview:{
-          flex:0.5,justifyContent: 'center',alignItems:"flex-end",marginRight:20
+          flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"
       }
   
   })

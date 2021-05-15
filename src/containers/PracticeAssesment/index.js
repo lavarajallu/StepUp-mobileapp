@@ -431,8 +431,7 @@ class PracticeAssesment extends Component {
     //     })
     // }
     ongoback() {
-        //this.updateAnalytics()
-       // Actions.topicmainview({ type:"reset",data: this.props.topicindata, topicsdata: this.props.topicData, screen: "summary", subjectData: this.props.subjectData })
+        Actions.practicechapter({type:"reset",data: this.props.subjectData})
     }
     onAnswer(res) {
         //alert(JSON.stringify( this.state.selectedItem))

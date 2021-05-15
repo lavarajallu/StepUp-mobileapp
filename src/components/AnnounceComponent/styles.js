@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flex: 1 
     },
     listview:{
-        flex: 0.9
+        flex: 1
     },
     bottomView:{
         flex: 0.1, alignItems: "center", justifyContent: "flex-start" ,marginTop:10

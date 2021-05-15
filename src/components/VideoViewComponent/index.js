@@ -98,9 +98,9 @@ export default class VideoViewComponent extends Component {
 
  componentDidMount(){
   Orientation.addOrientationListener(this.handleOrientation.bind(this));
-//  alert(JSON.stringify(this.props.data[0].url))
+    console.log("dddddddddd",this.props.data)
   if(this.props.data){
-    var videoid = getVideoId(this.props.data[0].url);
+    var videoid = getVideoId(this.props.data.url);
   }
     
 
@@ -462,7 +462,7 @@ render(){
        style={{width:20,height:20,tintColor:colors.Themecolor}}/>}
        </TouchableOpacity> 
        <View style={[styles.absview,
-        {top:350}]}>
+        {top:this.state.fullscreen ? 360 : 320}]}>
       <View style={styles.subview}>
         <View style={styles.subleftview}/>
         <View style={styles.submiddleview}>

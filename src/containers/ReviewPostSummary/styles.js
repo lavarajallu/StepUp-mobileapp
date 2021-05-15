@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       width:32,height:32,tintColor:colors.Themecolor
     },
     topmiddleview:{
-      flex:0.8,justifyContent:"center",alignItems:"center"
+      flex:1,justifyContent:"center",alignItems:"center"
     },
     topmiddletext:{
       fontSize:20
@@ -31,20 +31,17 @@ const styles = StyleSheet.create({
       flex:0.9
     },
     subview:{
-      flex:1,margin:10,backgroundColor: 'white',borderRadius: 10, shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
-              shadowOpacity: 1,
-              shadowRadius: 5,
-              elevation: 10,
+      flex:1,marginTop:10
             },
             headtext:{
-              marginLeft:15,marginTop:15,fontSize:20,color:colors.Themecolor
+              marginLeft:15,marginTop:15,fontSize:15,color:colors.Themecolor
             },
 
             lineview:{
               width:"100%",height:1,backgroundColor: 'grey',marginVertical: 10
             },
             scoreview:{
-              margin:20,padding:20,backgroundColor: 'white',shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
+              margin:10,padding:15,backgroundColor: 'white',shadowOffset: { width: 0, height: 5 },shadowColor:"grey",
               shadowOpacity: 1,
               shadowRadius: 5,
               elevation: 10,

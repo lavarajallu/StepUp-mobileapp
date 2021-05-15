@@ -21,7 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseUrl } from "../../constants"
+import { baseUrl, imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
 import DOMParser from 'react-native-html-parser';
 import HtmlText from 'react-native-html-to-text';
@@ -36,6 +36,7 @@ class PreAssesment extends Component {
             isvisible: false,
             finalarray: [],
             answerobj: {},
+            selectedAnswerObj:{},
             useDetails: null,
             questiosnarray: [],
             timeup:false,
@@ -382,13 +383,14 @@ class PreAssesment extends Component {
         }, 1000)
     }
     renderItem({ item, index }) {
+        const {topicindata } = this.props;
         let viewstyle;
         let textstyle;
         if (this.state.selectedItem === item) {
-            viewstyle = styles.circlefilled;
+            viewstyle = [styles.circlefilled,{backgroundColor:topicindata.color,borderColor:topicindata.color}];
             textstyle = styles.circletext
         } else {
-            viewstyle = styles.borderfilled;
+            viewstyle = [styles.borderfilled,{borderColor: topicindata.color}];
             textstyle = styles.bordertext
         }
         return (
@@ -426,24 +428,59 @@ class PreAssesment extends Component {
         })
     }
     onNext() {
-        this.setState({
-            questionno: this.state.questionno + 1
-        }, () => {
-            var nextItem = this.state.questiosnarray[this.state.questionno];
+     //   alert(JSON.stringify(this.state.answerobj))
+        if(Object.keys(this.state.answerobj).length === 0){
+            alert("please select answer")
+        }else{
             this.setState({
-                selectedItem: nextItem,
-
+                questionno: this.state.questionno + 1
+            }, () => {
+               var nextItem = this.state.questiosnarray[this.state.questionno];
+                    this.setState({
+                        selectedItem: nextItem,
+                       // answerobj : {}
+    
+                    }, () => this.state.finalarray.map((res,i)=>{
+                       
+                        if(res.question === this.state.selectedItem.reference_id){
+                           
+                            // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                            this.setState({
+                                answerobj : res
+                            })
+                        }else{
+                            this.setState({
+                                answerobj:{}
+                            })
+                        }
+                    }))
             })
-        })
+        }
+       
     }
     onPrevious() {
-        var item = this.state.selectedItem;
-        var questionno = item.questionno;
-        //alert(questionno)
-        var prenumber = questionno - 1
-        var preItem = data[prenumber - 1];
         this.setState({
-            selectedItem: preItem
+            questionno: this.state.questionno - 1
+        }, () => {
+           var nextItem = this.state.questiosnarray[this.state.questionno];
+                this.setState({
+                    selectedItem: nextItem,
+                   // answerobj : {}
+
+                }, () => this.state.finalarray.map((res,i)=>{
+                   
+                    if(res.question === this.state.selectedItem.reference_id){
+                       
+                        // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                        this.setState({
+                            answerobj : res
+                        })
+                    }else{
+                        this.setState({
+                            answerobj:{}
+                        })
+                    }
+                }))
         })
     }
 
@@ -509,13 +546,10 @@ class PreAssesment extends Component {
             isvisible: false
         })
     }
-    onsubmitmodal() {
+    onSubmitText() {
         //alert(JSON.stringify(this.props.topicData))
         this.setState({
-            isvisible: false
-        }, () => {
-            console.log("final", this.state.finalarray)
-            Actions.push('presummary', { testid: this.state.testid, topicData: this.props.topicData, subjectData: this.props.subjectData, index: this.props.index, smartres: this.props.smartres })
+            isvisible: true
         })
     }
     ongoback() {
@@ -550,42 +584,36 @@ class PreAssesment extends Component {
             secondstime: timecount
 
         })
-        //  alert("dfd"+this.state.questionno + this.state.questiosnarray.length)
-        if (this.state.questionno + 1 === this.state.questiosnarray.length) {
-            // alert("dfd")
+      
             this.setState({
-                isvisible: true
-            })
-            //this.onSubmit()
-        } else {
-            this.setState({
-                questionno: this.state.questionno + 1
+             //   questionno: this.state.questionno + 1,
+                answerobj : obj 
             }, () => {
-                var nextItem = this.state.questiosnarray[this.state.questionno];
-                this.setState({
-                    selectedItem: nextItem,
-                   // answerobj : {}
+                // var nextItem = this.state.questiosnarray[this.state.questionno];
+                // this.setState({
+                //     selectedItem: nextItem,
+                //    // answerobj : {}
 
-                }, () => this.state.finalarray.map((res,i)=>{
+                // }, () => this.state.finalarray.map((res,i)=>{
                    
-                    if(res.question === this.state.selectedItem.reference_id){
+                //     if(res.question === this.state.selectedItem.reference_id){
                        
-                        // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
-                        this.setState({
-                            answerobj : res
-                        },()=>
-                        {this.state.answerobj = res;
-                       // alert("Hiiii"+JSON.stringify(this.state.answerobj))
-                    })
-                    }else{
-                        this.setState({
-                            answerobj:{}
-                        })
-                    }
-                }))
+                //         // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                //         this.setState({
+                //             answerobj : res
+                //         },()=>
+                //         {this.state.answerobj = res;
+                //        // alert("Hiiii"+JSON.stringify(this.state.answerobj))
+                //     })
+                //     }else{
+                //         this.setState({
+                //             answerobj:{}
+                //         })
+                //     }
+                // }))
             })
             this.scrollToIndex(this.state.questionno)
-        }
+        
 
 
         // var question = this.state.selectedItem;
@@ -615,28 +643,172 @@ class PreAssesment extends Component {
         // //finalarray.push(obj);
     }
 
-    render() {
-        return (
-            this.state.spinner ?<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-               <Text>Loading...</Text>
-            </View> :
+    rednerAnswerItem ({item,index}) {
+        const  {  topicindata } = this.props
+       return(
+         
+        <View style={styles.answermain}>
+        <View style={styles.answersub}>
+            <Text style={styles.answernum}>{index+1}. </Text>
+            <TouchableOpacity onPress={this.onAnswer.bind(this, item)}
+                style={[styles.answertextview, { backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "white",borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey" }]}>
+                    {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
+                <Text style={[styles.answertext,{color: this.state.answerobj.user_answer === item.key ? "white" : 'black'}]}>{item.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            </TouchableOpacity>
+        </View>
+    </View>
+       )
+    }
 
-                <View style={styles.mainview}>
-                    <View style={styles.topview}>
-                        <Text style={styles.toptext}>{this.props.data.activity}</Text>
+    render() {
+        const { topicindata} = this.props
+        return (
+            
+            // this.state.spinner ?<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+            //    <Text>Loading...</Text>
+            // </View> :
+
+            //     <View style={styles.mainview}>
+            //         <View style={styles.topview}>
+            //             <Text style={styles.toptext}>{this.props.data.activity}</Text>
+            //         </View>
+            //         {this.state.questiosnarray.length > 0 ?
+            //             <View style={{ flex: 1, backgroundColor: "green" }}>
+            //                 <View style={styles.mainbottomview}>
+            //                     <View style={styles.mainshadowview}>
+            //                         <View style={styles.headerview}>
+            //                             <View style={styles.headerleftview}>
+            //                                 <Text style={styles.headtext}>{this.props.data.name}</Text>
+            //                             </View>
+            //                             <View style={styles.headrightview}>
+            //                                 <View style={styles.timerview}>
+            //                                     <Image source={require('../../assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
+            //                                     <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+
+            //                                 </View>
+            //                             </View>
+            //                         </View>
+
+            //                         <View style={styles.listview}>
+            //                             <ScrollView
+            //                                 contentInsetAdjustmentBehavior="automatic"
+            //                                 keyboardShouldPersistTaps={'handled'}
+            //                             >
+            //                                 <View style={styles.circlesview}>
+            //                                     <FlatList data={this.state.questiosnarray}
+            //                                      ref={(ref) => { this.flatListRef = ref; }}
+            //                                      initialScrollIndex={0}
+            //                                      getItemLayout={this.getItemLayout}
+            //                                         keyExtractor={(item, index) => String(index)}
+            //                                         renderItem={this.renderItem.bind(this)}
+            //                                         horizontal={true}
+            //                                         showsHorizontalScrollIndicator={false} />
+            //                                 </View>
+            //                                 <View style={styles.questionsview}>
+            //                                     <View style={styles.questioninnerview}>
+            //                                         <Text style={styles.questionnum}>{this.state.questionno+1}. </Text>
+            //                                         {/* <HtmlText style={styles.questiontext} html={this.state.selectedItem.question.question}></HtmlText> */}
+
+            //                                         <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            //                                     </View>
+            //                                     {this.state.selectedItem.question.options.map((res, i) =>
+            //                                         <View style={styles.answermain}>
+            //                                             <View style={styles.answersub}>
+            //                                                 <Text style={styles.answernum}>{i+1}. </Text>
+            //                                                 <TouchableOpacity onPress={this.onAnswer.bind(this, res)}
+            //                                                     style={[styles.answertextview, { borderColor: this.state.answerobj.user_answer === res.key ? colors.Themecolor : "lightgrey", }]}>
+            //                                                         {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
+            //                                                     <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            //                                                 </TouchableOpacity>
+            //                                             </View>
+            //                                         </View>
+            //                                     )}
+
+            //                                 </View></ScrollView>
+            //                         </View>
+            //                     </View>
+            //                 </View>
+
+            //             </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            //                 <Text>No data</Text>
+            //                 <TouchableOpacity onPress={this.ongoback.bind(this)}>
+            //                     <Text>GO BACK</Text>
+            //                 </TouchableOpacity>
+            //             </View>}
+            //         <Modal isVisible={this.state.isvisible}>
+            //             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            //                 <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+            //                     <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
+            //                     <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
+            //                     <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+            //                         <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+            //                             <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+            //                                 <Text style={{ color: "white" }}>SUBMIT</Text>
+            //                             </LinearGradient>
+            //                         </TouchableOpacity>
+            //                         <TouchableOpacity onPress={this.onCancel.bind(this)}>
+            //                             <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+            //                                 <Text style={{ color: "white" }}>CANCEL</Text>
+            //                             </LinearGradient>
+            //                         </TouchableOpacity>
+            //                     </View>
+            //                 </View>
+            //             </View>
+            //         </Modal>
+                   
+            //         {this.state.testloader ?
+            //             <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+            //                 <ActivityIndicator color="black" />
+            //             </View>
+            //             : null
+            //         }
+            //     </View>
+
+
+
+            <>
+            <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+            resizeMode={"stretch"}
+            style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+              <View style={{flex:1}}>
+                <View style={{flex:0.15,flexDirection:"row"}}>
+                <View style={{flex:0.7}}>
+  
+                    <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+                     
+                      {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
+                      <Image source={require("../../assets/images/left-arrow.png")}
+                        style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+                    </TouchableOpacity> */}
+                   
+                      <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
+                     
                     </View>
-                    {this.state.questiosnarray.length > 0 ?
-                        <View style={{ flex: 1, backgroundColor: "green" }}>
+  
+                    </View>
+                    <View style={{flex:0.3,justifyContent:"center"}}>
+                    { topicindata.image !== "null" ?
+                    <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+  
+                    : <Image source={require('../../assets/images/noimage.png')}
+                    style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+                    </View>
+                </View>
+                <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                    { this.state.spinner ?
+                    <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                            <Text>Loading...</Text>
+                        </View> : 
+                         this.state.questiosnarray.length > 0 ?
+                        <View style={{ flex: 1, }}>
                             <View style={styles.mainbottomview}>
                                 <View style={styles.mainshadowview}>
                                     <View style={styles.headerview}>
-                                        <View style={styles.headerleftview}>
-                                            <Text style={styles.headtext}>{this.props.data.name}</Text>
-                                        </View>
+                                       
                                         <View style={styles.headrightview}>
-                                            <View style={styles.timerview}>
+                                            <View style={[styles.timerview,{backgroundColor:topicindata.color}]}>
                                                 <Image source={require('../../assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
-                                                <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+                                                 <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
 
                                             </View>
                                         </View>
@@ -664,18 +836,15 @@ class PreAssesment extends Component {
 
                                                     <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
                                                 </View>
-                                                {this.state.selectedItem.question.options.map((res, i) =>
-                                                    <View style={styles.answermain}>
-                                                        <View style={styles.answersub}>
-                                                            <Text style={styles.answernum}>{i+1}. </Text>
-                                                            <TouchableOpacity onPress={this.onAnswer.bind(this, res)}
-                                                                style={[styles.answertextview, { borderColor: this.state.answerobj.user_answer === res.key ? colors.Themecolor : "lightgrey", }]}>
-                                                                    {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
-                                                                <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-                                                            </TouchableOpacity>
-                                                        </View>
-                                                    </View>
-                                                )}
+                                                <FlatList data={this.state.selectedItem.question.options}
+                                              
+                                                    keyExtractor={(item, index) => String(index)}
+                                                    renderItem={this.rednerAnswerItem.bind(this)}
+                                                    //horizontal={true}
+                                                    showsHorizontalScrollIndicator={false} />
+                                                {/* {this.state.selectedItem.question.options.map((res, i) =>
+                                                   
+                                                )} */}
 
                                             </View></ScrollView>
                                     </View>
@@ -687,35 +856,70 @@ class PreAssesment extends Component {
                             <TouchableOpacity onPress={this.ongoback.bind(this)}>
                                 <Text>GO BACK</Text>
                             </TouchableOpacity>
-                        </View>}
-                    <Modal isVisible={this.state.isvisible}>
-                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
-                                <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
-                                <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
-                                <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
-                                    <TouchableOpacity onPress={this.onSubmit.bind(this)} >
-                                        <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-                                            <Text style={{ color: "white" }}>SUBMIT</Text>
-                                        </LinearGradient>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={this.onCancel.bind(this)}>
-                                        <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-                                            <Text style={{ color: "white" }}>CANCEL</Text>
-                                        </LinearGradient>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
                         </View>
-                    </Modal>
-                   
-                    {this.state.testloader ?
-                        <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
-                            <ActivityIndicator color="black" />
-                        </View>
-                        : null
-                    }
+    }
                 </View>
+                {this.state.questiosnarray.length > 0  ?
+                <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+                    <View style={{flex:1,flexDirection:"row"}}>
+                    {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
+                     <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
+
+                 <TouchableOpacity style={{ height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+              justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
+                       </TouchableOpacity></View> }
+                       <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
+                       {this.state.questionno + 1 === this.state.questiosnarray.length ?
+                         <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                         justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
+                  <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Submit</Text>
+                      </TouchableOpacity> :
+                       <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                          justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
+                       </TouchableOpacity>
+                           }               
+                           </View>
+                    </View> 
+           
+  
+                </View> : null }
+              </View>
+            </ImageBackground>
+  
+          <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+          borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+              <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
+              </View>
+                       <Modal isVisible={this.state.isvisible}>
+                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
+                                 <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                     <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>SUBMIT</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onCancel.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                 </View>
+                             </View>
+                         </View>
+                     </Modal>
+                   
+                     {this.state.testloader ?
+                         <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+                             <ActivityIndicator color="black" />
+                         </View>
+                         : null
+                     }
+              </>
         )
     }
 }

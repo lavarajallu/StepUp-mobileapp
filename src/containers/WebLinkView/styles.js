@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
             justifyContent:"center",alignItems:"center"
         },
         activitytext:{
-            textAlign:"center",fontSize:15,color:"white"
+            textAlign:"center",fontSize:15,
         },
 
 

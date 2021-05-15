@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageBackground
 } from 'react-native';
 import styles from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -123,7 +124,7 @@ class PdfViewNew extends Component {
   }
   getActivityInfo(token) {
     const { data } = this.props
-    const url = baseUrl+"/activities/info/" + data.reference_id
+    const url = baseUrl+"/activities/forStudent/"+data.reference_id//baseUrl+"/activities/info/" + data.reference_id
     fetch(url, {
       method: 'GET',
       headers: {
@@ -134,14 +135,13 @@ class PdfViewNew extends Component {
       .then(async(json) => {
 
         const data = json.data;
-        // alert(JSON.stringify(data))
-        console.log("dkfldf", data[0])
+         console.log("dataaaa",data)
         if (data) {
-          var string = data[0].pdfpages
+          var string = data.pdfpages
           var newarr = string.split(',');
          
           this.setState({
-            pdfdata: data[0].url,
+            pdfdata: data.url,
            
             pdfpagesarray: newarr,
             spinner: false,
@@ -323,40 +323,105 @@ class PdfViewNew extends Component {
     console.log("Changed in this iteration", changed);
   }
   render() {
-
+    const { topicindata} = this.props
     return (
       <>
-      <View style={styles.mainView}>
-        <TouchableOpacity onPress={this.onBack.bind(this)}>
-          <Image source={require("../../assets/images/left-arrow.png")}
-            style={styles.backimage} /></TouchableOpacity>
-        <View style={styles.mainsubview}>
+      <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+      resizeMode={"stretch"}
+      style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+        <View style={{flex:1}}>
+          <View style={{flex:0.15,flexDirection:"row"}}>
+          <View style={{flex:0.7}}>
+
+              <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+               
+                <TouchableOpacity onPress={this.onBack.bind(this)}>
+                <Image source={require("../../assets/images/left-arrow.png")}
+                  style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+              </TouchableOpacity>
+             
+                <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
+               
+              </View>
+
+              </View>
+              <View style={{flex:0.3,justifyContent:"center"}}>
+              { topicindata.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View>
+          </View>
+          <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
           {this.state.spinner ? 
-          <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+           <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
 
-          <Text>Loading.....</Text></View>:
-          <View style={{ flex: 1 }}>
-            <FlatList data={this.state.pdfpagesarray} 
-			renderItem={this.renderItem.bind(this)}
-      onViewableItemsChanged={this.onViewableItemsChanged }
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 50
-      }}
+           <Text>Loading.....</Text></View>:
+           <View style={{ flex: 1 }}>
+             <FlatList data={this.state.pdfpagesarray} 
+		 	renderItem={this.renderItem.bind(this)}
+       onViewableItemsChanged={this.onViewableItemsChanged }
+       viewabilityConfig={{
+       itemVisiblePercentThreshold: 50
+     }}
+		
+	 	 showsHorizontalScrollIndicator={false}/>
+      </View>}
+          </View>
+          <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+          
+          <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous Activity</Text>
+                 </TouchableOpacity>
+       
+                 <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next Activity</Text>
+                 </TouchableOpacity>
+
+          </View>
+        </View>
+      </ImageBackground>
+
+    <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+    borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
+        </View>
+</>
+    //   <>
+    //   <View style={styles.mainView}>
+    //     <TouchableOpacity onPress={this.onBack.bind(this)}>
+    //       <Image source={require("../../assets/images/left-arrow.png")}
+    //         style={styles.backimage} /></TouchableOpacity>
+    //     <View style={styles.mainsubview}>
+    //       {this.state.spinner ? 
+    //       <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+
+    //       <Text>Loading.....</Text></View>:
+    //       <View style={{ flex: 1 }}>
+    //         <FlatList data={this.state.pdfpagesarray} 
+		// 	renderItem={this.renderItem.bind(this)}
+    //   onViewableItemsChanged={this.onViewableItemsChanged }
+    //   viewabilityConfig={{
+    //     itemVisiblePercentThreshold: 50
+    //   }}
 			
-			 showsHorizontalScrollIndicator={false}/>
-       {/* <ScrollView>
-       {this.state.pdfpagesarray.map((item,i)=>
+		// 	 showsHorizontalScrollIndicator={false}/>
+    //    {/* <ScrollView>
+    //    {this.state.pdfpagesarray.map((item,i)=>
 
-            // <PdfView 
-            // resizeMode={"contain"}
-            // source={cachePath}
-            // page={parseInt(item)} 
-            // onError={(error)=>console.log("ffff",error)}/>
+    //         // <PdfView 
+    //         // resizeMode={"contain"}
+    //         // source={cachePath}
+    //         // page={parseInt(item)} 
+    //         // onError={(error)=>console.log("ffff",error)}/>
           
        
        
-       )}
-       </ScrollView> */}
+    //    )}
+    //    </ScrollView> */}
       
 
 
@@ -365,53 +430,53 @@ class PdfViewNew extends Component {
 
 
 
-          </View>}
-        </View>
-        <View style={styles.nextactivityview}>
-          <TouchableOpacity onPress={this.onPrevious.bind(this)} style={styles.nextinner}>
-            <Text style={styles.activitytext}>Previous Activity</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onNext.bind(this)} style={styles.nextinner}>
-            <Text style={styles.activitytext}>Next Activity</Text>
-          </TouchableOpacity>
+    //       </View>}
+    //     </View>
+    //     <View style={styles.nextactivityview}>
+    //       <TouchableOpacity onPress={this.onPrevious.bind(this)} style={styles.nextinner}>
+    //         <Text style={styles.activitytext}>Previous Activity</Text>
+    //       </TouchableOpacity>
+    //       <TouchableOpacity onPress={this.onNext.bind(this)} style={styles.nextinner}>
+    //         <Text style={styles.activitytext}>Next Activity</Text>
+    //       </TouchableOpacity>
 
-        </View>
-        <View style={styles.subjectouter}>
-          <Text style={{ color: "white", fontSize: 15, paddingHorizontal: 10 }}>{this.props.data.activity}</Text>
-        </View>
+    //     </View>
+    //     <View style={styles.subjectouter}>
+    //       <Text style={{ color: "white", fontSize: 15, paddingHorizontal: 10 }}>{this.props.data.activity}</Text>
+    //     </View>
 
        
 
-      </View>
-     {this.state.isvisible ?
-     <View style={{position:"absolute",width:windowWidth,height:windowHeight,backgroundColor:"red",elevation:10}}>
-          {/* <Pdf
-          ref={(pdf) => { this.pdf = pdf; }}
+    //   </View>
+    //  {this.state.isvisible ?
+    //  <View style={{position:"absolute",width:windowWidth,height:windowHeight,backgroundColor:"red",elevation:10}}>
+    //       {/* <Pdf
+    //       ref={(pdf) => { this.pdf = pdf; }}
 
-          page={parseInt(this.state.selectedPage)}
-          source={{uri: imageUrl + this.state.pdfdata , cache: true}}
-          //resourceType={resourceType}
-          singlePage={true}
-          onLoadComplete={(numberOfPages, filePath) => {
-            console.log(`number of pages: ${numberOfPages}`);
-          }}
-          onPageChanged={this.onPageChanged.bind(this)}
-          onError={(error) => {
-            console.log("ffffe",error);
-          }}
-          onPressLink={(uri) => {
-            console.log(`Link presse: ${uri}`)
-          }}
-          spacing={5}
-          style={{
-            flex: 1,
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
+    //       page={parseInt(this.state.selectedPage)}
+    //       source={{uri: imageUrl + this.state.pdfdata , cache: true}}
+    //       //resourceType={resourceType}
+    //       singlePage={true}
+    //       onLoadComplete={(numberOfPages, filePath) => {
+    //         console.log(`number of pages: ${numberOfPages}`);
+    //       }}
+    //       onPageChanged={this.onPageChanged.bind(this)}
+    //       onError={(error) => {
+    //         console.log("ffffe",error);
+    //       }}
+    //       onPressLink={(uri) => {
+    //         console.log(`Link presse: ${uri}`)
+    //       }}
+    //       spacing={5}
+    //       style={{
+    //         flex: 1,
+    //         width: Dimensions.get('window').width,
+    //         height: Dimensions.get('window').height,
 
-          }} /> */}
-     </View>
-     : null}
-       </>
+    //       }} /> */}
+    //  </View>
+    //  : null}
+    //    </>
     )
   }
 }

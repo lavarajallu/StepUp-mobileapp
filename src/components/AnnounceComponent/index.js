@@ -26,12 +26,15 @@ class AnnounceComponent extends Component {
     componentDidMount(){
        // alert(JSON.stringify(this.state.data))
     }
+    onView(item){
+        this.props.onItemPress(item)
+    }
     Item = ({ item }) => (
-        <View style={{width: "100%",
-        paddingVertical: 10,backgroundColor: item.new ?  "rgba(105, 80, 119, 0.2)": "white",}}>
+        <TouchableOpacity onPress={this.onView.bind(this,item)} style={{width: "100%",
+        paddingVertical: 10,backgroundColor: !item.is_read ?  "rgba(105, 80, 119, 0.2)": "white",}}>
             <View style={styles.itemsubview}>
                 <View style={styles.itemleftview}>
-                    {item.new ? 
+                    {!item.is_read? 
                      <Image source={require('../../assets/images/refer/notifyorange.png')}
                      style={styles.bellorange} />
                     :
@@ -51,7 +54,7 @@ class AnnounceComponent extends Component {
                     <Image source={require('../../assets/images/refer/Vector.png')} style={styles.rigtarrow} />}
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
     seperator() {
         return (
@@ -69,8 +72,8 @@ class AnnounceComponent extends Component {
                             keyExtractor={(item, index) => item + index}
                             renderItem={this.Item.bind(this)}
                             ItemSeparatorComponent={this.seperator.bind(this)}
-                            renderSectionHeader={({ section: { title } }) => (
-                                <Text style={styles.sectiontext}>{title}</Text>
+                            renderSectionHeader={({ section: { key } }) => (
+                                <Text style={styles.sectiontext}>{key}</Text>
                             )}
                         />
                     </View>

@@ -34,7 +34,6 @@ var imagesarray = [
 ]
 import { ProgressCircle } from 'react-native-svg-charts'
 import { VictoryPie } from "victory-native";
-import { color } from 'react-native-reanimated';
 
 var graphicData = [
     { y: 20, x: '20%', name: "Mathematics" },
@@ -68,6 +67,7 @@ class Analysis extends Component {
             allavergae:"",
             allsectiondata:[],
             mainsubjects:[],
+            allSubjectData:[],
             user: {}
         }
     }
@@ -174,15 +174,91 @@ class Analysis extends Component {
     }
     getChapter() {
         if (this.state.selectedTab.name === "All") {
-            this.setState({
-                loading: false
-            })
+            this.getAllSubjectsData()
+        
         } else {
             this.getChaptersdata()
             this.getpiechatdata()
         }
 
 
+    }
+    getAllSubjectsData(){
+        var url = baseUrl + '/student/subjectAssessmentAnalysis'
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        }).then((response) =>
+
+            response.json())
+            .then((json) => {
+
+                if (json.data) {
+                    if (json.data.length > 0) {
+
+                        // this.setState({
+                        //     allSubjectData: json.data
+                        // })
+                        var finalarray = []
+                        json.data.map((res,i)=>{
+                            var leveles = res.diffLevel;
+                            var easycount  =  leveles.Easy.correct+leveles.Easy.inCorrect+leveles.Easy.unAnswered
+                            var mediumcount  =  leveles.Medium.correct+leveles.Medium.inCorrect+leveles.Medium.unAnswered
+                            var hardcount  =  leveles.Hard.correct+leveles.Hard.inCorrect+leveles.Hard.unAnswered
+                            var totalQuestions = easycount+mediumcount+hardcount
+                            var correctanswers =  leveles.Easy.correct+ leveles.Medium.correct+leveles.Hard.correct
+                            var easyPercent = 0
+                            var mediumPercent = 0
+                            var hardPercent = 0
+                            if(easycount > 0 ){
+                                easyPercent =  leveles.Easy.correct > 0 ? (leveles.Easy.correct/easycount)*100 : 0
+                            }
+                            if(mediumcount > 0 ){
+                                mediumPercent =  leveles.Medium.correct > 0 ? (leveles.Medium.correct/mediumcount)*100 : 0
+                            }
+                            if(hardcount > 0 ){
+                                hardPercent =  leveles.Hard.correct > 0 ? (leveles.Hard.correct/hardcount)*100 : 0
+                            }
+                            // var mediumPercent = (leveles.Medium.correct/mediumcount)*100
+                            // var hardPercent = leveles.Hard.correct > 0 ? (leveles.Hard.correct/hardcount)*100 : 0 
+                            var obj ={
+                                subjectName: res.subject.name,
+                                testAttempts: res.attempts,
+                                avgQueTime: parseFloat(res.averageTime).toFixed(2),
+                                totalQuestions: totalQuestions,
+                                correctAnswer: correctanswers,
+                                easy: parseFloat(easyPercent).toFixed(2),
+                                medium: parseFloat(mediumPercent).toFixed(2),
+                                hard: parseFloat(hardPercent).toFixed(2)
+                            }
+                            console.log("objjjj",obj)
+                            finalarray.push(obj)
+                        })
+                        console.log("finalarray",finalarray)
+                        this.setState({
+                            allSubjectData: finalarray
+                        },()=> console.log("allSubjectData",this.state.allSubjectData))
+                        this.setState({
+                            loading: false
+                        })
+                    }else{
+
+                    }
+                } else {
+                alert(JSON.stringify(json.message))
+                this.setState
+                    ({
+                        loading: false,
+                        chaptersData: []
+                    })
+            }
+            }
+
+            )
+            .catch((error) => console.error(error))
     }
     getpiechatdata() {
         const { user, token } = this.state
@@ -481,7 +557,97 @@ class Analysis extends Component {
                                                                 </View>
                                                                 
                                                             </View>
-                                                            <View style={{
+                                                             {
+                                                            this.state.allSubjectData.map((res,i)=>(
+                                                                <View style={{
+                                                                    paddingVertical: 20,
+                                                                    width: windowWidth,
+                                                                    marginVertical: 5,
+                                                                    backgroundColor: 'white', alignSelf: "center",
+                                                                    borderBottomWidth: 1, borderColor: "#DFDFDF",
+                                                                    // shadowColor: 'black',
+                                                                    // shadowOffset: { width: 0, height: 5 },
+                                                                    // shadowOpacity: 1,
+                                                                    // shadowRadius: 5,
+                                                                    // elevation: 10, borderRadius: 10,
+                                                                    justifyContent: "center"
+                                                                }}>
+                                                                    <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:18}}>{res.subjectName}</Text>
+                                                                    <View style={{ flexDirection: "row", justifyContent: "space-evenly", marginTop: 30 }}>
+                                                                        <View>
+                                                                            <Image source={require('../../assets/images/dashboard/new/correct.png')} style={{ width: 40, height: 40, alignSelf: "center", resizeMode: "contain" }} />
+                                                                            <Text style={{ textAlign: "center", color: "#656565" }}>Correct</Text>
+                                                                            <Text style={{ textAlign: "center", color: "#656565", fontWeight: "bold" }}>{res.correctAnswer}/{res.totalQuestions}</Text>
+                                                                        </View>
+                                                                        <View>
+                                                                            <Image source={require('../../assets/images/dashboard/new/attempted.png')} style={{ width: 40, height: 40, alignSelf: "center", resizeMode: "contain" }} />
+                                                                            <Text style={{ textAlign: "center", color: "#656565" }}>Attempted</Text>
+                                                                            <Text style={{ textAlign: "center", color: "#656565", fontWeight: "bold" }}>{res.testAttempts}</Text>
+                                                                        </View>
+                                                                        <View>
+                                                                            <Image source={require('../../assets/images/dashboard/new/speed.png')} style={{ width: 40, height: 40, alignSelf: "center", resizeMode: "contain" }} />
+                                                                            <Text style={{ textAlign: "center", color: "#656565" }}>Avg. Speed</Text>
+                                                                            <Text style={{ textAlign: "center", color: "#656565", fontWeight: "bold" }}>{res.avgQueTime}s</Text>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ marginTop: 30, marginHorizontal: 20 }}>
+                                                                       
+                                                                        <View>
+                                                                            <View style={{ flexDirection: "row" }}>
+                                                                                <View style={{ flex: 0.2, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Easy</Text>
+    
+    
+                                                                                </View>
+                                                                                <View style={{ flex: 0.65, justifyContent: "center", }}>
+                                                                                    <Progress.Bar progress={res.easy / 100} width={windowWidth / 2} height={10}
+                                                                                        color={res.easy > 50 ? "#88C400" : 50 < res.easy < 30 ? "#0A7FD7" : "#FE3939"} />
+                                                                                </View>
+                                                                                <View style={{ flex: 0.15, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "center", fontSize: 12 }}>{res.easy}%</Text>
+                                                                                </View>
+                                                                            </View>
+    
+                                                                            <View style={{ flexDirection: "row", marginTop: 20 }}>
+                                                                                <View style={{ flex: 0.2, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Medium</Text>
+    
+    
+                                                                                </View>
+                                                                                <View style={{ flex: 0.65, justifyContent: "center" }}>
+                                                                                    <Progress.Bar progress={res.medium / 100} width={windowWidth / 2} height={10}
+                                                                                        color={res.medium > 50 ? "#88C400" : 50 < res.medium < 30 ? "#0A7FD7" : "#FE3939"} />
+                                                                                </View>
+                                                                                <View style={{ flex: 0.15, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "center", fontSize: 12 }}>{res.medium}%</Text>
+                                                                                </View>
+                                                                            </View>
+    
+                                                                            <View style={{ flexDirection: "row", marginTop: 20 }}>
+                                                                                <View style={{ flex: 0.2, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Hard</Text>
+    
+    
+                                                                                </View>
+                                                                                <View style={{ flex: 0.65, justifyContent: "center", }}>
+                                                                                    <Progress.Bar progress={res.hard / 100} width={windowWidth / 2} height={10}
+                                                                                        color={res.hard < 30 ? "#FE3939" : res.hard < 70 ? "#0A7FD7" : "#88C400"} />
+                                                                                </View>
+                                                                                <View style={{ flex: 0.15, justifyContent: "center" }}>
+                                                                                    <Text style={{ textAlign: "center", fontSize: 12 }}>{res.hard}%</Text>
+                                                                                </View>
+                                                                            </View>
+    
+    
+    
+    
+                                                                        </View>
+                                                                    </View>
+                                                                </View>
+                                                            ))}
+                                                           
+                                                
+                                                            {/* <View style={{
                                                                     paddingVertical: 5,
                                                                     width: windowWidth,
                                                                     marginVertical: 5,
@@ -564,7 +730,7 @@ class Analysis extends Component {
 
                                                                         </View>
                                                                     </View>
-                                                                </View>
+                                                                </View> */}
 
                                                         </View>
                                                     </ScrollView>

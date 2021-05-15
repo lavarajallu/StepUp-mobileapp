@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 	mainbottomview:{
 		flex:1},
 	timerview:{
-		flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,backgroundColor: colors.Themecolor,
+		flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,
             borderTopLeftRadius :15,borderBottomLeftRadius: 15
         },
 	mainshadowview:{
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         //  elevation: 10
 	},
 	headerview:{
-		flex:0.15,flexDirection:"row",justifyContent:"space-between"
+		flex:0.2,flexDirection:"row",justifyContent:"flex-end",
 	},
 	headerleftview:{
 		flex:0.7,justifyContent:"center"
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 		fontSize:15,textAlign:"left",marginLeft:15,paddingRight:10
 	},
 	answermain:{
-		marginTop:20,
+		marginTop:10,
 	},
 	answersub:{
 		flexDirection:"row",alignItems:"center"
@@ -77,20 +77,20 @@ const styles = StyleSheet.create({
 	},
 	answertextview:{
 		marginLeft:15,
-		paddingLeft:15,width:windowWidth/1.2,borderWidth:1,
-		borderRadius:20,justifyContent:"center",paddingBottom:10
+		paddingLeft:15,width:windowWidth/1.3,borderWidth:1,
+		borderRadius:20,justifyContent:"center",
 	},
 	answertext:{
 		fontSize:15,marginTop:10
 	},
 	circlefilled:{
-		 height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,backgroundColor:colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	circletext:{
 		textAlign: 'center',color:"white",fontSize:15
 	},
 	borderfilled:{
-		 height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		 height:40,width:40,borderRadius: 20,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	},
 	bordertext:{
 		 textAlign: 'center',color:colors.Themecolor,fontSize:15

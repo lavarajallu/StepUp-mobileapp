@@ -13,6 +13,8 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from 'react-native';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 import styles from "./styles"
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,7 +24,7 @@ import { Actions } from 'react-native-router-flux';
 import NormalVideoViewComponent from '../../components/NormalVideoViewComponent'
 import VideoQuestionModal from '../../components/VideoQuestionModal';
 
-import { baseUrl } from "../../constants"
+import { baseUrl , imageUrl} from "../../constants"
 import Snackbar from 'react-native-snackbar';
 
 class NormalVideo extends  Component{
@@ -204,7 +206,7 @@ class NormalVideo extends  Component{
     getActivityInfo() {
       //  alert(JSON.stringify(this.props.data))
         const { data } = this.props
-        const url = baseUrl+"/activities/info/" + data.reference_id
+        const url =  baseUrl+"/activities/forStudent/"+data.reference_id//baseUrl+"/activities/info/" + data.reference_id
         fetch(url, {
           method: 'GET',
           headers: {
@@ -356,42 +358,123 @@ class NormalVideo extends  Component{
     }
   
 	render(){
+    const { topicindata} = this.props
+    var stylefull;
+    var width;
+    var height;
+    if(this.state.showfullscreen){
+      stylefull = { height:this.state.showfullscreen ? "100%" :"80%",alignSelf:"center",
+      backgroundColor:"white",
+      borderRadius:20,width:"95%"}
+      width = windowHeight;
+      height=windowWidth
+    }else{
+      stylefull = {
+        flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"
+      }
+      width = windowWidth;
+      height= windowHeight
+    }
 		return(
-			    <View style={styles.mainView}>
-               {this.state.showfullscreen ? null :
-                <TouchableOpacity onPress={this.onBack.bind(this)} style={{elevation:10}}>
+			//     <View style={styles.mainView}>
+      //          {this.state.showfullscreen ? null :
+      //           <TouchableOpacity onPress={this.onBack.bind(this)} style={{elevation:10}}>
+      //           <Image source={require("../../assets/images/left-arrow.png")}
+      //               style={styles.backimage} />
+      //               </TouchableOpacity> }
+      //           <View style={[styles.mainsubview,{ height:this.state.showfullscreen ? "100%":"80%",}]}>
+      //           	<View style={{flex:1}}>
+      //             {this.state.normalvideodata ? 
+      //            <NormalVideoViewComponent ref = "ve" onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
+      //            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+      //            <Text>Loading...</Text></View>} 
+      //           	</View>
+      //           </View>
+      //           {this.state.showfullscreen ? null :
+      //            <View style={styles.nextactivityview}>
+      //            <TouchableOpacity style={styles.nextinner} onPress={this.onPrevious.bind(this)}>
+      //               <Text style={styles.activitytext}>Previous Activity</Text>
+      //               </TouchableOpacity>
+      //               <TouchableOpacity style={styles.nextinner} onPress={this.onNext.bind(this)}>
+      //               <Text style={styles.activitytext}>Next Activity</Text>
+      //               </TouchableOpacity>
+
+      //           </View>}
+      //           {this.state.showfullscreen ? null :
+      //            <View style={styles.subjectouter}>
+      //           <Text style={{color:"white",fontSize:20}}>{this.props.data.activity}</Text>
+      //           </View> }
+      //           <Modal isVisible={this.state.newmodal}>
+      //   <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>
+        
+      //   <VideoQuestionModal data={this.state.data} onquestionSubmit={this.onquestionSubmit.bind(this,1)} onRewatch={this.onRewatch.bind(this)}/>
+      //   </View>
+      // </Modal>
+      //       </View>
+      <>
+      
+      <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+      resizeMode={"stretch"}
+      style={{width:width,height:height,backgroundColor:topicindata.color}} opacity={0.5}>
+        <View style={{flex:1}}>
+        {this.state.showfullscreen ? null : 
+          <View style={{flex:0.15,flexDirection:"row"}}>
+          <View style={{flex:0.7}}>
+
+              <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+               
+                <TouchableOpacity onPress={this.onBack.bind(this)}>
                 <Image source={require("../../assets/images/left-arrow.png")}
-                    style={styles.backimage} />
-                    </TouchableOpacity> }
-                <View style={[styles.mainsubview,{ height:this.state.showfullscreen ? "100%":"80%",}]}>
-                	<View style={{flex:1}}>
-                  {this.state.normalvideodata ? 
+                  style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+              </TouchableOpacity>
+             
+                <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
+               
+              </View>
+
+              </View>
+              <View style={{flex:0.3,justifyContent:"center"}}>
+              { topicindata.image.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View>
+          </View> } 
+          <View style={stylefull}>
+          {this.state.normalvideodata ? 
                  <NormalVideoViewComponent ref = "ve" onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
                  <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-                 <Text>Loading...</Text></View>} 
-                	</View>
-                </View>
-                {this.state.showfullscreen ? null :
-                 <View style={styles.nextactivityview}>
-                 <TouchableOpacity style={styles.nextinner} onPress={this.onPrevious.bind(this)}>
-                    <Text style={styles.activitytext}>Previous Activity</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.nextinner} onPress={this.onNext.bind(this)}>
-                    <Text style={styles.activitytext}>Next Activity</Text>
-                    </TouchableOpacity>
+                  <Text>Loading...</Text></View>} 
+          </View>
+          {this.state.showfullscreen ? null :
+          <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+          
+          <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous Activity</Text>
+                 </TouchableOpacity>
+       
+                 <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next Activity</Text>
+                 </TouchableOpacity>
 
-                </View>}
-                {this.state.showfullscreen ? null :
-                 <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:20}}>{this.props.data.activity}</Text>
-                </View> }
-                <Modal isVisible={this.state.newmodal}>
+          </View> }
+        </View>
+      </ImageBackground> 
+      {this.state.showfullscreen ? null :
+    <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+    borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
+        </View>}
+        <Modal isVisible={this.state.newmodal}>
         <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>
         
-        <VideoQuestionModal data={this.state.data} onquestionSubmit={this.onquestionSubmit.bind(this,1)} onRewatch={this.onRewatch.bind(this)}/>
-        </View>
-      </Modal>
-            </View>
+         <VideoQuestionModal data={this.state.data} onquestionSubmit={this.onquestionSubmit.bind(this,20)} onRewatch={this.onRewatch.bind(this)}/>
+       </View>
+       </Modal>
+</>
 			)
 	}
 }

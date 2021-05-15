@@ -371,6 +371,7 @@ class TopicMainView extends Component {
     this.updateAnalytics()
     console.log("Activity", item)
     let newarray = []
+   // alert(this.state.smartres[index-1].status)
     if (type === 'teacher') {
       newarray = this.state.teacherres
     } else if (type === 'icon') {
@@ -378,7 +379,7 @@ class TopicMainView extends Component {
     }
 
     if (this.state.smartres[index - 1]) {
-      // alert(this.state.smartres[index-1].status)
+       //alert(this.state.smartres[index-1].status)
       var status = this.state.smartres[index - 1].status
       if (status === 0 ) {
         Toast.show('Please complete the previous activity to open this.', Toast.LONG);

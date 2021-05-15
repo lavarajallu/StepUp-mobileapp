@@ -104,6 +104,7 @@ export default class NormalVideoViewComponent extends Component {
     this.state={
       spinner: true,
       normaldata : this.props.data,
+      visisted: false,
       videoid:'',
       array:["10","20"],
       pausedtime:null,
@@ -129,7 +130,7 @@ export default class NormalVideoViewComponent extends Component {
    //alert("hi"+JSON.stringify(this.props.questionsArray))
    Orientation.addOrientationListener(this.handleOrientation.bind(this));
   
-   console.log("legthh",this.props.questionsArray.length)
+ //  console.log("legthh",this.props.questionsArray.length)
   //  if(this.props.data){
   //   var videoid = getVideoId(this.props.data[0].url);
   // }
@@ -140,7 +141,7 @@ export default class NormalVideoViewComponent extends Component {
        
      },()=>{
 
-      console.log("cccc",this.state.questionsarray[0].question)
+      //console.log("cccc",this.state.questionsarray[0].question)
      
       this.setState({
        
@@ -171,18 +172,25 @@ export default class NormalVideoViewComponent extends Component {
 
  }
  static getDerivedStateFromProps(nextProps, prevState) {
- // console.log("newpropslogin",nextProps.data)
-  if(prevState.normaldata === nextProps.data[0]){
-    
-        }else {
+  // console.log("111",prevState.normaldata)
+  // if(prevState.normaldata === nextProps.data){
+  //           return{
+
+  //           }
+  //       }else {
           if(nextProps.data){
-           // alert("hiii")
-            return{
-                normaldata: nextProps.data[0],
-                loading: false
+            if(prevState.visisted){
+
+            }else{
+              return{
+                normaldata: nextProps.data,
+                loading: false,
+                visisted: true
               }
+            }
+           
               }
-        }
+        //}
  
   
 }
@@ -439,14 +447,14 @@ render(){
        resizeMode={this.state.fullscreen ? "cover":"contain"}
        onProgress ={this.onProgress} />
       <TouchableOpacity onPress={this.onfullscreen.bind(this)}
-        style={{top:this.state.fullscreen ? 50 :50,elevation:20,position:"absolute",padding:10,backgroundColor:"transparent",right:10}}>
+        style={{top:this.state.fullscreen ? 50 :20,elevation:20,position:"absolute",padding:10,backgroundColor:"transparent",right:10}}>
         {this.state.fullscreen ? 
           <Image source={require("../../assets/images/halfscreen.png")}
           style={{width:20,height:20,tintColor:colors.Themecolor}}/>:
        <Image source={require("../../assets/images/fullscreen.png")}
        style={{width:20,height:20,tintColor:colors.Themecolor}}/>}
        </TouchableOpacity>
-        <View style={[styles.absview,{top:this.state.fullscreen ? 350 : 270}]}>
+        <View style={[styles.absview,{top:this.state.fullscreen ? 360 : 250}]}>
       <View style={styles.subview}>
         <View style={styles.subleftview}/>
         <View style={styles.submiddleview}>
