@@ -14,7 +14,9 @@ import {
     ActivityIndicator
 } from 'react-native';
 import styles from "./styles"
-import { baseUrl } from "../../constants"
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+import { baseUrl , imageUrl} from "../../constants"
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
 import { WebView } from 'react-native-webview';
@@ -242,56 +244,114 @@ class Games extends  Component{
         })
     }
 	render(){
+    const { topicindata} = this.props
 		return(
-			    <View style={styles.mainView}>
-               <TouchableOpacity onPress={this.onBack.bind(this)}>
+			//     <View style={styles.mainView}>
+      //          <TouchableOpacity onPress={this.onBack.bind(this)}>
+      //           <Image source={require("../../assets/images/left-arrow.png")}
+      //               style={styles.backimage} />
+      //               </TouchableOpacity>
+      //           <View style={styles.mainsubview}>
+      //           	<View style={{flex:1,marginTop:5}}>
+      //               {this.state.weblinkdata ? 
+      //           	 <View style={{flex:1,}}/>
+      //                       :<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+      //                         <Text>Loading.</Text></View>
+      //                     }
+
+      //           	</View>
+      //           </View>
+      //            <View style={styles.nextactivityview}>
+      //            <TouchableOpacity style={styles.nextinner} onPress={this.onPrevious.bind(this)}>
+      //               <Text style={styles.activitytext}>Previous Activity</Text>
+      //               </TouchableOpacity>
+      //               <TouchableOpacity onPress={this.onNext.bind(this)} style={styles.nextinner}>
+      //               <Text style={styles.activitytext}>Next Activity</Text>
+      //               </TouchableOpacity>
+
+      //           </View>
+      //            <View style={styles.subjectouter}>
+      //           <Text style={{color:"white",fontSize:15}}>{this.props.data.activity}</Text>
+      //           </View>
+      //            <Modal isVisible={this.state.isvisible}>
+      //   <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>
+      //   <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15}}>
+      //     <Text style={{color:"black",fontSize: 20,textAlign: 'center',marginTop:10}}>Your are about to begin your Post Assesment</Text>
+      //     <Text style={{fontSize: 15,marginHorizontal:30,textAlign: 'center',marginTop:10}}>Once you begin you have 5 minutes to finish the test</Text>
+      //     <Text style={{fontSize: 20,textAlign: 'center',marginTop:10}}>Are you ready to begin?</Text>
+      //    <View style={{flexDirection:'row',justifyContent:"space-around",marginTop:20 }}>
+      //      <TouchableOpacity onPress={this.onOk.bind(this)}>
+      //      <LinearGradient colors={['#239816', '#32e625']}  style={{paddingHorizontal: 30,paddingVertical: 10,borderRadius: 20}}>
+      //      <Text>OK</Text>
+      //       </LinearGradient>
+      //      </TouchableOpacity>
+      //        <TouchableOpacity onPress={this.onCancel.bind(this)}>
+      //      <LinearGradient colors={['#f14d65', '#fc8798']}   style={{paddingHorizontal: 30,paddingVertical: 10,borderRadius: 20}}>
+      //      <Text>CANCEL</Text>
+      //       </LinearGradient>
+      //      </TouchableOpacity>
+      //      </View>
+      //     </View>
+      //   </View>
+      // </Modal>
+      //       </View>
+      <>
+      <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+      resizeMode={"stretch"}
+      style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+        <View style={{flex:1}}>
+          <View style={{flex:0.15,flexDirection:"row"}}>
+          <View style={{flex:0.7}}>
+
+              <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+               
+                <TouchableOpacity onPress={this.onBack.bind(this)}>
                 <Image source={require("../../assets/images/left-arrow.png")}
-                    style={styles.backimage} />
-                    </TouchableOpacity>
-                <View style={styles.mainsubview}>
-                	<View style={{flex:1,marginTop:5}}>
-                    {this.state.weblinkdata ? 
+                  style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+              </TouchableOpacity>
+             
+                <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
+               
+              </View>
+
+              </View>
+              <View style={{flex:0.3,justifyContent:"center"}}>
+              {topicindata.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View>
+          </View>
+          <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+          {this.state.weblinkdata ? 
                 	 <View style={{flex:1,}}/>
                             :<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                               <Text>Loading.</Text></View>
                           }
 
-                	</View>
-                </View>
-                 <View style={styles.nextactivityview}>
-                 <TouchableOpacity style={styles.nextinner} onPress={this.onPrevious.bind(this)}>
-                    <Text style={styles.activitytext}>Previous Activity</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.onNext.bind(this)} style={styles.nextinner}>
-                    <Text style={styles.activitytext}>Next Activity</Text>
-                    </TouchableOpacity>
+          </View>
+          <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+          
+          <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous Activity</Text>
+                 </TouchableOpacity>
+       
+                 <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next Activity</Text>
+                 </TouchableOpacity>
 
-                </View>
-                 <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:15}}>{this.props.data.activity}</Text>
-                </View>
-                 <Modal isVisible={this.state.isvisible}>
-        <View style={{ flex: 1,justifyContent:"center",alignItems:"center" }}>
-        <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15}}>
-          <Text style={{color:"black",fontSize: 20,textAlign: 'center',marginTop:10}}>Your are about to begin your Post Assesment</Text>
-          <Text style={{fontSize: 15,marginHorizontal:30,textAlign: 'center',marginTop:10}}>Once you begin you have 5 minutes to finish the test</Text>
-          <Text style={{fontSize: 20,textAlign: 'center',marginTop:10}}>Are you ready to begin?</Text>
-         <View style={{flexDirection:'row',justifyContent:"space-around",marginTop:20 }}>
-           <TouchableOpacity onPress={this.onOk.bind(this)}>
-           <LinearGradient colors={['#239816', '#32e625']}  style={{paddingHorizontal: 30,paddingVertical: 10,borderRadius: 20}}>
-           <Text>OK</Text>
-            </LinearGradient>
-           </TouchableOpacity>
-             <TouchableOpacity onPress={this.onCancel.bind(this)}>
-           <LinearGradient colors={['#f14d65', '#fc8798']}   style={{paddingHorizontal: 30,paddingVertical: 10,borderRadius: 20}}>
-           <Text>CANCEL</Text>
-            </LinearGradient>
-           </TouchableOpacity>
-           </View>
           </View>
         </View>
-      </Modal>
-            </View>
+      </ImageBackground>
+
+    <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+    borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
+        </View>
+</>
 			)
 	}
 }
