@@ -43,7 +43,6 @@ class ForgotPassword extends Component {
             alert("please enter valid email")
         } else {
             Actions.push('otp')
-            console.log("hello")
         }
     }
     returnToLoginPage() {
@@ -64,8 +63,8 @@ class ForgotPassword extends Component {
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="forgot" />
-                        <Image source={require("../../assets/images/logo.png")}
-                            style={styles.logo} />
+                        <Image source={require("../../assets/images/logo_icon.png")}
+                            style={{width:100,height:100,alignSelf:"center",marginTop:10}} />
                         <Image source={require("../../assets/images/forgoticon.png")}
                             style={styles.forgoticon} />
                         <Text style={styles.forgottext}>Forgot Password?</Text>
@@ -76,7 +75,7 @@ class ForgotPassword extends Component {
                             style={styles.textinput}
                             blurOnSubmit={false}
                             keyboardType={"email-address"}
-                            placeholder={"Email/Mobile-number"}
+                            placeholder={"Email"}
                             onChangeText={this.onChangeEmail}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         ></TextInput>

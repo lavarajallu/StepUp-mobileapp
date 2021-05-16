@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   submiticon: {
     backgroundColor: colors.Themecolor, borderRadius: 20, overflow: "hidden", justifyContent: "center",
-    paddingHorizontal:40,paddingVertical:5
+    paddingHorizontal:40,alignItems:"center",height:30
   },
   forgottext: {
     color: colors.Themecolor, fontSize: 15
