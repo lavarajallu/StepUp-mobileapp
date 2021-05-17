@@ -7,7 +7,7 @@ import {
 	View,
 	Text,
 	Dimensions,
-	StatusBar,
+	Platform,
 	Image,
 	ActivityIndicator,
 	TouchableOpacity
@@ -331,7 +331,7 @@ class Topics extends Component {
               
 
               </ImageBackground>
-       <View style={{height:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+       <View style={{height:Platform.OS === 'android'? windowHeight/1.35:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
        position:"absolute",bottom:0,borderTopRightRadius:25,borderTopLeftRadius:25}}>
         {this.state.spinner ? 
          <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>

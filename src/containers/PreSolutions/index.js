@@ -496,8 +496,8 @@ class PreSolutions extends Component{
         //     </View> 
             <>
             <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
-            resizeMode={"stretch"}
-            style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+          
+            style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
               <View style={{flex:1}}>
                 <View style={{flex:0.15,flexDirection:"row"}}>
                 <View style={{flex:0.7}}>
@@ -522,7 +522,7 @@ class PreSolutions extends Component{
                     style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
                     </View>
                 </View>
-                <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                <View style={{flex:0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
                       {this.state.questionsarray.length > 0 ?
                         <View style={styles.listview}>
                         <View style={styles.circlesview}>
@@ -563,7 +563,7 @@ class PreSolutions extends Component{
             </View> : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
             <Text>Loading......</Text></View>}
                     </View> 
-                <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+                {/* <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
                 
       
        <View style={styles.bottomleftview}>
@@ -588,14 +588,35 @@ class PreSolutions extends Component{
                </TouchableOpacity>
                 }
             </View>
-            </View>
+            </View> */}
+                <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+                    <View style={{flex:1,flexDirection:"row"}}>
+                    {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
+                     <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
+
+                 <TouchableOpacity style={{ height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+              justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
+                       </TouchableOpacity></View> }
+                       <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
+                       {this.state.questionno + 1 === this.state.questionsarray.length ?
+                         <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                         justifyContent:"center",alignItems:"center"}} onPress={this.onSubmit.bind(this)}>
+                  <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Submit</Text>
+                      </TouchableOpacity> :
+                       <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                          justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
+                       </TouchableOpacity>
+                           }               
+                           </View>
+                    </View> 
+           
+  
+                </View>
               </View>
             </ImageBackground>
-  
-          <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-          borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
-              <Text style={{color:"white",fontSize:17}}>{"Summary"}</Text>
-              </View>
+
       </>
       
             )

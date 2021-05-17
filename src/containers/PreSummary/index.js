@@ -11,6 +11,7 @@ import {
     StatusBar,
     Image,
     Keyboard,
+    Platform,
     TouchableOpacity
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -400,8 +401,7 @@ class PreSummary extends Component {
             // </View>
             <>
             <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
-            resizeMode={"stretch"}
-            style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+            style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
               <View style={{flex:1}}>
                 <View style={{flex:0.15,flexDirection:"row"}}>
                 <View style={{flex:0.7}}>
@@ -426,7 +426,7 @@ class PreSummary extends Component {
                     style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
                     </View>
                 </View>
-                <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                <View style={{flex : this.state.review ?  0.8  :0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
                 {this.state.spinner ? <View style={{ height:"100%",width:"100%",
                        backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
                       <Text>Loading...</Text>
@@ -536,14 +536,14 @@ class PreSummary extends Component {
                 </View>}
                 </View>
                 {this.state.review ?  null  : 
-                <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+                <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
                 
-                <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
               justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous Activity</Text>
                        </TouchableOpacity>
              
-                       <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                       <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
               justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next Activity</Text>
                        </TouchableOpacity>
@@ -553,7 +553,7 @@ class PreSummary extends Component {
             </ImageBackground>
   
           <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-          borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
+          borderRadius:20,top: Platform.OS === 'android' ? 90 : 100,justifyContent:"center",alignItems:"center"}}>
               <Text style={{color:"white",fontSize:17}}>{"Summary"}</Text>
               </View>
       </>

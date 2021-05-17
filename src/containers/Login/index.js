@@ -41,7 +41,7 @@ class Login extends Component {
             checked: false,
             hidePassword: true,
             spinner:false,
-            device_token : '',
+            device_token:''
         };
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
