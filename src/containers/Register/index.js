@@ -13,6 +13,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import styles from "./styles"
+import DeviceConstants from 'react-native-device-constants';
+import PushNotification from "react-native-push-notification";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { Validations } from '../../helpers'
 import { Actions } from 'react-native-router-flux';
 const windowWidth = Dimensions.get('window').width;
@@ -36,7 +39,8 @@ class Register extends Component {
             password: "",
             confPassword: "",
             mobile_number:"",
-            spinner: false
+            spinner: false,
+            device_token:""
         };
         this.onChangeFName = this.onChangeFName.bind(this);
         this.onChangeLName = this.onChangeLName.bind(this);
@@ -46,6 +50,62 @@ class Register extends Component {
         this.onChangeConfPass = this.onChangeConfPass.bind(this);
         this.onChangeMobile = this.onChangeMobile.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+    }
+    componentDidMount(){
+        var _this  = this
+     
+        PushNotification.configure({
+            // (optional) Called when Token is generated (iOS and Android)
+            onRegister: function (token) {
+              console.log("TOKEN:", token);
+              _this.setState({
+                  device_token : token
+              })
+            },
+          
+            // (required) Called when a remote is received or opened, or local notification is opened
+            onNotification: function (notification) {
+              console.log("NOTIFICATION:", notification);
+          
+              // process the notification
+          
+              // (required) Called when a remote is received or opened, or local notification is opened
+              notification.finish(PushNotificationIOS.FetchResult.NoData);
+            },
+          
+            // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
+            onAction: function (notification) {
+              console.log("ACTION:", notification.action);
+              console.log("NOTIFICATION:", notification);
+          
+              // process the action
+            },
+          
+            // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+            onRegistrationError: function(err) {
+              console.log("jdkkc",err.message, err);
+            },
+          
+            // IOS ONLY (optional): default: all - Permissions to register.
+            permissions: {
+              alert: true,
+              badge: true,
+              sound: true,
+            },
+          
+            // Should the initial notification be popped automatically
+            // default: true
+            popInitialNotification: true,
+          
+            /**
+             * (optional) default: true
+             * - Specified if permissions (ios) and token (android and ios) will requested or not,
+             * - if not, you must call PushNotificationsHandler.requestPermissions() later
+             * - if you are not using remote notification or do not have Firebase installed, use this:
+             *     requestPermissions: Platform.OS === 'ios'
+             */
+            requestPermissions: true,
+          });
     }
     onChangeFName(text) {
         this.setState({
@@ -188,9 +248,9 @@ class Register extends Component {
     const body ={
         email: this.state.email,
         password: this.state.password,
-        device_type: "ANDROID",
-        device_id: "device_id",
-        device_token: "device_token"
+        device_type: this.state.device_token.os,
+        device_id: DeviceConstants.deviceId,
+        device_token: this.state.device_token.token
      }
     
      console.log("hello",body)

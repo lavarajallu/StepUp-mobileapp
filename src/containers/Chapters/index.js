@@ -9,7 +9,7 @@ import {
   Dimensions,
   StatusBar,
   Image,
-  Keyboard,
+  Platform,
   TouchableOpacity
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
@@ -262,7 +262,7 @@ style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
               
 
               </ImageBackground>
-       <View style={{height:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+       <View style={{height:Platform.OS === 'android' ? windowHeight/1.35:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
        position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
         {this.state.spinner ? 
          <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>

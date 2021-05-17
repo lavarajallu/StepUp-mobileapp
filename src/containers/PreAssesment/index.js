@@ -768,8 +768,7 @@ class PreAssesment extends Component {
 
             <>
             <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
-            resizeMode={"stretch"}
-            style={{width:windowWidth,height:windowHeight,backgroundColor:topicindata.color}} opacity={0.5}>
+            style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
               <View style={{flex:1}}>
                 <View style={{flex:0.15,flexDirection:"row"}}>
                 <View style={{flex:0.7}}>
@@ -794,7 +793,7 @@ class PreAssesment extends Component {
                     style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
                     </View>
                 </View>
-                <View style={{flex:0.77,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                <View style={{flex:0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
                     { this.state.spinner ?
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                             <Text>Loading...</Text>
@@ -860,22 +859,22 @@ class PreAssesment extends Component {
     }
                 </View>
                 {this.state.questiosnarray.length > 0  ?
-                <View style={{flex:0.13,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,}}>
+                <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
                     <View style={{flex:1,flexDirection:"row"}}>
                     {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
                      <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
 
-                 <TouchableOpacity style={{ height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                 <TouchableOpacity style={{ height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
               justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
                        </TouchableOpacity></View> }
                        <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
                        {this.state.questionno + 1 === this.state.questiosnarray.length ?
-                         <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                         <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                          justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Submit</Text>
                       </TouchableOpacity> :
-                       <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
+                       <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                           justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
                        </TouchableOpacity>

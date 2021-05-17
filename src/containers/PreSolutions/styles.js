@@ -108,10 +108,10 @@ import {
           flex:0.1,flexDirection:"row",
       },
       bottomleftview:{
-          flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"
+          flex:0.5,justifyContent:"flex-start",alignItems:"center"
       },
       bottomrightview:{
-          flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"
+          flex:0.5,justifyContent:"center",alignItems:"center"
       }
   
   })
