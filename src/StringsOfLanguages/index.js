@@ -16,7 +16,8 @@ const StringsOfLanguages = new LocalizedStrings({
     mocktest:"Mock Test",
     mylibrary:"My Library",
     mytopicsinprogress:"My Topics In Progress",
-    seeall:"See All >"
+    recommendedtopics:"Recommended Topics",
+    seeall:"View All"
   },
   th: {
     forgot:  'ลืมรายละเอียดการเข้าสู่ระบบของคุณ? รับความช่วยเหลือในการลงชื่อเข้าใช้',
@@ -33,7 +34,8 @@ const StringsOfLanguages = new LocalizedStrings({
     mocktest:"การทดสอบก่อนวันจริง",
     mylibrary:"ห้องสมุดของฉัน",
     mytopicsinprogress:"หัวข้อของฉันอยู่ระหว่างดำเนินการ",
-    seeall:"ดูทั้งหมด >"
+    recommendedtopics:"แนะนำ หัวข้อ",
+    seeall:"ดูทั้งหมด"
   }
 });
 

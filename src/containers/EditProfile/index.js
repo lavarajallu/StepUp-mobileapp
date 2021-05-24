@@ -98,7 +98,7 @@ class EditProfile extends Component {
         }
     }
     seData(data){
-        //alert("Daya"+JSON.stringify(data))
+       console.log("ddddd",data)
         this.setState({
             name: data.name,
             dob: data.dob,
@@ -348,12 +348,13 @@ class EditProfile extends Component {
        console.log("dcc",grade_id)
        var normladata ={
         name,
-        email,
+      //  email,
         mobile_number,
         state,
+        dob,
         gender,
-        board_id,
-        grade_id
+       // board_id,
+       // grade_id
        }
         console.log("sdsdsds",normladata)
     //    let formdata = new FormData();
@@ -553,6 +554,7 @@ class EditProfile extends Component {
                                         style={{ width: 23, height: 28 }} />
                                     <TextInput
                                         placeholder="email"
+                                        editable={false}
                                         value={this.state.email}
                                         onChangeText={(text) => this.setState({ email: text })}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
@@ -571,7 +573,12 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/boardicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                    <View
+                                         <TextInput
+                                          editable={false}
+                                        placeholder="Board"
+                                        value={this.state.boardvalue}
+                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
+                                    {/* <View
 
                                         style={{
                                             height: 40, width: windowWidth / 1.3,
@@ -585,13 +592,18 @@ class EditProfile extends Component {
                                             items={this.state.boardsData}
                                         />
 
-                                    </View>
+                                    </View> */}
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
                                     <Image
                                         source={require('../../assets/images/refer/gradeicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                   <View
+                                         <TextInput
+                                         editable={false}
+                                        placeholder="Grade"
+                                        value={this.state.grade}
+                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
+                                   {/* <View
 
 style={{
     height: 40, width: windowWidth / 1.3,
@@ -605,7 +617,7 @@ style={{
     items={this.state.gradesData}
 />
 
-</View>
+</View> */}
                                 </View>
 
                                 <TouchableOpacity

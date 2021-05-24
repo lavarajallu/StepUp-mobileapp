@@ -69,7 +69,7 @@ class MyTopics extends Component {
 
             response.json())
             .then((json) => {
-                console.log("topicdattaaa", JSON.stringify(json.data))
+                console.log("topicdattaaa.................", JSON.stringify(json))
                 if (json.data) {
                     this.setState({
                         topicsData: json.data,
@@ -218,7 +218,7 @@ class MyTopics extends Component {
 
                 this.state.topicsData.length > 0 ?
                     <View style={{marginVertical:10}}>
-                        	<View style={{flexDirection: 'row',justifyContent: 'space-between'  }}>
+                        	<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
                             <Text style={styles.headertext}>{StringsOfLanguages.mytopicsinprogress}</Text>
                             <TouchableOpacity onPress={this.onViewall.bind(this)}>
                             <Text style={styles.seelalltext}>{StringsOfLanguages.seeall}</Text>

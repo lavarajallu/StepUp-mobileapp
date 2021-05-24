@@ -26,7 +26,8 @@ import Snackbar from 'react-native-snackbar';
 import DOMParser from 'react-native-html-parser';
 import HtmlText from 'react-native-html-to-text';
 import { colors } from "../../constants"
-
+var alphabetarray = ["A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+var interval;
 class PreAssesment extends Component {
     constructor(props) {
         super(props)
@@ -367,7 +368,7 @@ class PreAssesment extends Component {
             .catch((error) => alert("gggg" + error))
     }
     starttimer() {
-        var interval = setInterval(() => {
+     interval = setInterval(() => {
  //  console.log(this.state.seconds)
         if(this.state.seconds === 0){
             clearInterval(interval);
@@ -430,7 +431,7 @@ class PreAssesment extends Component {
     onNext() {
      //   alert(JSON.stringify(this.state.answerobj))
         if(Object.keys(this.state.answerobj).length === 0){
-            alert("please select answer")
+            alert("please select option")
         }else{
             this.setState({
                 questionno: this.state.questionno + 1
@@ -485,6 +486,7 @@ class PreAssesment extends Component {
     }
 
     onSubmit() {
+        clearInterval(interval);
         this.setState({
             isvisible: false
         }, () => {
@@ -512,18 +514,20 @@ class PreAssesment extends Component {
                         const data = json.data
                         console.log("sdsd", json)
                         this.setState({ testloader: false })
-                        Alert.alert(
-                            "Step Up",
-                            json.message,
-                            [
-                                {
-                                    text: "OK", onPress: () => {
-                                        this.updateAnalytics()
-                                        Actions.push('presummary', {from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
-                                    }
-                                }
-                            ]
-                        );
+                        this.updateAnalytics()
+                                        Actions.push('presummary', {type:"reset",from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                        // Alert.alert(
+                        //     "Step Up",
+                        //     json.message,
+                        //     [
+                        //         {
+                        //             text: "OK", onPress: () => {
+                        //                 this.updateAnalytics()
+                        //                 Actions.push('presummary', {from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                        //             }
+                        //         }
+                        //     ]
+                        // );
 
                     } else {
                         this.setState({ testloader: false })
@@ -649,7 +653,7 @@ class PreAssesment extends Component {
          
         <View style={styles.answermain}>
         <View style={styles.answersub}>
-            <Text style={styles.answernum}>{index+1}. </Text>
+            <Text style={styles.answernum}>{alphabetarray[index]}. </Text>
             <TouchableOpacity onPress={this.onAnswer.bind(this, item)}
                 style={[styles.answertextview, { backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "white",borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey" }]}>
                     {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
@@ -770,30 +774,30 @@ class PreAssesment extends Component {
             <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
             style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
               <View style={{flex:1}}>
-                <View style={{flex:0.15,flexDirection:"row"}}>
-                <View style={{flex:0.7}}>
-  
-                    <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
-                     
-                      {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
-                      <Image source={require("../../assets/images/left-arrow.png")}
-                        style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
-                    </TouchableOpacity> */}
-                   
-                      <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
-                     
-                    </View>
-  
-                    </View>
-                    <View style={{flex:0.3,justifyContent:"center"}}>
-                    { topicindata.image !== "null" ?
-                    <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
-  
-                    : <Image source={require('../../assets/images/noimage.png')}
-                    style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
-                    </View>
-                </View>
-                <View style={{flex:0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+              <View style={{flex:0.08,flexDirection:"row"}}>
+          <View style={{flex:1}}>
+
+              <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
+               
+                {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
+                <Image source={require("../../assets/images/left-arrow.png")}
+                  style={{ width: 25, height: 25, tintColor: "white",}} />
+              </TouchableOpacity> */}
+             
+                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{this.props.data.activity}</Text>
+               
+              </View>
+
+              </View>
+              {/* <View style={{flex:0.3,justifyContent:"center"}}>
+              { topicindata.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View> */}
+          </View>
+                <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
                     { this.state.spinner ?
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                             <Text>Loading...</Text>
@@ -859,24 +863,24 @@ class PreAssesment extends Component {
     }
                 </View>
                 {this.state.questiosnarray.length > 0  ?
-                <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+                <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
                     <View style={{flex:1,flexDirection:"row"}}>
                     {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
                      <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
 
-                 <TouchableOpacity style={{ height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                 <TouchableOpacity style={{ height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
               justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
-                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
+                   <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Previous</Text>
                        </TouchableOpacity></View> }
                        <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
                        {this.state.questionno + 1 === this.state.questiosnarray.length ?
-                         <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                         <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                          justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
-                  <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Submit</Text>
+                  <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Submit</Text>
                       </TouchableOpacity> :
-                       <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                       <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                           justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
-                   <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
+                   <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Next</Text>
                        </TouchableOpacity>
                            }               
                            </View>
@@ -887,10 +891,10 @@ class PreAssesment extends Component {
               </View>
             </ImageBackground>
   
-          <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+          {/* <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
           borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
               <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
-              </View>
+              </View> */}
                        <Modal isVisible={this.state.isvisible}>
                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                              <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>

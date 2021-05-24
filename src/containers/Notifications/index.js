@@ -93,10 +93,10 @@ class Notifications extends Component {
                         style={styles.topShadow}>
                             <View style={styles.topsubview}>
                                 <View style={styles.topleftview}>
-                                    {this.props.title === 'menu' ? 
+                                  
                                 <TouchableOpacity onPress={this.onBack.bind(this)}>
                             <Image source={require('../../assets/images/refer/back.png')} style={styles.backIcon} />
-                            </TouchableOpacity>: null}
+                            </TouchableOpacity>
                                 </View>
                                 <View style={styles.topmiddleview}>
                                 <Text style={styles.topHead}>Notifications</Text>
@@ -129,7 +129,7 @@ class Notifications extends Component {
                         <NotifyComponent  data={this.state.notifications.notificcation_data}/>
                         </View>
                         <View style={{flex:0.08}}>
-                        <Footer openControlPanel={this.openControlPanel} value="notifications"/>
+                        <Footer openControlPanel={this.openControlPanel} value="notifications" notification_count={this.state.notifications.notification_count}/>
                         </View>
                     </View>
                  

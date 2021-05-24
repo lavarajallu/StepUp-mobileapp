@@ -285,7 +285,7 @@ class Announcements extends Component {
                             </TouchableOpacity>
                                 </View>
                                 <View style={styles.topmiddleview}>
-                                <Text style={styles.topHead}>Notifications</Text>
+                                <Text style={styles.topHead}>Announcements</Text>
                                 </View>
                                 <View style={styles.toprightview}>
                                 <Text style={styles.counttext}>{this.state.datacount}</Text>
@@ -306,7 +306,9 @@ class Announcements extends Component {
 
                 this.state.announcementsData.length === 0 ?
                 <View style={styles.bottomView}>
-                    <ImageBackground source={require("../../assets/images/refer/notilogo.png")}
+                     <View style={{flex:1}}>
+                        <View style={{flex:0.92,alignItems:"center"}}>
+                        <ImageBackground source={require("../../assets/images/refer/notilogo.png")}
                         style={styles.referlogo}>
                             <Image source={require('../../assets/images/refer/notify.png')} style={styles.logoicon}/>
                         </ImageBackground>
@@ -318,6 +320,12 @@ class Announcements extends Component {
                     <TouchableOpacity onPress={this.onBacktoFeed.bind(this)} >
                    <Text style={styles.buttonText}>Back to Feed</Text></TouchableOpacity>
                    </LinearGradient>
+                        </View>
+                        <View style={{flex:0.08}}>
+                        <Footer openControlPanel={this.openControlPanel} value="bell"/>
+                        </View>
+                    </View>
+                   
                 </View> :
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>

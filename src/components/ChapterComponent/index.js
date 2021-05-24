@@ -146,12 +146,12 @@ class ChapterComponent extends Component {
             shadowRadius: 5,
             elevation: 10,}}>
            <View style={{flex:1,flexDirection:"row"}}>
-               <View style={{flex:0.2,backgroundColor:this.props.userData.color}}>
+               <View style={{flex:0.2,backgroundColor:this.props.userData.color,justifyContent:"center",alignItems:"center"}}>
                {item.image !== "null" ? 
-                 <Image source={{uri:imageUrl+item.image}} style={{width:"100%",height:"100%",resizeMode:"contain"}}/>
+                 <Image source={{uri:imageUrl+item.image}} style={{width:"100%",height:"100%",resizeMode:"cover"}}/>
                         
                 :<Image source={require('../../assets/images/noimage.png')}
-                style={{width:60,height:60,resizeMode:"contain"}}/>}
+                style={{width:60,height:60,resizeMode:"cover",alignSelf:"center"}}/>}
                </View>
                <View style={{flex:0.8,justifyContent:"center",paddingLeft:20}}>
                    <Text style={{color:"#2E2E2E",fontSize:10}}>CHAPTER {index+1}</Text>

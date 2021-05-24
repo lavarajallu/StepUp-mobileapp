@@ -278,7 +278,7 @@ class Login extends Component {
                        </View>
                        <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20,}}>
                        <Image source={require("../../assets/images/logo_icon.png")}
-                            style={{width:80,height:80,alignSelf:"center"}} />
+                            style={{width:72,height:72,alignSelf:"center"}} />
                         <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey", justifyContent: 'center',}}>
                         <TextInput
                             style={{width:"100%",paddingLeft:8}}

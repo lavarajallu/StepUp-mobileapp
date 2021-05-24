@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
           marginLeft:15,marginTop:10,fontSize:16,color:colors.Themecolor
         },
         seelalltext:{
-          marginRight:15,marginTop:10,fontSize:15,color:colors.Themecolor
+          marginRight:15,marginTop:10,fontSize:13,color:colors.Themecolor
         }
 })
 export default styles;

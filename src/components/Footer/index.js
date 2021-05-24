@@ -11,7 +11,8 @@ class Footer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected:'dashboard'
+            selected:'dashboard',
+            notification_count: null
         };
     }
     onMenu(){
@@ -24,9 +25,19 @@ class Footer extends Component {
                 selected:this.props.value
             })
         }
+        if(this.props.notification_count){
+        //    alert(this.props.notification_count)
+            if(this.props.notification_count > 0){
+                this.setState({
+                    notification_count:this.props.notification_count
+                })
+            }
+           
+        }
     }
     onPressIcon(value){
         this.setState({selected:value},()=>{
+         //   alert(value)
             if(value==="notifications"){
           
                 Actions.push('notifications',{title:"tabs"})
@@ -62,9 +73,11 @@ class Footer extends Component {
              </TouchableOpacity>
                     </View>
                     <View style={{flex:0.25,backgroundColor:this.state.selected === 'notifications'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
-                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'notifications')}>
-              <Image  source={require("../../assets/images/notification.png")} style={styles.footericon}/>
-              </TouchableOpacity>
+                            <TouchableOpacity onPress={this.onPressIcon.bind(this,'notifications')}>
+                    <Image  source={require("../../assets/images/notification.png")} style={styles.footericon}/>
+                    </TouchableOpacity>
+                    {this.state.notification_count  ? 
+                    <View style={{width:10,height:10,borderRadius:5,backgroundColor:"red",position:"absolute",alignSelf:"flex-end",top:10,right:30}}/> : null}
                     </View>
                     <View style={{flex:0.25,backgroundColor:this.state.selected === 'calendar'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
                     <TouchableOpacity onPress={this.onPressIcon.bind(this,'calendar')}>

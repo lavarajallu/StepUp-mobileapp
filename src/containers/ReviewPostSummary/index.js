@@ -210,30 +210,30 @@ getData = async () => {
 	
 	style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
 	  <View style={{flex:1}}>
-		<View style={{flex:0.15,flexDirection:"row"}}>
-		<View style={{flex:0.7}}>
+	  <View style={{flex:0.08,flexDirection:"row"}}>
+          <View style={{flex:1}}>
 
-			<View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
-			 
-			  <TouchableOpacity onPress={this.onBack.bind(this)}>
-			  <Image source={require("../../assets/images/left-arrow.png")}
-				style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
-			</TouchableOpacity>
-		   
-			  <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
-			 
-			</View>
+              <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
+               
+                <TouchableOpacity onPress={this.onBack.bind(this)}>
+                <Image source={require("../../assets/images/left-arrow.png")}
+                  style={{ width: 25, height: 25, tintColor: "white",}} />
+              </TouchableOpacity>
+             
+                <Text style={{ color: "white", fontSize: 18,marginLeft:10}}>{"Review"}</Text>
+               
+              </View>
 
-			</View>
-			<View style={{flex:0.3,justifyContent:"center"}}>
-			{topicindata.image !== "null" ?
-			<Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+              </View>
+              {/* <View style={{flex:0.3,justifyContent:"center"}}>
+              { topicindata.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
 
-			: <Image source={require('../../assets/images/noimage.png')}
-			style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
-			</View>
-		</View>
-		<View style={{flex:0.8,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View> */}
+          </View>
+		<View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
 		 			<View style={styles.middleview}>
 				<View style={styles.subview}>
 	 	          <Text style={styles.headtext}>Score</Text>

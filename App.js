@@ -14,7 +14,7 @@ import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPape
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,
      PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,
- PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions} from './src/containers'
+ PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,CalendarNew,LiveSessionActivity} from './src/containers'
 
  import VideoActivity from './Video'
  import LoadingScreen from './src/containers/LoadingScreen'
@@ -60,7 +60,7 @@ const App = () => {
         <Scene key="mocktestsummary" component={MockTestSummary}/>
         <Scene key ="mocktestsolutions" component={MockTestSolutions} />
         <Scene key="mocktestreview" component={MockTestReview} />
-
+         <Scene key="calendar" component={CalendarNew}/>
         <Scene key="practice" component={Practice}   />
         <Scene key="practicechapter" component={PracticeChapter}  />
         <Scene key="practiceassesment" component={PracticeAssesment}/>
@@ -81,6 +81,7 @@ const App = () => {
         <Scene key="settings" component={Settings}/>
         <Scene key="announcements" component={Announcements}/>
         <Scene key="leaderboard" component={LeaderBoard} />
+        <Scene key = "livesessionactivity" component={LiveSessionActivity}/>
       </Stack>
     </Router>
   )

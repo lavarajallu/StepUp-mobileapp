@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
     flexDirection:"row",alignItems:"center"
   },
   iconview:{
-    width:20,height:20,tintColor: 'white'
+    width:15,height:15,tintColor: 'white'
   },
   icontext:{
-    marginLeft:5,color:"white",fontSize:15
+    marginLeft:5,color:"white",fontSize:12
   },
 })
 export default styles;
