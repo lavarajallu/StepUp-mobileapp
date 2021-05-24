@@ -331,30 +331,30 @@ class PdfViewNew extends Component {
 
       style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
         <View style={{flex:1}}>
-          <View style={{flex:0.15,flexDirection:"row"}}>
-          <View style={{flex:0.7}}>
+          <View style={{flex:0.08,flexDirection:"row"}}>
+          <View style={{flex:1}}>
 
-              <View style={{flex:1,justifyContent:"space-around",marginLeft:20}}>
+              <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
                
                 <TouchableOpacity onPress={this.onBack.bind(this)}>
                 <Image source={require("../../assets/images/left-arrow.png")}
-                  style={{ width: 30, height: 30, tintColor: "white",marginTop:10 }} />
+                  style={{ width: 25, height: 25, tintColor: "white",}} />
               </TouchableOpacity>
              
-                <Text style={{ color: "white", fontSize: 20,marginBottom:30 }}>{topicindata.name}</Text>
+                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{this.props.data.activity}</Text>
                
               </View>
 
               </View>
-              <View style={{flex:0.3,justifyContent:"center"}}>
+              {/* <View style={{flex:0.3,justifyContent:"center"}}>
               { topicindata.image !== "null" ?
               <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
 
               : <Image source={require('../../assets/images/noimage.png')}
               style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
-              </View>
+              </View> */}
           </View>
-          <View style={{flex:0.75,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+          <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
           {this.state.spinner ? 
            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
 
@@ -370,26 +370,26 @@ class PdfViewNew extends Component {
 	 	 showsHorizontalScrollIndicator={false}/>
       </View>}
           </View>
-          <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+          <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
           
-          <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+          <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
         justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
-             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous Activity</Text>
+             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Previous Activity</Text>
                  </TouchableOpacity>
        
-                 <TouchableOpacity style={{ height:40,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                 <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
         justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
-             <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next Activity</Text>
+             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Next Activity</Text>
                  </TouchableOpacity>
 
           </View>
         </View>
       </ImageBackground>
 
-    <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-    borderRadius:20,top: Platform.OS === 'android' ? 90 : 100 ,justifyContent:"center",alignItems:"center"}}>
+    {/* <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
+    borderRadius:20,top: Platform.OS === 'android' ? 60 : 100 ,justifyContent:"center",alignItems:"center"}}>
         <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
-        </View>
+        </View> */}
 </>
     //   <>
     //   <View style={styles.mainView}>

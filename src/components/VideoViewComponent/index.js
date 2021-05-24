@@ -121,7 +121,7 @@ export default class VideoViewComponent extends Component {
           
            var time  = parseInt(res.question.timeinsec)
            newarr.push(time)
-         //  console.log("vvvvv",newarr)
+          console.log("vvvvv",newarr)
            this.setState({
             newarr:newarr
            },()=>{

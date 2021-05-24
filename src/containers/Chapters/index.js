@@ -234,18 +234,17 @@ class Chapters extends Component {
                   justifyContent: "space-between"
                 }}>
                   <View style={{flex:1,flexDirection:"row",justifyContent:"space-between",marginTop:10,}}>
-                    <View style={{flex:0.7}}>
+                    <View style={{flex:0.7,marginLeft:10}}>
 
                       <View style={{flex:1,flexDirection:"row",marginTop:10}}>
-                        <View style={{flex:0.1}}>
+                        <View style={{flex:0.1,marginTop:10}}>
                         <TouchableOpacity onPress={this.onBack.bind(this)}>
-                        <Image source={require("../../assets/images/left-arrow.png")}
-                          style={{ width: 30, height: 30, tintColor: "white" }} />
+                        <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,tintColor:"white"}} />
                       </TouchableOpacity>
                         </View>
-                        <View style={{flex:0.9,justifyContent:"space-between"}}>
-                        <Text style={{ color: "white", fontSize: 20,marginLeft:20 }}>{this.props.data.name}</Text>
-                        <Text style={{color:"white",marginLeft:20}}>{this.props.data.chaptersCount} Chapters | {this.props.data.topicsCount} Topics</Text>
+                        <View style={{flex:0.9,justifyContent:"flex-start"}}>
+                        <Text style={{ color: "white", fontSize: 20,marginLeft:15 }}>{this.props.data.name}</Text>
+                        <Text style={{color:"white",marginLeft:15,marginTop:5}}>{this.props.data.chaptersCount} Chapters | {this.props.data.topicsCount} Topics</Text>
                         </View>
                       </View>
 
@@ -262,7 +261,7 @@ style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
               
 
               </ImageBackground>
-       <View style={{height:Platform.OS === 'android' ? windowHeight/1.35:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+       <View style={{height:Platform.OS === 'android' ? windowHeight/1.3:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
        position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
         {this.state.spinner ? 
          <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>

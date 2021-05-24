@@ -19,6 +19,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
+import StringsOfLanguages from '../../StringsOfLanguages';
+
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -91,14 +93,20 @@ class RecommendedTopics extends Component {
 	}
 	render() {
 		return (
-
-			<View style={styles.mainview}>
-				<Text style={styles.headertext}>Recommended Topics</Text>
-				<FlatList data={data}
+			<View style={{marginVertical:10}}>
+			<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
+			<Text style={styles.headertext}>{StringsOfLanguages.recommendedtopics}</Text>
+			<TouchableOpacity>
+			<Text style={styles.seelalltext}>{StringsOfLanguages.seeall}</Text>
+			</TouchableOpacity>
+		  
+			</View>
+		
+			<FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
 					//horizontal={true}
 					showsHorizontalScrollIndicator={false} />
-			</View>
+	</View>
 		)
 	}
 }

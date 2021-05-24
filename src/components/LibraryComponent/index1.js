@@ -21,7 +21,7 @@ import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { baseUrl, imageUrl } from "../../constants"
+import { baseUrl, imageUrl,stepupcolorsURL } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-gesture-handler';
 import StringsOfLanguages from './../../StringsOfLanguages';
@@ -109,7 +109,7 @@ updateAnalytics(){
   getSubjects(user,toekn)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = baseUrl+'/student/subjects/'+user.reference_id+"?offset=0&limit=4&order_by=name&sort_order=DESC"
+         var url = baseUrl+'/student/subjects/'+user.reference_id//+//"?offset=0&limit=4&order_by=name&sort_order=DESC"
          console.log("value",url)
         fetch(url ,{
                  method: 'GET',
@@ -221,20 +221,20 @@ getanalytics(user,token){
 			color = "orange"
 		}
 		console.log("urlll",url)
-		var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
+		var newarray = ["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"];
 		var newitem = newarray[index] //newarray[Math.floor(Math.random()*newarray.length)];
 		item["color"] = newitem
 		return (
 		   <TouchableHighlight onPress={this.onChapter.bind(this,item)}  underlayColor="transparent" 
 		   activeOpacity={0.9} style={{padding:8}}>
 					
-					<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.5} >
+					<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.4} >
 					<View style={{flex:1,}}>
 						<View style={{flex:0.75,alignItems:"center",justifyContent:"space-around",flexDirection:"row"}}>
-							<View style={{flex:0.4,justifyContent:"center",alignItems:"center"}}>
+							<View style={{flex:0.4,justifyContent:"center",alignItems:"flex-end",}}>
 							{item.image ? 
 							 <Image source={{uri: url}}
-							 style={{width:60,height:60,resizeMode:"contain"}} />
+							 style={{width:70,height:60,resizeMode:"cover"}} />
 							 :
 							  <Image source={require('../../assets/images/dashboard/new/stepuplogo.png')}
 							  style={{width:60,height:60,resizeMode:"contain"}}/>}
@@ -302,8 +302,8 @@ getanalytics(user,token){
 							 <View style={{flex:1,marginHorizontal:10,justifyContent:"center",}}>
 							<FlatList data={this.state.subjectsData} 
 							renderItem={this.renderItem.bind(this)}
-							 numColumns={2}
-							//horizontal={true}
+							 //numColumns={2}
+							horizontal={true}
 							
 							showsHorizontalScrollIndicator={false}
 							 /></View> :   

@@ -28,17 +28,18 @@ const styles = StyleSheet.create({
 				flex:1,flexDirection:"row"
 			},
 			itemtopleftview:{
-				flex:0.4,justifyContent:"center",alignItems:"center",
+				flex:0.3,justifyContent:"center",alignItems:"center",
 			},
 			itemtoprightview:{
-				flex:0.6,justifyContent:"center",
+				flex:0.7,justifyContent:"center",
 			},
 			testname:{
 				fontSize:15,
-				color:colors.Themecolor
+				color:colors.Themecolor,
+				marginHorizontal:5
 			},
 			descriptionview:{
-				flexDirection:"row",marginTop:10
+				flexDirection:"row",marginTop:10,marginHorizontal:5
 			},
 			descriptionicon:{
 				width:15,height:15,alignSelf:"center"

@@ -31,7 +31,7 @@ import { color } from 'react-native-reanimated';
 
 import { baseUrl,imageUrl } from "../../constants"
 import { TextInput } from 'react-native-gesture-handler';
-
+var b =[]
 class ProgressTopics extends Component{
 	constructor(props){
 		super(props)
@@ -121,9 +121,34 @@ class ProgressTopics extends Component{
 		//this.updateAnalytics()
 		Actions.push('chapters',{data:item})
 	}
+    chooseName = function (a) {
+        // var unique = true;
+        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
+        // var name = a.splice(num,1);
+        // a.push(name);
+        // return num;
+        // console.log("nummm",num)
+        var unique = true;
+        b.length = 6;
+        var num = Math.floor(Math.random() * a.length);
+        var name = a[num];    
+            for (var i = 0; i < a.length; i++) {
+            if (b[i] == name) {
+               this.chooseName(a);
+                unique = false;
+                break;
+                }
+            }
+            if (unique == true) {
+            console.log("name",name);
+            b.unshift(name);
+            
+            }
+            return name
+    }
     onMainTopic(item){
-        var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
-		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
+        var newarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
+		var newitem = this.chooseName(newarray);//newarray[Math.floor(Math.random()*newarray.length)];
         var url = baseUrl + '/topic/' + item.topic_id
         fetch(url, {
             method: 'GET',
@@ -207,9 +232,9 @@ class ProgressTopics extends Component{
                             {item.image ?
 
                                 <Image source={{ uri: imageUrl + item.image }}
-                                    style={{ width: 50, height: 50 }} /> :
+                                    style={{ width: "100%", height: "100%" }} /> :
                                 <Image source={require('../../assets/images/noimage.png')}
-                                    style={{ width: 60, height: 60, resizeMode: "contain" }} />}
+                                    style={{ width: "100%", height: "100%", resizeMode: "contain" }} />}
                         </View>
                         <View style={{ flex: 0.85, flexDirection: "row", justifyContent: "space-between", paddingLeft: 10, }}>
                             <View style={{ justifyContent: "space-evenly", }}>
@@ -259,23 +284,35 @@ class ProgressTopics extends Component{
 			<View style={{width:"100%",height:"100%",}}>
 			<View style={{flex:1}}>
 				<View style={{flex:1,}}>
-               
-				<View style={{flex:0.2,alignItems:"flex-end",justifyContent:"flex-start",}}>
+                <View style={{flex:0.15,justifyContent:"center",flexDirection:"row"}}>
+					<View style={{flex:0.7,flexDirection:"row",alignItems:"center",marginLeft:20}}>
+                    <TouchableOpacity onPress={this.onBack.bind(this)}>
+                                    <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,color:colors.Themecolor}} />
+                     </TouchableOpacity>
+                     <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Topics in Progress</Text>
+                    </View>
+                    <View style={{flex:0.3,}}>
+                    <Image source={require('../../assets/images/dashboard/new/subjabs.png')}
+					style={{width:"100%",height:"120%",resizeMode:"cover"}}/>
+
+                    </View>
+				</View>
+				{/* <View style={{flex:0.2,alignItems:"flex-end",justifyContent:"flex-start",}}>
 					<Image source={require('../../assets/images/practiceabs.png')}
 					style={{width:339/2,height:242/2}}/>
 					<View style={{position: 'absolute' ,flex:1,height:"100%",width:"100%" ,justifyContent: 'space-evenly',}}>
 					{/* <Image source={require('../../assets/images/logo_icon.png')}
 					style={{width:70,height:70,marginLeft: 20}}/> */}
-                    <View style={{marginLeft:20}}>
+                    {/* <View style={{marginLeft:20}}>
                     <TouchableOpacity onPress={this.onBack.bind(this)}>
                                     <Image source={require('../../assets/images/refer/back.png')} style={styles.backIcon} />
                      </TouchableOpacity>
                      
                     </View>
                     <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Topics In Progress</Text>
-					</View>
-				</View>
-				<View style={{flex:0.8,marginHorizontal: 0,}}>
+					</View> 
+				</View> */}
+				<View style={{flex:0.85,marginHorizontal: 0,}}>
                     {this.state.spinner ?
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                     <Text>Loading.....</Text></View> :

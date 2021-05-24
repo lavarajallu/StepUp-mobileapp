@@ -87,16 +87,20 @@ class LoadingScreen extends Component{
 	render(){
 		return(
           this.state.viewlanguage ? 
-          <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+          <>
+          <ImageBackground source={require('./../assets/images/Mobile_bg_1.png')}
+          style={{width:"100%",height:"100%",opacity:0.5}}/>
+          <View style={{width:"100%",height:"100%",position:"absolute"}}>
+          <View style={{flex:1,justifyContent:"center",alignItems:"center",}}>
             		<Image source={require('../assets/images/logo_icon.png')}
-					style={{width:100,height:100,}}/>
+					 style={{width:1048/10,height:1048/10,alignSelf:"center"}} />
         <TouchableOpacity onPress={this.onLanguage.bind(this,'en')} style={{height:50,paddingHorizontal:10,backgroundColor:colors.Themecolor,width:100,justifyContent:"center",alignItems:"center",marginTop:30}}>
           <Text style={{color:"white"}}>English</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.onLanguage.bind(this,'th')} style={{height:50,paddingHorizontal:10,backgroundColor:colors.Themecolor,width:100,marginTop:30,justifyContent:"center",alignItems:"center"}}>
           <Text style={{color:"white"}}>Thai</Text>
         </TouchableOpacity>
-      </View>
+      </View></View></>
           
           :
             <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>

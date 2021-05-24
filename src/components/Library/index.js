@@ -18,6 +18,7 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import LibraryComponent from "../../components/LibraryComponent/index1"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LearningComponent from "../../components/LearningComponent"
 import MyTopics from "../../components/MyTopics"
 import ReferEarn from "../../components/ReferEarn"
@@ -25,6 +26,8 @@ import RecommendedTopics from "../../components/RecommendedTopics"
 import MyProgress from "../../components/MyProgress"
 import MyPerformance from "../../components/MyPerformance"
 import LinearGradient from 'react-native-linear-gradient';
+import { baseUrl } from '../../constants';
+import moment from "moment";
 const data =[
 	{
 		name:"Title1",
@@ -56,35 +59,121 @@ const data1 =[
 class Library extends Component {
 	constructor(props) {
 		super(props)
+		this.state={
+			announcementsData: []
+		}
+	}
+
+	async componentDidMount(){
+		const value = await AsyncStorage.getItem('@access_token')
+        if(value !== null) {
+            console.log("vv",value)
+           this.setState({token: JSON.parse(value)},()=>this.getAnnouncemnt())
+        }
+	//	this.getAnnouncemnt()
+	}
+	getAnnouncemnt(){
+		fetch( baseUrl+'/announcements/student/logs', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'token': this.state.token
+			}
+			}).then((response) =>
+			
+			 response.json())
+			.then((json) =>{
+			   console.log("announcemnets....",json)
+			   
+				if(json.data){
+					if(json.data.length > 0){
+					   console.log("announcemnets",json.data)
+				         this.setState({
+							announcementsData:json.data
+						 })
+					  
+					}else{
+					   this.setState({
+						   announcementsData: [],loading: false
+					   })
+					}
+				   
+				}else{
+				   this.setState({
+					   announcementsData: [],loading: false
+				   })
+				}
+			   }
+			 
+			)
+			.catch((error) => console.error(error))
+	}
+	getliveclasses(){
+		fetch( baseUrl+'/announcements/student/logs', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'token': this.state.token
+			}
+			}).then((response) =>
+			
+			 response.json())
+			.then((json) =>{
+			   console.log("announcemnets....",json)
+			   
+				if(json.data){
+					if(json.data.length > 0){
+					   console.log("announcemnets",json.data)
+				         this.setState({
+							announcementsData:json.data
+						 })
+					  
+					}else{
+					   this.setState({
+						   announcementsData: [],loading: false
+					   })
+					}
+				   
+				}else{
+				   this.setState({
+					   announcementsData: [],loading: false
+				   })
+				}
+			   }
+			 
+			)
+			.catch((error) => console.error(error))
 	}
 
 
 	renderItem({item}){
+		var date =  moment(new Date(item.from_date)).format('MM/DD')
+		var day  =moment(new Date(item.from_date)).format('dddd'); 
 		var colorsarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 			var bgimage = randomItem
 		return(
 			<View style={{ overflow: "hidden", flexDirection: "row", margin: 10, justifyContent: "space-between", backgroundColor: "transparent",paddingVertical:5 }}>
 								<View style={{ flex: 1, flexDirection: "row",}}>
-									<View style={{ flex: 0.2, backgroundColor: "transparent", justifyContent: "center" }}>
-										<View style={{width:60,height:60,backgroundColor:randomItem,justifyContent:"center",alignItems:"center",opacity:0.1}}>
+									<View style={{ flex: 0.3, backgroundColor: "transparent", justifyContent: "center" }}>
+										<View style={{width:80,height:60,backgroundColor:randomItem,justifyContent:"center",alignItems:"center",opacity:0.1}}>
 											
 										
 										</View>
-										<View style={{position:"absolute",width:60,height:60,justifyContent:"center",alignItems:"center"}}>
-										<Text style={{color:randomItem}}>{item.day}</Text>
-										<Text style={{color:randomItem}}>{item.date}</Text>
+										<View style={{position:"absolute",width:80,height:60,justifyContent:"center",alignItems:"center"}}>
+										<Text style={{color:randomItem}}>{day}</Text>
+										<Text style={{color:randomItem}}>{date}</Text>
 										</View>
 									</View>
-									<View style={{ flex: 0.55, justifyContent: "flex-start" }}>
-										<Text style={{fontSize:15}}>{item.name}</Text>
-										<Text style={{fontSize:10}}>This the description of the annuncemnets example</Text>
+									<View style={{ flex: 0.7, justifyContent: "flex-start" }}>
+										<Text style={{fontSize:15}}>{item.title}</Text>
+										<Text style={{fontSize:10}}>{item.description}</Text>
 									</View>
-									<View style={{ flex: 0.25, justifyContent: "center" , flexDirection:"row",alignItems:"center"}}>
+									{/* <View style={{ flex: 0.25, justifyContent: "center" , flexDirection:"row",alignItems:"center"}}>
 										<Image source={require('../../assets/images/dashboard/new/clockliveicon.png')} style={{width:10,height:10,alignSelf:"center"}}/>
-										<Text style={{fontSize:10,marginLeft:5}}>{item.time}</Text>
+										<Text style={{fontSize:10,marginLeft:5}}>{item.from_date}</Text>
 									
-									</View>
+									</View> */}
 								</View>
 
 
@@ -161,7 +250,7 @@ class Library extends Component {
 								<Text style={{color:"white"}}>See All</Text>
 							</LinearGradient>
 
-							<FlatList data={data} renderItem={this.renderItem.bind(this)}/>
+							<FlatList data={this.state.announcementsData} renderItem={this.renderItem.bind(this)}/>
 
 						</View>
 					</View>

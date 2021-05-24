@@ -47,6 +47,8 @@ import com.zoontek.rnlocalize.RNLocalizePackage;
 import org.wonday.orientation.OrientationPackage;
 // react-native-pdf
 import org.wonday.pdf.RCTPdfView;
+// react-native-permissions
+import com.zoontek.rnpermissions.RNPermissionsPackage;
 // react-native-push-notification
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
@@ -134,6 +136,7 @@ public class PackageList {
       new RNLocalizePackage(),
       new OrientationPackage(),
       new RCTPdfView(),
+      new RNPermissionsPackage(),
       new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),

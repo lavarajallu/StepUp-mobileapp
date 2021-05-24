@@ -6,13 +6,13 @@ const windowHeight = Dimensions.get('window').height;
 import { colors } from "../../constants"
 const styles = StyleSheet.create({
   headertext:{
-    fontSize: 15,marginLeft:10,marginBottom:10,marginTop:0,color:colors.Themecolor
+    fontSize: 16,marginLeft:10,marginTop:0,color:colors.Themecolor
   },
   itemview:{
    paddingVertical: 10,alignItems:"center"
   },
   seelalltext:{
-    marginRight:15,fontSize:15,color:colors.Themecolor
+    marginRight:15,fontSize:13,color:colors.Themecolor
   },
        innerrect:{
         flex:0.25,overflow:"hidden",justifyContent:'center',alignItems:"center"

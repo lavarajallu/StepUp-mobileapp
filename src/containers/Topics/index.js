@@ -37,6 +37,7 @@ class Topics extends Component {
 			topicsArray: [],
 			spinner: true,
 			token:"",
+			userdetails:"",
 			analyticsData:{}
 		}
 	}
@@ -117,11 +118,13 @@ class Topics extends Component {
 			//  alert(JSON.stringify(value))
 			if (value !== null) {
 				var data = JSON.parse(value)
-				//console.log("subjectass", data)
+				
 				const token = await AsyncStorage.getItem('@access_token')
+				console.log("subjectass", token)
 				if (token && data) {
 					this.setState({
-						token: JSON.parse(token)
+						token: JSON.parse(token),
+						userdetails: data
 					})
 					this.getanalytics(data,JSON.parse(token))
 					this.getTopics(data, JSON.parse(token))
@@ -153,7 +156,7 @@ class Topics extends Component {
 		  activity_id: null,
 		}
 	
-		//console.log("analyticsss", body)
+	console.log("analyticsss", body)
 		var url = baseUrl + '/analytics'
 		//console.log("value", url)
 		fetch(url, {
@@ -192,13 +195,14 @@ class Topics extends Component {
 		//alert("hiiii")
 		//grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
 		var url;
+		console.log("fff",user.grade_id , "")
 		if (user.user_role === 'Student') {
-			url = baseUrl + "/student/topics/" + user.grade_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
+			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
 		} else if (user.user_role === 'General Student') {
-			url = baseUrl + "/student/topics/" + user.grade_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=''&section_id=''"
+			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=''&section_id=''"
 		}
 		//var url =baseUrl+"/student/topics/8283c5c7-0369-4bb0-8da0-acf1179833b2/2fd32b4e-86e8-4f0e-af29-b79a0efaf81c/23cdedb8-093a-4aeb-af7e-755fca8d3e2d?school_id=&section_id="
-		//console.log("value", url)
+		console.log("value", url)
 		fetch(url, {
 			method: 'GET',
 			headers: {
@@ -210,7 +214,7 @@ class Topics extends Component {
 			response.json())
 			.then((json) => {
 				const data = json.data;
-				//console.log("sss", data)
+				console.log("sss", data)
 				if (data) {
 					if (data.topics) {
 					//	console.log("topics", json.data.topics)
@@ -308,37 +312,40 @@ class Topics extends Component {
 		<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')}
                 style={{ width: "100%", height: 288, backgroundColor: this.props.data.color, }} opacity={0.5}>
                 <View style={{
-                  flexDirection: "row", marginLeft: 10, alignItems: "center",
+                  flexDirection: "row", marginLeft: 20, alignItems: "center",
                   justifyContent: "space-between"
                 }}>
                   <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",marginTop:10}}>
-                    <View>
-                    <TouchableOpacity onPress={this.onBack.bind(this)}>
-                    <Image source={require("../../assets/images/left-arrow.png")}
-                      style={{ width: 30, height: 30, tintColor: "white" }} />
+				  <View style={{flex:1,flexDirection:"row",alignItems:"center",marginTop:5}}>
+						<View style={{flex:0.7,flexDirection:"row",alignItems:"center"}}>
+						<TouchableOpacity onPress={this.onBack.bind(this)}>
+                    <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,tintColor:"white"}} />
                   </TouchableOpacity>
-                    <Text style={{ color: "white", marginLeft: 10,marginTop:10, fontSize: 20 }}>{this.props.data.name}</Text>
-                    </View>
-                    {this.props.data.image !== "null" ?
+                    <Text style={{ color: "white", marginHorizontal: 10, fontSize: 20 }}>{this.props.data.name}</Text>
+						</View>
+                      <View style={{flex:0.3,justifyContent:"center",alignItems:"center"}}>
+					  {this.props.data.image !== "null" ?
                     <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
 
                     : <Image source={require('../../assets/images/noimage.png')}
                       style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
-                  </View>
+					  </View>
+                    </View>
                  
+                 </View>
                   
                 </View>
               
 
               </ImageBackground>
-       <View style={{height:Platform.OS === 'android'? windowHeight/1.35:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+       <View style={{height:Platform.OS === 'android'? windowHeight/1.3:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
        position:"absolute",bottom:0,borderTopRightRadius:25,borderTopLeftRadius:25}}>
         {this.state.spinner ? 
          <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
            <Text>Loading...</Text>
         </View> 
         :
-		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)} onTopicPress={this.onTopic.bind(this)} topicData={this.state.topicData} topicsArray={this.state.topicsArray} />}
+		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)} onTopicPress={this.onTopic.bind(this)} topicData={this.state.topicData} topicsArray={this.state.topicsArray} role={this.state.userdetails.user_role}/>}
       
        </View>
         </View>

@@ -26,12 +26,13 @@ import Loader from "../../components/Loader"
 import { Validations } from '../../helpers'
 import SideMenu from "../../components/SideMenu"
 import Drawer from 'react-native-drawer'
-import { colors, imageUrl } from "../../constants"
+import { colors, imageUrl ,stepupcolorsURL} from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { color } from 'react-native-reanimated';
 
 import { baseUrl } from "../../constants"
 import { TextInput } from 'react-native-gesture-handler';
+var b = [];
 
 class Subjects extends Component{
 	constructor(props){
@@ -136,6 +137,32 @@ class Subjects extends Component{
 		//this.updateAnalytics()
 		Actions.push('chapters',{data:item})
 	}
+     chooseName = function (a) {
+        // var unique = true;
+        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
+        // var name = a.splice(num,1);
+        // a.push(name);
+        // return num;
+        // console.log("nummm",num)
+        var unique = true;
+        b.length = 6;
+        var num = Math.floor(Math.random() * a.length);
+        var name = a[num];    
+            for (var i = 0; i < a.length; i++) {
+            if (b[i] == name) {
+               this.chooseName(a);
+                unique = false;
+                break;
+                }
+            }
+            if (unique == true) {
+            console.log("name",name);
+            b.unshift(name);
+            
+            }
+            return name
+    }
+    
       renderItem({ item ,index }) {
         // var imagesarray=[
         //     require('../../assets/images/dashboard/new/sub1.png'),
@@ -143,9 +170,10 @@ class Subjects extends Component{
         //     require('../../assets/images/dashboard/new/sub3.png'),
         //     require('../../assets/images/dashboard/new/sub4.png')
         // ]
-		var colorsarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
-		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
-		var bgcolor = randomItem
+		var colorsarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
+		var randomItem = this.chooseName(colorsarray)//colorsarray[Math.floor(Math.random()*colorsarray.length)];
+        var bgcolor = randomItem
+		
         colorsarray.splice(randomItem)
 		const url = imageUrl +item.image
         console.log("ssssss",item.percent)
@@ -168,14 +196,14 @@ class Subjects extends Component{
            marginVertical:5,overflow:"hidden",borderRadius:10,alignSelf:"center"}}>
 					
 					 <ImageBackground source={require('../../assets/images/dashboard/new/subjects_bg.png')} 
-					 style={{width:windowWidth/1.1,height:145,alignSelf:"center",backgroundColor:item.color}}
+					 style={{width:windowWidth/1.1,height:135,alignSelf:"center",backgroundColor:item.color}}
                      opacity={0.5}>
 
                          <View style={{flex:1}}>
-                             <View style={{flex:0.5,}}>
+                             <View style={{flex:0.6,}}>
                                  <View style={{flex:1,flexDirection:"row"}}>
-                                     <View style={{flex:0.6,paddingLeft:20,justifyContent:"center"}}>
-                                         <View style={{width:70,height:70,borderRadius:50,backgroundColor:"transparent",justifyContent:"center",alignItems:"center"}}>
+                                     <View style={{flex:0.3,paddingLeft:20,justifyContent:"center"}}>
+                                         <View style={{width:70,height:70,borderRadius:50,justifyContent:"center",alignItems:"center"}}>
                                          {item.image ? 
                                         <Image source={{uri: url}} style={{width: 60,height: 60,resizeMode:"cover",borderRadius:30}} />
                                         :
@@ -184,58 +212,28 @@ class Subjects extends Component{
                                          </View>
                                   
                                      </View>
-                                     <View style={{flex:0.3,justifyContent:"center", alignItems:"flex-end",paddingRight:20,}}>
-                                         <Text style={{color:"white",textAlign:"left"}}>Chapters: {item.chaptersCount}</Text>
-                                         <Text  style={{color:"white",textAlign:"left"}}>Topics: {item.topicsCount}</Text>
+                                      <View style={{flex:0.7,justifyContent:"center",alignItems:"flex-start",}}>
+                                      <Text style={{color:"white",fontSize:20,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
+                                         
                                      </View>
                                  </View>
                              </View>
 
-                             <View style={{flex:0.3,justifyContent:"center"}}>
-                                 <Text style={{color:"white",fontSize:15,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
-                             </View>
-                             <View style={{flex:0.3,flexDirection:"row",justifyContent:"space-around"}}>
+                            
+                             <View style={{flex:0.4,flexDirection:"row",justifyContent:"space-around"}}>
                              <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>3</Text>
-								 </View>
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
-								 </View>
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>3</Text>
-								 </View>
-                             </View>
-                         </View>
-					 {/* <View style={styles.subview}>
-						 <View style={styles.topsubview}>
-							 <View style={{flex:0.5,}}>
-							{item.image ? 
-							 <Image source={{uri: url}} style={{width:80,height:80,resizeMode:"contain"}} />
-							 :
-							  <Image source={require('../../assets/images/noimage.png')}
-							  style={{width:60,height:60,resizeMode:"contain"}}/>}
-							 </View>
-					         <View style={{flex:0.5,paddingHorizontal:0}}>
-							 <Text style={styles.subjectname}>{item.name}</Text>
-							 </View>
-						 </View>
-						 <View style={styles.bottomsubview}>
-							 <View style={styles.countview}>
-								 <View style={styles.innercountview}>
 									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
 									 <Text style={styles.icontext}>{item.chaptersCount}</Text>
 								 </View>
-								 <View style={styles.innercountview}>
+								 {/* <View style={styles.innercountview}>
 									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
-								 </View>
+								 </View> */}
 								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+									 <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
 									 <Text style={styles.icontext}>{item.topicsCount}</Text>
-								 </View></View>
-						 </View>
-					 </View> */}
+								 </View>
+                             </View>
+                         </View>
            </ImageBackground>
            <Progress.Bar progress={percent/100} width={windowWidth/1.1} height={5} color={color}
            unfilledColor={"lightgrey"} borderColor={"transparent"}/>
@@ -247,9 +245,6 @@ class Subjects extends Component{
 	render(){
 		return(
 			<>
-			{/* <ImageBackground source={require('../../assets/images/Mobile_bg_2.png')}
-			style={{width:"100%",height:"100%",opacity:0.4}}/>
-			<View style={{width:"100%",height:"100%",position:"absolute"}}> */}
 			<View style={styles.mainview}>
 			
 				<Drawer
@@ -265,23 +260,23 @@ class Subjects extends Component{
 			<View style={{flex:1}}>
 				<View style={{flex:1,}}>
                
-				<View style={{flex:0.25,alignItems:"flex-end",justifyContent:"center"}}>
-					<Image source={require('../../assets/images/dashboard/new/subjabs.png')}
-					style={{width:236,height:181}}/>
-					<View style={{position: 'absolute' ,flex:1,height:"100%",width:"100%" ,justifyContent: 'space-evenly',}}>
-					{/* <Image source={require('../../assets/images/logo_icon.png')}
-					style={{width:70,height:70,marginLeft: 20}}/> */}
-                    <View style={{marginLeft:20}}>
+				<View style={{flex:0.15,justifyContent:"center",flexDirection:"row"}}>
+					<View style={{flex:0.7,flexDirection:"row",alignItems:"center",marginLeft:20}}>
                     <TouchableOpacity onPress={this.onBack.bind(this)}>
-                                    <Image source={require('../../assets/images/refer/back.png')} style={styles.backIcon} />
+                                    <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,color:colors.Themecolor}} />
                      </TouchableOpacity>
-                     
+                     <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Library</Text>
                     </View>
-                    <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Library</Text>
-					</View>
+                    <View style={{flex:0.3,}}>
+                    <Image source={require('../../assets/images/dashboard/new/subjabs.png')}
+					style={{width:"100%",height:"120%",resizeMode:"cover"}}/>
+
+                    </View>
 				</View>
-				<View style={{flex:0.75,marginHorizontal: 0,}}>
-                    {this.state.spinner ? <Text>Loading.....</Text> :
+				<View style={{flex:0.85,marginHorizontal: 0,}}>
+                    {this.state.spinner ?
+                    <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                    <Text>Loading.....</Text></View> :
                     this.state.subjectsData.length > 0 ?
                   
                     <FlatList data={this.state.subjectsData} 

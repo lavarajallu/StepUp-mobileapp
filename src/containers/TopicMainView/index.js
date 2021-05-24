@@ -171,7 +171,7 @@ class TopicMainView extends Component {
       .then((json) => {
 
         const data = json.data;
-        //  alert(JSON.stringify(data))
+        console.log("teacherreeee",data)
         if (data) {
           if (data.smart) {
 
@@ -550,7 +550,7 @@ class TopicMainView extends Component {
              
               <Text style={{ fontSize: 10, textAlign: "center", marginTop: 5 }}>{item.activity}</Text>
             </View>
-            {index === this.state.smartres.length - 1 ? null :
+            {index === this.state.teacherres.length - 1 ? null :
               <Image source={require('../../assets/images/right-arrow.png')}
                 style={{ width: 15, height: 15, alignSelf: "center", marginHorizontal: 5, tintColor: color }} />
             }
@@ -579,34 +579,39 @@ class TopicMainView extends Component {
         >
           <View style={{flex:1}}>
 
-            <View style={{flex:0.92,backgroundColor:"red"}}>
-              <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')}
+            <View style={{flex:0.92}}>
+            <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')}
                 style={{ width: "100%", height: 288, backgroundColor: this.props.data.color, }} opacity={0.5}>
                 <View style={{
-                  flexDirection: "row", marginLeft: 10, alignItems: "center",
+                  flexDirection: "row", marginLeft: 20, alignItems: "center",
                   justifyContent: "space-between"
                 }}>
-                  <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",marginTop:10}}>
-                    <View>
-                    <TouchableOpacity onPress={this.onBack.bind(this)}>
-                    <Image source={require("../../assets/images/left-arrow.png")}
-                      style={{ width: 30, height: 30, tintColor: "white" }} />
+                  <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",}}>
+                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                    <View style={{flex:1,flexDirection:"row",alignItems:"center",marginTop:5}}>
+						<View style={{flex:0.7,flexDirection:"row",alignItems:"center"}}>
+						<TouchableOpacity onPress={this.onBack.bind(this)}>
+                    <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,tintColor:"white"}} />
                   </TouchableOpacity>
-                    <Text style={{ color: "white", marginLeft: 10,marginTop:10, fontSize: 20, width:windowWidth/1.5 }}>{this.props.data.name}</Text>
-                    </View>
-                    {this.props.data.image !== "null" ?
-                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+                    <Text style={{ color: "white", marginHorizontal: 10, fontSize: 20 }}>{this.props.data.name}</Text>
+						</View>
+                      <View style={{flex:0.3,justifyContent:"center",alignItems:"center"}}>
+					  {this.props.data.image !== "null" ?
+                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
 
                     : <Image source={require('../../assets/images/noimage.png')}
-                      style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />}
+                      style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+					  </View>
+                    </View>
                   </View>
                  
                   
                 </View>
+                </View>
               
 
               </ImageBackground>
-              <View style={{height:Platform.OS === 'android' ? windowHeight/1.35:windowHeight/1.4,width:windowWidth,backgroundColor:"white",alignSelf:"center",
+              <View style={{height:Platform.OS === 'android' ? windowHeight/1.3:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
              position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
                <ScrollView>
                <View style={{ flex: 1 }}>

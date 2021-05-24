@@ -51,6 +51,7 @@ class TopicsComponent extends Component {
 
     }
     renderItem({ item, index }) {
+        console.log("gggg",item)
         var percent = (item.percent);
         let color
         if(percent > 70 ){
@@ -136,26 +137,13 @@ class TopicsComponent extends Component {
     }
 
     render() {
-        const { topicData,topicsArray} = this.props;
+        const { topicData,topicsArray,role} = this.props;
         const url = imageUrl +topicData.image
+        console.log("role",role)
         return (
             <View style={{flex:1}}>
-                <View style={{flex:1}}>
-
-                <SegmentedControlTab
-                values={["Topics", "Live Sessions"]}
-                tabsContainerStyle={{margin:20,}}
-                borderRadius={20}
-                tabStyle={{height:35,borderColor:this.props.topicData.color}}
-                firstTabStyle={{ borderRightWidth: 0 }}
-                activeTabStyle={{backgroundColor:this.props.topicData.color,}}
-                activeTabTextStyle={{color:"white"}}
-                tabTextStyle={{fontSize:15,color:this.props.topicData.color}}
-                selectedIndex={this.state.selectedIndex}
-                onTabPress={this.handleIndexChange}
-            />
-            {this.state.selectedIndex === 0 ?
-                <View style={{flex:1,}}>
+                  {(role === 'General Student') ?
+                    <View style={{flex:1,marginTop:10}}>
                     {topicsArray.length>0 ? 
                     <FlatList
                         data={topicsArray}
@@ -165,12 +153,44 @@ class TopicsComponent extends Component {
 
                     <Text>No Data</Text>
                     </View> }
-                </View> :
-                <View style={{ flex: 1, backgroundColor: 'transaprent' }}>
-                    <LiveSession onTopicPress={this.onTopicPress.bind(this)} topicData={this.props.topicData} />
-                </View>}
+                </View>:
+                     <View style={{flex:1}}>
                
-                </View>
+                     <SegmentedControlTab
+                     values={["Topics", "Live Sessions"]}
+                     tabsContainerStyle={{margin:20,}}
+                     borderRadius={20}
+                     tabStyle={{height:35,borderColor:this.props.topicData.color}}
+                     firstTabStyle={{ borderRightWidth: 0 }}
+                     activeTabStyle={{backgroundColor:this.props.topicData.color,}}
+                     activeTabTextStyle={{color:"white"}}
+                     tabTextStyle={{fontSize:15,color:this.props.topicData.color}}
+                     selectedIndex={this.state.selectedIndex}
+                     onTabPress={this.handleIndexChange}
+                 />
+                 {this.state.selectedIndex === 0 ?
+                     <View style={{flex:1,}}>
+                         {topicsArray.length>0 ? 
+                         <FlatList
+                             data={topicsArray}
+                             renderItem={this.renderItem.bind(this)}
+                         /> : 
+                         <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+     
+                         <Text>No Data</Text>
+                         </View> }
+                     </View> :
+                     <View style={{ flex: 1, backgroundColor: 'transaprent' }}>
+                         <LiveSession onTopicPress={this.onTopicPress.bind(this)} subjectData={this.props.subjectData} topicData={this.props.topicData}/>
+                     </View>}
+                    
+                     </View>
+                     
+                   
+
+                     }
+
+                
                      
          </View>
         )

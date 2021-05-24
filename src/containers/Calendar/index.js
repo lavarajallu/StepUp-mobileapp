@@ -89,20 +89,16 @@ class CalendarNew extends Component {
                         style={styles.topShadow}>
                             <View style={styles.topsubview}>
                                 <View style={styles.topleftview}>
-                                    {this.props.title === 'menu' ? 
+                                  
                                 <TouchableOpacity onPress={this.onBack.bind(this)}>
-                            <Image source={require('../../assets/images/refer/back.png')} style={{
-                                width:20,height:20,tintColor:"black"
-                            }} />
-                            </TouchableOpacity>: null}
+                            <Image source={require('../../assets/images/refer/back.png')} style={{ width:21,height:15,marginLeft:20}} />
+                            </TouchableOpacity>
                                 </View>
                                 <View style={styles.topmiddleview}>
                                 <Text style={styles.topHead}>Calendar</Text>
                                 </View>
                                 <View style={styles.toprightview}>
-                                 <TouchableOpacity onPress={this.basicview.bind(this)}>
-                                     <Text>Basic View</Text>
-                                 </TouchableOpacity>
+                              
                                 </View>
                             </View>
                     </View>
@@ -111,40 +107,14 @@ class CalendarNew extends Component {
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>
                         <View style={{flex:0.92}}>
-                            {this.state.basicview ?
-                            <View style={{flex:1}}>
-                               
-                            {/* <Calendar
-                            // Collection of dates that have to be marked. Default = {}
-                            
-                            markedDates={{
-                              '2021-05-10': {selected: true, marked: true, selectedColor: 'blue'},
-                              '2021-05-11': {selected: true, marked: true, selectedColor: 'blue'}
-                            }}
-                          /> */}
-                          <Agenda
-  // The list of items that have to be displayed in agenda. If you want to render item as empty date
-  // the value of date key has to be an empty array []. If there exists no value for date key it is
-  // considered that the date in question is not yet loaded
-  items={{
-    '2021-05-10': [{name: 'item 1 - any js object'}],
-    '2021-05-11': [{name: 'item 2 - any js object', height: 80}],
-    
-  }}/>
-                         
-                          {/* <View style={{flex:1,}}>
-                              <Text>Events List</Text>
-                              <FlatList renderItem={this.renderItem.bind(this)} data={events}/>
-                              </View> */}
-                              </View>
-                            : 
-                        <EventCalendar
+                          
+                        {/* <EventCalendar
                         eventTapped={this._eventTapped.bind(this)}
                         events={events}
                         width={width}
                         //initDate={'2017-09-08'}
-                        initDate={moment(new Date()).format("YYYY-MM-DD")}
-                        /> } 
+                        initDate={"2021-05-10"}//{moment(new Date()).format("YYYY-MM-DD")}
+                        /> */}
                         </View>
                         <View style={{flex:0.08}}>
                         <Footer openControlPanel={this.openControlPanel} value="calendar"/>
