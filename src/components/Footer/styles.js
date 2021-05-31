@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 0.5,
         borderColor: 'lightgrey',
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30
+        // borderTopRightRadius: 30,
+        // borderTopLeftRadius: 30
   },
   footericon:{
-    width:25,height:25,tintColor:colors.Themecolor
+    width:25,height:25,
   }
 })
 export default styles;

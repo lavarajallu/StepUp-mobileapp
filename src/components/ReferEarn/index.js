@@ -28,13 +28,16 @@ class ReferEarn extends Component{
     }
 	render(){
 		return(
-			<TouchableOpacity onPress={this.onRefer.bind(this)}>
+            <View style={{backgroundColor:"transparent",marginVertical:25}}>
+	<TouchableOpacity onPress={this.onRefer.bind(this)}>
             <ImageBackground 
 			source={require('../../assets/images/dashboard/new/referimg_new.png')}
 			style={styles.imagestyles}>
                
 			</ImageBackground>
             </TouchableOpacity>
+            </View>
+		
 			
 			
 			

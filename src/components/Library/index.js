@@ -222,9 +222,9 @@ class Library extends Component {
 
 				<View style={styles.subview}>
 					<LearningComponent />
-					<View style={styles.line}/>
+					
 					<LibraryComponent />
-					<View style={styles.line}/>
+					<View style={{height:1,width:windowWidth/1.2,backgroundColor: 'lightgrey',opacity:0.8,marginVertical:30,alignSelf:"center"}}/>
 					<MyTopics />
 					
 					<ReferEarn />
@@ -233,11 +233,11 @@ class Library extends Component {
 
 					{/* <MyPerformance />  */}
 
-				
+				   {this.state.announcementsData.length > 0 ? 
 				
 					<View style={{
 						borderWidth: 0, borderColor: "lightgrey",
-						 backgroundColor: 'white', shadowColor: 'black',marginTop:10,
+						 backgroundColor: 'white', shadowColor: 'black',marginVertical:20,
 						shadowOffset: { width: 0, height: 5 },
 						marginHorizontal: 20,
 						shadowOpacity: 1,
@@ -253,10 +253,10 @@ class Library extends Component {
 							<FlatList data={this.state.announcementsData} renderItem={this.renderItem.bind(this)}/>
 
 						</View>
-					</View>
+					</View> : null }
 					<View style={{
 						borderWidth: 0, borderColor: "lightgrey",
-						 backgroundColor: 'white', shadowColor: 'black',marginTop:10,
+						 backgroundColor: 'white', shadowColor: 'black',marginVertical:20,
 						shadowOffset: { width: 0, height: 5 },
 						marginHorizontal: 20,
 						shadowOpacity: 1,
@@ -276,7 +276,7 @@ class Library extends Component {
 					<View style={{
 						borderWidth: 0, borderColor: "lightgrey", backgroundColor: 'white', shadowColor: 'black',
 						shadowOffset: { width: 0, height: 5 },
-						margin: 20,
+						marginVertical:20,marginHorizontal:20,
 						shadowOpacity: 1,
 						shadowRadius: 5,
 						elevation: 10, borderRadius: 10

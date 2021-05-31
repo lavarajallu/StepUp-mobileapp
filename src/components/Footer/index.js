@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
+import { colors } from "../../constants"
 
 class Footer extends Component {
     constructor(props) {
@@ -59,29 +60,31 @@ class Footer extends Component {
             <>
             <View style={styles.footerinnerview}>
                 <View style={{flex:1,flexDirection:"row"}}>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'menu'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <View style={{flex:0.25,alignItems:"center",justifyContent:"center"}}>
                     <TouchableOpacity onPress={this.onMenu.bind(this)}>
-			 <Image  source={require("../../assets/images/menu.png")} style={styles.footericon}/>
+			 <Image  source={require("../../assets/images/newmenu.png")} style={[styles.footericon,{tintColor:this.state.selected === 'menu'?colors.Themecolor:"#BABABA",}]}/>
              </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'bell')} style={{flex:0.25,backgroundColor:this.state.selected === 'bell'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
-                    <Image  source={require("../../assets/images/bell.png")} style={styles.footericon}/>
+                    <View style={{flex:0.25,alignItems:"center",justifyContent:"center"}}>
+                    <TouchableOpacity onPress={this.onPressIcon.bind(this,'bell')}>
+                    <Image  source={require("../../assets/images/newbell.png")} style={[styles.footericon,{tintColor:this.state.selected === 'bell'?colors.Themecolor:"#BABABA",}]}/>
                     </TouchableOpacity>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'dashboard'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    </View>
+                    <View style={{flex:0.25,alignItems:"center",justifyContent:"center"}}>
                     <TouchableOpacity onPress={this.onPressIcon.bind(this,'dashboard')}>
-             <Image  source={require("../../assets/images/home.png")} style={styles.footericon}/>
+             <Image  source={require("../../assets/images/newhome.png")} style={[styles.footericon,{tintColor:this.state.selected === 'dashboard'?colors.Themecolor:"#BABABA",}]}/>
              </TouchableOpacity>
                     </View>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'notifications'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <View style={{flex:0.25,alignItems:"center",justifyContent:"center"}}>
                             <TouchableOpacity onPress={this.onPressIcon.bind(this,'notifications')}>
-                    <Image  source={require("../../assets/images/notification.png")} style={styles.footericon}/>
+                    <Image  source={require("../../assets/images/newnoti.png")} style={[styles.footericon,{tintColor:this.state.selected === 'notifications'?colors.Themecolor:"#BABABA",}]}/>
                     </TouchableOpacity>
                     {this.state.notification_count  ? 
                     <View style={{width:10,height:10,borderRadius:5,backgroundColor:"red",position:"absolute",alignSelf:"flex-end",top:10,right:30}}/> : null}
                     </View>
-                    <View style={{flex:0.25,backgroundColor:this.state.selected === 'calendar'?"lightgrey":"transparent",alignItems:"center",justifyContent:"center"}}>
+                    <View style={{flex:0.25,alignItems:"center",justifyContent:"center"}}>
                     <TouchableOpacity onPress={this.onPressIcon.bind(this,'calendar')}>
-                    <Image  source={require("../../assets/images/calander.png")} style={styles.footericon}/>
+                    <Image  source={require("../../assets/images/newcal.png")} style={[styles.footericon,{tintColor:this.state.selected === 'calendar'?colors.Themecolor:"#BABABA"}]}/>
                     </TouchableOpacity>
                     </View>
                 </View>

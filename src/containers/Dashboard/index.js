@@ -81,9 +81,9 @@ getData = async () => {
 	render(){
 		const url = imageUrl + this.state.profile_pic
 		return(
-			<>
-			<ImageBackground source={require('../../assets/images/Mobile_bg_2.png')}
-			style={{width:"100%",height:"100%",opacity:0.4}}/>
+				 {/*	<>
+		 <ImageBackground source={require('../../assets/images/Mobile_bg_1.png')}
+			style={{width:"100%",height:"100%",opacity:0.5}}/>
 			<View style={{width:"100%",height:"100%",position:"absolute"}}>
 			<View style={styles.mainview}>
 			{this.state.loader ? (
@@ -102,29 +102,22 @@ getData = async () => {
 			<View style={{flex:1}}>
 				<View style={{flex:1}}>
 			<ScrollView contentContainerStyle={{flexGrow:1,}}>
-				<View style={{flex:0.3,alignItems:"flex-end",justifyContent:"center",}}>
-					<Image source={require('../../assets/images/dashboard/abstract.png')} style={{width:263/1.2,height:235/1.2}}/>
+				<View style={{flex:0.2,alignItems:"flex-end",justifyContent:"center"}}>
+					<Image source={require('../../assets/images/dashboard/new/dashboardabs_new.png')}
+					style={{width:263/1.2,height:235/1.5}}/>
 					<View style={{position: 'absolute' ,flex:1,height:"100%",width:"100%" ,justifyContent: 'center'}}>
-					<Image source={require('../../assets/images/logo_icon.png')}
-					style={{width:80,height:80,marginLeft: 20}}/>
-                     <View style={{padding:20,flexDirection: 'row' ,}}>
-                      <View style={{width:60,height:60,borderRadius:30,borderWidth: 3,borderColor:colors.Themecolor,justifyContent: 'center'}}>
-						  {this.state.profile_pic != 'null' ?
-                      <Image source={{uri: this.state.profile_pic}} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>
-                      :  <Image source={require('../../assets/images/dashboard/user.png')} style={{width:55,height:55,borderRadius: 55/2,alignSelf: 'center' }}/>}
-                      </View>
-                      <View style={{marginLeft:10}}>
-                       <Text style={{fontSize: 15,color:"black"}}>{this.state.userName}</Text>
-                       <View style={{paddingLeft:5,paddingRight: 5,borderWidth: 1,borderRadius: 10,borderColor: colors.Themecolor,marginTop: 3}}>
-                        <Text style={{color:colors.Themecolor}}>{this.state.gradeName}</Text>
-                        </View>
+					
+                    <View style={{marginLeft:20,marginTop:20}}>
+                    <Text style={{color:colors.Themecolor//"#FFB13D"
+					,fontSize:15}}>{StringsOfLanguages.hello}</Text>
+                       <Text style={{color:colors.Themecolor//"#FFB13D"
+					   ,fontWeight:"bold",fontSize:25}}>{this.state.userName}</Text>
+                    </View>
                        
-                      </View>
-                     </View>
-
 					</View>
 				</View>
-				<View style={{flex:0.6,marginHorizontal: 0,}}>
+				<View style={{flex:0.7,marginHorizontal: 0,}}>
+				
                   <Library/>
 			    </View>
 				</ScrollView>
@@ -138,7 +131,8 @@ getData = async () => {
 
 						</View></Drawer>}
 			</View>
-			</View></>
+			 </View> 
+			</>*/}
 			)
 	}
 }

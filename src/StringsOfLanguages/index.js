@@ -14,7 +14,7 @@ const StringsOfLanguages = new LocalizedStrings({
     learninganalysis:"Learning Analysis",
     mypractice:"My Practice",
     mocktest:"Mock Test",
-    mylibrary:"My Library",
+    mylibrary:"My Courses",
     mytopicsinprogress:"My Topics In Progress",
     recommendedtopics:"Recommended Topics",
     seeall:"View All"

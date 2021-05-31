@@ -105,7 +105,7 @@ class EditProfile extends Component {
             mobile_number: data.mobile_number,
             email: data.email,
             state: data.state,
-            boardvalue: data.board_id,
+            boardvalue: data.grade ?.board_id,
             grade: data.grade.name,
             profilepic: data.profile_pic ? imageUrl +data.profile_pic: null,
             gradeselect: data.grade.reference_id

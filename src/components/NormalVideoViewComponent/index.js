@@ -81,6 +81,7 @@ const question2 = {
     },
   ]
 }
+var currentTime;
 export default class NormalVideoViewComponent extends Component {
   state = {
     isReady: false,
@@ -195,7 +196,7 @@ export default class NormalVideoViewComponent extends Component {
   
 }
 onquestionSubmit(time){
-//   alert(this.state.questionsarray[this.state.index+1])
+   console.log("ddddd",this.state.questionsarray[this.state.index+1])
 
    if(this.state.questionsarray[this.state.index+1]){
 this.setState({
@@ -279,25 +280,66 @@ onnext(){
 }
 
  onLoad = (data) => {
-     //console.log("dflkjlkdf",data)
+  
      this.setState({duration:parseInt(data.duration)})
+    
+    
+   
+  }
+  onLoadStart = (data) =>{
+    console.log("xxxx",this.state.normaldata.video_played)
+    if(this.state.normaldata.video_played){
+      console.log("dflkjlkdf",this.state.normaldata.video_played)
+      // if(this.playerRef){
+      // this.playerRef.seek(this.state.normaldata.video_played);
+      // }
+     }
+  }
+  async getcurrentTime(){
+    if(this.playerRef){
+     // let elapsed_sec = await  this.playerRef.current?.getCurrentTime();
+     // let duration = await this.playerRef.current.getDuration()
+      console.log("fff",currentTime)
+      this.props.onBackNew(currentTime,this.state.duration)
+    }
+   
+  }
+  async onNext(){
+    if(this.playerRef){
+      // let elapsed_sec = await  this.playerRef.current?.getCurrentTime();
+      // let duration = await this. playerRef.current.getDuration()
+      this.props.onActivityNext(currentTime,this.state.duration)
+    }
+   
+  }
+  async onPrevious(){
+    if(this.playerRef){
+      // let elapsed_sec = await  this.playerRef.current?.getCurrentTime();
+      // let duration = await this. playerRef.current.getDuration()
+      this.props.onActivityPrevious(currentTime,this.state.duration)
+    }
    
   }
 onProgress(data){
   //alert("dmf;ldf")
-        this.setState({
-          currentTime: data.currentTime
-        })
+        // this.setState({
+        //   currentTime: data.currentTime
+        // })
+        currentTime = data.currentTime
         const elapsed_sec =parseInt(data.currentTime)
           
-          //console.log("progress",elapsed_sec, this.state.pausedtime)
-          if(elapsed_sec === this.state.pausedtime){
+         
+          let result = this.state.newarr.filter(o1 => parseInt(o1) === elapsed_sec);
+         console.log("progress",elapsed_sec, "   ",result[0])
+        //  console.log("filterer",result)
+          if(elapsed_sec === result[0]){
           
             if(this.state.show){
                 
             }else{
-              //console.log("insideeprogressss",JSON.stringify(this.state.questiondisplay))
-              this.setState({ isPlaying: true,data:this.state.questiondisplay,show: true},()=>this.props.onPause(this.state.data));
+              var newdata = this.state.questionsarray.filter(o1 => parseInt(o1.question.timeinsec) === result[0]);
+              //parseInt(this.state.questionsarray[0].question.timeinsec) === 
+              this.setState({ isPlaying: true,data:newdata[0],show: true},()=>this.props.onPause(this.state.data));
             }
 
   }
@@ -306,7 +348,7 @@ onPause(){
   this.playerRef.paused  = true;
   this.setState({
     isPlaying: true,
-  },()=> alert("fjkdjf"+this.state.isPlaying))
+  })
 }
  
 //  onReady(e,close,data){
@@ -443,6 +485,7 @@ render(){
        bottom: 0,
        right:0,
        elevation:10,}}
+       onLoadStart={this.onLoadStart.bind(this)}
        onLoad={this.onLoad}
        resizeMode={this.state.fullscreen ? "cover":"contain"}
        onProgress ={this.onProgress} />

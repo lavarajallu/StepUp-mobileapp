@@ -172,9 +172,11 @@ onquestionSubmit(time){
       
      }
      
-        console.log("elaps",elapsed_sec)
-     if(parseInt(elapsed_sec) === this.state.pausedtime ){
-      this.setState({ isPlaying: false,data:this.state.questiondisplay,show: true},()=>this.props.onPause(this.state.data));
+        console.log("elaps",parseInt(elapsed_sec))
+        let result = this.state.newarr.filter(o1 => parseInt(o1) === parseInt(elapsed_sec));
+        if(parseInt(elapsed_sec) === result[0]){
+          var newdata = this.state.questionsarray.filter(o1 => parseInt(o1.question.timeinsec) === result[0]);
+      this.setState({ isPlaying: false,data:newdata[0],show: true},()=>this.props.onPause(this.state.data));
       clearInterval(interval);
       this.setState({
        time: elapsed_sec,
@@ -231,35 +233,41 @@ onnext(){
 }
 
 onStateChange (e){
-  console.log("eee",e)
-  if(initial === 0) {
-    if(e === 'playing'){
-      this. _youTubeRef.current?.getDuration().then(
-        getDuration => this.setState({duration:parseInt(getDuration)})
-      );
-      this.onReady()
-      }
+  if(this. _youTubeRef){
+    console.log("ddddddd",this.state.youtubedata)
+  
+    console.log("eee",e)
+    if(initial === 0) {
+    
+      if(e === 'playing'){
+        this. _youTubeRef.current?.getDuration().then(
+          getDuration => this.setState({duration:parseInt(getDuration)})
+        );
+        this.onReady()
+        }
+    }
   }
+  
 
 }
  onReady(){
    if(this._youTubeRef){
+    // if(this.state.youtubedata.video_played){
+    //   this._youTubeRef.current?.seekTo(this.state.youtubedata.video_played,true);
+    // }
     initial =1;
     const interval = setInterval(async () => {
-     const elapsed_sec = await  this._youTubeRef.current.getCurrentTime();
-     console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
-    //  this.setState({
-    //   currentTime: elapsed_sec
-    // })
-    if(parseInt(elapsed_sec) === this.state.pausedtime){
-        console.log("0show",parseInt(elapsed_sec),this.state.pausedtime)
+     const elapsed_sec = await this._youTubeRef.current.getCurrentTime();
+     console.log("secondsss",parseInt(elapsed_sec))
+    let result = this.state.newarr.filter(o1 => parseInt(o1) === parseInt(elapsed_sec));
+    if(parseInt(elapsed_sec) === result[0]){
+        console.log("0show",parseInt(elapsed_sec),result[0])
       if(this.state.show == true){
-        console.log("ifff")
+        //console.log("ifff")
       }else{
-        console.log("elseeeee")
-       // this.setState({isPlaying: false})
-        //console.log("insideeprogressss",JSON.stringify(this.state.questiondisplay))
-        this.setState({ isPlaying: false,data:this.state.questiondisplay,show: true},
+
+        var newdata = this.state.questionsarray.filter(o1 => parseInt(o1.question.timeinsec) === result[0]);
+        this.setState({ isPlaying: false,data:newdata[0],show: true},
           ()=>this.props.onPause(this.state.data));
        clearInterval(interval);
        this.setState({

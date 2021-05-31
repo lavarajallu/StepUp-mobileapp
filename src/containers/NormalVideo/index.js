@@ -122,11 +122,11 @@ class NormalVideo extends  Component{
           )
           .catch((error) => console.error(error))
     }
-    updateAnalytics(){
+    updateAnalytics(data,duration){
       console.log("mmmmmm",this.refs.ve.state.currentTime)
       var body = {
         activity_status : 0,
-        video_played: parseInt(this.refs.ve.state.currentTime),
+        video_played: parseInt(this.refs.ve.currentTime) ? parseInt(this.refs.ve.currentTime)  : data,
         pdf_page: 0,
         video_duration: parseInt(this.refs.ve.state.duration)
       }
@@ -162,7 +162,34 @@ class NormalVideo extends  Component{
         )
         .catch((error) => console.error(error))
       }
-
+      onBackNew(data,duration){
+        console.log("fffff",data,"vvv",duration)
+        if(data){
+          this.updateAnalytics(data,duration)
+        }else{
+          this.updateAnalytics(0,0)
+        }
+         Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+        
+    }
+    onActivityNext(data,duration){
+      console.log("11111111",data,"vvv",duration)
+      if(data){
+        this.updateAnalytics(data,duration)
+      }else{
+        this.updateAnalytics(0,0)
+      }
+      this.onNext1()
+    }
+    onActivityPrevious(data,duration){
+      console.log("fffff",data,"vvv",duration)
+      if(data){
+        this.updateAnalytics(data,duration)
+      }else{
+        this.updateAnalytics(0,0)
+      }
+      this.onPrevious2()
+    }
     getVideoquestions(){
       const body ={
         test_type: "Video",
@@ -180,7 +207,7 @@ class NormalVideo extends  Component{
       }).then((response) => response.json())
         .then((json) => {
   
-          //const data = json.data;
+          //const data = jsoseekn.data;
           // alert(JSON.stringify(data))
          
           if (json.data) {
@@ -217,7 +244,7 @@ class NormalVideo extends  Component{
           .then((json) => {
     
             const data = json.data;
-            console.log("ffffff",data)
+            console.log("videodataaaa",data)
            
             if (data) {
               this.setState({normalvideodata: data})
@@ -234,9 +261,9 @@ class NormalVideo extends  Component{
     
       }
     onBack(){
-      //this.refs.ve.onPause();
-      this.updateAnalytics();
-       Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+      this.refs.ve.getcurrentTime();
+      // this.updateAnalytics();
+      //  Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
      
     }
     onNewBack(){
@@ -251,7 +278,7 @@ class NormalVideo extends  Component{
     }
     onNext(){
         
-         this.updateAnalytics()
+     //    this.updateAnalytics()
         var newarray = this.props.smartres;
         var newobj = newarray[this.props.index+1]
         var index= this.props.index
@@ -277,7 +304,7 @@ class NormalVideo extends  Component{
 
     }
     onPrevious(){
-      this.updateAnalytics()
+     // this.updateAnalytics()
       this.setState({
         newmodal : false
 
@@ -442,7 +469,11 @@ class NormalVideo extends  Component{
           </View> } 
           <View style={stylefull}>
           {this.state.normalvideodata ? 
-                 <NormalVideoViewComponent ref = "ve" onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
+                 <NormalVideoViewComponent ref = "ve" 
+                 onActivityNext={this.onActivityNext.bind(this)}
+                 onBackNew={this.onBackNew.bind(this)}
+                onActivityPrevious={this.onActivityPrevious.bind(this)}
+                 onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
                  <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                   <Text>Loading...</Text></View>} 
           </View>

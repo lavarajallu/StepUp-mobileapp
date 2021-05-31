@@ -165,24 +165,22 @@ class MyTopics extends Component {
             }
 
             return (
+                <View style={{marginHorizontal:10}}>
                 <TouchableOpacity onPress={this.onMainTopic.bind(this, item)} style={{
-                    backgroundColor: "white", width: windowWidth / 1.1, margin: 10, alignSelf: "center",
-                    shadowOffset: { width: 0, height: 5 },
-                    shadowOpacity: 1,
-                    shadowRadius: 5,
-                    elevation: 10, borderRadius: 10, paddingVertical: 5
-
+                    backgroundColor: "white", width: windowWidth / 1.5, alignSelf: "center",
+                    
+                  
                 }}>
-                    <View style={{ flex: 1, flexDirection: "row", padding: 5 }}>
-                        <View style={{ flex: 0.2, }}>
+                    <View style={{ flex: 1, flexDirection: "row",}}>
+                        <View style={{ flex: 0.4, }}>
                             {item.image ?
 
                                 <Image source={{ uri: imageUrl + item.image }}
-                                    style={{ width: 50, height: 50 }} /> :
+                                    style={{ width: 80, height: 80 }} /> :
                                 <Image source={require('../../assets/images/noimage.png')}
-                                    style={{ width: 60, height: 60, resizeMode: "contain" }} />}
+                                    style={{ width: 80, height: 80, resizeMode: "contain" }} />}
                         </View>
-                        <View style={{ flex: 0.85, flexDirection: "row", justifyContent: "space-between", paddingLeft: 10, }}>
+                        {/* <View style={{ flex: 0.85, flexDirection: "row", justifyContent: "space-between", paddingLeft: 10, }}>
                             <View style={{ justifyContent: "space-evenly", }}>
                                 <Text>{item.name}</Text>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingTop: 5, paddingBottom: 5 }}>
@@ -193,15 +191,23 @@ class MyTopics extends Component {
 
                             </View>
 
+                        </View> */}
+                        <View style={{ flex: 0.6, justifyContent: "space-between",paddingVertical:5}}>
+                        <Text>{item.name}</Text>
+                        <View>
+                        <Text style={{ fontSize: 10, color: 'grey' }}>In Progress</Text>
+                        <Text style={{fontSize:12}}>12 April, 2021</Text>
                         </View>
-                        <View style={{ flex: 0.2, justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ fontSize: 10, color: 'grey' }}>In Progress</Text>
-                            {/* <Text style={{fontSize:12}}>12 April, 2021</Text> */}
+                         
                         </View>
 
                     </View>
+                   
 
                 </TouchableOpacity>
+                 <Progress.Bar progress={percent/100} width={windowWidth/1.5} height={5} color={color}
+			unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+            </View>
 
 
             )
@@ -217,19 +223,22 @@ class MyTopics extends Component {
             this.state.spinner ? null :
 
                 this.state.topicsData.length > 0 ?
-                    <View style={{marginVertical:10}}>
+                    <View>
                         	<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
-                            <Text style={styles.headertext}>{StringsOfLanguages.mytopicsinprogress}</Text>
+                            <Text style={{ marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.mytopicsinprogress}</Text>
                             <TouchableOpacity onPress={this.onViewall.bind(this)}>
-                            <Text style={styles.seelalltext}>{StringsOfLanguages.seeall}</Text>
+                            <Text style={{marginRight:15,fontSize:14,color:"#656565"}}>{StringsOfLanguages.seeall}</Text>
                             </TouchableOpacity>
                           
                             </View>
-                        
+                        <View style={{marginTop:20}}>
                         <FlatList data={this.state.topicsData}
                             renderItem={this.renderItem.bind(this)}
                             keyExtractor={(item, index) => item + index}
+                            horizontal={true}
                             showsHorizontalScrollIndicator={false} />
+                        </View>
+                       
 
                     </View> : null
         )
