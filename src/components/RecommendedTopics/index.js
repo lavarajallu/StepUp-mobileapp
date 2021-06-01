@@ -64,19 +64,19 @@ class RecommendedTopics extends Component {
 			color = "orange"
 		}
 		return (
-			<View style={{backgroundColor:"white",width:windowWidth/1.1,margin:10,alignSelf:"center",
+			<View style={{backgroundColor:"white",width:windowWidth/1.3,margin:10,alignSelf:"center",
 			shadowOffset: { width: 0, height: 5 },
 			shadowOpacity: 1,
 			shadowRadius: 5,
 			elevation: 10, borderRadius: 10
 			
 			   }}>
-				<View style={{flex:1,flexDirection:"row",padding:5}}>
-				<View style={{flex:0.2,}}>
+				<View style={{flex:1,flexDirection:"row",}}>
+				<View style={{flex:0.25,}}>
 					<Image source={item.image}
-					  style={{width:50,height:50}}/>
+					  style={{width:70,height:70}}/>
 				</View>
-				<View style={{flex:0.8,flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingLeft:10}}>
+				<View style={{flex:0.75,flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingLeft:10}}>
 				 <Text>{item.name}</Text>
 				<View style={{justifyContent:"center",alignItems:"center"}}>
 				<LinearGradient colors={["#F63D80", "#FD6C71"]}
@@ -93,18 +93,18 @@ class RecommendedTopics extends Component {
 	}
 	render() {
 		return (
-			<View style={{marginVertical:10}}>
+			<View>
 			<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
-			<Text style={styles.headertext}>{StringsOfLanguages.recommendedtopics}</Text>
+			<Text style={{ marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.recommendedtopics}</Text>
 			<TouchableOpacity>
-			<Text style={styles.seelalltext}>{StringsOfLanguages.seeall}</Text>
+			<Text style={{marginRight:15,fontSize:14,color:"#656565"}}>{StringsOfLanguages.seeall}</Text>
 			</TouchableOpacity>
 		  
 			</View>
 		
 			<FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
-					//horizontal={true}
+					horizontal={true}
 					showsHorizontalScrollIndicator={false} />
 	</View>
 		)

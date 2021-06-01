@@ -217,7 +217,7 @@ getData = async () => {
                         <TextInput 
                         placeholder="board"
                         editable={false}
-                        value={this.state.userDetails ? this.state.userDetails.board_id : null}
+                        value={this.state.userDetails ? this.state.userDetails.grade ?.board_id : null}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
                     </View>
                     <View style={{flexDirection:'row',alignItems:"center",marginLeft:20,paddingVertical:20}}>

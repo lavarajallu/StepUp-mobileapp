@@ -108,13 +108,13 @@ class CalendarNew extends Component {
                     <View style={{flex:1}}>
                         <View style={{flex:0.92}}>
                           
-                        {/* <EventCalendar
+                         <EventCalendar
                         eventTapped={this._eventTapped.bind(this)}
                         events={events}
                         width={width}
                         //initDate={'2017-09-08'}
                         initDate={"2021-05-10"}//{moment(new Date()).format("YYYY-MM-DD")}
-                        /> */}
+                        /> 
                         </View>
                         <View style={{flex:0.08}}>
                         <Footer openControlPanel={this.openControlPanel} value="calendar"/>

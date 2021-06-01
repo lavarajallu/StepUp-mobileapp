@@ -16,7 +16,8 @@ import {
 	FlatList
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
-
+import { colors } from "../../constants"
+import * as Progress from 'react-native-progress';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
@@ -211,7 +212,7 @@ getanalytics(user,token){
 		// colorsarray.push(newitem);
 		const url = imageUrl+item.image
 		var progress = 0+ (0.4 * Math.random())
-		var percent = (item.percent) * 100;
+		var percent = (item.percent);
 		var color;
 		if(percent > 50 ){
 			color = "green"
@@ -220,61 +221,93 @@ getanalytics(user,token){
 		}else{
 			color = "orange"
 		}
-		console.log("urlll",url)
 		var newarray = ["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"];
 		var newitem = newarray[index] //newarray[Math.floor(Math.random()*newarray.length)];
 		item["color"] = newitem
 		return (
-		   <TouchableHighlight onPress={this.onChapter.bind(this,item)}  underlayColor="transparent" 
-		   activeOpacity={0.9} style={{padding:8}}>
+			<TouchableOpacity onPress={this.onChapter.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}
+			style={{ marginHorizontal:10, height:155,width:windowWidth/1.7,borderWidth:0.1,borderColor: 'transparent',overflow:"hidden",borderRadius:10,alignSelf:"center",marginTop:10}}>
+					 
+					  <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} 
+					  style={{width:windowWidth/1.7,height:145,alignSelf:"center",backgroundColor:item.color}}
+					  opacity={0.5}>
+ 
+						  <View style={{flex:1}}>
+							  <View style={{flex:0.6,}}>
+								  <View style={{flex:1,flexDirection:"row"}}>
+									  <View style={{flex:0.4,paddingLeft:20,justifyContent:"center"}}>
+										  <View style={{width:70,height:70,borderRadius:50,justifyContent:"center",alignItems:"center"}}>
+										  {item.image ? 
+										 <Image source={{uri: url}} style={{width: 60,height: 60,resizeMode:"cover",borderRadius:30}} />
+										 :
+										 <Image source={require('../../assets/images/noimage.png')}
+										 style={{width:80,height:80,resizeMode:"contain"}}/>}
+										  </View>
+								   
+									  </View>
+									   <View style={{flex:0.6,justifyContent:"center",alignItems:"flex-start",}}>
+									   <Text style={{color:"white",fontSize:15,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
+										  
+									  </View>
+								  </View>
+							  </View>
+ 
+							 
+							  <View style={{flex:0.4,flexDirection:"row",justifyContent:"space-around"}}>
+							  <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.chaptersCount}</Text>
+								  </View>
+								  {/* <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
+								  </View> */}
+								  <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.topicsCount}</Text>
+								  </View>
+							  </View>
+						  </View>
+			</ImageBackground>
+			<Progress.Bar progress={percent/100} width={windowWidth/1.1} height={5} color={color}
+			unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+					 
+					 </TouchableOpacity>
+ 
+		//    <TouchableHighlight onPress={this.onChapter.bind(this,item)}  underlayColor="transparent" 
+		//    activeOpacity={0.9} style={{padding:8}}>
 					
-					<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.4} >
-					<View style={{flex:1,}}>
-						<View style={{flex:0.75,alignItems:"center",justifyContent:"space-around",flexDirection:"row"}}>
-							<View style={{flex:0.4,justifyContent:"center",alignItems:"flex-end",}}>
-							{item.image ? 
-							 <Image source={{uri: url}}
-							 style={{width:70,height:60,resizeMode:"cover"}} />
-							 :
-							  <Image source={require('../../assets/images/dashboard/new/stepuplogo.png')}
-							  style={{width:60,height:60,resizeMode:"contain"}}/>}
-							</View>
-							<View style={{flex:0.55,justifyContent:"center",alignItems:"center"}}>
-							  <Text style={{fontSize:13,color:"white"}}>{item.name}</Text>
-							  </View>
-							  </View>
-						<View style={{flex:0.25,marginHorizontal:10}}>
-						<View style={styles.countview}>
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>{item.chaptersCount}</Text>
-								 </View>
+		// 			<ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} style={[styles.rectview, { backgroundColor: newitem }]} opacity={0.4} >
+		// 			<View style={{flex:1,}}>
+		// 				<View style={{flex:0.75,alignItems:"center",justifyContent:"space-around",flexDirection:"row"}}>
+		// 					<View style={{flex:0.4,justifyContent:"center",alignItems:"flex-end",}}>
+		// 					{item.image ? 
+		// 					 <Image source={{uri: url}}
+		// 					 style={{width:70,height:60,resizeMode:"cover"}} />
+		// 					 :
+		// 					  <Image source={require('../../assets/images/dashboard/new/stepuplogo.png')}
+		// 					  style={{width:60,height:60,resizeMode:"contain"}}/>}
+		// 					</View>
+		// 					<View style={{flex:0.55,justifyContent:"center",alignItems:"center"}}>
+		// 					  <Text style={{fontSize:13,color:"white"}}>{item.name}</Text>
+		// 					  </View>
+		// 					  </View>
+		// 				<View style={{flex:0.25,marginHorizontal:10}}>
+		// 				<View style={styles.countview}>
+		// 						 <View style={styles.innercountview}>
+		// 							 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+		// 							 <Text style={styles.icontext}>{item.chaptersCount}</Text>
+		// 						 </View>
 							
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>{item.topicsCount}</Text>
-								 </View></View>
-						</View>
-					</View>
-					</ImageBackground>
+		// 						 <View style={styles.innercountview}>
+		// 							 <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
+		// 							 <Text style={styles.icontext}>{item.topicsCount}</Text>
+		// 						 </View></View>
+		// 				</View>
+		// 			</View>
+		// 			</ImageBackground>
 					
-					</TouchableHighlight>
-		
-	// 	<View style={{width:110,marginVertical:5,marginHorizontal:10,alignItems:"center"}}>
-	// 		<View style={{width:80,height:80,backgroundColor:newitem,borderRadius:40,justifyContent:"center",alignItems:"center", shadowColor: newitem,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.9,
-    // shadowRadius: 3,
-    // elevation: 10,}}>
-	// 		{item.image ? 
-	// 									<Image source={{uri: url}} style={{width: 50,height:50,borderRadius:25,}} />
-	// 									:
-	// 									<Image source={require('../../assets/images/noimage.png')}
-	// 									style={{width:60,height:60,resizeMode:"contain"}}/>}
-	// 		</View>
-	// 		<Text style={{textAlign:"center",fontSize:10,marginTop:10}}>{item.name}</Text>
-	// 				</View>
-		
+		// 			</TouchableHighlight>
+	
 
 		)
 	}
@@ -284,11 +317,11 @@ getanalytics(user,token){
 	render() {
 		return (
 
-			<View>
+			<View style={{marginTop:20}}>
 				<View style={{flexDirection: 'row',justifyContent: 'space-between'  }}>
-			 <Text style={styles.headText}>{StringsOfLanguages.mylibrary}</Text>
+			 <Text style={{  marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.mylibrary}</Text>
 			 <TouchableOpacity onPress={this.onSeeaLL.bind(this)}>
-			 <Text style={styles.seelalltext}>{StringsOfLanguages.seeall}</Text> 
+			 <Text style={{marginRight:15,fontSize:14,color:"#656565"}}>{StringsOfLanguages.seeall}</Text> 
 			 </TouchableOpacity>
 			
 			</View>
@@ -299,7 +332,8 @@ getanalytics(user,token){
                            </View>  : 
                               this.state.subjectsData &&
                              this.state.subjectsData.length > 0 ?
-							 <View style={{flex:1,marginHorizontal:10,justifyContent:"center",}}>
+							 <View style={{flex:1,marginHorizontal:10,justifyContent:"center",marginTop:10,alignnIt
+							 :"center"}}>
 							<FlatList data={this.state.subjectsData} 
 							renderItem={this.renderItem.bind(this)}
 							 //numColumns={2}
