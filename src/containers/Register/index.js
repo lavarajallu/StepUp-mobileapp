@@ -10,7 +10,9 @@ import {
     ActivityIndicator,
     Image,
     Alert,
-    TouchableOpacity
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import styles from "./styles"
 import DeviceConstants from 'react-native-device-constants';
@@ -295,7 +297,10 @@ class Register extends Component {
                     source={require("../../assets/images/backblue.png")}
                 />
 
-
+                <KeyboardAvoidingView
+                    behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    keyboardVerticalOffset={50}
+                    style={{ flex: 1 }}>
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     keyboardShouldPersistTaps={'handled'}
@@ -383,7 +388,7 @@ class Register extends Component {
                     </View> : null}
                 </ScrollView>
 
-
+                </KeyboardAvoidingView>
 
             </>
         );
