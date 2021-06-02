@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    SafeAreaView,
+    KeyboardAvoidingView,
     ActivityIndicator,
     ImageBackground,
     ScrollView,
@@ -11,7 +11,8 @@ import {
     Image,
     Keyboard,
     TouchableOpacity,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
@@ -95,14 +96,18 @@ class ForgotPassword extends Component {
                     style={[styles.containter]}
                     source={require("../../assets/images/backblue.png")}
                 />
+            <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={50}
+          style={{ flex: 1 }}
+        >
 
-
-                <ScrollView
+                {/* <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}>
+                    style={styles.scrollView}> */}
                     <View style={styles.body}>
                         <Header title="forgot" />
-                        <Image source={require("../../assets/images/logo_icon.png")}
+                        <Image source={require("../../assets/images/logo_icon2.png")}
                             style={{width:100,height:100,alignSelf:"center",marginTop:10}} />
                         <Image source={require("../../assets/images/forgoticon.png")}
                             style={styles.forgoticon} />
@@ -136,8 +141,8 @@ class ForgotPassword extends Component {
                         </View>
 
                     </View>
-                </ScrollView>
-
+                {/* </ScrollView> */}
+                </KeyboardAvoidingView>
                 {this.state.spinner ? 
                     <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
                    <ActivityIndicator color={"black"}/>

@@ -48,6 +48,7 @@ class Chapters extends Component {
   };
   componentDidMount() {
     // alert(JSON.stringify(this.props.data))
+    console.log("ddd",this.state.userData)
     this.getData()
   }
   getData = async () => {
@@ -243,7 +244,7 @@ class Chapters extends Component {
                       </TouchableOpacity>
                         </View>
                         <View style={{flex:0.9,justifyContent:"flex-start"}}>
-                        <Text style={{ color: "white", fontSize: 20,marginLeft:15 }}>{this.props.data.name}</Text>
+                        <Text style={{ color: "white", fontSize: 18,marginLeft:15 }}>{this.props.data.name}</Text>
                         <Text style={{color:"white",marginLeft:15,marginTop:5}}>{this.props.data.chaptersCount} Chapters | {this.props.data.topicsCount} Topics</Text>
                         </View>
                       </View>

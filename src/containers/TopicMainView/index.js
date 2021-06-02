@@ -593,7 +593,7 @@ class TopicMainView extends Component {
 						<TouchableOpacity onPress={this.onBack.bind(this)}>
                     <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,tintColor:"white"}} />
                   </TouchableOpacity>
-                    <Text style={{ color: "white", marginHorizontal: 10, fontSize: 20 }}>{this.props.data.name}</Text>
+                    <Text style={{ color: "white", marginHorizontal: 10, fontSize: 18 }}>{this.props.data.name}</Text>
 						</View>
                       <View style={{flex:0.3,justifyContent:"center",alignItems:"center"}}>
 					  {this.props.data.image !== "null" ?
@@ -621,8 +621,8 @@ class TopicMainView extends Component {
                         <Image
                           source={{ uri: imageUrl + this.state.topicData.image }}
                           style={{ width: "100%", height: "100%", alignSelf: "center", }} />
-                      <View style={{position:"absolute",backgroundColor:"rgba(42,42,55,0.7)",width:"100%",height:40,bottom:0,justifyContent:"center",alignItems:"center"}}>
-                       <Text style={{ textAlign: "center", fontSize: 18,color:"white"}}>{this.state.topicData.name}</Text>
+                      <View style={{position:"absolute",backgroundColor:"rgba(42,42,55,0.7)",width:"100%",bottom:0,justifyContent:"center",alignItems:"center"}}>
+                       <Text style={{ textAlign: "center", fontSize: 15,color:"white"}}>{this.state.topicData.name}</Text>
                       </View>
                       </View>
                     </View>

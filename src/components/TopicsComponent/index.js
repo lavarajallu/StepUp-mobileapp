@@ -54,7 +54,7 @@ class TopicsComponent extends Component {
         console.log("gggg",item)
         var percent = (item.percent);
         let color
-        if(percent > 70 ){
+        if(percent > 80 ){
 			color = "green"
 		}else if (color< 50) {
 			color = "red"

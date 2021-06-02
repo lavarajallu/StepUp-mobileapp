@@ -10,6 +10,8 @@ import {
     ActivityIndicator,
     Image,
     Alert,
+    KeyboardAvoidingView,
+    Platform,
     TouchableOpacity
 } from 'react-native';
 import styles from "./styles"
@@ -294,16 +296,19 @@ class Register extends Component {
                     style={[styles.containter]}
                     source={require("../../assets/images/backblue.png")}
                 />
+  {/* <KeyboardAvoidingView
+                    behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    keyboardVerticalOffset={50}
+                    style={{ flex: 1 }}> */}
 
-
-                <ScrollView
+                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     keyboardShouldPersistTaps={'handled'}
                     contentContainerStyle={{flexGrow: 1}}
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="register" />
-                        <Image source={require("../../assets/images/logo_icon.png")}
+                        <Image source={require("../../assets/images/logo_icon2.png")}
                             style={{width:80,height:80,alignSelf:"center",marginTop:10}} />
                         <FloatingLabel
                             labelStyle={styles.labelstyle}
@@ -381,7 +386,9 @@ class Register extends Component {
                     <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
                    <ActivityIndicator color={"black"}/>
                     </View> : null}
-                </ScrollView>
+                   
+                 </ScrollView>
+                 {/* </KeyboardAvoidingView> */}
 
 
 

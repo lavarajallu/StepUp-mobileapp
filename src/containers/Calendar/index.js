@@ -113,7 +113,7 @@ class CalendarNew extends Component {
                         events={events}
                         width={width}
                         //initDate={'2017-09-08'}
-                        initDate={"2021-05-10"}//{moment(new Date()).format("YYYY-MM-DD")}
+                        initDate={moment(new Date()).format("YYYY-MM-DD")}//{"2021-05-10"}//{moment(new Date()).format("YYYY-MM-DD")}
                         /> 
                         </View>
                         <View style={{flex:0.08}}>

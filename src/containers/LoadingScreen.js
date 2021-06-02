@@ -92,7 +92,7 @@ class LoadingScreen extends Component{
           style={{width:"100%",height:"100%",opacity:0.5}}/>
           <View style={{width:"100%",height:"100%",position:"absolute"}}>
           <View style={{flex:1,justifyContent:"center",alignItems:"center",}}>
-            		<Image source={require('../assets/images/logo_icon.png')}
+            		<Image source={require('../assets/images/logo_icon2.png')}
 					 style={{width:1048/10,height:1048/10,alignSelf:"center"}} />
         <TouchableOpacity onPress={this.onLanguage.bind(this,'en')} style={{height:50,paddingHorizontal:10,backgroundColor:colors.Themecolor,width:100,justifyContent:"center",alignItems:"center",marginTop:30}}>
           <Text style={{color:"white"}}>English</Text>

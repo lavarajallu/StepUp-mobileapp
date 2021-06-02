@@ -159,10 +159,10 @@ class Dashboard extends Component {
 							<View style={{ width: "100%", height: "100%", }}>
 								<View style={{ flex: 1 }}>
 									<ScrollView contentContainerStyle={{ flexGrow: 1, }}>
-										<View style={{ flex: 0.2, marginHorizontal: 15, marginVertical: 15 }}>
+										{/* <View style={{ flex: 0.2, marginHorizontal: 15, marginVertical: 15 }}>
 											<Image source={require('../../assets/images/dashboardlogo1.png')}
 												style={{ width: 117, height: 57 }} />
-										</View>
+										</View> */}
 										<View style={{ flex: 0.3, }}>
 											<ViewSlider
 												renderSlides={
@@ -174,11 +174,12 @@ class Dashboard extends Component {
 															padding: 10,
 															alignItems: 'center',
 															height: 200,
-															flexDirection:"row"
+															flexDirection:"row",
+															//backgroundColor:"red"
 														}}>
 
-															<Image source={require('../../assets/images/sliderimage.png')}
-															style={{width:261/1.5,height:237/1.5}}/>
+														<Image source={require('../../assets/images/logo_icon2.png')}
+												style={{ width: 1048/10, height: 1048/10 }} />
 															<View>
 																<Text>
 																Everyone is sharing ideas{"\n"}on buzz!
@@ -234,7 +235,7 @@ class Dashboard extends Component {
 												slideInterval={1000}    //In Miliseconds
 											/>
 										</View>
-										<View style={{ flex: 0.52, marginHorizontal: 0, }}>
+										<View style={{ flex: 0.72, marginHorizontal: 0, }}>
 
 											<Library />
 										</View>
