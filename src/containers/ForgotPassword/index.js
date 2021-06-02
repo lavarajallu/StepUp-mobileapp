@@ -91,20 +91,15 @@ class ForgotPassword extends Component {
 
     render() {
         return (
+            Platform.OS === 'android' ?
             <>
                 <ImageBackground
                     style={[styles.containter]}
                     source={require("../../assets/images/backblue.png")}
                 />
-            <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={50}
-          style={{ flex: 1 }}
-        >
-
-                {/* <ScrollView
+                <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
-                    style={styles.scrollView}> */}
+                    style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="forgot" />
                         <Image source={require("../../assets/images/logo_icon2.png")}
@@ -141,14 +136,91 @@ class ForgotPassword extends Component {
                         </View>
 
                     </View>
-                {/* </ScrollView> */}
-                </KeyboardAvoidingView>
+                </ScrollView>
                 {this.state.spinner ? 
                     <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
                    <ActivityIndicator color={"black"}/>
                     </View> : null}
 
             </>
+            :
+            <>
+        <ImageBackground
+          style={[styles.containter]}
+          source={require("../../assets/images/backblue.png")}
+        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={50}
+          style={{ flex: 1 }}
+        >
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}
+          >
+            <View style={styles.body}>
+              <Header title="forgot" />
+              <Image
+                source={require("../../assets/images/logo_icon.png")}
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                  marginTop: 10,
+                }}
+              />
+              <Image
+                source={require("../../assets/images/forgoticon.png")}
+                style={styles.forgoticon}
+              />
+              <Text style={styles.forgottext}>Forgot Password?</Text>
+              <Text style={styles.pleasetext}>
+                Please Enter your email or mobile number{" "}
+              </Text>
+              <TextInput
+                labelStyle={styles.labelstyle}
+                inputStyle={styles.input}
+                style={styles.textinput}
+                blurOnSubmit={false}
+                keyboardType={"email-address"}
+                placeholder={"Email"}
+                onChangeText={this.onChangeEmail}
+                onSubmitEditing={() => Keyboard.dismiss()}
+              ></TextInput>
+
+              <View style={styles.subview}>
+                <TouchableOpacity onPress={this.onSubmit.bind(this)}>
+                  <View
+                    style={styles.submiticon}
+                    source={require("../../assets/images/submit.png")}
+                  >
+                    <Text style={styles.logintext}>Submit</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.bottomview}>
+                <TouchableOpacity onPress={this.returnToLoginPage}>
+                  <Text style={styles.helptext}>Return to Login?</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+
+        {this.state.spinner ? (
+          <View
+            style={{
+              position: "absolute",
+              backgroundColor: "rgba(255,255,255,0.3)",
+              justifyContent: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
+            <ActivityIndicator color={"black"} />
+          </View>
+        ) : null}
+      </>
         );
     }
 }

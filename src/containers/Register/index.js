@@ -289,6 +289,7 @@ class Register extends Component {
 
     render() {
         return (
+            Platform.OS === 'android' ?
             <>
 
 
@@ -296,10 +297,6 @@ class Register extends Component {
                     style={[styles.containter]}
                     source={require("../../assets/images/backblue.png")}
                 />
-  {/* <KeyboardAvoidingView
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                    keyboardVerticalOffset={50}
-                    style={{ flex: 1 }}> */}
 
                  <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
@@ -393,6 +390,109 @@ class Register extends Component {
 
 
             </>
+            :
+            <>
+
+
+            <ImageBackground
+                style={[styles.containter]}
+                source={require("../../assets/images/backblue.png")}
+            />
+
+            <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={50}
+                style={{ flex: 1 }}>
+            <ScrollView
+                contentInsetAdjustmentBehavior="automatic"
+                keyboardShouldPersistTaps={'handled'}
+                contentContainerStyle={{flexGrow: 1}}
+                style={styles.scrollView}>
+                <View style={styles.body}>
+                    <Header title="register" />
+                    <Image source={require("../../assets/images/logo_icon.png")}
+                        style={{width:80,height:80,alignSelf:"center",marginTop:10}} />
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        onChangeText={this.onChangeFName}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >First Name</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        onChangeText={this.onChangeLName}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Last Name</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        keyboardType={"email-address"}
+                        onChangeText={this.onChangeEmail}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Email</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        onChangeText={this.onChangeMobile}
+                        keyboardType={"numeric"}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Mobile Number</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        keyboardType={"numeric"}
+                        blurOnSubmit={false}
+                        onChangeText={this.onChangePincode}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Pin Code</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        password={true}
+                        onChangeText={this.onChangePassword}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Create Password</FloatingLabel>
+                    <FloatingLabel
+                        labelStyle={styles.labelstyle}
+                        inputStyle={styles.input}
+                        style={styles.textinput}
+                        blurOnSubmit={false}
+                        password={true}
+                        onChangeText={this.onChangeConfPass}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    >Confirm Password</FloatingLabel>
+                    <View style={styles.subview}>
+                        <TouchableOpacity onPress={this.onCancel.bind(this)} style={styles.createview}>
+                            <Text style={styles.createtext}>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.onSubmit}>
+                            <View style={styles.submiticon}>
+                                <Text style={styles.logintext}>Submit</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                {this.state.spinner ? 
+                <View style={{position:'absolute',backgroundColor:"rgba(255,255,255,0.3)",justifyContent:"center",height:"100%",width:"100%"}}>
+               <ActivityIndicator color={"black"}/>
+                </View> : null}
+            </ScrollView>
+
+            </KeyboardAvoidingView>
+
+        </>
         );
     }
 }
