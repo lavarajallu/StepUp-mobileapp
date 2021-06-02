@@ -164,7 +164,7 @@ class Otp extends Component {
 
                     <View style={styles.body}>
                         <Header title="otp" />
-                        <Image source={require("../../assets/images/logo_icon.png")}
+                        <Image source={require("../../assets/images/logo_icon2.png")}
                             style={{width:100,height:100,alignSelf:"center",marginTop:10}} />
                         {this.state.showCnfpass ? 
 

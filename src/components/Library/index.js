@@ -86,10 +86,10 @@ class Library extends Component {
 			   console.log("announcemnets....",json)
 			   
 				if(json.data){
-					if(json.data.length > 0){
+					if(json.data.data.length > 0){
 					   console.log("announcemnets",json.data)
 				         this.setState({
-							announcementsData:json.data
+							announcementsData:json.data.data
 						 })
 					  
 					}else{
@@ -119,7 +119,7 @@ class Library extends Component {
 			
 			 response.json())
 			.then((json) =>{
-			   console.log("announcemnets....",json)
+			   console.log("live classes....",json)
 			   
 				if(json.data){
 					if(json.data.length > 0){

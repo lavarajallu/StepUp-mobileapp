@@ -103,7 +103,7 @@ class Announcements extends Component {
       };
     getAnnouncements()
 {
-       
+        console.log("ggg",baseUrl+'/announcements/student/logs')
         fetch(baseUrl+'/announcements/student/logs', {
                  method: 'GET',
                  headers: {
@@ -114,11 +114,13 @@ class Announcements extends Component {
                  
                   response.json())
                  .then((json) =>{
-                   // console.log("announcemnets....",json)
-                    
+                   console.log("announcemnets....",json)
+                   // var json.data = json.data.data
                      if(json.data){
-                         if(json.data.length > 0){
-                            console.log("announcemnets",json.data)
+                         if(json.data.data){
+
+                         if(json.data.data.length > 0){
+                            console.log("announcemnets",json.data.data)
                         
                             var obj;
                             var newdata=[]
@@ -152,7 +154,7 @@ class Announcements extends Component {
                             //      }
                             //  })}
                             //  console.log("finalarray",finalarray)
-                            let localeData = json.data.map((item) => {
+                            let localeData = json.data.data.map((item) => {
                                 item.key = moment(item.from_date).format('YYYY-MM-DD')
                                 return item
                               });
@@ -189,8 +191,10 @@ class Announcements extends Component {
                                 announcementsData: [],loading: false
                             })
                          }
+                        }
                         
                      }else{
+                         console.log("ffff",json)
                         this.setState({
                             announcementsData: [],loading: false
                         })

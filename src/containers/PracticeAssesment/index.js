@@ -38,7 +38,7 @@ class PracticeAssesment extends Component {
             questiosnarray: [],
             spinner: true,
             questionno: 0,
-            seconds: 300, secondstime: 300, testid: "", token: "", testloader: false,
+            seconds: 1200, secondstime: 1200, testid: "", token: "", testloader: false,
               analyticsData:{},
             token:""
         }

@@ -1,28 +1,27 @@
 import React, { Component } from "react";
 import {
-  SafeAreaView,
-  ActivityIndicator,
-  ImageBackground,
-  ScrollView,
-  View,
-  Text,
-  Dimensions,
-  TextInput,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { Actions } from "react-native-router-flux";
-import styles from "./styles";
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Header from "../../components/Header";
-import { Validations } from "../../helpers";
-import { baseUrl } from "../../constants";
+    KeyboardAvoidingView,
+    ActivityIndicator,
+    ImageBackground,
+    ScrollView,
+    View,
+    Text,
+    Dimensions,
+    TextInput,
+    Image,
+    Keyboard,
+    TouchableOpacity,
+    Alert,
+    Platform
+} from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import styles from "./styles"
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from '../../components/Header'
+import { Validations } from '../../helpers'
+import { baseUrl } from '../../constants';
 
 class ForgotPassword extends Component {
   constructor(props) {
