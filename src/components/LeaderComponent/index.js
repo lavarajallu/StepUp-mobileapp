@@ -105,11 +105,29 @@ class LeaderComponent extends Component {
                   
                 </View> :
                 this.state.selectedIndex === 1 ?
-                <View style={{ flex: 1, backgroundColor: 'green' }}>
-                    
+                <View style={{ flex: 1,  }}>
+                    <FlatList data={data} renderItem={this.renderToday.bind(this)}
+                   ListFooterComponent={()=>
+                    <View style={{margin:20,alignItems:"center",justifyContent:"center"}}>
+
+                    <LinearGradient colors={["#2E61AE","#DB338E"]}  start={{ x: 0, y: 0.5 }} style={{height:50,paddingHorizontal:20,width:150,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
+                    <Text style={{color:"white",fontSize:15}}>View More</Text>
+                </LinearGradient>
+                </View>
+                   }
+                   />
                 </View> : 
-                 <View style={{ flex: 1, backgroundColor: 'blue' }}>
-                    
+                 <View style={{ flex: 1, }}>
+                    <FlatList data={data} renderItem={this.renderToday.bind(this)}
+                   ListFooterComponent={()=>
+                    <View style={{margin:20,alignItems:"center",justifyContent:"center"}}>
+
+                    <LinearGradient colors={["#2E61AE","#DB338E"]}  start={{ x: 0, y: 0.5 }} style={{height:50,paddingHorizontal:20,width:150,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
+                    <Text style={{color:"white",fontSize:15}}>View More</Text>
+                </LinearGradient>
+                </View>
+                   }
+                   />
                  </View>}
                
            </View>

@@ -147,7 +147,7 @@ class ProgressTopics extends Component{
             return name
     }
     onMainTopic(item){
-        var newarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
+        var newarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var newitem = this.chooseName(newarray);//newarray[Math.floor(Math.random()*newarray.length)];
         var url = baseUrl + '/topic/' + item.topic_id
         fetch(url, {
@@ -227,7 +227,7 @@ class ProgressTopics extends Component{
                     elevation: 10, borderRadius: 10, paddingVertical: 5
 
                 }}>
-                    <View style={{ flex: 1, flexDirection: "row", padding: 5 }}>
+                    <View style={{ flex: 1, flexDirection: "row", padding: 5 ,}}>
                         <View style={{ flex: 0.2, }}>
                             {item.image ?
 
@@ -236,22 +236,25 @@ class ProgressTopics extends Component{
                                 <Image source={require('../../assets/images/noimage.png')}
                                     style={{ width: "100%", height: "100%", resizeMode: "contain" }} />}
                         </View>
-                        <View style={{ flex: 0.85, flexDirection: "row", justifyContent: "space-between", paddingLeft: 10, }}>
-                            <View style={{ justifyContent: "space-evenly", }}>
+                        <View style={{ flex: 0.8, flexDirection: "row", justifyContent: "space-between", paddingLeft: 10, }}>
+                            <View style={{ flex:1,justifyContent: "space-evenly"}}>
                                 <Text>{item.name}</Text>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingTop: 5, paddingBottom: 5 }}>
+                             
+                            {/* <Text style={{ fontSize: 10, color: 'grey' }}>In Progress</Text> */}
+                        
+                                {/* <View style={{ flexDirection: "row", justifyContent: "space-between", paddingTop: 5, paddingBottom: 5 }}>
                                     <Text>Progress</Text>
                                     <Text>{(item.progress)}%</Text>
+                                </View> */}
+                                <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between",}}>
+                                <Progress.Bar progress={item.progress / 100} width={windowWidth / 1.8} height={2} color={color} />
+                                <Text style={{marginRight:10,fontSize:12}}>{Math.round(item.progress)}%</Text>
                                 </View>
-                                <Progress.Bar progress={item.progress / 100} width={windowWidth / 2} height={2} color={color} />
-
+                               
                             </View>
 
                         </View>
-                        <View style={{ flex: 0.2, justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ fontSize: 10, color: 'grey' }}>In Progress</Text>
-                            {/* <Text style={{fontSize:12}}>12 April, 2021</Text> */}
-                        </View>
+                      
 
                     </View>
 

@@ -122,6 +122,7 @@ updateAnalytics(){
                  
                   response.json())
                  .then((json) =>{
+					 console.log("ggggg",json.data)
                      const data = json.data;
                      if(data){
                        if(data.subjects){
@@ -221,7 +222,7 @@ getanalytics(user,token){
 		}else{
 			color = "orange"
 		}
-		var newarray = ["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"];
+		var newarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var newitem = newarray[index] //newarray[Math.floor(Math.random()*newarray.length)];
 		item["color"] = newitem
 		return (
@@ -253,17 +254,22 @@ getanalytics(user,token){
 							  </View>
  
 							 
-							  <View style={{flex:0.4,flexDirection:"row",justifyContent:"space-around"}}>
-							  <View style={styles.innercountview}>
+							  <View style={{flex:0.4,flexDirection:"row",justifyContent:"space-around",}}>
+								  <View style={{alignItems:"center",justifyContent:"center"}}>
+							        <View style={styles.innercountview}>
 									  <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
 									  <Text style={styles.icontext}>{item.chaptersCount}</Text>
 								  </View>
+								  <Text style={{color:"white",fontSize:10}}>Chapters</Text></View>
 								  {/* <View style={styles.innercountview}>
 									  <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
 								  </View> */}
+								   <View style={{alignItems:"center",justifyContent:"center"}}>
 								  <View style={styles.innercountview}>
 									  <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
 									  <Text style={styles.icontext}>{item.topicsCount}</Text>
+								  </View>
+								  <Text style={{color:"white",fontSize:10}}>Topic</Text>
 								  </View>
 							  </View>
 						  </View>

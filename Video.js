@@ -1,417 +1,1125 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback, BackHandler, Dimensions, Slider } from 'react-native'
-// import COLORS from '../styles/color';
-// import { STRING, url } from '../values/string';
-//import GLOBALSTYLE from '../values/style';
-import Video from 'react-native-video';
-// import AsyncStorage from '@react-native-community/async-storage';
-// import KeepAwake from 'react-native-keep-awake';
+import React, { Component } from 'react';
+import {
+    SafeAreaView,
+    StyleSheet,
+    ImageBackground,
+    ScrollView,
+    View,
+    Text,
+    Dimensions,
+    Alert,
+    Image,
+    Keyboard,
+    TouchableOpacity,
+    FlatList,
+    ActivityIndicator
+} from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import Modal from 'react-native-modal';
+import styles from "./styles"
+import LinearGradient from 'react-native-linear-gradient';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import MathJax from 'react-native-mathjax';
 
-var db, videoURL, videoBaseURL, counter = 0;
-import * as Progress from 'react-native-progress';
-import { NativeModules } from 'react-native';
-import Orientation from 'react-native-orientation-locker';
-import { log } from 'react-native-reanimated';
-// import DBMigrationHelper from '../dbhelper/DBMigrationHelper';
-// var ServiceModule = NativeModules.ServiceModule;
-import Icon from 'react-native-vector-icons/FontAwesome'
-class VideoActivity extends Component {
-
+import { baseUrl, imageUrl } from "./src/constants"
+import Snackbar from 'react-native-snackbar';
+import DOMParser from 'react-native-html-parser';
+import HtmlText from 'react-native-html-to-text';
+import { colors } from "./src/constants"
+var alphabetarray = ["A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+var interval;
+class PreAssesment extends Component {
     constructor(props) {
-        super(props);
-        // counter = 0;
-        // this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-        // this.stopTouch = this.visibleInteractivePoints.bind(this);
-        // db = DBMigrationHelper.getInstance();
-
+        super(props)
         this.state = {
-            isLoading: false,
-        
-            topicName: '',
-            videoURL:  'https://smarttesting.s3.ap-south-1.amazonaws.com/media/TW123/Time_And_Work-1617271400907.mp4',
-            fileName: '',
-            isNoteAvailable: false,
-            iconName: require('./src/assets/images/fullscreen.png'),
-            getViewX: 0,
-            getViewY: 0,
-            shouldHideInteractivePoints: false,
-            interactiveData: [],
-            interactiveQuestionData: [],
-            videoDuration: 0,
-            setX: [],
-            isPaused: false,
-            progress:0,
-            userID: '',
-            // typeId: this.props.navigation.getParam("typeId", -1),
-            // teacherResourceId: this.props.navigation.getParam("teacherResourceId", -1),
+            selectedItem: null,
+            previousItem: null,
+            isvisible: false,
+            finalarray: [],
+            answerobj: {},
+            selectedAnswerObj:{},
+            useDetails: null,
+            questiosnarray: [],
+            timeup:false,
+            spinner: true,
+            questionno: 0,
+            seconds: 300, secondstime: 300, testid: "", token: "", testloader: false,
+              analyticsData:{},
+            token:""
         }
     }
-
     componentDidMount() {
-        //KeepAwake.activate();
-        this.setStates();
-
-        // this.props.navigation.addListener(
-        //     'didFocus',
-        //     payload => {
-        //         console.log(payload);
-        //         this.setState({
-        //             isPaused: false,
-        //         })
-        //     }
-        // );
-        this.timer = setInterval(this.tick, 1000);
-
-        //this.getUserData();
-    }
-
-    getUserData() {
-        db.getUserDetails(user => {
-            console.log('user', user);
-            if (user == null) {
-                SimpleToast.show(MESSAGE.wentWrong);
-            } else {
-                this.setState({
-                    userID: user.id,
-                });
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    tick = () => {
-        counter++;
-    }
-
-
-
-    async setStates() {
-        // videoBaseURL = await url(STRING.videoBaseURL);
-
-        // this.setState({
-        //     topicId: await AsyncStorage.getItem(STRING.TOPICID),
-        //     topicName: await AsyncStorage.getItem(STRING.TOPICNAME),
-        //     languageId: await AsyncStorage.getItem(STRING.LANGUAGEID),
-        //     fileName: await AsyncStorage.getItem(STRING.VIDEOURL),
-        // })
-
-        // if (this.state.isEncrypted) {
-        //     ServiceModule.getDynamicPort((err) => {
-        //     }, (PORT) => {
-        //         videoURL = STRING.servieBaseURL + PORT + "/" + videoBaseURL + this.state.fileName;
-
-        //         console.log(videoBaseURL + this.state.fileName);
-        //         this.setState({
-        //             videoURL: videoURL,
-        //         });
-        //     });
-        // } else {
-        //     // this.setState({
-        //     //     videoURL: 'https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4',
-        //     // });
-        // }
-
-        // this.getInteractivePointsAPI();
-    }
-
-    goBack() {
-        // db.insertProgressData(code => {
-        //     Orientation.lockToPortrait();
-        //     this.props.navigation.goBack(null)
-        // }, this.state.userID, this.state.topicId, this.state.typeId, this.state.teacherResourceId, counter);
-    }
-
-    handleBackButtonClick() {
-        // this.goBack();
-        // return true;
-    }
-
-    doFullScreen() {
-        // Orientation.getOrientation((err, orientation) => {
-        //     if (orientation === 'PORTRAIT') {
-                Orientation.lockToLandscape();
-                this.setState({
-                    iconName: require('./src/assets/images/halfscreen.png'),
-                   // interactiveData: this.state.interactiveData,
-                });
-            // } else {
-            //     Orientation.lockToPortrait();
-            //     this.setState({
-            //         iconName: require('./src/assets/images/fullscreen.png'),
-            //         //interactiveData: this.state.interactiveData,
-            //     });
-            // }
-        //})
-    }
-
-    async getInteractivePointsAPI() {
-        // this.setState({
-        //     isLoading: true,
-        // });
-
-        // console.log(await url(STRING.liveClassBaseUrl) + STRING.topicInteractive + this.state.topicId + "&language=" + this.state.languageId);
-        // return fetch(await url(STRING.liveClassBaseUrl) + STRING.topicInteractive + this.state.topicId + "&language=" + this.state.languageId, {
-        //     // return fetch('http://3.6.66.252:5001/api/InteractiveVideo/TopicInteractive?id=PH12041&language=ENG-101', {
-        //     method: 'GET',
-        //     headers: {
-        //         "Content-type": "application/json; charset=UTF-8"
-        //     }
-        // })
-        //     .then(response => {
-        //         const statusCode = response.status;
-        //         const data = response.json();
-        //         return Promise.all([statusCode, data]);
-        //     })
-        //     .then(([statusCode, responseJson]) => {
-        //         if (statusCode == 200) {
-        //             this.setState({
-        //                 interactiveData: responseJson.quizDetailsList,
-        //                 interactiveQuestionData: responseJson.quizDetailsList,
-        //                 isLoading: false,
-        //             }, () => {
-        //                 console.log(this.state.duration);
-        //             });
-        //         } else {
-        //             this.setState({
-        //                 isLiveClassAvailable: false,
-        //                 isLoading: false,
-        //             });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         this.setState({
-        //             isLoading: false
-        //         });
-        //     });
-    }
-
-    displayOptions() {
-        if (this.state.shouldHideInteractivePoints || this.state.isLoading || this.state.setX.length <= 0) {
-            return null
-        } else {
-            console.log('FINAL: ', this.state.setX);
-            return this.state.setX.map(data => (
-                <View
-                    style={{ position: 'absolute', left: data, top: this.state.getViewY - 40 }}>
-                    
-                </View>
-            ));
-        }
-    }
-
-    visibleInteractivePoints() {
-        clearInterval(this.interval);
-        this.interval = setInterval(() =>
-            this.setState({
-                shouldHideInteractivePoints: true,
-            }, () => {
-                clearInterval(this.interval);
-            })
-            , 4900);
-        this.setState({
-            shouldHideInteractivePoints: false,
-        })
-    }
-
-    setInteractiveAxis(event) {
-        // let setX = [];
-        // for (let i = 0; i < this.state.interactiveData.length; i++) {
-        //     let x1 = 50;
-        //     let x2 = this.state.getViewX - 50;
-        //     let temp = (this.state.interactiveData[i].duration * 100) / event.duration
-
-        //     setX[i] = ((x1 + ((x2 - x1) * temp) / 100) - 5);
-        //     console.log('setX: ', setX[i]);
-        // }
-
-        // this.setState({
-        //     videoDuration: event.duration,
-        //     setX: setX
-        // }, () => {
-        //     this.visibleInteractivePoints();
-        // });
-    }
-
-    checkForPoints(seekPos) {
-        // this.state.interactiveQuestionData.forEach(element => {
-        //     if (element.duration < seekPos) {
-        //         this.setState({
-        //             isPaused: true,
-        //             interactiveQuestionData: this.state.interactiveQuestionData.splice(1, this.state.interactiveQuestionData.length - 1),
-        //         }, () => {
-        //             this.props.navigation.navigate('quizInteractiveActivity', { 'data': element });
-        //         });
-        //         return true;
-        //     }
-        // });
-    }
-    handleMainButtonTouch(){
-        this.setState( state =>{
-            return{
-                isPaused : !state.isPaused
-            }
-        })
-    }
-    handleOnEnd(){this.setState({isPaused:true})}
-    handleProgress  = (data) => {
-        this.setState({
-            progress : data.currentTime / this.state.videoDuration
-        })
-    }
-    handleLoad(meta){
-
-        this.setState({
-            videoDuration: meta.duration
-        })
-
-    }
-    handleProgressBarTouch (e) {
+        this.getQuestions()
+        //this.getData()
         
-        const position = e.nativeEvent.locationX;
-        const progress = (position / 250)  * this.state.videoDuration
-      
-        if(progress/ this.state.videoDuration < this.state.progress){
-            this.player.seek(progress)
-           console.log(progress/ this.state.videoDuration +  " "+ this.state.progress)
+    }
+
+    getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@user')
+            //alert(JSON.stringify(value))
+            if (value !== null) {
+                var data = JSON.parse(value)
+                this.setState({
+                    useDetails: data
+                })
+                const token = await AsyncStorage.getItem('@access_token')
+                if (token && data) {
+
+                    // this.setState({ token: JSON.parse(token) })
+                    //   this.getanalytics(data,JSON.parse(token))
+                    this.getQuestions()
+                    
+
+                } else {
+                    console.log("hihii")
+                }
+
+            } else {
+                alert("errorrr")
+            }
+        } catch (e) {
+            return null;
         }
-      
-
     }
-    secondsToTime(time){
-          return ~~(time/60)+":"+(time%60 < 10 ? "0" : "")+time%60;
-    }
-    render() {
-        const width = Dimensions.get('window');
-        const height = width*.5625
-        return (
-            // <View
-            //     style={{ backgroundColor: 'green', flex:1}}>
-            //     <StatusBar hidden={true} />
-               
-            //         <Video source={{ uri: this.state.videoURL }}   // Can be a URL or a local file.
-            //             onBuffer={this.onBuffer}                // Callback when remote video is buffering
-            //             onError={this.videoError}               // Callback when video cannot be loaded
-            //             style={{ position: 'absolute',
-            //             top: 0,
-            //             left: 0,
-            //             bottom: 0,
-            //             right: 0,}}
-            //             controls={true}
-            //             resizeMode = {"contain"}
-            //             paused={this.state.isPaused}
-            //             onLoad={event => {
-            //                 this.setInteractiveAxis(event)
-            //             }}
-            //             onProgress={event => {
-            //              //   this.checkForPoints(Number(event.currentTime))
-            //             }}
-            //             onLayout={event => {
-            //                 const layout = event.nativeEvent.layout;
-            //                 this.setState({
-            //                     getViewX: layout.width,
-            //                     getViewY: layout.height,
-            //                 });
-            //             }}
-            //             {...this._panResponder.panHandlers} />
-            //         {/* {this.displayOptions()} */}
-            //      <TouchableOpacity
-            //         activeOpacity={0.7}
-            //         style={{ justifyContent: 'center', alignSelf: 'flex-end', position: 'absolute', padding: 8, marginEnd: 10, marginTop: 10, borderRadius: 8, }}
-            //         onPress={() => this.doFullScreen()}>
-            //         <Image
-            //             style={{ height: 25, width: 25, alignSelf: 'flex-start' }}
-            //             source={this.state.iconName} />
-            //     </TouchableOpacity>
-            //     <TouchableOpacity
-            //         activeOpacity={0.7}
-            //         style={{ justifyContent: 'center', flex: 0.33, position: 'absolute', padding: 8, marginStart: 10, marginTop: 10, borderRadius: 8, }}
-            //         onPress={() => this.goBack()}>
-            //         <Image
-            //             style={{ height: 20, width: 20, alignSelf: 'flex-start',tintColor:"white" }}
-            //             source={require('./src/assets/images/left-arrow.png')} />
-            //     </TouchableOpacity>
+     removeHtmlTags = value => {
+        // let sourceHTML = value.getElementsByTagName("p");
+        // sourceHTML = sourceHTML.replace(/<--!(?:.|\n)*?-->/gm, '');
+        // console.log("ddddd",sourceHTML);
+        
+    //     const parser = new DOMParser.DOMParser();
+    //     const parsed = parser.parseFromString(value, 'text/html');
+    //     console.log(parsed.getElementsByAttribute('tagName', 'p'));
+        
+    //    console.log("dddddd",JSON.parse(parsed))
+        return value
+      }
+    getanalytics(user,token){
+        var type;
+        if(this.props.data.type === "PRE"){
+            type = "MyCourse_preassessment"
+        }else if(this.props.data.type === 'POST'){
+            type = "MyCourse_postassessment"
+        }else if(this.props.data.type === 'OBJ'){
+            type= "MyCourse_objassessment"
+        }else{
+            type = "MyCourse_subjectiveAssessment"
+        }
+        var body={
+          user_id: user.reference_id,
+          board_id: user.grade ? user.grade.board_id : null,
+          grade_id:   user.grade ? user.grade.reference_id : null,
+          section_id: user.section? user.section.reference_id : null,
+          school_id: user.school ? user.school.reference_id :null,
+          branch_id : user.grade ? user.grade.branch_id : null,
+          page:type,
+          type:"mobile",
+          subject_id:this.props.subjectData.reference_id,
+          chapter_id:this.props.topicData.reference_id,
+          topic_id:this.props.topicindata.reference_id,
+          activity_id:this.props.data.reference_id,
+        }
+          
+        console.log("analyticsss",body)
+        var url = baseUrl+'/analytics'
+        console.log("value",url)
+         fetch(url ,{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'token': token
+            },
+            body:JSON.stringify(body)
+            }).then((response) =>
+            
+             response.json())
+            .then((json) =>{
+              
+              if(json.data){
+                const data = json.data;
+              //   alert(JSON.stringify(json));
+                 this.setState({
+                   analyticsData: data
+                 })
+                //  Snackbar.show({
+                // text: json.message,
+                // duration: Snackbar.LENGTH_SHORT,
+                // });
+              }else{
+                console.log(JSON.stringify(json.message))
+              }
+            }
+             
+            )
+            .catch((error) => console.error(error))
+      }
+      getItemLayout = (data, index) => (
+        { length: 50, offset: 50 * index, index }
+      )
+    scrollToIndex = (index) => {
+        let randomIndex = index;
+        this.flatListRef.scrollToIndex({animated: true, index: randomIndex});
+      }
+      updateAnalytics(){
+        //alert(this.state.analyticsData.reference_id)
+        var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
+        fetch(url ,{
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.state.token
+          },
+          }).then((response) =>
+          
+           response.json())
+          .then((json) =>{
+            
+            if(json.data){
+              const data = json.data;
+            //   alert(JSON.stringify(json));
+               this.setState({
+                 analyticsData: data
+               })
+            //    Snackbar.show({
+            // 	text: "Analytics Updated succesfully",
+            // 	duration: Snackbar.LENGTH_SHORT,
+            //   });
+            }else{
+              console.log(JSON.stringify(json.message))
+            }
+          }
+           
+          )
+          .catch((error) => console.error(error))
+        }
+    onAssesment() {
+        var url = baseUrl + "/user-test/assigned-activity/" + this.props.data.reference_id
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        }).then((response) => response.json())
+            .then((json) => {
 
 
-            //     {/* <View style={{ width: '100%', position: 'absolute', bottom: 0, backgroundColor: COLORS.white, borderTopStartRadius: 25, borderTopEndRadius: 25, borderColor: COLORS.darkGrey, borderWidth: 0.5 }}>
-            //         <TouchableOpacity
-            //             onPress={() => { this.state.isFromDetailActivity ? this.props.navigation.goBack(null) : this.props.navigation.replace('quizActivity', { 'isPreAssessment': false }) }}
-            //             style={{ textAlign: 'center', bottom: 0, padding: 10, color: COLORS.blue, fontWeight: 'bold' }}>
-            //             <Text style={GLOBALSTYLE.nextPrevBtn}>{this.state.isFromDetailActivity ? 'Close' : 'Next'}</Text>
-            //         </TouchableOpacity>
-            //     </View> */}
-            // </View >
+                if (json.data) {
+                    const data = json.data;
+                  //  alert("dff"+JSON.stringify(data))
+                    console.log("total_count",data.total_count)
+                    if(this.props.data.type === "PRE"){
+                        if (json.data.total_count > 0) {
+                            // this.setState({
+                            //     spinner: false
+                            // })
+                            Alert.alert(
+                                "Step Up",
+                                "Sorry you have reached your maximum number of attempts in this assesment",
+                                [
+                                    {
+                                        text: "OK", onPress: () => {
+                                            this.ongoback()
+                                        }
+                                    },{
+                                        text: "Review Previous Test", onPress: () => {
+                                            Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type, from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                        }
+                                    },
+                                ]
+                            );
+                        } else {
+                            this.starttimer()
+                            // this.setState({
+                            //     spinner: false
+                            // })
+                            this.getQuestions()
+    
+                        }
+                    }else if(this.props.data.type === 'POST'){
+                        //alert("hiii"+json.data.total_count)
+                        if(json.data.total_count == 1){
+                            //alert("hiii")
+                            Alert.alert(
+                                "Step Up",
+                                "You have alredy attempted one time Do you want to start a new test or review previous test ? ",
+                                [
+                                    {
+                                        text: "Cancel", onPress: () => {
+                                            this.ongoback()
+                                        }
+                                    },
+                                    {
+                                        text: "New Test", onPress: () => {
+                                            this.starttimer()
+                                            this.getQuestions()
+                                        }
+                                    },{
+                                        text: "Review Previous Test", onPress: () => {
+                                            Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type,from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                        }
+                                    },
 
-            <View style={{flex:1,backgroundColor:"red",justifyContent:"center"}}>
-              <View>
-                  <Video
-                    paused={this.state.isPaused}
-                    source={{ uri: this.state.videoURL }}
-                    style={{width:"100%",height:"100%"}}
-                    resizeMode={"contain"}
-                    onLoad = {this.handleLoad.bind(this)}
-                     onProgress={this.handleProgress.bind(this)}
-                     onEnd={this.handleOnEnd.bind(this)}
-                     ref={ref=>this.player = ref}
-                     />
-
-                     <View style={{
-                         backgroundColor:"rgba(0,0,0,0.5)",
-                         height:48,
-                         left:0,
-                         right:0,
-                         bottom:0,
-                         position:"absolute",
-                         flexDirection:"row",
-                         alignItems:"center",
-                         justifyContent:"space-around",
-                         paddingHorizontal:10
-                     }}>
-                         <TouchableOpacity onPress={this.handleMainButtonTouch.bind(this)}>
-                             {!this.state.isPaused ? 
-                             <Image source={require('./src/assets/images/pause.png')}
-                             style={{width:30,height:30,tintColor:"white"}} /> : 
-                             <Image source={require('./src/assets/images/play.png')}
-                             style={{width:30,height:30,tintColor:"white"}} /> 
-                            }
-                         </TouchableOpacity>
-                         {/* <TouchableWithoutFeedback onPress={this.handleProgressBarTouch.bind(this)}>
-                         <Progress.Bar progress={this.state.progress} width={250} height={20} color={"#FFF"}/>
+                                ]
+                            );
+                        }
+                        else if (json.data.total_count >= 2) {
+                            // this.setState({
+                            //     spinner: false
+                            // })
+                            Alert.alert(
+                                "Step Up",
+                                "Sorry you have reached your maximum number of attempts in this assesment",
+                                [
+                                    {
+                                        text: "OK", onPress: () => {
+                                            this.ongoback()
+                                        }
+                                    },{
+                                        text: "Review Previous Test", onPress: () => {
+                                            Actions.push('reviewpostsummary',{ type:"reset", testtype:this.props.data.type,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData,from:this.props.from })
+                                        }
+                                    }
+                                ]
+                            );
+                        } else {
+                            this.starttimer()
+                            // this.setState({
+                            //     spinner: false
+                            // })
+                            this.getQuestions()
+                           
+    
+                        }
+                    }else if(this.props.data.type === 'OBJ'){
+                        this.starttimer()
+                        this.getQuestions()
+                        // Alert.alert(
+                        //     "Step Up",
+                        //     "",
+                        //     [
+                        //         {
+                        //             text: "Take New Test", onPress: () => {
+                        //                 this.getQuestions()
+                        //             }
+                        //         },{
+                        //             text: "Review Previous Test", onPress: () => {
+                        //                 Actions.push('practicereview',{ activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                        //             }
+                        //         }
+                        //     ]
+                        // );
                         
-                         </TouchableWithoutFeedback> */}
-                         <Slider
-                         width={250}
-                        value={this.state.progress} // Which is updated by videoRef.onProgress listener
-                        minimumValue={0}
-                        maximumValue={this.state.videoDuration}
-                        onValueChange={value => {
-                            this.setState({
-                                progress : value / this.state.videoDuration
-                            })
-                            this.player.seek(value)}} 
-                    />
-                        <Text style={{marginLeft:15}}>
-                            {this.secondsToTime(Math.floor(this.state.progress * this.state.videoDuration))}
-                        </Text>
+                    }else{
+                        this.starttimer()
+                        this.getQuestions()
+                    }
+                    
 
-                     </View>
+                } else {
+                    alert(JSON.stringify(json.message))
+
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
+    }
+    getQuestions() {
+        var data = {
+            questions: [{
+                created_by: '-1',
+                is_deleted: false,
+                id: 0,
+                tenant_id: 0,
+                reference_id: '68498b9b-f66c-4881-848b-e36a787f3cf9',
+                marks: 1,
+                assigned_time: 30,
+                question: {
+                    created_by: '-1',
+                    is_deleted: false,
+                    id: 0,
+                    tenant_id: 0,
+                    question: '<p>Each pair of figures is similar. Find the missing side?</p>\n\n<p><img alt="" src="https://stepup-india.s3.ap-south-1.amazonaws.com/image/stepuplive-images/20190310041509827.PNG" style="width:30%" /></p>\n',
+                    timeinsec: null,
+                    options: [{
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '1',
+                            value: '<p>110</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '2',
+                            value: '<p>90</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '3',
+                            value: '<p>99</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '4',
+                            value: '<p>109</p>\n'
+                        }
+                    ]
+                }
+            },
+            {
+                created_by: '-1',
+                is_deleted: false,
+                id: 0,
+                tenant_id: 0,
+                reference_id: 'dccf5cbd-c786-4d55-b14b-4692b49c7e06',
+                marks: 1,
+                assigned_time: 30,
+                question: {
+                    created_by: '-1',
+                    is_deleted: false,
+                    id: 0,
+                    tenant_id: 0,
+                    question: '<p>Each pair of figures is similar. Find the missing side?</p>\n\n<p><img alt="" src="https://stepup-india.s3.ap-south-1.amazonaws.com/image/stepuplive-images/20200131100903717.png" style="width:30%" /></p>\n',
+                    timeinsec: null,
+                    options: [{
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '1',
+                            value: '<p>5</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '2',
+                            value: '<p>3</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '3',
+                            value: '<p>1</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '4',
+                            value: '<p>2</p>\n'
+                        }
+                    ]
+                }
+            },
+            {
+                created_by: '-1',
+                is_deleted: false,
+                id: 0,
+                tenant_id: 0,
+                reference_id: '72a4cbe2-2bff-4798-bae8-38749493c7bd',
+                marks: 1,
+                assigned_time: 30,
+                question: {
+                    created_by: '-1',
+                    is_deleted: false,
+                    id: 0,
+                    tenant_id: 0,
+                    question: '<p>Each pair of figures is similar. Find the missing side?</p>\n\n<p><img alt="" src="https://stepup-india.s3.ap-south-1.amazonaws.com/image/stepuplive-images/20190310035235365.PNG" style="width:30%" /></p>\n',
+                    timeinsec: null,
+                    options: [{
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '1',
+                            value: '<p>5</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '2',
+                            value: '<p>6</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '3',
+                            value: '<p>3</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '4',
+                            value: '<p>9</p>\n'
+                        }
+                    ]
+                }
+            },
+            {
+                created_by: '-1',
+                is_deleted: false,
+                id: 0,
+                tenant_id: 0,
+                reference_id: '15242c40-bfff-460e-8983-b31d15ff6696',
+                marks: 1,
+                assigned_time: 30,
+                question: {
+                    created_by: '-1',
+                    is_deleted: false,
+                    id: 0,
+                    tenant_id: 0,
+                    question: '<p>Each pair of figures is similar. Find the missing side?</p>\n\n<p><img alt="" src="https://stepup-india.s3.ap-south-1.amazonaws.com/image/stepuplive-images/20190310040452598.PNG" style="width:30%" /></p>\n',
+                    timeinsec: null,
+                    options: [{
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '1',
+                            value: '<p>8</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '2',
+                            value: '<p>9</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '3',
+                            value: '<p>10</p>\n'
+                        },
+                        {
+                            created_by: '-1',
+                            is_deleted: false,
+                            id: 0,
+                            tenant_id: 0,
+                            key: '4',
+                            value: '<p>6</p>\n'
+                        }
+                    ]
+                }
+            }]
+        }
+        this.setState({
+            questiosnarray: data.questions,
+            selectedItem: data.questions[0],
+            questionno: 0,
+            spinner: false
+        })
+  
+
+
+    }
+    starttimer() {
+     interval = setInterval(() => {
+ //  console.log(this.state.seconds)
+        if(this.state.seconds === 0){
+            clearInterval(interval);
+            this.setState({
+                timeup:true
+            },()=>{
+                this.setState({
+                    isvisible: true
+                })
+            })
+        }
+            this.setState({ seconds: this.state.seconds - 1 })
+        }, 1000)
+    }
+    renderItem({ item, index }) {
+        const {topicindata } = this.props;
+        let viewstyle;
+        let textstyle;
+        if (this.state.selectedItem === item) {
+            viewstyle = [styles.circlefilled,{backgroundColor:"red",borderColor:"red"}];
+            textstyle = styles.circletext
+        } else {
+            viewstyle = [styles.borderfilled,{borderColor: "red"}];
+            textstyle = styles.bordertext
+        }
+        return (
+            <TouchableOpacity
+            onPress={this.onItem.bind(this,item,index)}
+                style={viewstyle}>
+                <Text style={textstyle} >{index+1}</Text>
+            </TouchableOpacity>
+        )
+    }
+    onItem(item,index) {
+      //  alert(index)
+        this.setState({
+            questionno: index ,
+            answerobj: {},
+        }, () => {
+            var nextItem = this.state.questiosnarray[index];
+            this.setState({
+                selectedItem: nextItem,
+
+            }, () => {
+                this.state.finalarray.map((res,i)=>{
+                   
+                    if(res.question === this.state.selectedItem.reference_id){
+                       //alert("Hiiii")
+                        // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                        this.setState({
+                            answerobj : res
+                        })
+                    }
+                })
+            }
+            
+            )
+        })
+    }
+    onNext() {
+        this.scrollToIndex(this.state.questionno)
+     //   alert(JSON.stringify(this.state.answerobj))
+        if(Object.keys(this.state.answerobj).length === 0){
+            alert("please select option")
+        }else{
+            this.setState({
+                questionno: this.state.questionno + 1
+            }, () => {
+               var nextItem = this.state.questiosnarray[this.state.questionno];
+                    this.setState({
+                        selectedItem: nextItem,
+                       // answerobj : {}
+    
+                    }, () => this.state.finalarray.map((res,i)=>{
+                       
+                        if(res.question === this.state.selectedItem.reference_id){
+                           
+                            // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                            this.setState({
+                                answerobj : res
+                            })
+                        }else{
+                            this.setState({
+                                answerobj:{}
+                            })
+                        }
+                    }))
+            })
+        }
+       
+    }
+    onPrevious() {
+        this.setState({
+            questionno: this.state.questionno - 1
+        }, () => {
+           var nextItem = this.state.questiosnarray[this.state.questionno];
+                this.setState({
+                    selectedItem: nextItem,
+                   // answerobj : {}
+
+                }, () => this.state.finalarray.map((res,i)=>{
+                   
+                    if(res.question === this.state.selectedItem.reference_id){
+                       
+                        // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                        this.setState({
+                            answerobj : res
+                        })
+                    }else{
+                        this.setState({
+                            answerobj:{}
+                        })
+                    }
+                }))
+        })
+    }
+
+    onSubmit() {
+        clearInterval(interval);
+        this.setState({
+            isvisible: false
+        }, () => {
+            var url = baseUrl + "/user-test/" + this.state.testid
+            console.log("finalarr", this.state.finalarray)
+            var body = { questions: this.state.finalarray }
+            this.setState({ testloader: true })
+            console.log("cmnvlksd", url)
+            console.log("cmnvlksd", body)
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': this.state.token
+                },
+                body: JSON.stringify(body)
+            }).then((response) =>
+
+                response.json())
+                .then((json) => {
+                    // alert("jon"+JSON.stringify(json))
+                    /// const data = json.data;
+
+                    if (json.data) {
+                        const data = json.data
+                        console.log("sdsd", json)
+                        this.setState({ testloader: false })
+                        this.updateAnalytics()
+                                        Actions.push('presummary', {type:"reset",testtype:this.props.data.type,from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                        // Alert.alert(
+                        //     "Step Up",
+                        //     json.message,
+                        //     [
+                        //         {
+                        //             text: "OK", onPress: () => {
+                        //                 this.updateAnalytics()
+                        //                 Actions.push('presummary', {from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                        //             }
+                        //         }
+                        //     ]
+                        // );
+
+                    } else {
+                        this.setState({ testloader: false })
+
+                        alert(JSON.stringify(json.message))
+
+                    }
+                }
+
+                )
+                .catch((error) => alert("gggg" + error))
+
+            // this.setState({
+            //     isvisible: true
+            // })
+        })
+    }
+    onCancel() {
+        this.setState({
+            isvisible: false
+        })
+    }
+    onSubmitText() {
+        //alert(JSON.stringify(this.props.topicData))
+        this.setState({
+            isvisible: true
+        })
+    }
+    ongoback() {
+        this.updateAnalytics()
+        Actions.topicmainview({from:this.props.from, type:"reset",data: this.props.topicindata, topicsdata: this.props.topicData, screen: "summary", subjectData: this.props.subjectData })
+    }
+    onAnswer(res) {
+        //alert(JSON.stringify( this.state.selectedItem))
+        var answerkey = res.key;
+        var questionId = this.state.selectedItem.reference_id
+        var timecount = this.state.seconds;
+        console.log(this.state.secondstime - timecount)
+        var timess = this.state.secondstime - timecount
+        var obj = {
+            "question": questionId,
+            "user_answer": answerkey,
+            "test_taken_time": timess
+        }
+        //console.log("slkd", obj)
+       // if(this.state.finalarray)
+        this.state.finalarray.map((res,i)=>{
+            if(res.question === this.state.selectedItem.reference_id){
+                this.state.finalarray.splice(i,1)
+            }else{
+               
+            }
+        })
+        this.state.finalarray.push(obj);
+        
+        this.setState({
+
+            secondstime: timecount
+
+        })
+      
+            this.setState({
+             //   questionno: this.state.questionno + 1,
+                answerobj : obj 
+            }, () => {
+                // var nextItem = this.state.questiosnarray[this.state.questionno];
+                // this.setState({
+                //     selectedItem: nextItem,
+                //    // answerobj : {}
+
+                // }, () => this.state.finalarray.map((res,i)=>{
+                   
+                //     if(res.question === this.state.selectedItem.reference_id){
+                       
+                //         // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
+                //         this.setState({
+                //             answerobj : res
+                //         },()=>
+                //         {this.state.answerobj = res;
+                //        // alert("Hiiii"+JSON.stringify(this.state.answerobj))
+                //     })
+                //     }else{
+                //         this.setState({
+                //             answerobj:{}
+                //         })
+                //     }
+                // }))
+            })
+            this.scrollToIndex(this.state.questionno)
+        
+
+
+        // var question = this.state.selectedItem;
+        // var answer = res;
+
+        // var answerid = res.answerid
+        // var questionno = this.state.selectedItem.questionno;
+        // var question = this.state.selectedItem.question;
+        // var correctanswer = this.state.selectedItem.correctanswer;
+        // var result;
+        // if(answerid === correctanswer){
+        //     result = true;
+        // }else{
+        //     result = false
+        // }
+        // var obj = {
+
+        //     questionno,
+        //     question,
+        //     answerid,
+        //     correctanswer,
+        //     result
+        // }
+        // this.setState({
+        //     answerobj : obj
+        // },()=>console.log("dddd",this.state.answerobj))
+        // //finalarray.push(obj);
+    }
+
+    rednerAnswerItem ({item,index}) {
+        const  {  topicindata } = this.props
+       return(
+         
+    //     <View style={styles.answermain}>
+    //     <View style={styles.answersub}>
+    //         <Text style={styles.answernum}>{alphabetarray[index]}. </Text>
+    //         <TouchableOpacity onPress={this.onAnswer.bind(this, item)}
+    //             style={[styles.answertextview, { backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "white",borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey" }]}>
+    //                 {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
+    //             <Text style={[styles.answertext,{color: this.state.answerobj.user_answer === item.key ? "white" : 'black'}]}>{item.value}</Text>
+    //         </TouchableOpacity>
+    //     </View>
+    // </View>
+    <TouchableOpacity style={{ flexDirection: 'row', marginTop:index > 0 ? 10: 0}} onPress={this.onAnswer.bind(this, item)}>
+    <Text style={{ marginTop: 8, alignSelf: 'center' ,marginLeft:10}}>{alphabetarray[index]}. </Text>
+    <View style={{width: '80%',
+        borderWidth: 2,
+        borderRadius:10,
+        borderColor: this.state.answerobj.user_answer === item.key ? "red" : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}}>
+    <MathJax
+        // To set the font size change initial-scale=0.8 from MathJax class
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '80%',
+        // borderWidth: 2,
+        // borderRadius:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}} html={item.value} /></View>
+</TouchableOpacity>
+       )
+    }
+
+    render() {
+        const { topicindata} = this.props
+        return (
+            
+            // this.state.spinner ?<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+            //    <Text>Loading...</Text>
+            // </View> :
+
+            //     <View style={styles.mainview}>
+            //         <View style={styles.topview}>
+            //             <Text style={styles.toptext}>{this.props.data.activity}</Text>
+            //         </View>
+            //         {this.state.questiosnarray.length > 0 ?
+            //             <View style={{ flex: 1, backgroundColor: "green" }}>
+            //                 <View style={styles.mainbottomview}>
+            //                     <View style={styles.mainshadowview}>
+            //                         <View style={styles.headerview}>
+            //                             <View style={styles.headerleftview}>
+            //                                 <Text style={styles.headtext}>{this.props.data.name}</Text>
+            //                             </View>
+            //                             <View style={styles.headrightview}>
+            //                                 <View style={styles.timerview}>
+            //                                     <Image source={require('../../assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
+            //                                     <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+
+            //                                 </View>
+            //                             </View>
+            //                         </View>
+
+            //                         <View style={styles.listview}>
+            //                             <ScrollView
+            //                                 contentInsetAdjustmentBehavior="automatic"
+            //                                 keyboardShouldPersistTaps={'handled'}
+            //                             >
+            //                                 <View style={styles.circlesview}>
+            //                                     <FlatList data={this.state.questiosnarray}
+            //                                      ref={(ref) => { this.flatListRef = ref; }}
+            //                                      initialScrollIndex={0}
+            //                                      getItemLayout={this.getItemLayout}
+            //                                         keyExtractor={(item, index) => String(index)}
+            //                                         renderItem={this.renderItem.bind(this)}
+            //                                         horizontal={true}
+            //                                         showsHorizontalScrollIndicator={false} />
+            //                                 </View>
+            //                                 <View style={styles.questionsview}>
+            //                                     <View style={styles.questioninnerview}>
+            //                                         <Text style={styles.questionnum}>{this.state.questionno+1}. </Text>
+            //                                         {/* <HtmlText style={styles.questiontext} html={this.state.selectedItem.question.question}></HtmlText> */}
+
+            //                                         <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            //                                     </View>
+            //                                     {this.state.selectedItem.question.options.map((res, i) =>
+            //                                         <View style={styles.answermain}>
+            //                                             <View style={styles.answersub}>
+            //                                                 <Text style={styles.answernum}>{i+1}. </Text>
+            //                                                 <TouchableOpacity onPress={this.onAnswer.bind(this, res)}
+            //                                                     style={[styles.answertextview, { borderColor: this.state.answerobj.user_answer === res.key ? colors.Themecolor : "lightgrey", }]}>
+            //                                                         {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
+            //                                                     <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            //                                                 </TouchableOpacity>
+            //                                             </View>
+            //                                         </View>
+            //                                     )}
+
+            //                                 </View></ScrollView>
+            //                         </View>
+            //                     </View>
+            //                 </View>
+
+            //             </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            //                 <Text>No data</Text>
+            //                 <TouchableOpacity onPress={this.ongoback.bind(this)}>
+            //                     <Text>GO BACK</Text>
+            //                 </TouchableOpacity>
+            //             </View>}
+            //         <Modal isVisible={this.state.isvisible}>
+            //             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            //                 <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+            //                     <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
+            //                     <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
+            //                     <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+            //                         <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+            //                             <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+            //                                 <Text style={{ color: "white" }}>SUBMIT</Text>
+            //                             </LinearGradient>
+            //                         </TouchableOpacity>
+            //                         <TouchableOpacity onPress={this.onCancel.bind(this)}>
+            //                             <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+            //                                 <Text style={{ color: "white" }}>CANCEL</Text>
+            //                             </LinearGradient>
+            //                         </TouchableOpacity>
+            //                     </View>
+            //                 </View>
+            //             </View>
+            //         </Modal>
+                   
+            //         {this.state.testloader ?
+            //             <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+            //                 <ActivityIndicator color="black" />
+            //             </View>
+            //             : null
+            //         }
+            //     </View>
+
+
+
+            <>
+            <ImageBackground source={require('./src/assets/images/dashboard/new/activitybg.jpg')}
+            style={{width:"100%",height:"100%",backgroundColor:"green"}} opacity={0.5}>
+              <View style={{flex:1}}>
+              <View style={{flex:0.08,flexDirection:"row"}}>
+          <View style={{flex:1}}>
+
+              <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
+               
+                {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
+                <Image source={require("../../assets/images/left-arrow.png")}
+                  style={{ width: 25, height: 25, tintColor: "white",}} />
+              </TouchableOpacity> */}
+             
+                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{"his.props.data.activity"}</Text>
+               
+              </View>
+
+              </View>
+              {/* <View style={{flex:0.3,justifyContent:"center"}}>
+              { topicindata.image !== "null" ?
+              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+              : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+              </View> */}
+          </View>
+                <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                    { this.state.spinner ?
+                    <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                            <Text>Loading...</Text>
+                        </View> : 
+                         this.state.questiosnarray.length > 0 ?
+                        <View style={{ flex: 1, }}>
+                            <View style={styles.mainbottomview}>
+                                <View style={styles.mainshadowview}>
+                                    <View style={styles.headerview}>
+                                       
+                                        <View style={styles.headrightview}>
+                                            <View style={[styles.timerview,{backgroundColor:"red"}]}>
+                                                <Image source={require('./src/assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
+                                                 <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+
+                                            </View>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.listview}>
+                                        <ScrollView
+                                            contentInsetAdjustmentBehavior="automatic"
+                                            keyboardShouldPersistTaps={'handled'}
+                                        >
+                                            <View style={styles.circlesview}>
+                                                <FlatList data={this.state.questiosnarray}
+                                                 ref={(ref) => { this.flatListRef = ref; }}
+                                                 initialScrollIndex={0}
+                                                 getItemLayout={this.getItemLayout}
+                                                    keyExtractor={(item, index) => String(index)}
+                                                    renderItem={this.renderItem.bind(this)}
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false} />
+                                            </View>
+                                            
+                                                <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: Platform.OS === 'ios' ? 10 : 10, marginTop:10}}>
+                                            <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
+                                            <MathJax
+                                                // To set the font size change initial-scale=0.8 from MathJax class
+                                                style={{ borderRadius: 5,
+                                                    width: '95%',
+                                                    borderWidth: 0.5,
+                                                    borderColor:"white",
+                                                    alignSelf: 'center',}} html={this.state.selectedItem.question.question} />
+                                        </View>
+                                                <FlatList data={this.state.selectedItem.question.options}
+                                              
+                                                    keyExtractor={(item, index) => String(index)}
+                                                    renderItem={this.rednerAnswerItem.bind(this)}
+                                                    //horizontal={true}
+                                                    showsHorizontalScrollIndicator={false} />
+                                                {/* {this.state.selectedItem.question.options.map((res, i) =>
+                                                   
+                                                )} */}
+</ScrollView>
+                                    </View>
+                                </View>
                             </View>
-            </View>
+
+                        </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                            <Text>No data</Text>
+                            <TouchableOpacity onPress={this.ongoback.bind(this)}>
+                                <Text>GO BACK</Text>
+                            </TouchableOpacity>
+                        </View>
+    }
+                </View>
+                {this.state.questiosnarray.length > 0  ?
+                <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+                    <View style={{flex:1,flexDirection:"row"}}>
+                    {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
+                     <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
+
+                 <TouchableOpacity style={{ height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+              justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:12}}>Previous</Text>
+                       </TouchableOpacity></View> }
+                       <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
+                       {this.state.questionno + 1 === this.state.questiosnarray.length ?
+                         <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                         justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
+                  <Text style={{ textAlign:"center",fontSize:12,}}>Submit</Text>
+                      </TouchableOpacity> :
+                       <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+                          justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+                   <Text style={{ textAlign:"center",fontSize:12,}}>Next</Text>
+                       </TouchableOpacity>
+                           }               
+                           </View>
+                    </View> 
+           
+  
+                </View> : null }
+              </View>
+            </ImageBackground>
+  
+
+                       <Modal isVisible={this.state.isvisible}>
+                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Image source={require("./src/assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
+                                 <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                     <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>SUBMIT</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onCancel.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                 </View>
+                             </View>
+                         </View>
+                     </Modal>
+                   
+                     {this.state.testloader ?
+                         <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+                             <ActivityIndicator color="black" />
+                         </View>
+                         : null
+                     }
+              </>
         )
     }
 }
 
-export default VideoActivity
-
-var styles = StyleSheet.create({
-    backgroundVideo: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        
-    },
-});
+export default PreAssesment;

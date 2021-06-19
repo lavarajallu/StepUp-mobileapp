@@ -14,12 +14,14 @@ import styles from "./styles"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import PDFView from 'react-native-view-pdf';
 import Pdf from 'react-native-pdf';
-
+import { PdfView } from 'react-native-pdf-light';
 import { Actions } from 'react-native-router-flux';
 import { baseUrl, imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import { WebView } from 'react-native-webview';
+
 import Modal from 'react-native-modal';
 const resources = {
   file: Platform.OS === 'ios' ? 'downloadedDocument.pdf' : '/sdcard/Download/downloadedDocument.pdf',
@@ -42,7 +44,11 @@ class PdfViewNew extends Component {
       isvisible: false,
       selectedPage:0,
       visibleItem:{},
-      error: false
+      error: false,
+      notesdata:"",
+      ispdf: false,
+      ishtml: false,
+      typedata:""
     }
   }
   componentDidMount() {
@@ -138,18 +144,51 @@ class PdfViewNew extends Component {
         const data = json.data;
          console.log("dataaaa",data)
         if (data) {
-          var string = data.pdfpages
-          var newarr = string.split(',');
+
+          var url = data.url;
+          var newdata = url.split(".")
+         // alert(JSON.stringify(newdata[newdata.length-1]))
+          if(newdata[newdata.length-1] === 'pdf'){
+            var string = data.pdfpages
+             var newarr = string.split(',');
          
-          this.setState({
-            pdfdata: data.url,
+              this.setState({
+                pdfdata: data.url,
+                  ispdf: true,
+                pdfpagesarray: newarr,
+                spinner: false,
+                page: 3,
+                typedata: newdata[newdata.length-1],
+                index: 0
+              },()=>{
+                    console.log("newrrrr",newarr)
+              })
+          }else if (newdata[newdata.length-1] === 'html'){
+            this.setState({
+              notesdata: data.url,
+              ishtml: true,
+              spinner: false,
+              typedata: newdata[newdata.length-1],
+            })
+          }else{
+            this.setState({
+              
+              spinner: false
+            })
+          }
+          // var string = data.pdfpages
+          // var newarr = string.split(',');
+         
+          // this.setState({
+          //   pdfdata: data.url,
            
-            pdfpagesarray: newarr,
-            spinner: false,
-            page: 3
-          },()=>{
-          
-          })
+          //   pdfpagesarray: newarr,
+          //   spinner: false,
+          //   page: 3,
+          //   index: 0
+          // },()=>{
+          //       console.log("newrrrr",newarr)
+          // })
 
         } else {
           alert(JSON.stringify(json.message))
@@ -165,14 +204,16 @@ class PdfViewNew extends Component {
 
   }
   updateAnalytics() {
-  //  alert("ddddt"+this.state.analyticsData.reference_id)
+   console.log("update....."+this.state.pdfpagesarray[this.state.index], "fffff    ",this.state.index,"b    ",  this.state.pdfpagesarray)
   var body = {
     activity_status : 1,
     video_played: 0,
-    pdf_page: this.state.visibleItem.item,
+    pdf_page: this.state.pdfpagesarray[this.state.index],
     video_duration: 0
   }
-  console.log("boddyy",body)
+  if(this.state.type === 'pdf'){
+
+  
     var url = baseUrl + '/analytics/' + this.state.analyticsData.reference_id
     fetch(url, {
       method: 'PUT',
@@ -204,6 +245,40 @@ class PdfViewNew extends Component {
 
       )
       .catch((error) => console.error(error))
+  }else{
+   // alert(this.state.typedata)
+    var url = baseUrl + '/analytics/' + this.state.analyticsData.reference_id
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': this.state.token
+      }
+
+    }).then((response) =>
+
+      response.json())
+      .then((json) => {
+
+        if (json.data) {
+          const data = json.data;
+           console.log(JSON.stringify(json));
+          this.setState({
+            analyticsData: data
+          })
+          //    Snackbar.show({
+          // 	text: "Analytics Updated succesfully",
+          // 	duration: Snackbar.LENGTH_SHORT,
+          //   });
+        } else {
+          console.log(JSON.stringify(json.message))
+        }
+      }
+
+      )
+      .catch((error) => console.error(error))
+  }
+  console.log("boddyy",body) 
   }
   onNext() {
     this.updateAnalytics()
@@ -271,50 +346,7 @@ class PdfViewNew extends Component {
     })
   
   }
-  renderItem({ item }) {
-    
-    return (
-      this.state.error ? 
-     <View style={{flex: 1,
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height / 1.3,justifyContent:"center",alignItems:"center"}}>
-        <Text>Unable to load PDF</Text>
-     </View>
-     :
-      <Pdf
-      ref={(pdf) => { this.pdf = pdf; }}
-
-      page={parseInt(item)}
-      source={{ uri: imageUrl + this.state.pdfdata , cache: true}}
-      //resourceType={resourceType}
-      singlePage={true}
-      onLoadComplete={(numberOfPages, filePath) => {
-        console.log(`number of pages: ${numberOfPages}`);
-      }}
-      onPageChanged={this.onPageChanged.bind(this)}
-      onError={(error) => {
-        console.log("ffffe",error);
-        this.setState({
-          error: true
-        })
-      }}
-      onPressLink={(uri) => {
-        console.log(`Link presse: ${uri}`)
-      }}
-     spacing={5}
-      style={{
-        flex: 1,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height / 1.3,
-
-      }} />
-
-    )
-
-
-
-  }
- 
+  
    onViewableItemsChanged = ({ viewableItems, changed }) => {
 
     this.setState({
@@ -323,7 +355,20 @@ class PdfViewNew extends Component {
     console.log("Visible items are", viewableItems);
     console.log("Changed in this iteration", changed);
   }
+  onPrevIndex(){
+    var newindex = this.state.index-1
+    this.setState({
+      index : newindex
+    },()=>console.log("preee",this.state.index))
+  }
+  onNextIndex(){
+    var newindex = this.state.index+1
+    this.setState({
+      index : newindex
+    },()=>console.log("nexttt",this.state.index))
+  }
   render() {
+    console.log("vv",imageUrl + this.state.pdfdata)
     const { topicindata} = this.props
     return (
       <>
@@ -341,7 +386,7 @@ class PdfViewNew extends Component {
                   style={{ width: 25, height: 25, tintColor: "white",}} />
               </TouchableOpacity>
              
-                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{this.props.data.activity}</Text>
+                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{"Notes"}</Text>
                
               </View>
 
@@ -359,16 +404,72 @@ class PdfViewNew extends Component {
            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
 
            <Text>Loading.....</Text></View>:
+
+           this.state.ispdf ? 
            <View style={{ flex: 1 }}>
-             <FlatList data={this.state.pdfpagesarray} 
-		 	renderItem={this.renderItem.bind(this)}
-       onViewableItemsChanged={this.onViewableItemsChanged }
-       viewabilityConfig={{
-       itemVisiblePercentThreshold: 50
-     }}
-		
-	 	 showsHorizontalScrollIndicator={false}/>
-      </View>}
+         
+<View style={{flex:0.95}}>
+ <Pdf
+      ref={(pdf) => { this.pdf = pdf; }}
+
+      page={parseInt(this.state.pdfpagesarray[this.state.index])}
+      source={{ uri: imageUrl + this.state.pdfdata}}
+      //resourceType={resourceType}
+      singlePage={true}
+      onLoadComplete={(numberOfPages, filePath) => {
+        console.log(`number of pages: ${numberOfPages}`);
+      }}
+      onPageChanged={this.onPageChanged.bind(this)}
+      onError={(error) => {
+        console.log("ffffe",error);
+        this.setState({
+          error: true
+        })
+      }}
+      onPressLink={(uri) => {
+        console.log(`Link presse: ${uri}`)
+      }}
+     //spacing={5}
+      style={{
+        flex: 1,
+        width:"100%",
+        height: "100%",
+        
+
+      }} /> 
+      </View>
+      <View style={{flex:0.05,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+      {this.state.index === 0  ? <View style={{flex:0.5}}/> :
+         <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
+      <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onPrevIndex.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:13,color:topicindata.color}}>Previous</Text>
+                 </TouchableOpacity>
+                 </View>
+  }
+  <Text style={{color:topicindata.color,fontSize:15}}>Page {this.state.index+1} of {this.state.pdfpagesarray.length}</Text>
+  {this.state.index + 1 === this.state.pdfpagesarray.length ?  <View style={{flex:0.5}}/>  :
+   <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
+                 <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+        justifyContent:"center",alignItems:"center"}} onPress={this.onNextIndex.bind(this)}>
+             <Text style={{ textAlign:"center",fontSize:13,color:topicindata.color}}>Next</Text>
+                 </TouchableOpacity></View>}
+      </View> 
+
+      </View>:
+      this.state.ishtml ? 
+      
+      <WebView
+                                        style={{}}
+                                        source={{ uri: imageUrl+this.state.notesdata }}
+                                        mixedContentMode="always"
+                                        allowsInlineMediaPlayback='true'
+                                        userAgent="Mozilla/5.0 (Linux; Android 9; Redmi Note 8 Build/PKQ1.190616.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Mobile Safari/537.36"
+                                    />
+: null }
+      
+      
+    
           </View>
           <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
           

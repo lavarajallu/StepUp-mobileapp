@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 	},
 	chartview:{
 		paddingVertical:20,
-		width: windowWidth/1.1,backgroundColor: 'white',
+		width: windowWidth/1.1,backgroundColor: 'white',overflow:"hidden",
 		shadowColor:'black',justifyContent:"center",alignSelf:"center",
           shadowOffset: { width: 0, height: 5 },
           shadowOpacity: 1,

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         //  elevation: 10
 	},
 	headerview:{
-		flex:0.2,flexDirection:"row",justifyContent:"flex-end",
+		flex:0.13,flexDirection:"row",justifyContent:"flex-end",
 	},
 	headerleftview:{
 		flex:0.7,justifyContent:"center"
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 		fontSize:15
 	},
 	listview:{
-		flex:0.9,overflow:"hidden"
+		flex:0.87,overflow:"hidden"
 	},
 	circlesview:{
 		flex:0.15,justifyContent:"center",alignItems:"center"
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 		fontSize: 15,textAlign:"left"
 	},
 	questiontext:{
-		fontSize:15,textAlign:"left",marginLeft:15,paddingRight:10
+		fontSize:15,textAlign:"left",marginLeft:15,paddingRight:10,width:"70%"
 	},
 	answermain:{
 		marginTop:10,

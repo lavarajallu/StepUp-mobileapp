@@ -34,12 +34,12 @@ class LoadingScreen extends Component{
     _this = this;
 
 
-    PushNotification.localNotification({
-  //... You can use all the options from localNotifications
-  channelId: "stepupchannel", 
-  message: "My Notification Message", // (required)
-  allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
-});
+//     PushNotification.localNotification({
+//   //... You can use all the options from localNotifications
+//   channelId: "stepupchannel", 
+//   message: "My Notification Message", // (required)
+//   allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+// });
             this.getData()
     }
     
@@ -50,7 +50,7 @@ class LoadingScreen extends Component{
     //  alert(JSON.stringify(value))
       if(value !== null) {
         var data = JSON.parse(value)
-        console.log("data",data)
+        console.log("data...",data)
         const token = await AsyncStorage.getItem('@access_token')
         if(data.grade_id){
           const localevalue = await AsyncStorage.getItem('@localevalue');
@@ -92,7 +92,7 @@ class LoadingScreen extends Component{
           style={{width:"100%",height:"100%",opacity:0.5}}/>
           <View style={{width:"100%",height:"100%",position:"absolute"}}>
           <View style={{flex:1,justifyContent:"center",alignItems:"center",}}>
-            		<Image source={require('../assets/images/logo_icon2.png')}
+            		<Image source={require('../assets/images/logo_icon1.png')}
 					 style={{width:1048/10,height:1048/10,alignSelf:"center"}} />
         <TouchableOpacity onPress={this.onLanguage.bind(this,'en')} style={{height:50,paddingHorizontal:10,backgroundColor:colors.Themecolor,width:100,justifyContent:"center",alignItems:"center",marginTop:30}}>
           <Text style={{color:"white"}}>English</Text>

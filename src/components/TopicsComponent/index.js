@@ -14,6 +14,8 @@ import {
     TouchableOpacity,
     TouchableHighlight
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import Star from 'react-native-star-view';
 import { Actions } from 'react-native-router-flux';
@@ -30,9 +32,73 @@ class TopicsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0
+            selectedIndex: 0,
+            token:'',
+            spinner:true,
+            livesessionarray:[]
         };
     }
+    componentDidMount(){
+        this.getData()
+      }
+       getData = async () => {
+              try {
+                  const value = await AsyncStorage.getItem('@user')
+                  //  alert(JSON.stringify(value))
+                  if (value !== null) {
+                      var data = JSON.parse(value)
+                      const token = await AsyncStorage.getItem('@access_token')
+                      if (token) {
+                          this.setState({
+                              token: JSON.parse(token)
+                          }, () => this.getClasses())
+      
+                      } else {
+      
+                      }
+      
+                  } else {
+                      console.log("errorr")
+                  }
+              } catch (e) {
+                  return null;
+              }
+          }
+          getClasses(){
+          const { topicData } = this.props;
+      
+          var url = baseUrl+"/live-class/student?chapter_id="+topicData.reference_id+"&offset=0&limit=1000"
+          console.log("url",url)
+          console.log("url",this.state.token)
+          fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        }).then((response) =>
+      
+            response.json())
+            .then((json) => {
+                console.log("topicdattaaa", JSON.stringify(json.data))
+                if(json.data){
+                  if(json.data.data.length > 0){
+                    this.setState({
+                      livesessionarray : json.data.data,
+                      spinner: false
+                    })
+                  }else{
+                    this.setState({
+                      livesessionarray : [],
+                      spinner: false
+                    })
+                  }
+                }
+            }
+      
+            )
+            .catch((error) => console.error(error))
+        }
     handleIndexChange = index => {
         this.setState({
             ...this.state,
@@ -43,6 +109,10 @@ class TopicsComponent extends Component {
         // alert(JSON.stringify(item))
         item["color"] = this.props.topicData.color
         this.props.onTopicPress(item)
+    }
+    onAnalytics(item){
+        item["color"] = this.props.topicData.color
+        this.props.onanalyticspress(item)
     }
     onBack() {
        this.props.updateAnalytics()
@@ -56,7 +126,7 @@ class TopicsComponent extends Component {
         let color
         if(percent > 80 ){
 			color = "green"
-		}else if (color< 50) {
+		}else if (percent < 50) {
 			color = "red"
 		}else{
 			color = "orange"
@@ -69,14 +139,20 @@ class TopicsComponent extends Component {
         console.log("dfd",item.image)
         const url = imageUrl+item.image
         return ( 
-             <TouchableOpacity onPress={this.onTopicPress.bind(this, item)} style={{borderWidth: 0, borderColor: "lightgrey",height:80,width:windowWidth/1.15,alignSelf:"center",
-        backgroundColor: 'white', shadowColor: 'black',
-    shadowOffset: { width: 0, height: 5 },
-    marginVertical: 10,
-    shadowOpacity: 1,
-    shadowRadius: 5,
-    elevation: 10,}}>
+             <View style={{borderWidth: 0, borderColor: "lightgrey",height:80,width:windowWidth/1.15,alignSelf:"center",
+             backgroundColor: 'white',  borderWidth: 1,
+             borderRadius: 5,
+             borderColor: '#ddd',
+             borderBottomWidth: 0,
+             shadowColor: '#000000',
+             marginVertical:10,
+             shadowOffset: { width: 0, height: 2 },
+             shadowOpacity: 0.9,
+             shadowRadius: 3,
+             elevation: 3,}}>
    <View style={{flex:1,flexDirection:"row"}}>
+       <View style={{flex:0.85}}>
+       <TouchableOpacity  onPress={this.onTopicPress.bind(this, item)} style={{flex:1,flexDirection:"row"}}>
        <View style={{flex:0.2,backgroundColor:this.props.topicData.color}}>
        {item.image !== "null" ? 
          <Image source={{uri:imageUrl+item.image}} style={{width:"100%",height:"100%",resizeMode:"cover"}}/>
@@ -84,13 +160,20 @@ class TopicsComponent extends Component {
         :<Image source={require('../../assets/images/noimage.png')}
         style={{width:60,height:60,resizeMode:"contain"}}/>}
        </View>
-       <View style={{flex:0.8,justifyContent:"center",paddingLeft:20}}>
-           <Text style={{color:"#2E2E2E",fontSize:10}}>Topic {index+1}</Text>
-           <Text style={{color:"#2E2E2E",fontWeight:"600",fontSize:15}}>{item.name}</Text>
+       <View style={{flex:0.85,justifyContent:"center",paddingLeft:10}}>
+           {/* <Text style={{color:"#2E2E2E",fontSize:10}}>Topic {index+1}</Text> */}
+           <Text style={{color:"#2E2E2E",fontWeight:"500",fontSize:13}}>{item.name}</Text>
+       </View>
+       </TouchableOpacity></View>
+       <View style={{flex:0.15,justifyContent:"center",alignItems:"center"}}>
+           <TouchableOpacity onPress={this.onAnalytics.bind(this,item)}>
+         <Image source={require('../../assets/images/magnifier.png')} style={{width:20,height:20,tintColor: this.props.topicData.color}}/>
+         </TouchableOpacity>
        </View>
    </View>
-   <Progress.Bar progress={percent/100} width={windowWidth/1.15} height={5} color={color}/>
-</TouchableOpacity>
+   <Progress.Bar progress={percent/100} width={windowWidth/1.15} height={5} color={color}
+           unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+</View>
     //         <TouchableHighlight underlayColor="transparent" activeOpacity={0.9} onPress={this.onTopicPress.bind(this, item)}>
     //             <View style={styles.itemview}>
     //                 <View
@@ -149,11 +232,19 @@ class TopicsComponent extends Component {
                         data={topicsArray}
                         renderItem={this.renderItem.bind(this)}
                     /> : 
+
+                   
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
 
                     <Text>No Data</Text>
                     </View> }
                 </View>:
+                 this.state.spinner ? 
+                 <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                 <Text>Loading..</Text>
+                 </View> : 
+
+                 this.state.livesessionarray.length > 0 ? 
                      <View style={{flex:1}}>
                
                      <SegmentedControlTab
@@ -181,10 +272,23 @@ class TopicsComponent extends Component {
                          </View> }
                      </View> :
                      <View style={{ flex: 1, backgroundColor: 'transaprent' }}>
-                         <LiveSession onTopicPress={this.onTopicPress.bind(this)} subjectData={this.props.subjectData} topicData={this.props.topicData}/>
+                         <LiveSession onTopicPress={this.onTopicPress.bind(this)} subjectData={this.props.subjectData} topicData={this.props.topicData}  livesessionarray={this.state.livesessionarray}/>
                      </View>}
                     
-                     </View>
+                     </View> : 
+
+                            topicsArray.length>0 ? 
+                                <FlatList
+                                    data={topicsArray}
+                                    renderItem={this.renderItem.bind(this)}
+                                /> : 
+
+                            
+                                <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+
+                                <Text>No Data</Text>
+                                </View> 
+                   
                      
                    
 

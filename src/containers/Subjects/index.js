@@ -170,7 +170,7 @@ class Subjects extends Component{
         //     require('../../assets/images/dashboard/new/sub3.png'),
         //     require('../../assets/images/dashboard/new/sub4.png')
         // ]
-		var colorsarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
+		var colorsarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var randomItem = this.chooseName(colorsarray)//colorsarray[Math.floor(Math.random()*colorsarray.length)];
         var bgcolor = randomItem
 		
@@ -221,17 +221,22 @@ class Subjects extends Component{
 
                             
                              <View style={{flex:0.4,flexDirection:"row",justifyContent:"space-around"}}>
-                             <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>{item.chaptersCount}</Text>
-								 </View>
+                             <View style={{alignItems:"center",justifyContent:"center"}}>
+							        <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.chaptersCount}</Text>
+								  </View>
+								  <Text style={{color:"white",fontSize:10}}>Chapters</Text></View>
 								 {/* <View style={styles.innercountview}>
 									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
 								 </View> */}
-								 <View style={styles.innercountview}>
-									 <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
-									 <Text style={styles.icontext}>{item.topicsCount}</Text>
-								 </View>
+									   <View style={{alignItems:"center",justifyContent:"center"}}>
+								  <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.topicsCount}</Text>
+								  </View>
+								  <Text style={{color:"white",fontSize:10}}>Topic</Text>
+								  </View>
                              </View>
                          </View>
            </ImageBackground>
@@ -256,7 +261,6 @@ class Subjects extends Component{
 
 						closeControlPanel={this.closeControlPanel}/>}
 					>
-			<View style={{width:"100%",height:"100%",}}>
 			<View style={{flex:1}}>
 				<View style={{flex:1,}}>
                
@@ -265,7 +269,7 @@ class Subjects extends Component{
                     <TouchableOpacity onPress={this.onBack.bind(this)}>
                                     <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,color:colors.Themecolor}} />
                      </TouchableOpacity>
-                     <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Library</Text>
+                     <Text style={{marginLeft:20,color:colors.Themecolor,fontSize:20}}>My Courses</Text>
                     </View>
                     <View style={{flex:0.3,}}>
                     <Image source={require('../../assets/images/dashboard/new/subjabs.png')}
@@ -291,9 +295,7 @@ class Subjects extends Component{
 					    <Footer openControlPanel={this.openControlPanel}/>
 						</View>
 				</View>
-
-
-						</View></Drawer>
+                </Drawer>
 			</View>
 			{/* </View> */}
 			</>

@@ -190,7 +190,7 @@ class Chapters extends Component {
             this.setState
               ({
                 spinner: false,
-                chaptersData: data.chapters
+                chaptersData: data.chapters.reverse()
               })
           } else {
             this.setState
@@ -250,12 +250,12 @@ class Chapters extends Component {
                       </View>
 
                     </View>
-                    <View style={{flex:0.3,justifyContent:"center"}}>
+                    <View style={{flex:0.3,justifyContent:"center",}}>
                     {this.props.data.image !== "null" ?
-<Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
+<Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 70, height: 70, resizeMode: "contain", marginRight: 10, }} />
 
 : <Image source={require('../../assets/images/noimage.png')}
-style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+style={{ width: 70, height: 70, resizeMode: "contain", marginRight: 10, }} />}
                     </View>
                   </View>
                 </View>

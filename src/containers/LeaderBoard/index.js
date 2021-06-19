@@ -88,7 +88,7 @@ class LeaderBoard extends Component {
                     height: windowHeight / 1.6, width: windowWidth, backgroundColor: "white", alignSelf: "center",
                     position: "absolute", bottom: 0, borderTopRightRadius: 30, borderTopLeftRadius: 30,
                     shadowColor: 'red',elevation:10,
-						shadowOffset: { width: 0, height: -10 },
+						shadowOffset: { width: 0, height: 5 },
 						marginHorizontal: 20,
 						shadowOpacity: 1,
 						shadowRadius: 5,

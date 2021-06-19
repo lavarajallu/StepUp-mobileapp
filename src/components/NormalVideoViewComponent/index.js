@@ -10,8 +10,13 @@ var initial = 0
 import styles from './styles'
 import { LineChart } from 'react-native-chart-kit';
 import { parse } from 'react-native-svg';
-import Orientation from 'react-native-orientation-locker';
+import Orientation from 'react-native-orientation';
+
 import { colors, imageUrl } from '../../constants';
+// import AWS from 'aws-sdk/dist/aws-sdk-react-native';
+
+// const credentials = new AWS.Crendentials({ accessKeyId: 'AKIAZR3HR6PZJ3FGC25V', secretAccessKey: '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'})
+// const s3 = new AWS.S3({ credentials, signatureVersion: 'v1', region: 'ap-south-1'});
 const questionsarray=[{
   questionid:1,
   question:"The digit immediate to the right of the ten lakhs shows____place.",
@@ -117,6 +122,7 @@ export default class NormalVideoViewComponent extends Component {
       index: 0,
       questionsarray:[],
       loading: true,
+      videourl:'',
       newarr:[],
       
     }
@@ -135,32 +141,50 @@ export default class NormalVideoViewComponent extends Component {
   //  if(this.props.data){
   //   var videoid = getVideoId(this.props.data[0].url);
   // }
+
+
+ 
  
    if(this.props.questionsArray.length >0){
-     this.setState({
-       questionsarray : this.props.questionsArray,
-       
-     },()=>{
+    let orders = this.props.questionsArray
+    orders.sort(function(a, b){
+      let dateA = parseInt(a.question.timeinsec);
+      let dateB =parseInt(b.question.timeinsec);
+      if (dateA < dateB) 
+      {
+        return -1;
+      }    
+      else if (dateA > dateB)
+      {
+        return 1;
+      }   
+      return 0;
+    });
 
-      //console.log("cccc",this.state.questionsarray[0].question)
-     
-      this.setState({
+    console.log("ordersordersorders",orders)
+    this.setState({
+      questionsarray : orders
+    },()=>{
+    
+     this.setState({
+      
+         questiondisplay:  this.state.questionsarray[0],
+         pausedtime : parseInt(this.state.questionsarray[0].question.timeinsec)
+       })
+       var newarr = [];
+       this.state.questionsarray.map((res,i)=>{
        
-          questiondisplay:  this.state.questionsarray[0],
-          pausedtime : parseInt(this.state.questionsarray[0].question.timeinsec)
-        })
-        var newarr = [];
-        this.state.questionsarray.map((res,i)=>{
         
-         
-          var time  = parseInt(res.question.timeinsec)
-          newarr.push(time)
-          this.setState({
-           newarr:newarr,
-           //loading: false
-          })
+         var time  = parseInt(res.question.timeinsec)
+         newarr.push(time)
+        console.log("vvvvv",newarr)
+         this.setState({
+          newarr:newarr
+         },()=>{
+           console.log("fff",newarr)
+         })
         })
-     })
+      })
     
   
    }else{
@@ -168,12 +192,11 @@ export default class NormalVideoViewComponent extends Component {
        loading: false
      })
    }
-  // console.log("mmmm",this.state.normaldata)
+  
   
 
  }
  static getDerivedStateFromProps(nextProps, prevState) {
-  // console.log("111",prevState.normaldata)
   // if(prevState.normaldata === nextProps.data){
   //           return{
 
@@ -183,6 +206,9 @@ export default class NormalVideoViewComponent extends Component {
             if(prevState.visisted){
 
             }else{
+              // console.log("111",prevState.normaldata)
+              // const url = s3.getSignedUrl('getObject', { Bucket: 'iconed', Key: nextProps.data.url})
+
               return{
                 normaldata: nextProps.data,
                 loading: false,
@@ -281,19 +307,22 @@ onnext(){
 
  onLoad = (data) => {
   
-     this.setState({duration:parseInt(data.duration)})
+     this.setState({duration:Math.round(data.duration)})
     
     
    
   }
   onLoadStart = (data) =>{
-    console.log("xxxx",this.state.normaldata.video_played)
+    console.log("xxxx",data)
     if(this.state.normaldata.video_played){
       console.log("dflkjlkdf",this.state.normaldata.video_played)
       // if(this.playerRef){
       // this.playerRef.seek(this.state.normaldata.video_played);
       // }
      }
+  }
+  onLoadEnd = (data)=>{
+    console.log("enddddd")
   }
   async getcurrentTime(){
     if(this.playerRef){
@@ -329,17 +358,17 @@ onProgress(data){
         const elapsed_sec =parseInt(data.currentTime)
           
          
-          let result = this.state.newarr.filter(o1 => parseInt(o1) === elapsed_sec);
-         console.log("progress",elapsed_sec, "   ",result[0])
+          //let result = this.state.newarr.filter(o1 => parseInt(o1) === elapsed_sec);
+         console.log("progress",elapsed_sec, "   ", this.state.pausedtime)
         //  console.log("filterer",result)
-          if(elapsed_sec === result[0]){
+          if(elapsed_sec ===  this.state.pausedtime){
           
             if(this.state.show){
                 
             }else{
-              var newdata = this.state.questionsarray.filter(o1 => parseInt(o1.question.timeinsec) === result[0]);
+             // var newdata = this.state.questionsarray.filter(o1 => parseInt(o1.question.timeinsec) === result[0]);
               //parseInt(this.state.questionsarray[0].question.timeinsec) === 
-              this.setState({ isPlaying: true,data:newdata[0],show: true},()=>this.props.onPause(this.state.data));
+              this.setState({ isPlaying: true,data:this.state.questiondisplay,show: true},()=>this.props.onPause(this.state.data));
             }
 
   }
@@ -415,10 +444,10 @@ onPause(){
  }
 handleOrientation(orientation) {
   console.log("orintatin",orientation)
-  orientation === 'LANDSCAPE-LEFT' || orientation === 'LANDSCAPE-RIGHT'
-    ? (this.setState({fullscreen: true}), StatusBar.setHidden(true))
-    : (this.setState({ fullscreen: false}),
-      StatusBar.setHidden(false));
+  // orientation === 'LANDSCAPE-LEFT' || orientation === 'LANDSCAPE-RIGHT'
+  //   ? (this.setState({fullscreen: true}), StatusBar.setHidden(true))
+  //   : (this.setState({ fullscreen: false}),
+   //   StatusBar.setHidden(false);
 }
 
  onfullscreen() {
@@ -469,10 +498,13 @@ render(){
  return (
   this.state.loading ? <Text>Loading...</Text> :
  <View style={styles.mainView}>
-  <View style={{width:"100%",height:this.state.fullscreen ? "100%" : "50%"}}>
+  <View style={{width:"100%",height:this.state.fullscreen ? "100%" : "100%"}}>
     <View style={{flex:1}}>
       <View style={{flex:1}}>
-      <Video source={{uri: imageUrl+this.state.normaldata.url}}   // Can be a URL or a local file.
+      <Video source={{uri: imageUrl+this.state.normaldata.url,
+       headers: {
+        'Referer': 'https://login.smartstepup.com/'
+        }}}   // Can be a URL or a local file.
        ref={(ref) => {
          this.playerRef = ref
        }}    
@@ -487,17 +519,18 @@ render(){
        elevation:10,}}
        onLoadStart={this.onLoadStart.bind(this)}
        onLoad={this.onLoad}
+       onError={(err)=>console.log("errorrr",err)}
        resizeMode={this.state.fullscreen ? "cover":"contain"}
        onProgress ={this.onProgress} />
       <TouchableOpacity onPress={this.onfullscreen.bind(this)}
-        style={{top:this.state.fullscreen ? 50 :20,elevation:20,position:"absolute",padding:10,backgroundColor:"transparent",right:10}}>
+        style={{top:this.state.fullscreen ? 50 :50,elevation:20,position:"absolute",padding:10,backgroundColor:"transparent",right:10}}>
         {this.state.fullscreen ? 
           <Image source={require("../../assets/images/halfscreen.png")}
-          style={{width:20,height:20,tintColor:colors.Themecolor}}/>:
+          style={{width:20,height:20,tintColor:"white"}}/>:
        <Image source={require("../../assets/images/fullscreen.png")}
        style={{width:20,height:20,tintColor:colors.Themecolor}}/>}
        </TouchableOpacity>
-        <View style={[styles.absview,{top:this.state.fullscreen ? 360 : 250}]}>
+        <View style={[styles.absview,{bottom:25}]}>
       <View style={styles.subview}>
         <View style={styles.subleftview}/>
         <View style={styles.submiddleview}>

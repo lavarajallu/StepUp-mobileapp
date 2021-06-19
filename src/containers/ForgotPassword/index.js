@@ -102,12 +102,12 @@ class ForgotPassword extends Component {
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="forgot" />
-                        <Image source={require("../../assets/images/logo_icon2.png")}
+                        <Image source={require("../../assets/images/logo_icon1.png")}
                             style={{width:100,height:100,alignSelf:"center",marginTop:10}} />
                         <Image source={require("../../assets/images/forgoticon.png")}
                             style={styles.forgoticon} />
                         <Text style={styles.forgottext}>Forgot Password?</Text>
-                        <Text style={styles.pleasetext}>Please Enter your email or mobile number </Text>
+                        <Text style={styles.pleasetext}>Please Enter your email address </Text>
                         <TextInput
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
@@ -161,7 +161,7 @@ class ForgotPassword extends Component {
             <View style={styles.body}>
               <Header title="forgot" />
               <Image
-                source={require("../../assets/images/logo_icon.png")}
+                source={require("../../assets/images/logo_icon1.png")}
                 style={{
                   width: 100,
                   height: 100,
@@ -175,7 +175,7 @@ class ForgotPassword extends Component {
               />
               <Text style={styles.forgottext}>Forgot Password?</Text>
               <Text style={styles.pleasetext}>
-                Please Enter your email or mobile number{" "}
+                Please Enter your email address
               </Text>
               <TextInput
                 labelStyle={styles.labelstyle}

@@ -22,6 +22,7 @@ export { default as WebLinkView} from "./WebLinkView";
  export { default as CalendarNew } from './Calendar'
  export { default as LiveSessionActivity} from './LiveSessionActivity'
  export { default as ProgressTopics } from './ProgressTopics'
+ export { default as TopicAnalysis} from './TopicAnalysis'
  export { default as Settings } from './Settings'
  export { default as PreviousPapers } from "./PreviousPapers";
  export { default as PreQuestionPapers } from "./PreQuestionPapers"
@@ -42,7 +43,7 @@ export { default as WebLinkView} from "./WebLinkView";
   export { default as PracticeChapter } from "./PracticeChapter";
   export { default as PracticeAssesment } from "./PracticeAssesment"
   export { default as PracticeSummary } from "./PracticeSummary" 
-  export { default as PracticeSolutions} from "./PracticeSolutions"
+  export { default as PracticeSolutions} from "./PracticeSolutions/index1"
   export { default as PracticeReview } from "./PracticeReview"
 
  export { default as ObjectAssesment} from "./ObjectAssesment"

@@ -20,8 +20,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
 import StringsOfLanguages from '../../StringsOfLanguages';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./styles"
+import { baseUrl , imageUrl } from '../../constants';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -52,7 +54,75 @@ const data = [
 class RecommendedTopics extends Component {
 	constructor(props) {
 		super(props)
+		this.state={
+			token : '',
+			topicsData:[],
+			spinner: true
+
+		}
 	}
+	componentDidMount() {
+        this.getData()
+    }
+    getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@user')
+            //  alert(JSON.stringify(value))
+            if (value !== null) {
+                var data = JSON.parse(value)
+                const token = await AsyncStorage.getItem('@access_token')
+                if (token) {
+                    this.setState({
+                        token: JSON.parse(token)
+                    }, () => this.getTopics())
+
+                } else {
+
+                }
+
+            } else {
+                console.log("errorr")
+            }
+        } catch (e) {
+            return null;
+        }
+    }
+	getTopics() {
+	//	localhost:3000/student/recommendedLearning
+
+        var url = baseUrl + '/student/recommendedLearning'
+        console.log("value", this.state.token)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        }).then((response) =>
+
+            response.json())
+            .then((json) => {
+               console.log("recomme.................", JSON.stringify(json))
+                if (json.data) {
+                    this.setState({
+                        topicsData: json.data,
+                        spinner: false
+                    })
+                } else {
+                    //alert("ffff"+JSON.stringify(json.message))
+                    Toast.show(json.message, Toast.LONG);
+                    this.setState
+                        ({
+                            topicsData: [],
+                            spinner: false,
+                        })
+                }
+               
+            }
+
+            )
+            .catch((error) => console.error(error))
+		}
 		renderItem({ item }) {
 		var percent = (item.progress) * 100;
 		let color
@@ -68,13 +138,18 @@ class RecommendedTopics extends Component {
 			shadowOffset: { width: 0, height: 5 },
 			shadowOpacity: 1,
 			shadowRadius: 5,
-			elevation: 10, borderRadius: 10
+			elevation: 10, borderRadius: 10,paddingVertical:10
 			
 			   }}>
 				<View style={{flex:1,flexDirection:"row",}}>
-				<View style={{flex:0.25,}}>
-					<Image source={item.image}
-					  style={{width:70,height:70}}/>
+				<View style={{flex:0.25,justifyContent:"center",alignItems:"center"}}>
+				{item.image ?
+
+<Image source={{ uri: imageUrl + item.image }}
+	style={{ width: 70, height: 70 }} /> :
+<Image source={require('../../assets/images/noimage.png')}
+	style={{ width: 50, height: 50, resizeMode: "contain" }} />}
+		
 				</View>
 				<View style={{flex:0.75,flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingLeft:10}}>
 				 <Text>{item.name}</Text>
@@ -93,6 +168,7 @@ class RecommendedTopics extends Component {
 	}
 	render() {
 		return (
+			this.state.spinner ? null :
 			<View>
 			<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
 			<Text style={{ marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.recommendedtopics}</Text>
@@ -101,8 +177,7 @@ class RecommendedTopics extends Component {
 			</TouchableOpacity>
 		  
 			</View>
-		
-			<FlatList data={data}
+			<FlatList data={this.state.topicsData}
 					renderItem={this.renderItem.bind(this)}
 					horizontal={true}
 					showsHorizontalScrollIndicator={false} />

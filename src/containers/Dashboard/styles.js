@@ -7,7 +7,7 @@ import { colors } from "../../constants"
 const styles = StyleSheet.create({
    mainview:{
     flex:1,
-   // backgroundColor: '#000000'
+    backgroundColor: 'white'
    },
    topview:{
     flex:0.1,justifyContent:'space-between',flexDirection:"row",alignItems:"center",marginHorizontal: 20

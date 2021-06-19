@@ -43,7 +43,7 @@ class LiveSession extends Component{
     this.state={
       token: "",
       livesessionarray:[],
-      spinner: true,
+      spinner: false,
       loading: true,
       meetingUrl:""
     }
@@ -63,7 +63,7 @@ componentDidMount(){
                 if (token) {
                     this.setState({
                         token: JSON.parse(token)
-                    }, () => this.getClasses())
+                    })
 
                 } else {
 
@@ -76,41 +76,41 @@ componentDidMount(){
             return null;
         }
     }
-    getClasses(){
-    const { topicData } = this.props;
+  //   getClasses(){
+  //   const { topicData } = this.props;
 
-    var url = baseUrl+"/live-class/student?chapter_id="+topicData.reference_id+"&offset=0&limit=1000"
-    console.log("url",url)
-    console.log("url",this.state.token)
-    fetch(url, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'token': this.state.token
-      }
-  }).then((response) =>
+  //   var url = baseUrl+"/live-class/student?chapter_id="+topicData.reference_id+"&offset=0&limit=1000"
+  //   console.log("url",url)
+  //   console.log("url",this.state.token)
+  //   fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //         'Content-Type': 'application/json',
+  //         'token': this.state.token
+  //     }
+  // }).then((response) =>
 
-      response.json())
-      .then((json) => {
-          console.log("topicdattaaa", JSON.stringify(json.data))
-          if(json.data){
-            if(json.data.data.length > 0){
-              this.setState({
-                livesessionarray : json.data.data,
-                spinner: false
-              })
-            }else{
-              this.setState({
-                livesessionarray : [],
-                spinner: false
-              })
-            }
-          }
-      }
+  //     response.json())
+  //     .then((json) => {
+  //         console.log("topicdattaaa", JSON.stringify(json.data))
+  //         if(json.data){
+  //           if(json.data.data.length > 0){
+  //             this.setState({
+  //               livesessionarray : json.data.data,
+  //               spinner: false
+  //             })
+  //           }else{
+  //             this.setState({
+  //               livesessionarray : [],
+  //               spinner: false
+  //             })
+  //           }
+  //         }
+  //     }
 
-      )
-      .catch((error) => console.error(error))
-  }
+  //     )
+  //     .catch((error) => console.error(error))
+ // }
   onJoinLiveClass(item){
     var live_class_id = item.reference_id;
     let date = moment(new Date()).format('YYYY-MM-DD')
@@ -202,7 +202,7 @@ componentDidMount(){
           </View> 
 
           :
-          <FlatList data={this.state.livesessionarray}
+          <FlatList data={this.props.livesessionarray}
           renderItem={this.renderItem.bind(this)}
           showsHorizontalScrollIndicator={false} />
 

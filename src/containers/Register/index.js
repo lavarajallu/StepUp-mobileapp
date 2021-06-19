@@ -305,7 +305,7 @@ class Register extends Component {
                     style={styles.scrollView}>
                     <View style={styles.body}>
                         <Header title="register" />
-                        <Image source={require("../../assets/images/logo_icon2.png")}
+                        <Image source={require("../../assets/images/logo_icon1.png")}
                             style={{width:80,height:80,alignSelf:"center",marginTop:10}} />
                         <FloatingLabel
                             labelStyle={styles.labelstyle}
@@ -410,7 +410,7 @@ class Register extends Component {
                 style={styles.scrollView}>
                 <View style={styles.body}>
                     <Header title="register" />
-                    <Image source={require("../../assets/images/logo_icon.png")}
+                    <Image source={require("../../assets/images/logo_icon1.png")}
                         style={{width:80,height:80,alignSelf:"center",marginTop:10}} />
                     <FloatingLabel
                         labelStyle={styles.labelstyle}

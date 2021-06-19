@@ -34,7 +34,54 @@ var imagesarray = [
 ]
 import { ProgressCircle } from 'react-native-svg-charts'
 import { VictoryPie } from "victory-native";
+import SemiCircleDonut from './SemiCircleDonut';
+import PolarRadialBar from './PolarRadialBar';
+import ActivityRings from "react-native-activity-rings";  
 
+var bloomsdata = [
+    {
+        label: "Create",
+        value: 0.7,
+        color: "#6A5177",
+        backgroundColor: "lightgrey"
+      },
+      {
+        label: "Evaluate",
+        value: 0.6,
+        color: "#A3BA6D",
+        backgroundColor: "lightgrey"
+      },
+      {
+        label: "Analyze",
+        value: 0.5,
+        color: "#D88212",
+        backgroundColor: "lightgrey"
+      },
+      {
+        label: "Apply",
+        value: 0.3,
+        color: "#F94D48",
+        backgroundColor: "lightgrey"
+      },
+      {
+        label: "Understand",
+        value: 0.5,
+        color: "#D19DE6",
+        backgroundColor: "lightgrey"
+      },
+      {
+        label: "Remember",
+        value: 0.9,
+        color: "#30A6DC",
+        backgroundColor: "#cccccc"
+      }
+  ]
+  const activityConfig = {
+    width: 300,
+    height: 300,
+    radius: 32,
+    ringSize: 12,
+  }
 var graphicData = [
     { y: 20, x: '20%', name: "Mathematics" },
     { y: 90, x: '90%', name: "Physics" },
@@ -64,6 +111,7 @@ class Analysis extends Component {
             chaptersData: [],
             loading: false,
             piesections: [],
+            pieloading:true,
             allavergae:"",
             allsectiondata:[],
             mainsubjects:[],
@@ -178,7 +226,7 @@ class Analysis extends Component {
         
         } else {
             this.getChaptersdata()
-            this.getpiechatdata()
+          this.getpiechatdata()
         }
 
 
@@ -197,6 +245,7 @@ class Analysis extends Component {
             .then((json) => {
 
                 if (json.data) {
+                    console.log("ddddd",json.data)
                     if (json.data.length > 0) {
 
                         // this.setState({
@@ -245,7 +294,9 @@ class Analysis extends Component {
                             loading: false
                         })
                     }else{
-
+                        this.setState({
+                            loading: false
+                        })
                     }
                 } else {
                 alert(JSON.stringify(json.message))
@@ -262,6 +313,7 @@ class Analysis extends Component {
     }
     getpiechatdata() {
         const { user, token } = this.state
+        this.setState({pieloading:true})
         var url;
         if (user.user_role === 'Student') {
             url = baseUrl + "/student/learningAnalytics/chapters/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
@@ -286,36 +338,41 @@ class Analysis extends Component {
                 console.log("sss", data)
                 if (data) {
                     if (data) {
-                        console.log("chaptersssss", json.data)
-                        var piearray = [];
-                        var colorsarray = ["#267093", "#697077", "#a4b96e", "#c54721"]
-                        var count = 0
-                        data.map((res, i) => {
+                        // console.log("chaptersssss", json.data)
+                        // var piearray = [];
+                        // var colorsarray = ["#267093", "#697077", "#a4b96e", "#c54721"]
+                        // var count = 0
+                        // data.map((res, i) => {
 
-                            count = count + res.percentage
-                            // var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
-                            // var obj = {
-                            //     name: res.name,
-                            //     population: 2800000,
-                            //     color: randomItem,
-                            //     legendFontColor: "#7F7F7F",
-                            //     legendFontSize: 10,
-                            //     percentagevalue: res.percentage
-                            // }
-                            // piearray.push(obj)
-                        })
-                        console.log("array22222", count / data.length)
+                        //     count = count + res.percentage
+                        //     // var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
+                        //     // var obj = {
+                        //     //     name: res.name,
+                        //     //     population: 2800000,
+                        //     //     color: randomItem,
+                        //     //     legendFontColor: "#7F7F7F",
+                        //     //     legendFontSize: 10,
+                        //     //     percentagevalue: res.percentage
+                        //     // }
+                        //     // piearray.push(obj)
+                        // })
+                        // console.log("array22222", count / data.length)
+                        // this.setState({
+                        //     piesections: Math.floor(count / data.length),
+                        //     loading: false,
+
+                        // })
                         this.setState({
-                            piesections: Math.floor(count / data.length),
-                            loading: false,
-
+                            piesections : json.data,
+                            pieloading:false,
                         })
 
                     } else {
                         this.setState
                             ({
-                                loading: false,
-                                chaptersData: []
+                                pieloading:false,
+                                chaptersData: [],
+                                piesections:[]
                             })
                     }
                     //  AsyncStorage.setItem('@access-token', data.access_token)
@@ -324,8 +381,9 @@ class Analysis extends Component {
                     alert(JSON.stringify(json.message))
                     this.setState
                         ({
-                            loading: false,
-                            chaptersData: []
+                            chaptersData: [],
+                            piesections:[],
+                            pieloading:false,
                         })
                 }
             }
@@ -360,11 +418,12 @@ class Analysis extends Component {
                 console.log("sss", data)
                 if (data) {
                     if (data) {
-                        console.log("chaptersssss", json.data)
+                        console.log("newdata", json.data)
                         this.setState
                             ({
-
-                                chaptersData: data
+                               
+                                chaptersData: data,
+                                loading: false,
                             })
                         // var piearray = [];
                         // var colorsarray = ["#267093", "#697077", "#a4b96e", "#c54721"]
@@ -416,7 +475,9 @@ class Analysis extends Component {
     onTab(res) {
         //alert(JSON.stringify(resetWarningCache))
         this.setState({
-            selectedTab: res
+
+            selectedTab: res,
+           
         }, () => this.getChapter())
     }
     closeControlPanel = () => {
@@ -476,7 +537,7 @@ class Analysis extends Component {
                                                                     borderColor: this.state.selectedTab.name === res.name ? "#A44084" : "transparent",
                                                                     paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center"
                                                                 }}>
-                                                                <ImageBackground source={res.image} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center" }}>
+                                                                <ImageBackground source={res.image} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center",alignSelf:"center" }}>
 
 
                                                                 </ImageBackground>
@@ -488,7 +549,7 @@ class Analysis extends Component {
                                                                     borderColor: this.state.selectedTab.name === res.name ? "#A44084" : "transparent",
                                                                     paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center"
                                                                 }}>
-                                                                <ImageBackground source={bgcolor} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center" }}>
+                                                                <ImageBackground source={bgcolor} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center" ,alignSelf:"center"}}>
                                                                     <Image source={{uri: imageUrl +res.image}} style={{ width: 35, height: 35,
                                                                      alignSelf: "center",  }} />
 
@@ -750,35 +811,31 @@ class Analysis extends Component {
                                                                 // elevation: 10, borderRadius: 10,
                                                                 justifyContent: "center"
                                                             }}>
-                                                                {/* <PieChart
-                                        data={this.state.piesections}
-                                        hasLegend={false}
-                                        width={windowWidth}
-                                        height={220}
-                                        paddingLeft={windowWidth / 6}
-                                        chartConfig={chartConfig}
-                                        accessor={"population"}
-                                        backgroundColor={"transparent"}
-
-                                    /> */}
-                                                                <ProgressCircle style={{ height: 150, }} progress={this.state.piesections / 100}
+                                                                {this.state.pieloading ? <Text style={{textAlign:"center"}}>Loading....</Text> : 
+                                                                <>
+                                                               <SemiCircleDonut chapters={this.state.piesections}/>
+                                                               <Text style={{marginVertical:10,textAlign:"center",fontWeight:"bold"}}>Bloom's Taxonomy Average</Text>
+                                                               <ActivityRings data={bloomsdata} config={activityConfig} /> 
+                                                               <View style={{flexDirection:"row",flexWrap:"wrap",marginHorizontal:30,alignItems:"center",justifyContent:"center"}}>
+                                                                    {bloomsdata.map((res,i)=>(
+                                                                        <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center",marginLeft:10}}>
+                                                                            <View style={{width:10,height:10,borderRadius:5,backgroundColor:res.color}}/>
+                                                                            <Text style={{marginLeft:5}}>{res.label}</Text>
+                                                                        </View>
+                                                                    ))}
+                                                                    </View>
+                                                               </>
+                                                             
+                                                               }
+                                                                {/* <ProgressCircle style={{ height: 150, }} progress={this.state.piesections / 100}
                                                                     strokeWidth={10} progressColor={"#FF603D"}>
 
-                                                                </ProgressCircle>
-                                                                <View style={{ position: "absolute", alignSelf: "center" }}>
+                                                                </ProgressCircle> */}
+                                                                {/* <View style={{ position: "absolute", alignSelf: "center" }}>
                                                                     <Text style={{ color: "#656565", fontSize: 20, textAlign: "center" }}>{this.state.piesections}%</Text>
                                                                     <Text style={{ color: "#656565", fontSize: 10, textAlign: "center" }}>Avg.{"\n"}Performance</Text>
                                                                 </View>
-                                                                {/* <View style={{ paddingHorizontal: 10, flexDirection: "row", justifyContent: "space-evenly", flexWrap: "wrap" }}>
-                                        {this.state.piesections.map((res, i) => (
-                                            <View style={{ flexDirection: "row", margin: 10, justifyContent: "center", alignItems: "center" }}>
-                                                <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: res.color, marginRight: 10 }} />
-                                                <Text>{res.name} ({Math.floor(res.percentagevalue)}%)</Text>
-
-                                            </View>
-
-                                        ))}
-                                    </View> */}
+                                                                */}
                                                             </View>
                                                             {this.state.chaptersData.map((res, i) => (
                                                                 <View style={{

@@ -23,6 +23,8 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl,imageUrl } from "../../constants"
+var alphabetarray = ["A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+import MathJax from 'react-native-mathjax';
 const data = [
 {
     questionno:1,
@@ -189,7 +191,7 @@ class PreSolutions extends Component{
             
               if (json.data) {
                   const data =  json.data
-                   console.log("summary",json.data.questions[0])
+                   console.log("summary",data.questions[0].question.solution)
                    this.setState({
                     // analysis: json.data.analysis,
                     // marks:json.data.marks,
@@ -257,6 +259,7 @@ class PreSolutions extends Component{
       //  }
     }
     onNext(){
+        this.scrollToIndex(this.state.questionno)
         if (this.state.questionno + 1 === this.state.questionsarray.length) {
            Alert.alert(
                'Step Up',
@@ -287,7 +290,9 @@ class PreSolutions extends Component{
             })
         }
     }
+    
     onPrevious(){
+        this.scrollToIndex(this.state.questionno)
         if (this.state.questionno - 1 === this.state.questionsarray.length) {
             alert("dfd")
             // this.setState({
@@ -401,6 +406,53 @@ class PreSolutions extends Component{
         else {
           return 'lightgrey'
         }
+      }
+
+      rednerAnswerItem ({item,index}) {
+       
+       return(
+    //     <TouchableOpacity style={{ flexDirection: 'row', marginTop:index > 0 ? 10: 0}}>
+    //     <Text style={{ marginTop: 8, alignSelf: 'center' ,marginLeft:10}}>{alphabetarray[index]}. </Text>
+    //     <MathJax
+    //         // To set the font size change initial-scale=0.8 from MathJax class
+    //         style={{
+    //         width: '80%',
+    //         borderWidth: 1,
+    //         borderRadius:10,
+    //         borderColor: this.returnBoxColor(item),
+    //         marginLeft:10,
+    //         justifyContent:"center",
+    //         alignSelf: 'flex-start',}} html={item.value} />
+    // </TouchableOpacity>
+    <TouchableOpacity style={{ flexDirection: 'row', marginTop:index > 0 ? 10: 0}} onPress={this.onAnswer.bind(this, item)}>
+    <Text style={{ marginTop: 8, alignSelf: 'center' ,marginLeft:10}}>{alphabetarray[index]}. </Text>
+    <View style={{width: '80%',
+        borderWidth: 2,
+        borderRadius:10,
+        borderColor: this.returnBoxColor(item),
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}}>
+    <MathJax
+        // To set the font size change initial-scale=0.8 from MathJax class
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '80%',
+        // borderWidth: 2,
+        // borderRadius:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}} html={item.value} /></View>
+</TouchableOpacity>
+  
+       )
+    }
+    getItemLayout = (data, index) => (
+        { length: 50, offset: 50 * index, index }
+      )
+    scrollToIndex = (index) => {
+        let randomIndex = index;
+        this.flatListRef.scrollToIndex({animated: true, index: randomIndex});
       }
 
     render(){
@@ -527,35 +579,70 @@ class PreSolutions extends Component{
                         <View style={styles.listview}>
                         <View style={styles.circlesview}>
                     <FlatList data={this.state.questionsarray}
+                     ref={(ref) => { this.flatListRef = ref; }}
+                     initialScrollIndex={0}
+                     getItemLayout={this.getItemLayout}
+                        keyExtractor={(item, index) => String(index)}
                     renderItem={this.renderItem.bind(this)}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false} />
             </View>
             <View style={styles.questionsview}>
             <ScrollView>
-            <View style={styles.questioninnerview}>
+            {/* <View style={styles.questioninnerview}>
             <Text style={styles.questionnum}>{this.state.questionno+1}.  </Text>
             <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-            </View>
-            {this.state.selectedItem.question.options.map((res,i)=>
-            <View style={styles.answermain}>
-            <View style={styles.answersub}>
-            <Text style={styles.answernum}>{i+1}. </Text>
-            <TouchableOpacity onPress={this.onAnswer.bind(this,res)} 
-            style={[styles.answertextview,
-                {borderColor: this.returnBoxColor(
-                    res,
-                  )}]}>
-            <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-            </TouchableOpacity>
-            </View>
-            </View>
-                )}
+            </View> */}
+             <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: 10 , marginTop:10}}>
+                                            <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
+                                            <MathJax
+                                                // To set the font size change initial-scale=0.8 from MathJax class
+                                                style={{ borderRadius: 5,
+                                                    width: '95%',
+                                                    borderWidth: 0.5,
+                                                    borderColor:"white",
+                                                    alignSelf: 'center',}} html={this.state.selectedItem.question.question} />
+                                        </View>
+                                        <FlatList data={this.state.selectedItem.question.options}
+                                              
+                                                    keyExtractor={(item, index) => String(index)}
+                                                    renderItem={this.rednerAnswerItem.bind(this)}
+                                                    //horizontal={true}
+                                                    showsHorizontalScrollIndicator={false} />
+            {/* {this.state.selectedItem.question.options.map((item,i)=>
+            // <View style={styles.answermain}>
+            // <View style={styles.answersub}>
+            // <Text style={styles.answernum}>{i+1}. </Text>
+            // <TouchableOpacity onPress={this.onAnswer.bind(this,res)} 
+            // style={[styles.answertextview,
+            //     {borderColor: this.returnBoxColor(
+            //         res,
+            //       )}]}>
+            // <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
+            // </TouchableOpacity>
+            // </View>
+            // </View>
+     
+                )} */}
            <View style={{marginTop:20,marginLeft:10}}>
              <Text style={{fontSize:15,marginBottom:10}}>Solution :</Text>
-             <View style={[styles.answertextview,{borderColor:"lightgrey",paddingVertical:10}]}>
-             <Text>hello Enndrocrne system is one of the main communication systems.</Text>
-             </View>
+             <View style={{width: '80%',
+        borderWidth: 2,
+        borderRadius:10,
+        borderColor: "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}}>
+    <MathJax
+        // To set the font size change initial-scale=0.8 from MathJax class
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '80%',
+        // borderWidth: 2,
+        // borderRadius:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}} html={this.state.selectedItem.question.solution} /></View>
              </View>
               </ScrollView>
             </View>
@@ -563,32 +650,7 @@ class PreSolutions extends Component{
             </View> : <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
             <Text>Loading......</Text></View>}
                     </View> 
-                {/* <View style={{flex:0.1,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
-                
-      
-       <View style={styles.bottomleftview}>
-
-              {this.state.questionno === 0  ? null : 
-                 <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
-                 justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
-                       <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Previous</Text>
-                  </TouchableOpacity>
-                }
-            </View>
-            <View style={styles.bottomrightview}>
-             {this.state.questionno +1 === this.state.questionsarray.length  ? 
-                      <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
-                      justifyContent:"center",alignItems:"center"}} onPress={this.onSubmit.bind(this)}>
-                            <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>close</Text>
-                       </TouchableOpacity>
-              : 
-              <TouchableOpacity style={{height:40,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,marginTop:10,
-              justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
-                    <Text style={{ textAlign:"center",fontSize:15,color:topicindata.color}}>Next</Text>
-               </TouchableOpacity>
-                }
-            </View>
-            </View> */}
+               
                 <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
                     <View style={{flex:1,flexDirection:"row"}}>
                     {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
@@ -602,7 +664,7 @@ class PreSolutions extends Component{
                        {this.state.questionno + 1 === this.state.questionsarray.length ?
                          <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                          justifyContent:"center",alignItems:"center"}} onPress={this.onSubmit.bind(this)}>
-                  <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Submit</Text>
+                  <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Done</Text>
                       </TouchableOpacity> :
                        <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
                           justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>

@@ -69,7 +69,7 @@ class Notifications extends Component {
     }
 
     onBack(){
-        Actions.pop()
+        Actions.dashboard({type:"reset"})
     }
     closeControlPanel = () => {
         this._drawer.close()

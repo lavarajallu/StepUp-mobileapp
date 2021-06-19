@@ -71,7 +71,6 @@ getData = async () => {
     //  alert(JSON.stringify(value))
       if(value !== null) {
         var data = JSON.parse(value)
-		console.log("dataaa2222",data.grade)
         this.setData(data)
        
       }else{

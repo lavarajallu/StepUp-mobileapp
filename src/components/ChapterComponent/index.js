@@ -78,7 +78,7 @@ class ChapterComponent extends Component {
         this.props.onBack()
     }
     renderItem({item,index}){
-        console.log("ff",item)
+        console.log("newitemmmmm",item)
         var colorsarray = imagesarray// ["#FFB13D","#5AC3FB","#E488FB","#88C400"];
 	 var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 		 var bgimage = randomItem
@@ -86,75 +86,38 @@ class ChapterComponent extends Component {
 		// var newitem = colorsarray.splice(bgimage,1);
 		// colorsarray.push(newitem);
         var percent = item.percent
-        var percent = (item.percent)
+        console.log("Ff",percent)
 		var color;
 		if(percent > 80 ){
 			color = "green"
-		}else if (color< 50) {
+		}else if (percent < 50) {
 			color = "red"
 		}else{
 			color = "orange"
 		}
         item["color"] = this.props.userData.color
     return(
-        //   <TouchableHighlight  underlayColor="transparent" activeOpacity={0.9}
-        //   onPress={this.onItem.bind(this,item)} style={{marginTop:20}}>
-          
-        //   <ImageBackground source={bgimage}
-		// 			 style={[styles.rectview]}>
-        //             <View style={styles.subview}>
-        //                 <View style={styles.topsubview}>
-        //                 {item.image ? 
-        //                     <Image source={{uri:url}} style={{alignSelf: "center",width:128/3,height:128/3,resizeMode:"cover"}}/>
-                        
-        //                 :<Image source={require('../../assets/images/noimage.png')}
-        //                 style={{width:60,height:60,resizeMode:"contain"}}/>
-        //                 }<Text style={styles.subjectname}>{item.name}</Text>
-        //                 </View>
-        //                 <View style={styles.bottomsubview}>
-                            
-        //                         <View style={styles.progressview}>
-        //                             <View style={styles.progresstextview}>
-        //                                 <Text style={styles.progresstext}>Progress</Text>
-        //                                 <Text style={styles.progresstext}>{percent}%</Text></View>
-        //                                 <View style={{marginTop:3}}>
-        //                                  <Progress.Bar progress={percent/100} width={windowWidth/2.6} height={2} color={"lightgreen"}/>
-        //                                  </View>
-                
-        //                                 </View> 
-
-        //                     <View style={styles.countview}>
-        //                         <View style={styles.innercountview}>
-        //                             <Image source={require('../../assets/images/1.png')} style={[styles.iconview,{tintColor:"white"}]} />
-        //                             <Text style={styles.icontext}>{item.topicsCount}</Text>
-        //                         </View>
-        //                          <View style={styles.innercountview}>
-        //                             <Image source={require('../../assets/images/magnifier.png')} style={[styles.iconview,{tintColor:"white"}]} />
-        //                             <Text style={styles.icontext}></Text>
-        //                         </View>
-        //                         </View>
-        //                 </View>
-        //             </View>
-        //         </ImageBackground>
-        //         </TouchableHighlight>
-
-        <TouchableOpacity onPress={this.onItem.bind(this,item)} style={{borderWidth: 0, borderColor: "lightgrey",height:80,width:windowWidth/1.15,alignSelf:"center",
-                backgroundColor: 'white', shadowColor: 'black',
-            shadowOffset: { width: 0, height: 5 },
-            marginVertical: 10,
-            shadowOpacity: 1,
-            shadowRadius: 5,
-            elevation: 10,}}>
+    <TouchableOpacity onPress={this.onItem.bind(this,item)} style={{borderWidth: 0, borderColor: "lightgrey",height:80,width:windowWidth/1.15,alignSelf:"center",
+                backgroundColor: 'white',  borderWidth: 1,
+                borderRadius: 5,
+                borderColor: '#ddd',
+                borderBottomWidth: 0,
+                shadowColor: '#000000',
+                marginVertical:10,
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.9,
+                shadowRadius: 3,
+                elevation: 3,}}>
            <View style={{flex:1,flexDirection:"row"}}>
                <View style={{flex:0.2,backgroundColor:this.props.userData.color,justifyContent:"center",alignItems:"center"}}>
-               {/* {item.image !== "null" ? 
+                {item.image !== "null" || item.image !== "" ? 
                  <Image source={{uri:imageUrl+item.image}} style={{width:"100%",height:"100%",resizeMode:"cover"}}/>
                         
                 :<Image source={require('../../assets/images/noimage.png')}
-                style={{width:60,height:60,resizeMode:"cover",alignSelf:"center"}}/>} */}
+                style={{width:60,height:60,resizeMode:"cover",alignSelf:"center"}}/>}
                </View>
                <View style={{flex:0.8,justifyContent:"center",paddingLeft:20}}>
-                   <Text style={{color:"#2E2E2E",fontSize:10}}>CHAPTER {index+1}</Text>
+                   {/* <Text style={{color:"#2E2E2E",fontSize:10}}>CHAPTER {index+1}</Text> */}
                    <Text style={{color:"#2E2E2E",fontWeight:"600",fontSize:15}}>{item.name}</Text>
                </View>
            </View>

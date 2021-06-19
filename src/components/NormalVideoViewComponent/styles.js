@@ -1,5 +1,5 @@
 import {
-    Dimensions,StyleSheet,
+    Dimensions,StyleSheet,Platform
   } from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -19,16 +19,16 @@ subview:{
     flex:1,flexDirection:"row"
 },
 subleftview:{
-    flex:0.15,
+    flex:Platform.OS === 'android' ? 0.15 : 0.2,
 },
 submiddleview:{
-    flex:0.7,
+    flex: Platform.OS === 'android' ? 0.7 : 0.65,
 },
 subright:{
     justifyContent:'space-evenly',flexDirection:"row",flex:1,alignItems:"center",elevation:10
 },
 sublastright:{
-    flex:0.15
+    flex:0.15,
 }
 
 })

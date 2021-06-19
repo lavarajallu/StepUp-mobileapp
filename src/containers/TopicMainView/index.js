@@ -16,6 +16,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
 import styles from "./styles"
@@ -28,10 +29,11 @@ const windowHeight = Dimensions.get('window').height;
 import SideMenu from "../../components/SideMenu"
 import { colors } from "../../constants"
 import Footer from '../../components/Footer'
-import { baseUrl,imageUrl } from "../../constants"
+import { baseUrl, imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
 import Toast from 'react-native-simple-toast';
-
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import moment from 'moment';
 
 const data = [
   {
@@ -62,7 +64,10 @@ class TopicMainView extends Component {
       teacherspinner: true,
       useDetails: null,
       analyticsData: {},
-      token: ''
+      recommendedtopics: [],
+      spinner: true,
+      token: '',
+      selectedIndex: 0,
     }
   }
   componentDidMount() {
@@ -72,7 +77,7 @@ class TopicMainView extends Component {
   getData = async () => {
     try {
       const value = await AsyncStorage.getItem('@user')
-     //  alert(JSON.stringify(value))
+      //  alert(JSON.stringify(value))
       if (value !== null) {
         var data = JSON.parse(value)
         this.setState({
@@ -83,9 +88,10 @@ class TopicMainView extends Component {
           this.setState({
             token: JSON.parse(token)
           })
-          
+
           this.getResources(data, JSON.parse(token))
           this.getanalytics(data, JSON.parse(token))
+          this.getRecommendedTopics(data, JSON.parse(token))
         } else {
           console.log("hihii")
         }
@@ -96,6 +102,39 @@ class TopicMainView extends Component {
     } catch (e) {
       return null;
     }
+  }
+  getRecommendedTopics(user, token) {
+    var url = baseUrl + "/student/recommendedTopics/" + this.props.data.reference_id
+    console.log("URLLLL", url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      }
+    }).then((response) =>
+
+      response.json())
+      .then((json) => {
+        // alert(JSON.stringify(json))
+        if (json.data) {
+
+          console.log("recommenede", JSON.stringify(json.data))
+          this.setState({
+            recommendedtopics: json.data.topicsList,
+            spinner: false
+          })
+        } else {
+          this.setState({
+            recommendedtopics: [],
+            spinner: false
+          })
+          console.log("toppppp", JSON.stringify(json.message))
+        }
+      }
+
+      )
+      .catch((error) => console.error("error", error))
   }
   getanalytics(user, token) {
     //alert("analyticsss"+ this.props.subjectData)
@@ -114,7 +153,7 @@ class TopicMainView extends Component {
       activity_id: null,
     }
 
-   
+
     var url = baseUrl + '/analytics'
     console.log("value", url)
     fetch(url, {
@@ -148,7 +187,7 @@ class TopicMainView extends Component {
       .catch((error) => console.error(error))
   }
   getResources(user, token) {
-   // alert(JSON.stringify(this.state.topicData))
+    // alert(JSON.stringify(this.state.topicData))
     console.log(" this.state.topicData", this.state.topicData);
 
     var url;
@@ -171,7 +210,7 @@ class TopicMainView extends Component {
       .then((json) => {
 
         const data = json.data;
-        console.log("teacherreeee",data)
+        console.log("teacherreeee........", data)
         if (data) {
           if (data.smart) {
 
@@ -217,38 +256,32 @@ class TopicMainView extends Component {
       .catch((error) => console.error(error))
   }
   renderItem({ item }) {
-
-    var progress = 0 + (0.4 * Math.random())
-    var percent = (item.progress) * 100;
-    var color;
-    if (percent > 50) {
-      color = "green"
-    } else if (color < 50) {
-      color = "red"
-    } else {
-      color = "orange"
-    }
     return (
       <TouchableHighlight style={{ paddingVertical: 20 }} underlayColor="transparent" activeOpacity={0.9}>
-      
 
-    
-              <View style={{
-                width: windowWidth/2.5,
-                height: 150,
-                justifyContent: 'center',
-                alignItems: "center",
-                backgroundColor: 'red',
-                overflow:"hidden",
-                margin:10,
 
-                //left: -240,
-              }}><Image source={item.image} style={{width:"100%",height:"100%",resizeMode:"cover" }} />
-                 <View style={{position:"absolute",backgroundColor:"rgba(42,42,55,0.7)",width:"100%",height:40,bottom:0,justifyContent:"center",alignItems:"center"}}>
-                       <Text style={{ textAlign: "center", fontSize: 10,color:"white"}}>{item.name}</Text>
-                      </View>
-              </View>
-            {/* <View style={styles.bottomsubview}>
+
+        <View style={{
+          width: windowWidth / 2.5,
+          height: 150,
+          justifyContent: 'center',
+          alignItems: "center",
+          backgroundColor: 'red',
+          overflow: "hidden",
+          margin: 10,
+
+          //left: -240,
+        }}>
+          {item.image !== "null" ?
+            <Image source={{ uri: imageUrl + item.image }} style={{ width: "100%", height: "100%", resizeMode: "cover" }} />
+
+            : <Image source={require('../../assets/images/noimage.png')}
+              style={{ width: 60, height: 60, resizeMode: "contain" }} />}
+          <View style={{ position: "absolute", backgroundColor: "rgba(42,42,55,0.7)", width: "100%", height: 40, bottom: 0, justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ textAlign: "center", fontSize: 10, color: "white" }}>{item.name}</Text>
+          </View>
+        </View>
+        {/* <View style={styles.bottomsubview}>
               <Text style={styles.subjectname}>{item.name}</Text>
               <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3, }}>
                 <View style={{ justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 5 }}>
@@ -265,7 +298,7 @@ class TopicMainView extends Component {
               <View style={styles.countview}>
               </View>
             </View> */}
-          
+
       </TouchableHighlight>
     )
   }
@@ -273,13 +306,13 @@ class TopicMainView extends Component {
 
   onBack() {
     this.updateAnalytics();
-    if(this.props.from === "dashboard"){
-        Actions.dashboard({type:"reset"})
-    }else if(this.props.from === 'progresstopics'){
-      Actions.progresstopics({type:"reset"})
+    if (this.props.from === "dashboard") {
+      Actions.dashboard({ type: "reset" })
+    } else if (this.props.from === 'progresstopics') {
+      Actions.progresstopics({ type: "reset" })
     }
-    
-    else{
+
+    else {
       Actions.topics({ type: "reset", data: this.props.topicsdata, subjectData: this.props.subjectData })
     }
 
@@ -371,7 +404,7 @@ class TopicMainView extends Component {
     this.updateAnalytics()
     console.log("Activity", item)
     let newarray = []
-   // alert(this.state.smartres[index-1].status)
+    // alert(this.state.smartres[index-1].status)
     if (type === 'teacher') {
       newarray = this.state.teacherres
     } else if (type === 'icon') {
@@ -379,50 +412,50 @@ class TopicMainView extends Component {
     }
 
     if (this.state.smartres[index - 1]) {
-       //alert(this.state.smartres[index-1].status)
+      //alert(this.state.smartres[index-1].status)
       var status = this.state.smartres[index - 1].status
-      if (status === 0 ) {
+      if (status === 0) {
         Toast.show('Please complete the previous activity to open this.', Toast.LONG);
-      } else if (status === 1|| status === 2) {
+      } else if (status === 1 || status === 2) {
         if (item.type === 'WEB') {
-          Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
         } else if (item.type === "PDF") {
-          Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
         }
         else if (item.type === 'VIDEO') {
-          Actions.push('normalvideoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('normalvideoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
         } else if (item.type === "YOUTUBE") {
-          Actions.push('videoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('videoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
 
         } else if (item.type === "PRE" || item.type === 'OBJ' || item.type === 'POST' || item.type === 'SUB') {
 
           //  this.onAssesment(item)
-          Actions.push('preassesment', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('preassesment', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
 
         } else if (item.type === 'GAMES') {
-          Actions.push('games', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+          Actions.push('games', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
         } else {
           alert("coming soon" + item.type)
         }
       }
     } else {
       if (item.type === 'WEB') {
-        Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
       } else if (item.type === "PDF") {
-        Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
       }
       else if (item.type === 'VIDEO') {
-        Actions.push('normalvideoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('normalvideoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
       } else if (item.type === "YOUTUBE") {
-        Actions.push('videoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('videoview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
 
       } else if (item.type === "PRE" || item.type === 'OBJ' || item.type === 'POST' || item.type === 'SUB') {
 
         //  this.onAssesment(item)
-        Actions.push('preassesment', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('preassesment', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
 
       } else if (item.type === 'GAMES') {
-        Actions.push('games', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data,from :this.props.from })
+        Actions.push('games', { index: index, smartres: this.state.smartres, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
       } else {
         alert("coming soon" + item.type)
       }
@@ -492,75 +525,210 @@ class TopicMainView extends Component {
       )
       .catch((error) => console.error(error))
   }
+  handleIndexChange = index => {
+    this.setState({
+      ...this.state,
+      selectedIndex: index
+    });
+  };
   renderIconResource({ item, index }) {
-    let color = '#E32346';
-    if (item.status === 0 || item.sttaus === 2) {
-      color = '#E32346'
-    } else if (item.status === 1) {
-      color = "green"
-    }
-    
+    var percent = (item.percentage);
+        let color
+        console.log("iconssss",item.percentage)
+        if(percent > 80 ){
+			color = "green"
+		}else if (percent < 50) {
+			color = "red"
+		}else{
+			color = "orange"
+		}
+  console.log("itemoretet",item.preTestStatus)
     return (
-      <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'icon')} underlayColor="transparent" activeOpacity={0.9}>
-        <View style={{ flex: 1, }}>
-          <View style={{ flexDirection: "row", alignItems: "flex-start", alignItems: "center",marginTop:10,}}>
-            <View style={{ width: 100,alignItems:"center"}}>
-              <View style={{width:35,height:35,backgroundColor:color,justifyContent:"center",alignItems:"center"}}>
-              <Image source={{ uri: imageUrl + item.faIcon }}
-                style={{ width: 20, height: 20, alignSelf: "center",tintColor:"white" }} />
-              </View>
-             
-              <Text style={{ fontSize: 10, textAlign: "center", marginTop: 5 }}>{item.activity}</Text>
-            </View>
-            {index === this.state.smartres.length - 1 ? null :
-              <Image source={require('../../assets/images/right-arrow.png')}
-                style={{ width: 15, height: 15, alignSelf: "center", marginHorizontal: 5, tintColor: color }} />
-            }
-          </View>
+
+      <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'icon')} underlayColor="transparent" 
+      activeOpacity={0.9}
+      style={{backgroundColor:"white",width:windowWidth/1.1,margin:7,alignSelf:"center",
+			shadowOffset: { width: 0, height: 2 },
+			shadowOpacity: 1,
+			shadowRadius: 2,
+      shadowColor:"lightgrey",
+			elevation: 10, borderRadius: 10,//height:75,
+			
+			   }}>
+           <View style={{width:windowWidth/1.1,}}>
+				<View style={{flex:1,flexDirection:"row",}}>
+				<View style={{flex:0.15,justifyContent:"center",alignItems:"center",backgroundColor:"#F4F2F4"}}>
+
+<Image source={{ uri: imageUrl + item.faIcon }}
+	style={{ width: 25, height: 25, tintColor:"#969397" }} /> 
+		
+				</View>
+				<View style={{flex:0.6,flexDirection:"row",alignItems:"center",paddingLeft:10,paddingVertical:15,}}>
+          <View>
+				 <Text style={{fontSize:15}}>{item.activity}</Text>
+         <Text style={{fontSize:12,marginTop:5,color:"#969397"}}>{item.activityInfo}</Text>
+         </View>
+         </View>
+				<View style={{flex:0.25,justifyContent:"center",alignItems:"center",paddingVertical:15,}}>
+        {item.isTherePreTest ? 
+           item.preTestStatus ?  
+           item.status === 0 ? 
+           <Image source={require('../../assets/images/greytick.png')} style={{width:20,height:20,}} /> 
+           : item.status === 2 ? 
+           <Image source={require('../../assets/images/orangetick.png')} style={{width:20,height:20,}} /> 
+          : <Image source={require('../../assets/images/greentick.png')} style={{width:20,height:20,}} /> 
+            
+
+          : 
+
+          item.type === 'PRE' ? null :
+
+           <Image source={require('../../assets/images/lock.png')} style={{width:20,height:20,}} /> 
+
+        :
+
+        item.status === 0 ? 
+           <Image source={require('../../assets/images/greytick.png')} style={{width:20,height:20,}} /> 
+           : item.status === 2 ? 
+           <Image source={require('../../assets/images/orangetick.png')} style={{width:20,height:20,}} /> 
+          : <Image source={require('../../assets/images/greentick.png')} style={{width:20,height:20,}} /> 
+
+            
+         }
+                  
+				</View>
+				</View>
+        <Progress.Bar progress={item.percentage/100} width={windowWidth/1.1} height={3} color={color}
+           unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+           </View>
+			</TouchableHighlight>
+      // <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'icon')} underlayColor="transparent" activeOpacity={0.9}>
+      //   <View style={{ flex: 1, }}>
+      //     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start", alignItems: "center", marginTop: 10, }}>
+      //       <View style={{ width: 100, height: 70, alignItems: "center", }}>
+      //         <View style={{ width: 35, height: 35, backgroundColor: color, justifyContent: "center", alignItems: "center" }}>
+      //           <Image source={{ uri: imageUrl + item.faIcon }}
+      //             style={{ width: 20, height: 20, alignSelf: "center", tintColor: "white" }} />
+      //         </View>
+
+      //         <Text style={{ fontSize: 10, textAlign: "center", marginTop: 5 }}>{item.activity}</Text>
+      //       </View>
+      //       {index === this.state.smartres.length - 1 ? null :
+      //         <View style={{ height: 80, alignItems: "center", justifyContent: "center", marginBottom: 30 }}>
+      //           <Image source={require('../../assets/images/right-arrow.png')}
+      //             style={{ width: 15, height: 15, alignSelf: "center", marginHorizontal: 5, tintColor: color }} />
+      //         </View>
+      //       }
+      //     </View>
 
 
-        </View>
+      //   </View>
 
 
-      </TouchableHighlight>
+      // </TouchableHighlight>
 
     )
   }
 
   renderTeacherResource = ({ item, index }) => {
-    let color = '#E32346';
-    if (item.status === 0 || item.sttaus === 2) {
-      color = '#E32346'
-    } else if (item.status === 1) {
-      color = "green"
-    }
-   
+    var percent = (item.percentage);
+        let color
+        console.log("iconssss",item.percentage)
+        if(percent > 80 ){
+			color = "green"
+		}else if (percent < 50) {
+			color = "red"
+		}else{
+			color = "orange"
+		}
+
     console.log("ddddd", index, this.state.teacherres.length - 1)
     return (
-      <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'teacher')}
-        underlayColor="transparent" activeOpacity={0.9}>
+     
+      <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'teacher')} underlayColor="transparent" 
+      activeOpacity={0.9}
+      style={{backgroundColor:"white",width:windowWidth/1.1,margin:7,alignSelf:"center",
+			shadowOffset: { width: 0, height: 2 },
+			shadowOpacity: 1,
+			shadowRadius: 2,
+      shadowColor:"lightgrey",
+			elevation: 10, borderRadius: 10,
+			
+			   }}>
+           <View style={{width:windowWidth/1.1}}>
+				<View style={{flex:1,flexDirection:"row"}}>
+				<View style={{flex:0.15,justifyContent:"center",alignItems:"center",backgroundColor:"#F4F2F4"}}>
 
-<View style={{ flex: 1, }}>
-          <View style={{ flexDirection: "row", alignItems: "flex-start", alignItems: "center",marginTop:10,}}>
-            <View style={{ width: 100,alignItems:"center"}}>
-              <View style={{width:35,height:35,backgroundColor:color,justifyContent:"center",alignItems:"center"}}>
-              <Image source={{ uri: imageUrl + item.faIcon }}
-                style={{ width: 20, height: 20, alignSelf: "center",tintColor:"white" }} />
-              </View>
-             
-              <Text style={{ fontSize: 10, textAlign: "center", marginTop: 5 }}>{item.activity}</Text>
-            </View>
-            {index === this.state.teacherres.length - 1 ? null :
-              <Image source={require('../../assets/images/right-arrow.png')}
-                style={{ width: 15, height: 15, alignSelf: "center", marginHorizontal: 5, tintColor: color }} />
-            }
-          </View>
+<Image source={{ uri: imageUrl + item.faIcon }}
+	style={{ width: 25, height: 25, tintColor:"#969397" }} /> 
+		
+				</View>
+				<View style={{flex:0.6,flexDirection:"row",alignItems:"center",paddingLeft:10,paddingVertical:15}}>
+          <View>
+				 <Text style={{fontSize:15}}>{item.activity}</Text>
+         <Text style={{fontSize:12,marginTop:5,color:"#969397"}}>{item.activityInfo}</Text>
+         </View>
+         </View>
+				<View style={{flex:0.25,justifyContent:"center",alignItems:"center",paddingVertical:15}}>
+        {item.isTherePreTest ? 
+           item.preTestStatus ?  
+           item.status === 0 ? 
+           <Image source={require('../../assets/images/greytick.png')} style={{width:20,height:20,}} /> 
+           : item.status === 2 ? 
+           <Image source={require('../../assets/images/orangetick.png')} style={{width:20,height:20,}} /> 
+          : <Image source={require('../../assets/images/greentick.png')} style={{width:20,height:20,}} /> 
+            
+
+          : 
+
+          item.type === 'PRE' ? null :
+
+           <Image source={require('../../assets/images/lock.png')} style={{width:20,height:20,}} /> 
+
+        :
+
+        item.status === 0 ? 
+           <Image source={require('../../assets/images/greytick.png')} style={{width:20,height:20,}} /> 
+           : item.status === 2 ? 
+           <Image source={require('../../assets/images/orangetick.png')} style={{width:20,height:20,}} /> 
+          : <Image source={require('../../assets/images/greentick.png')} style={{width:20,height:20,}} /> 
+
+            
+         }
+                  
+				</View>
+				</View>
+        <Progress.Bar progress={item.percentage/100} width={windowWidth/1.1} height={3} color={color}
+           unfilledColor={"lightgrey"} borderColor={"transparent"}/>
+           </View>
+			</TouchableHighlight>
+		
+      // <TouchableHighlight onPress={this.oniconActivity.bind(this, item, index, 'teacher')}
+      //   underlayColor="transparent" activeOpacity={0.9}>
+
+      //   <View style={{ flex: 1, }}>
+      //     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start", alignItems: "center", marginTop: 10, }}>
+      //       <View style={{ width: 100, height: 70, alignItems: "center", }}>
+      //         <View style={{ width: 35, height: 35, backgroundColor: color, justifyContent: "center", alignItems: "center" }}>
+      //           <Image source={{ uri: imageUrl + item.faIcon }}
+      //             style={{ width: 20, height: 20, alignSelf: "center", tintColor: "white" }} />
+      //         </View>
+
+      //         <Text style={{ fontSize: 10, textAlign: "center", marginTop: 5 }}>{item.activity}</Text>
+      //       </View>
+      //       {index === this.state.teacherres.length - 1 ? null :
+      //         <View style={{ height: 80, alignItems: "center", justifyContent: "center", marginBottom: 30 }}>
+      //           <Image source={require('../../assets/images/right-arrow.png')}
+      //             style={{ width: 15, height: 15, alignSelf: "center", marginHorizontal: 5, tintColor: color }} />
+      //         </View>
+      //       }
+      //     </View>
 
 
-        </View>
+      //   </View>
 
 
-      </TouchableHighlight>
+      // </TouchableHighlight>
     )
 
   }
@@ -577,18 +745,17 @@ class TopicMainView extends Component {
           openDrawerOffset={0.25}
           content={<SideMenu closeControlPanel={this.closeControlPanel} />}
         >
-          <View style={{flex:1}}>
+          <View style={{ flex: 1 }}>
 
-            <View style={{flex:0.92}}>
-            <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')}
+            <View style={{ flex: 0.92 }}>
+              {/* <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')}
                 style={{ width: "100%", height: 288, backgroundColor: this.props.data.color, }} opacity={0.5}>
                 <View style={{
                   flexDirection: "row", marginLeft: 20, alignItems: "center",
                   justifyContent: "space-between"
                 }}>
-                  <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",}}>
-                    <View style={{flexDirection:"row",alignItems:"center"}}>
-                    <View style={{flex:1,flexDirection:"row",alignItems:"center",marginTop:5}}>
+                   <View style={{width:"100%",flexDirection:"row",justifyContent:"space-between",marginTop:10}}>
+				  <View style={{flex:1,flexDirection:"row",alignItems:"center",marginTop:10}}>
 						<View style={{flex:0.7,flexDirection:"row",alignItems:"center"}}>
 						<TouchableOpacity onPress={this.onBack.bind(this)}>
                     <Image source={require('../../assets/images/refer/back.png')} style={{width:21,height:15,tintColor:"white"}} />
@@ -596,122 +763,161 @@ class TopicMainView extends Component {
                     <Text style={{ color: "white", marginHorizontal: 10, fontSize: 18 }}>{this.props.data.name}</Text>
 						</View>
                       <View style={{flex:0.3,justifyContent:"center",alignItems:"center"}}>
-					  {this.props.data.image !== "null" ?
-                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
+					  {/* {this.props.data.image !== "null" ?
+                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 60, height: 60, resizeMode: "contain", marginRight: 10, }} />
 
                     : <Image source={require('../../assets/images/noimage.png')}
-                      style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+                      style={{ width: 60, height: 60, resizeMode: "contain", marginRight: 10, }} />} 
 					  </View>
                     </View>
-                  </View>
                  
+                 </View>
                   
                 </View>
-                </View>
-              
 
-              </ImageBackground>
-              <View style={{height:Platform.OS === 'android' ? windowHeight/1.3:windowHeight/1.35,width:windowWidth,backgroundColor:"white",alignSelf:"center",
-             position:"absolute",bottom:0,borderTopRightRadius:30,borderTopLeftRadius:30}}>
-               <ScrollView>
-               <View style={{ flex: 1 }}>
-                   <View style={{ width: windowWidth/1.2 , height: windowHeight / 4,margin:20,
-                       backgroundColor: '#EE5B7B', alignSelf: "center",}}>
-                      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+
+              </ImageBackground> */}
+             
+                <ScrollView>
+                  <View style={{ flex: 1 }}>
+                    <View style={{
+                      overflow:"hidden",
+                      width: windowWidth, height: windowHeight / 3.5, marginBottom: 20,
+                      backgroundColor: '#EE5B7B', alignSelf: "center",
+                    }}>
+                      <View style={{ flex: 1,  }}>
                         <Image
                           source={{ uri: imageUrl + this.state.topicData.image }}
-                          style={{ width: "100%", height: "100%", alignSelf: "center", }} />
-                      <View style={{position:"absolute",backgroundColor:"rgba(42,42,55,0.7)",width:"100%",bottom:0,justifyContent:"center",alignItems:"center"}}>
-                       <Text style={{ textAlign: "center", fontSize: 15,color:"white"}}>{this.state.topicData.name}</Text>
+                          style={{ width: windowWidth, height: "100%",resizeMode:"stretch"}} />
+                        	<TouchableOpacity style={{position:"absolute",marginLeft:15,marginTop:10}} onPress={this.onBack.bind(this)}>
+                    <Image source={require('../../assets/images/topicback.png')} style={{width:30,height:30,}} />
+                  </TouchableOpacity>
                       </View>
-                      </View>
                     </View>
 
-                  {this.state.iconspinner ? <ActivityIndicator color="black" /> :
+                    <View style={{ flex: 1 }}>
+                    
+                          <Text style={{  fontSize: 15, marginHorizontal:15,marginVertical:10}}>{this.state.topicData.name}</Text>
+                          {this.state.teacherres.length > 0 ?
+                          <View>
+                      <SegmentedControlTab
+                        values={["StepUp Resources", "Teacher Resources"]}
+                        tabsContainerStyle={{ margin: 15, }}
+                        borderRadius={20}
+                        tabStyle={{ height: 35, borderColor: this.props.data.color }}
+                        firstTabStyle={{ borderRightWidth: 0 }}
+                        activeTabStyle={{ backgroundColor: this.props.data.color, }}
+                        activeTabTextStyle={{ color: "white" }}
+                        tabTextStyle={{ fontSize: 15, color: this.props.data.color }}
+                        selectedIndex={this.state.selectedIndex}
+                        onTabPress={this.handleIndexChange}
+                      />
+                      {this.state.selectedIndex === 0 ?
+                        <View style={{ flex: 1, }}>
 
-                this.state.smartres.length > 0 ?
-                  <View style={{
-                    padding: 5, margin: 15, backgroundColor: 'white', 
-                    shadowOffset: { width: 0, height: 5 },//marginBottom:20,
-                    shadowOpacity: 1,
-                    shadowRadius: 5,
-                    borderRadius: 10,
-                    elevation: 10, shadowColor: "grey"
-                  }}>
+                          {this.state.iconspinner ? <ActivityIndicator color="black" /> :
 
-                    <Text style={{ alignSelf: "center" }}>Icon Resource</Text>
+                            this.state.smartres.length > 0 ?
+                             
 
-                    <View style={{  alignItems: "center", justifyContent: "center" }}>
-                      <FlatList
-                        data={this.state.smartres}
-                        renderItem={this.renderIconResource.bind(this)}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false} />
+                                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                                  <FlatList
+                                    data={this.state.smartres}
+                                    renderItem={this.renderIconResource.bind(this)}
+                                   // horizontal={true}
+                                    showsHorizontalScrollIndicator={false} />
 
+                                </View>
+
+                              : null}
+
+                        </View> :
+                        <View style={{ flex: 1, backgroundColor: 'transaprent' }}>
+
+                          {this.state.teacherspinner ? <ActivityIndicator color="black" /> :
+
+                            this.state.teacherres.length > 0 ?
+                            
+
+                                <View style={{ alignItems: "center", justifyContent: "center" }}>
+                                  <FlatList
+                                    data={this.state.teacherres}
+                                    renderItem={this.renderTeacherResource.bind(this)}
+                                  //  horizontal={true}
+                                    showsHorizontalScrollIndicator={false} />
+
+                                </View>
+
+                              : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}><Text>No Resources</Text></View>}
+                        </View>}
+
+                    </View> : 
+                     this.state.iconspinner ? <ActivityIndicator color="black" /> :
+
+                     this.state.smartres.length > 0 ?
+                      
+
+                         <View style={{ alignItems: "center", justifyContent: "center" }}>
+                           <View style={{backgroundColor:this.props.data.color,paddingHorizontal:10,borderRadius:10,marginVertical:10}}>
+                        <Text style={{  fontSize: 15, marginHorizontal:15,marginVertical:10,color:"white"}}>StepUp Resources</Text>
+                        </View>
+
+                           <FlatList
+                             data={this.state.smartres}
+                             renderItem={this.renderIconResource.bind(this)}
+                            // horizontal={true}
+                             showsHorizontalScrollIndicator={false} />
+
+                         </View>
+
+                       : null
+                    }
                     </View>
+
+
+
+
+
+
+
+                    {/* {this.state.spinner ?
+                      null :
+
+                      this.state.recommendedtopics.length > 0 ?
+                        <View style={{
+                          padding: 5, margin: 10, backgroundColor: 'white', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
+                          shadowOpacity: 1,
+                          shadowRadius: 5,
+                          borderRadius: 10,
+                          elevation: 10, shadowColor: "grey"
+                        }}>
+                          <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 15 }}>Recommended Topics</Text>
+
+                          <FlatList data={this.state.recommendedtopics}
+                            renderItem={this.renderItem.bind(this)}
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false} />
+                        </View>
+                        :
+                        null
+                    } */}
 
 
 
                   </View>
-
-                  : null}
-            {this.state.teacherspinner ? null :
-
-                this.state.teacherres.length > 0 ?
-                <View style={{
-                  padding: 5, marginHorizontal: 15,marginVertical:5, backgroundColor: 'white', 
-                  shadowOffset: { width: 0, height: 5 },//marginBottom:20,
-                  shadowOpacity: 1,
-                  shadowRadius: 5,
-                  borderRadius: 10,
-                  elevation: 10, shadowColor: "grey"
-                }}>
-
-                  <Text style={{ alignSelf: "center" }}>Teacher Resource</Text>
-
-                  <View style={{  alignItems: "center", justifyContent: "center" }}>
-                    <FlatList
-                      data={this.state.teacherres}
-                      renderItem={this.renderTeacherResource.bind(this)}
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false} />
-
-                  </View>
+                </ScrollView>
 
 
 
-                </View>
-
-                  : null}
-                     <View style={{
-                      padding: 5, margin: 10, backgroundColor: 'white', shadowOffset: { width: 0, height: 5 },//marginBottom:20,
-                      shadowOpacity: 1,
-                      shadowRadius: 5,
-                      borderRadius: 10,
-                      elevation: 10, shadowColor: "grey"
-                    }}>
-                      <Text style={{ marginLeft: 20, marginTop: 10, fontSize: 15 }}>Recommended Topics</Text>
-                      <FlatList data={data}
-                        renderItem={this.renderItem.bind(this)}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false} />
-                    </View>
-
-                    </View>
-               </ScrollView>
             </View>
-               
-                
+            <View style={{ flex: 0.08 }}>
 
+              <Footer openControlPanel={this.openControlPanel} />
             </View>
-                  <View style={{flex:0.08}}>
-
-                    <Footer openControlPanel={this.openControlPanel} />
-                  </View>
           </View>
         </Drawer>
       </>
-     
+
     )
   }
 }

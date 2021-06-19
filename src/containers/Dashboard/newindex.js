@@ -86,12 +86,16 @@ class Dashboard extends Component {
 		}
 	}
 	componentDidMount() {
+		//alert("hii")
 		setTimeout(() => {
 			this.setState({ loader: false });
 			this.getData()
 		}, 2000)
 
 
+	}
+	static getDerivedStateFromProps(nextProps, prevState) {
+		//alert(nextProps)
 	}
 
 	getData = async () => {
@@ -168,48 +172,32 @@ class Dashboard extends Component {
 												renderSlides={
 													<>
 														<View style={{
-															paddingHorizontal: 20,
+															//paddingHorizontal: 20,
 															justifyContent: 'space-around',
 															width: windowWidth,
-															padding: 10,
+															//padding: 10,
 															alignItems: 'center',
 															height: 200,
 															flexDirection:"row",
 															//backgroundColor:"red"
 														}}>
-
-														<Image source={require('../../assets/images/logo_icon2.png')}
-												style={{ width: 1048/10, height: 1048/10 }} />
-															<View>
-																<Text>
-																Everyone is sharing ideas{"\n"}on buzz!
-																</Text>
-																<Text style={{color:"red"}}>
-																You should too
-																</Text>
-															</View>
+															<Image source={require('../../assets/images/slider-1.jpg')}
+												style={{ resizeMode:"contain"}} />
 
 														</View>
 														<View style={{
-															paddingHorizontal: 20,
+															//paddingHorizontal: 20,
 															justifyContent: 'space-around',
 															width: windowWidth,
-															padding: 10,
+															//padding: 10,
 															alignItems: 'center',
 															height: 200,
-															flexDirection:"row"
+															flexDirection:"row",
+															//backgroundColor:"red"
 														}}>
-
-															<Image source={require('../../assets/images/sliderimage.png')}
-															style={{width:261/1.5,height:237/1.5}}/>
-															<View>
-																<Text>
-																Everyone is sharing ideas{"\n"}on buzz!
-																</Text>
-																<Text style={{color:"red"}}>
-																You should too
-																</Text>
-															</View>
+															<Image source={require('../../assets/images/slider-2.jpg')}
+												style={{ resizeMode:"contain",}} />
+														
 
 														</View>
 
@@ -221,8 +209,8 @@ class Dashboard extends Component {
 													alignItems: 'center',
 													//backgroundColor: 'pink'
 												}}     //Main slider container style
-												height={230}    //Height of your slider
-												slideCount={2}    //How many views you are adding to slide
+												height={200}    //Height of your slider
+												//slideCount={2}    //How many views you are adding to slide
 												dots={true}     // Pagination dots visibility true for visibile 
 												dotActiveColor='grey'     //Pagination dot active color
 												dotInactiveColor='lightgrey'    // Pagination do inactive color
@@ -235,7 +223,7 @@ class Dashboard extends Component {
 												slideInterval={1000}    //In Miliseconds
 											/>
 										</View>
-										<View style={{ flex: 0.72, marginHorizontal: 0, }}>
+										<View style={{ flex: 0.72, marginHorizontal: 0,marginTop:10 }}>
 
 											<Library />
 										</View>
@@ -243,7 +231,7 @@ class Dashboard extends Component {
 								</View>
 								<View style={styles.footerview}>
 
-									<Footer openControlPanel={this.openControlPanel} />
+									<Footer openControlPanel={this.openControlPanel} value="dashboard" />
 								</View>
 							</View></Drawer>}
 				</View>

@@ -128,7 +128,7 @@ getData = async () => {
 	}
 
 	onTest(item){
-		Actions.push('presummary', {from:this.props.from, testid: item.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData , review: true})
+		Actions.push('presummary', {from:this.props.from,testtype:this.props.testtype, testid: item.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData , review: true})
 	}
 
 	renderItem({item,index}){
@@ -280,11 +280,6 @@ getData = async () => {
 		</View>
 	  </View>
 	</ImageBackground>
-
-  <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-  borderRadius:20,top: Platform.OS === 'android' ? 90 : 100,justifyContent:"center",alignItems:"center"}}>
-	  <Text style={{color:"white",fontSize:17}}>{"Review"}</Text>
-	  </View>
 </>
 			)
 	}

@@ -14,7 +14,7 @@ import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPape
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,
      PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,
- PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,CalendarNew,LiveSessionActivity} from './src/containers'
+ PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,LiveSessionActivity,CalendarNew,TopicAnalysis} from './src/containers'
 
  import VideoActivity from './Video'
  import LoadingScreen from './src/containers/LoadingScreen'
@@ -34,7 +34,9 @@ const App = () => {
         <Scene key="subjects" component={Subjects}/>
         <Scene key="dashboard" component={Dashboard}  />
         <Scene key="chapters" component={Chapters} />
+        <Scene key="calendar" component={CalendarNew}/>
         <Scene key="topics" component={Topics} />
+        <Scene key="topicanalysis" component = {TopicAnalysis}/>
         <Scene key = "preassesment" component ={PreAssesment} />
         <Scene key = "presummary" component={PreSummary}/>
         <Scene key="presolutions" component={PreSolutions}/>
@@ -60,7 +62,7 @@ const App = () => {
         <Scene key="mocktestsummary" component={MockTestSummary}/>
         <Scene key ="mocktestsolutions" component={MockTestSolutions} />
         <Scene key="mocktestreview" component={MockTestReview} />
-         <Scene key="calendar" component={CalendarNew}/>
+
         <Scene key="practice" component={Practice}   />
         <Scene key="practicechapter" component={PracticeChapter}  />
         <Scene key="practiceassesment" component={PracticeAssesment}/>

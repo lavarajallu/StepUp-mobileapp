@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
  mainsubview:{
     height:"100%",width:"100%",
     backgroundColor:"white",
-    paddingBottom:60,
+   // paddingBottom:60,
     borderRadius:20,
     shadowColor:'black',
     shadowOffset: { width: 0, height: 5 },

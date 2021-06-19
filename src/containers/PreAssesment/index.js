@@ -21,6 +21,8 @@ import LinearGradient from 'react-native-linear-gradient';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MathJax from 'react-native-mathjax';
+
 import { baseUrl, imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
 import DOMParser from 'react-native-html-parser';
@@ -51,7 +53,7 @@ class PreAssesment extends Component {
     componentDidMount() {
 
         this.getData()
-        this.starttimer()
+        
     }
 
     getData = async () => {
@@ -210,9 +212,9 @@ class PreAssesment extends Component {
                     console.log("total_count",data.total_count)
                     if(this.props.data.type === "PRE"){
                         if (json.data.total_count > 0) {
-                            this.setState({
-                                spinner: false
-                            })
+                            // this.setState({
+                            //     spinner: false
+                            // })
                             Alert.alert(
                                 "Step Up",
                                 "Sorry you have reached your maximum number of attempts in this assesment",
@@ -223,15 +225,16 @@ class PreAssesment extends Component {
                                         }
                                     },{
                                         text: "Review Previous Test", onPress: () => {
-                                            Actions.push('reviewpostsummary',{ from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                            Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type, from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
                                         }
                                     },
                                 ]
                             );
                         } else {
-                            this.setState({
-                                spinner: false
-                            })
+                            this.starttimer()
+                            // this.setState({
+                            //     spinner: false
+                            // })
                             this.getQuestions()
     
                         }
@@ -250,11 +253,12 @@ class PreAssesment extends Component {
                                     },
                                     {
                                         text: "New Test", onPress: () => {
+                                            this.starttimer()
                                             this.getQuestions()
                                         }
                                     },{
                                         text: "Review Previous Test", onPress: () => {
-                                            Actions.push('reviewpostsummary',{ from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                            Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type,from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
                                         }
                                     },
 
@@ -262,9 +266,9 @@ class PreAssesment extends Component {
                             );
                         }
                         else if (json.data.total_count >= 2) {
-                            this.setState({
-                                spinner: false
-                            })
+                            // this.setState({
+                            //     spinner: false
+                            // })
                             Alert.alert(
                                 "Step Up",
                                 "Sorry you have reached your maximum number of attempts in this assesment",
@@ -275,20 +279,22 @@ class PreAssesment extends Component {
                                         }
                                     },{
                                         text: "Review Previous Test", onPress: () => {
-                                            Actions.push('reviewpostsummary',{ activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData,from:this.props.from })
+                                            Actions.push('reviewpostsummary',{ type:"reset", testtype:this.props.data.type,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData,from:this.props.from })
                                         }
                                     }
                                 ]
                             );
                         } else {
-                            this.setState({
-                                spinner: false
-                            })
+                            this.starttimer()
+                            // this.setState({
+                            //     spinner: false
+                            // })
                             this.getQuestions()
                            
     
                         }
                     }else if(this.props.data.type === 'OBJ'){
+                        this.starttimer()
                         this.getQuestions()
                         // Alert.alert(
                         //     "Step Up",
@@ -307,6 +313,7 @@ class PreAssesment extends Component {
                         // );
                         
                     }else{
+                        this.starttimer()
                         this.getQuestions()
                     }
                     
@@ -342,7 +349,7 @@ class PreAssesment extends Component {
 
                 if (json.data) {
                     const data = json.data
-                    console.log("sdsd", json.data)
+                    console.log("questions.....ggggggg", json.data)
                     this.setState({
                         testid: data.reference_id,
                         questiosnarray: data.questions,
@@ -429,6 +436,7 @@ class PreAssesment extends Component {
         })
     }
     onNext() {
+        this.scrollToIndex(this.state.questionno)
      //   alert(JSON.stringify(this.state.answerobj))
         if(Object.keys(this.state.answerobj).length === 0){
             alert("please select option")
@@ -515,7 +523,7 @@ class PreAssesment extends Component {
                         console.log("sdsd", json)
                         this.setState({ testloader: false })
                         this.updateAnalytics()
-                                        Actions.push('presummary', {type:"reset",from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+                                        Actions.push('presummary', {type:"reset",testtype:this.props.data.type,from:this.props.from, testid: this.state.testid, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
                         // Alert.alert(
                         //     "Step Up",
                         //     json.message,
@@ -651,16 +659,36 @@ class PreAssesment extends Component {
         const  {  topicindata } = this.props
        return(
          
-        <View style={styles.answermain}>
-        <View style={styles.answersub}>
-            <Text style={styles.answernum}>{alphabetarray[index]}. </Text>
-            <TouchableOpacity onPress={this.onAnswer.bind(this, item)}
-                style={[styles.answertextview, { backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "white",borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey" }]}>
-                    {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
-                <Text style={[styles.answertext,{color: this.state.answerobj.user_answer === item.key ? "white" : 'black'}]}>{item.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-            </TouchableOpacity>
-        </View>
-    </View>
+    //     <View style={styles.answermain}>
+    //     <View style={styles.answersub}>
+    //         <Text style={styles.answernum}>{alphabetarray[index]}. </Text>
+    //         <TouchableOpacity onPress={this.onAnswer.bind(this, item)}
+    //             style={[styles.answertextview, { backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "white",borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey" }]}>
+    //                 {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
+    //             <Text style={[styles.answertext,{color: this.state.answerobj.user_answer === item.key ? "white" : 'black'}]}>{item.value}</Text>
+    //         </TouchableOpacity>
+    //     </View>
+    // </View>
+    <TouchableOpacity style={{ flexDirection: 'row', marginTop:index > 0 ? 10: 0}} onPress={this.onAnswer.bind(this, item)}>
+    <Text style={{ marginTop: 8, alignSelf: 'center' ,marginLeft:10}}>{alphabetarray[index]}. </Text>
+    <View style={{width: '80%',
+        borderWidth: 2,
+        borderRadius:10,
+        borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}}>
+    <MathJax
+        // To set the font size change initial-scale=0.8 from MathJax class
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '80%',
+        // borderWidth: 2,
+        // borderRadius:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        marginLeft:10,
+        justifyContent:"center",
+        alignSelf: 'flex-start',}} html={item.value} /></View>
+</TouchableOpacity>
        )
     }
 
@@ -832,13 +860,17 @@ class PreAssesment extends Component {
                                                     horizontal={true}
                                                     showsHorizontalScrollIndicator={false} />
                                             </View>
-                                            <View style={styles.questionsview}>
-                                                <View style={styles.questioninnerview}>
-                                                    <Text style={styles.questionnum}>{this.state.questionno+1}. </Text>
-                                                    {/* <HtmlText style={styles.questiontext} html={this.state.selectedItem.question.question}></HtmlText> */}
-
-                                                    <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-                                                </View>
+                                            
+                                                <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: 10 , marginTop:10}}>
+                                            <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
+                                            <MathJax
+                                                // To set the font size change initial-scale=0.8 from MathJax class
+                                                style={{ borderRadius: 5,
+                                                    width: '95%',
+                                                    borderWidth: 0.5,
+                                                    borderColor:"white",
+                                                    alignSelf: 'center',}} html={this.state.selectedItem.question.question} />
+                                        </View>
                                                 <FlatList data={this.state.selectedItem.question.options}
                                               
                                                     keyExtractor={(item, index) => String(index)}
@@ -848,8 +880,7 @@ class PreAssesment extends Component {
                                                 {/* {this.state.selectedItem.question.options.map((res, i) =>
                                                    
                                                 )} */}
-
-                                            </View></ScrollView>
+</ScrollView>
                                     </View>
                                 </View>
                             </View>
@@ -891,10 +922,7 @@ class PreAssesment extends Component {
               </View>
             </ImageBackground>
   
-          {/* <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-          borderRadius:20,top: 90,justifyContent:"center",alignItems:"center"}}>
-              <Text style={{color:"white",fontSize:17}}>{this.props.data.activity}</Text>
-              </View> */}
+
                        <Modal isVisible={this.state.isvisible}>
                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                              <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>

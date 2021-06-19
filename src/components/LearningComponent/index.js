@@ -14,11 +14,11 @@ import {
 	FlatList
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import styles from "./styles"
+import styles from "./styles"       
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import LinearGradient from 'react-native-linear-gradient';
-import StringsOfLanguages from './../../StringsOfLanguages';
+import StringsOfLanguages from '../../StringsOfLanguages';
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../../constants';
@@ -94,7 +94,7 @@ class LearningComponent extends Component {
 		return (
 			this.state.spinner ? <Text>Loading....</Text> :
 				<View>
-					<Text style={{color:"#656565",marginLeft:10,marginBottom:15,fontSize:16}}>Your Learning Dashboard</Text>
+					<Text style={{color:"#656565",marginLeft:10,marginBottom:15,fontSize:16}}>{StringsOfLanguages.learningDashboard}</Text>
 					{/* <FlatList horizontal={true}   extraData={this.state} data={data} renderItem={this.renderItem.bind(this)}/> */}
 					{/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
 					<View style={{flexDirection: 'row', justifyContent: 'space-between',marginHorizontal:8 }}>
@@ -136,27 +136,27 @@ class LearningComponent extends Component {
 					<TouchableHighlight onPress={this.onItem.bind(this, "Leader Board")} underlayColor="transparent"
 						 activeOpacity={0.9} style={{flex:0.23,borderWidth:1,borderColor:"#DFDFDF",borderRadius:10}}>
 						<View style={{padding:10,alignItems:"center"}}>
-						<Image source={require("../../assets/images/newleader1.png")} style={{ width:35, height: 35}} /> 
-						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>Leader Board</Text>
+						<Image source={require("../../assets/images/newleader1.png")} style={{ width:35, height: 35,tintColor:"#c44921"}} /> 
+						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>{StringsOfLanguages.leaderboard}</Text>
 						</View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "Learning Analysis")} underlayColor="transparent" activeOpacity={0.9} style={{flex:0.23,borderWidth:1,borderColor:"#DFDFDF",borderRadius:10}}>
 						<View style={{padding:10,alignItems:"center"}}>
-						<Image source={require("../../assets/images/newanalysis1.png")} style={{ width:35, height: 28}} /> 
-						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>Learning{"\n"}Analytics</Text>
+						<Image source={require("../../assets/images/newanalysis1.png")} style={{ width:35, height: 28,tintColor:"#277292"}} /> 
+						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>{StringsOfLanguages.learninganalysis}</Text>
 
 						</View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "My Practice")} underlayColor="transparent" activeOpacity={0.9} style={{flex:0.23,borderWidth:1,borderColor:"#DFDFDF",borderRadius:10}}>
 						<View style={{padding:10,alignItems:"center"}}>
-						<Image source={require("../../assets/images/newpractice1.png")} style={{ width:32, height: 31}} /> 
-						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>My Practice</Text>
+						<Image source={require("../../assets/images/newpractice1.png")} style={{ width:32, height: 31, tintColor:"#d88212"}} /> 
+						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>{StringsOfLanguages.mypractice}</Text>
 						</View>
 						</TouchableHighlight>
 						<TouchableHighlight onPress={this.onItem.bind(this, "Mock Test")} underlayColor="transparent" activeOpacity={0.9} style={{flex:0.23,borderWidth:1,borderColor:"#DFDFDF",borderRadius:10}}>
 						<View style={{padding:10,alignItems:"center"}}>
-						<Image source={require("../../assets/images/newmock1.png")} style={{ width:41, height: 39}} /> 
-						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>Mock Tests</Text>
+						<Image source={require("../../assets/images/newmock1.png")} style={{ width:41, height: 39,tintColor:"#6a5177"}} /> 
+						<Text style={{fontSize:10,color:colors.Themecolor,marginTop:5}}>{StringsOfLanguages.mocktest}</Text>
 						</View>
 						</TouchableHighlight>
 						{/* <View style={{padding:10,borderWidth:1,borderColor:"#DFDFDF",alignItems:"center"}}>

@@ -28,6 +28,7 @@ import MyPerformance from "../../components/MyPerformance"
 import LinearGradient from 'react-native-linear-gradient';
 import { baseUrl } from '../../constants';
 import moment from "moment";
+import StringsOfLanguages from '../../StringsOfLanguages';
 const data =[
 	{
 		name:"Title1",
@@ -60,7 +61,9 @@ class Library extends Component {
 	constructor(props) {
 		super(props)
 		this.state={
-			announcementsData: []
+			announcementsData: [],
+			liveclassesdata:[],
+			spinner: true
 		}
 	}
 
@@ -68,7 +71,9 @@ class Library extends Component {
 		const value = await AsyncStorage.getItem('@access_token')
         if(value !== null) {
             console.log("vv",value)
-           this.setState({token: JSON.parse(value)},()=>this.getAnnouncemnt())
+           this.setState({token: JSON.parse(value)},()=>{
+		   this.getliveclasses()
+		   this.getAnnouncemnt()})
         }
 	//	this.getAnnouncemnt()
 	}
@@ -109,7 +114,7 @@ class Library extends Component {
 			.catch((error) => console.error(error))
 	}
 	getliveclasses(){
-		fetch( baseUrl+'/announcements/student/logs', {
+		fetch( baseUrl+'/live-class/student?chapter_id=&offset=0&limit=3', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -122,21 +127,22 @@ class Library extends Component {
 			   console.log("live classes....",json)
 			   
 				if(json.data){
-					if(json.data.length > 0){
-					   console.log("announcemnets",json.data)
+					if(json.data.data.length > 0){
+					   console.log("liveeee...",json.data.data)
 				         this.setState({
-							announcementsData:json.data
+							liveclassesdata:json.data.data,
+							spinner: false
 						 })
 					  
 					}else{
 					   this.setState({
-						   announcementsData: [],loading: false
+						liveclassesdata: [],loading: false,spinner:false
 					   })
 					}
 				   
 				}else{
 				   this.setState({
-					   announcementsData: [],loading: false
+					liveclassesdata: [],loading: false,spinner:false
 				   })
 				}
 			   }
@@ -148,7 +154,7 @@ class Library extends Component {
 
 	renderItem({item}){
 		var date =  moment(new Date(item.from_date)).format('MM/DD')
-		var day  =moment(new Date(item.from_date)).format('dddd'); 
+		var day  =moment(new Date(item.from_date)).format('ddd'); 
 		var colorsarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 			var bgimage = randomItem
@@ -182,35 +188,38 @@ class Library extends Component {
 	}
 
 	renderItemLive({item}){
+		var date =  moment(new Date(item.date)).format('MM/DD')
+		var day  =moment(new Date(item.date)).format('ddd'); 
 		var colorsarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 			var bgimage = randomItem
 		return(
 			<View style={{ overflow: "hidden", flexDirection: "row", margin: 10, justifyContent: "space-between", backgroundColor: "transparent",paddingVertical:5 }}>
-								<View style={{ flex: 1, flexDirection: "row",}}>
-									<View style={{ flex: 0.2, backgroundColor: "transparent", justifyContent: "center" }}>
-										<View style={{width:60,height:60,backgroundColor:randomItem,justifyContent:"center",alignItems:"center",opacity:0.1}}>
-											
-										
-										</View>
-										<View style={{position:"absolute",width:60,height:60,justifyContent:"center",alignItems:"center"}}>
-										<Text style={{color:randomItem}}>{item.day}</Text>
-										<Text style={{color:randomItem}}>{item.date}</Text>
-										</View>
-									</View>
-									<View style={{ flex: 0.55, justifyContent: "flex-start" }}>
-										<Text style={{fontSize:15}}>{item.name}</Text>
-										<Text style={{fontSize:10}}>This the description of the annuncemnets example</Text>
-									</View>
-									<View style={{ flex: 0.25, justifyContent: "center" , flexDirection:"row",alignItems:"center"}}>
+			<View style={{ flex: 1, flexDirection: "row",}}>
+				<View style={{ flex: 0.3, backgroundColor: "transparent", justifyContent: "center" }}>
+					<View style={{width:80,height:60,backgroundColor:randomItem,justifyContent:"center",alignItems:"center",opacity:0.1}}>
+						
+					
+					</View>
+					<View style={{position:"absolute",width:80,height:60,justifyContent:"center",alignItems:"center"}}>
+					<Text style={{color:randomItem}}>{day}</Text>
+					<Text style={{color:randomItem}}>{date}</Text>
+					</View>
+				</View>
+				<View style={{ flex: 0.45, justifyContent: "flex-start" }}>
+					<Text style={{fontSize:15}}>{item.name}</Text>
+					<Text style={{fontSize:10}}>{item.description}</Text>
+				</View>
+				<View style={{ flex: 0.25, justifyContent: "center" , flexDirection:"row",alignItems:"center"}}>
 										<Image source={require('../../assets/images/dashboard/new/clockliveicon.png')} style={{width:10,height:10,alignSelf:"center"}}/>
-										<Text style={{fontSize:10,marginLeft:5}}>{item.time}</Text>
+										<Text style={{fontSize:10,marginLeft:5}}>{item.form_time}</Text>
 									
 									</View>
-								</View>
+			</View>
 
 
-							</View>
+		</View>
+		
 		)
 	}
 
@@ -227,11 +236,10 @@ class Library extends Component {
 					<View style={{height:1,width:windowWidth/1.2,backgroundColor: 'lightgrey',opacity:0.8,marginVertical:30,alignSelf:"center"}}/>
 					<MyTopics />
 					
-					<ReferEarn />
-                    <RecommendedTopics />
-					{/* <MyProgress />*/}
+					
+					 {/* <MyProgress /> */}
 
-					{/* <MyPerformance />  */}
+				 {/* <MyPerformance />   */}
 
 				   {this.state.announcementsData.length > 0 ? 
 				
@@ -245,16 +253,17 @@ class Library extends Component {
 						elevation: 10,
 					}}>
 						<View style={{ flex: 1 }}>
-						<LinearGradient colors={['#FFB32A', '#F97FA8']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
-								<Text style={{color:"white"}}>Announcements</Text>
-								<Text style={{color:"white"}}>See All</Text>
+						<LinearGradient colors={['#277292', '#277292']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
+								<Text style={{color:"white"}}>{StringsOfLanguages.announcements}</Text>
+								<Text style={{color:"white"}}>{StringsOfLanguages.seeall}</Text>
 							</LinearGradient>
 
 							<FlatList data={this.state.announcementsData} renderItem={this.renderItem.bind(this)}/>
 
 						</View>
 					</View> : null }
-					<View style={{
+					{this.state.liveclassesdata.length > 0 ? 
+										<View style={{
 						borderWidth: 0, borderColor: "lightgrey",
 						 backgroundColor: 'white', shadowColor: 'black',marginVertical:20,
 						shadowOffset: { width: 0, height: 5 },
@@ -264,15 +273,17 @@ class Library extends Component {
 						elevation: 10,
 					}}>
 						<View style={{ flex: 1 }}>
-						<LinearGradient colors={['#9467F6', '#59C6F1']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
-								<Text style={{color:"white"}}>Live Classes</Text>
-								<Text style={{color:"white"}}>See All</Text>
+						<LinearGradient colors={['#deb026', '#deb026']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
+								<Text style={{color:"white"}}>{StringsOfLanguages.liveclasses}</Text>
+								<Text style={{color:"white"}}>{StringsOfLanguages.seeall}</Text>
 							</LinearGradient>
 
-							<FlatList data={data1} renderItem={this.renderItemLive.bind(this)}/>
+							<FlatList data={this.state.liveclassesdata} renderItem={this.renderItemLive.bind(this)}/>
 
 						</View>
 					</View>
+					:
+					null}
 					<View style={{
 						borderWidth: 0, borderColor: "lightgrey", backgroundColor: 'white', shadowColor: 'black',
 						shadowOffset: { width: 0, height: 5 },
@@ -282,9 +293,9 @@ class Library extends Component {
 						elevation: 10, borderRadius: 10
 					}}>
 						<View style={{ flex: 1 }}>
-						<LinearGradient colors={['#29C7B5', '#3FE497']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
-								<Text style={{color:"white"}}>Leader Board</Text>
-								<Text style={{color:"white"}}>See All</Text>
+						<LinearGradient colors={['#a3ba6d', '#a3ba6d']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
+								<Text style={{color:"white"}}>{StringsOfLanguages.leaderboard}</Text>
+								<Text style={{color:"white"}}>{StringsOfLanguages.seeall}</Text>
 							</LinearGradient>
                               <View style={{margin:30,width:294,height:200,justifyContent:"flex-end"}}>
 								  <ImageBackground source={require('../../assets/images/dashboard/new/leader.png')} style={{width:294,height:93}}>
@@ -372,6 +383,10 @@ class Library extends Component {
 
 						</View>
 					</View>
+					
+                    <RecommendedTopics />
+
+					<ReferEarn />
 				
 
 				</View>

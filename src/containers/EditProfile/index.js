@@ -367,7 +367,7 @@ class EditProfile extends Component {
     //    formdata.append('grade_id', grade_id)
     //    formdata.append("board_id", board_id);
     //     console.log("submit",formdata)
-        fetch(baseUrl+'/user/'+this.state.userID, {
+        fetch(baseUrl+'/user/student/'+this.state.userID, {
             method: 'PUT',
             headers: {
               'Content-Type': 'multipart/form-data',

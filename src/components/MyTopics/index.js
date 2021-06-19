@@ -69,7 +69,7 @@ class MyTopics extends Component {
 
             response.json())
             .then((json) => {
-                console.log("topicdattaaa.................", JSON.stringify(json))
+             //   console.log("topicdattaaa.................", JSON.stringify(json))
                 if (json.data) {
                     this.setState({
                         topicsData: json.data,
@@ -108,7 +108,7 @@ class MyTopics extends Component {
             .then((json) => {
 
                 if (json.data) {
-                 console.log("topiccccccccc....",JSON.stringify(json.data.topic.subject))
+             //    console.log("topiccccccccc....",JSON.stringify(json.data.topic.subject))
                  
                     this.setState({
                         topicItem: json.data.topic,
@@ -154,7 +154,7 @@ class MyTopics extends Component {
             if (item.progress) {
                 console.log("fffff", item.progress)
                 percent = (item.progress);
-
+                  
                 if (percent > 80) {
                     color = "green"
                 } else if (percent < 50) {
@@ -172,7 +172,7 @@ class MyTopics extends Component {
                   
                 }}>
                     <View style={{ flex: 1, flexDirection: "row",}}>
-                        <View style={{ flex: 0.4, }}>
+                        <View style={{ flex: 0.3, }}>
                             {item.image ?
 
                                 <Image source={{ uri: imageUrl + item.image }}
@@ -192,11 +192,11 @@ class MyTopics extends Component {
                             </View>
 
                         </View> */}
-                        <View style={{ flex: 0.6, justifyContent: "space-between",paddingVertical:5}}>
-                        <Text>{item.name}</Text>
+                        <View style={{ flex: 0.7, justifyContent: "space-around",paddingVertical:5,marginLeft:10}}>
+                        <Text style={{fontSize:13}}>{item.name}</Text>
                         <View>
                         <Text style={{ fontSize: 10, color: 'grey' }}>In Progress</Text>
-                        <Text style={{fontSize:12}}>12 April, 2021</Text>
+                        {/* <Text style={{fontSize:12}}>12 April, 2021</Text> */}
                         </View>
                          
                         </View>

@@ -10,6 +10,7 @@ const StringsOfLanguages = new LocalizedStrings({
     emailtextinput:"Email/Mobile Number",
     passwordtextinput:"Password",
     hello:"Hello",
+    learningDashboard:"Your Learning Dashboard",
     leaderboard:"Leader Board",
     learninganalysis:"Learning Analysis",
     mypractice:"My Practice",
@@ -17,7 +18,10 @@ const StringsOfLanguages = new LocalizedStrings({
     mylibrary:"My Courses",
     mytopicsinprogress:"My Topics In Progress",
     recommendedtopics:"Recommended Topics",
-    seeall:"View All"
+    seeall:"View All",
+    myperformance:"My Performance",
+    announcements:"Announcements",
+    liveclasses:"Live Classes"
   },
   th: {
     forgot:  'ลืมรายละเอียดการเข้าสู่ระบบของคุณ? รับความช่วยเหลือในการลงชื่อเข้าใช้',
@@ -26,6 +30,7 @@ const StringsOfLanguages = new LocalizedStrings({
     login:'เข้าสู่ระบบ',
     createaccount:"สร้าง บัญชี",
     emailtextinput:"อีเมล / หมายเลขโทรศัพท์มือถือ",
+    learningDashboard:"ของคุณ การเรียนรู้ แผงควบคุม",
     passwordtextinput:"รหัสผ่าน",
     hello:"สวัสดี",
     leaderboard:"คณะผู้นำ",
@@ -35,7 +40,10 @@ const StringsOfLanguages = new LocalizedStrings({
     mylibrary:"ห้องสมุดของฉัน",
     mytopicsinprogress:"หัวข้อของฉันอยู่ระหว่างดำเนินการ",
     recommendedtopics:"แนะนำ หัวข้อ",
-    seeall:"ดูทั้งหมด"
+    seeall:"ดูทั้งหมด",
+    myperformance:"ของฉัน ประสิทธิภาพ",
+    announcements:"ประกาศ",
+    liveclasses:"เรียนสด",
   }
 });
 

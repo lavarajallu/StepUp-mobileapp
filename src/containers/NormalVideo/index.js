@@ -27,6 +27,7 @@ import Toast from 'react-native-simple-toast';
 import { baseUrl , imageUrl} from "../../constants"
 import Snackbar from 'react-native-snackbar';
 
+
 class NormalVideo extends  Component{
     constructor(props){
         super(props);
@@ -126,11 +127,11 @@ class NormalVideo extends  Component{
       console.log("mmmmmm",this.refs.ve.state.currentTime)
       var body = {
         activity_status : 0,
-        video_played: parseInt(this.refs.ve.currentTime) ? parseInt(this.refs.ve.currentTime)  : data,
+        video_played: Math.round(this.refs.ve.currentTime) ? Math.round(this.refs.ve.currentTime)  : Math.round(data),
         pdf_page: 0,
-        video_duration: parseInt(this.refs.ve.state.duration)
+        video_duration: Math.round(this.refs.ve.state.duration)
       }
-      console.log("bodyyy",body)
+      console.log("bodyyy",body,baseUrl+'/analytics/'+this.state.analyticsData.reference_id)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
       fetch(url ,{
         method: 'PUT',
@@ -238,6 +239,9 @@ class NormalVideo extends  Component{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin' : "https://lms.iconeducate.com/",
+            'Access-Control-Allow-Credentials' : "true",
+
             'token': this.state.token
           }
         }).then((response) => response.json())

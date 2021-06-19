@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
       flex:0.1
     },
     middleview:{
-      flex:0.92
+      flex:1
     },
     subview:{
       flex:1,margin:5,backgroundColor: 'white',borderRadius: 10,

@@ -20,7 +20,7 @@ import {
 	  mainbottomview:{
 		  flex:1},
 	  timerview:{
-		  flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,backgroundColor: colors.Themecolor,
+		  flexDirection:"row",justifyContent:"center",width:187/2,height:82/2,
 			  borderTopLeftRadius :15,borderBottomLeftRadius: 15
 		  },
 	  mainshadowview:{
@@ -31,7 +31,7 @@ import {
 		  //  elevation: 10
 	  },
 	  headerview:{
-		  flex:0.15,flexDirection:"row",justifyContent:"space-between"
+		  flex:0.2,flexDirection:"row",justifyContent:"flex-end",
 	  },
 	  headerleftview:{
 		  flex:0.7,justifyContent:"center"
@@ -61,13 +61,13 @@ import {
 		  flexDirection:"row"
 	  },
 	  questionnum:{
-		  fontSize: 20,textAlign:"left"
+		  fontSize: 15,textAlign:"left"
 	  },
 	  questiontext:{
-		  fontSize:15,textAlign:"left",marginLeft:15,marginRight:15
+		  fontSize:15,textAlign:"left",marginLeft:15,paddingRight:10,width:"70%"
 	  },
 	  answermain:{
-		  marginTop:20,
+		  marginTop:10,
 	  },
 	  answersub:{
 		  flexDirection:"row",alignItems:"center"
@@ -76,19 +76,21 @@ import {
 		  fontSize:15,textAlign:"center"
 	  },
 	  answertextview:{
-		  marginLeft:15,paddingLeft:15,width:windowWidth/1.2,borderWidth:1,borderRadius:20,paddingVertical:5,justifyContent:"center",paddingVertical:10
+		  marginLeft:15,
+		  paddingLeft:15,width:windowWidth/1.3,borderWidth:1,
+		  borderRadius:20,justifyContent:"center",
 	  },
 	  answertext:{
-		  fontSize:15,
+		  fontSize:15,marginTop:10
 	  },
 	  circlefilled:{
-		   height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,backgroundColor:colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		   height:40,width:40,borderRadius: 20,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	  },
 	  circletext:{
 		  textAlign: 'center',color:"white",fontSize:15
 	  },
 	  borderfilled:{
-		   height:40,width:40,borderRadius: 20,borderColor: colors.Themecolor,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
+		   height:40,width:40,borderRadius: 20,borderWidth: 2,marginHorizontal:10,justifyContent:"center"
 	  },
 	  bordertext:{
 		   textAlign: 'center',color:colors.Themecolor,fontSize:15

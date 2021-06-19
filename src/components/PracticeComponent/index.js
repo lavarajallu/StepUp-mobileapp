@@ -60,6 +60,7 @@ const data = [
         image: require('../../assets/images/yellowround.png'),
         insideimg: require('../../assets/images/math.png'),
     }]
+    var b = [];
 class PracticeComponent extends Component {
     constructor(props) {
         super(props);
@@ -83,35 +84,56 @@ class PracticeComponent extends Component {
             })
         }
     }
+    chooseName = function (a) {
+        // var unique = true;
+        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
+        // var name = a.splice(num,1);
+        // a.push(name);
+        // return num;
+        // console.log("nummm",num)
+        var unique = true;
+        b.length = 6;
+        var num = Math.floor(Math.random() * a.length);
+        var name = a[num];    
+            for (var i = 0; i < a.length; i++) {
+            if (b[i] == name) {
+               this.chooseName(a);
+                unique = false;
+                break;
+                }
+            }
+            if (unique == true) {
+            console.log("name",name);
+            b.unshift(name);
+            
+            }
+            return name
+    }
     renderItem({ item }) {
-        var imagesarray=[
-            require('../../assets/images/dashboard/new/mathsbg.png'),
-            require('../../assets/images/dashboard/new/physicsbg.png'),
-            require('../../assets/images/dashboard/new/chemistrybg.png'),
-            require('../../assets/images/dashboard/new/biologybg.png')
-        ]
-        
-        var percent = item.percent * 100
-        var colorsarray =["#267093", "#697077", "#a4b96e", "#c54721"]
-        var randomItem = colorsarray[Math.floor(Math.random() * colorsarray.length)];
+        var colorsarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
+		var randomItem = this.chooseName(colorsarray)//colorsarray[Math.floor(Math.random()*colorsarray.length)];
         var bgcolor = randomItem
-        console.log("item,item", item)
+        
+        var percent = (item.percent)
+
+        console.log("item,item", bgcolor)
         const url = imageUrl + item.image
         var progress = 0 + (0.4 * Math.random())
         // var percent = (item.percent) * 100;
         var color;
-        if (percent > 50) {
+        if (percent > 80) {
             color = "green"
         } else if (color < 50) {
             color = "red"
         } else {
             color = "orange"
         }
+        item["color"] = bgcolor
         return (
             <TouchableHighlight onPress={() => this.onItem(item)} underlayColor="transparent" activeOpacity={0.9} style={{ backgroundColor: 'transparent', borderWidth: 0.1, borderColor: 'transparent', margin: 5, flex: 1 }}>
 
 <ImageBackground source={require('../../assets/images/dashboard/pattern.png')}
-					style={[styles.rectview, { backgroundColor: bgcolor }]} opacity={0.7} >
+					style={[styles.rectview, { backgroundColor: item.color }]} opacity={0.5} >
                     <View style={styles.subview}>
                         <View style={styles.topsubview}>
 
@@ -128,17 +150,24 @@ class PracticeComponent extends Component {
                         </View>
                         <View style={styles.bottomsubview}>
                             <View style={styles.countview}>
-                                <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3, }}>
-                                    <View style={{ justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 5 }}>
-                                        <Text style={{ fontSize: 12, color: "white" }}>Progress</Text>
-                                        <Text style={{ color: "white", fontSize: 12 }}>{item.percent}%</Text>
-                                    </View>
-                                    <View style={{ alignItems: "center", marginTop: 10 }}>
-                                        <Progress.Bar progress={item.percent / 100} width={1724 / 11} height={5} color={'lightgreen'} />
-                                    </View>
-
-
-                                </View>
+                                <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3,flexDirection:"row",justifyContent:"space-between" }}>
+                                <View style={{alignItems:"center",justifyContent:"center"}}>
+							        <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.chaptersCount}</Text>
+								  </View>
+								  <Text style={{color:"white",fontSize:8}}>Chapters</Text></View>
+								 {/* <View style={styles.innercountview}>
+									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
+								 </View> */}
+									   <View style={{alignItems:"center",justifyContent:"center"}}>
+								  <View style={styles.innercountview}>
+									  <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
+									  <Text style={styles.icontext}>{item.topicsCount}</Text>
+								  </View>
+								  <Text style={{color:"white",fontSize:8}}>Topic</Text>
+								  </View>
+                                    </View> 
                             </View>
                         </View>
                     </View>

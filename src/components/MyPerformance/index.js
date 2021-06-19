@@ -22,16 +22,17 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import Toast from 'react-native-simple-toast';
 import { baseUrl,imageUrl } from "../../constants"
-
+import LineChart from './LineChart';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-	LineChart,
-	BarChart,
-	PieChart,
-	ProgressChart,
-	ContributionGraph,
-	StackedBarChart
-  } from "react-native-chart-kit"
+import StringsOfLanguages from './../../StringsOfLanguages';
+// import {
+// 	LineChart,
+// 	BarChart,
+// 	PieChart,
+// 	ProgressChart,
+// 	ContributionGraph,
+// 	StackedBarChart
+//   } from "react-native-chart-kit"
 let sampleData = [
     {
       seriesName: 'Pre Assesment',
@@ -63,7 +64,8 @@ class MyPerformance extends Component {
 			graphdata:[],
 			spinner:true,
 			prertestscore:[],
-			posttestscore:[]
+			posttestscore:[],
+			newgraphdtaa:{}
 		}
 	}
 	componentDidMount(){
@@ -159,6 +161,7 @@ getData = async () => {
 					// sampleData.push(newobjpost)
 					this.setState({
 						graphdata: labels,
+						newgraphdtaa: json.data,
 						prertestscore: pretestscore,
 						posttestscore:posttestscore,
 						spinner: false
@@ -180,80 +183,12 @@ getData = async () => {
   }
 	render() {
 		return (
-
+			this.state.spinner ? null : 
 	<View style={styles.mainview}>
-				<Text style={styles.headtext}>My Performance</Text>
+				<Text style={{marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.myperformance}</Text>
 				<View style={styles.chartview}>
-
-			 <View style={{flex:1,justifyContent:"space-around",marginVertical: 10,flexDirection:"row"}}>
-					 <View style={{flex:0.5,justifyContent:"center",marginLeft:20}}>
-					     <Text style={{fontSize:25}}>0%</Text>
-					      <Text style={{fontSize:12}}>Overall</Text>
-					 </View>
-			         <View style={{flex:0.5,paddingVertical: 5}}>
-					        <View style={{flexDirection:"row",marginBottom:5,justifyContent:"center",alignItems:"center"}}>
-					 		<View style={{width:10,height:10,backgroundColor: 'rgba(106,81,119,1)'}}/>
-					 		<Text style={{marginLeft:5,fontSize: 12}}>Pre-Assesment</Text>
-					 		</View>
-					 		<View style={{flexDirection:"row",marginTop: 5,justifyContent:"center",alignItems:"center"}}>
-					 		<View style={{width:10,height:10,backgroundColor: 'rgba(216,130,18, 1)'}}/>
-					 		<Text style={{marginLeft:5,fontSize: 12}}>Post-Assesment</Text>
-					 	     </View>
-			 	     </View>
-			 	  </View>
-				   {this.state.spinner ? null : 
-			// 		 <PureChart 
-			// 		 data={this.state.graphdata}
-			// 		  type='line'
-			// 		   showEvenNumberXaxisLabel = {false} 
-			   
-            //      xAxisColor={'black'}
-		    //         yAxisColor={'black'}
-		    //         xAxisGridLineColor={'grey'}
-		    //         yAxisGridLineColor={'grey'}
-		    //         width={'100%'}
-			//       height={windowHeight/4} numberOfYAxisGuideLine={5} 
-			//  />
-			<LineChart
-			bezier
-			withHorizontalLabels={true}
-			withVerticalLabels={true}
-			data={{
-				labels:this.state.graphdata,
-				datasets: [
-					{
-						data: this.state.prertestscore,
-						strokeWidth: 2,
-						color: (opacity = 1) => `rgba(106,81,119,${opacity})`, // optional
-					},
-					{
-						data: this.state.posttestscore,
-						strokeWidth: 2,
-						color: (opacity = 1) => `rgba(216,130,18, ${opacity})`, // optional
-					},
-				],
-			}}
-			bezier
-			width={Dimensions.get('window').width/1.1}
-			fromZero={true}
-			height={300}
-			chartConfig={{
-				backgroundColor: '#1cc910',
-				backgroundGradientFrom: '#eff3ff',
-				backgroundGradientTo: '#efefef',
-				decimalPlaces: 2,
-				color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-				style: {
-					borderRadius: 16,
-				},
-			}}
-			style={{
-				marginVertical: 8,
-				borderRadius: 16,
-			}}
-		/>
-		 }
-
+   
+		     <LineChart  studentPreVsPost= {this.state.newgraphdtaa} />
 			 </View>
 			</View>
 		)

@@ -61,6 +61,9 @@ class Topics extends Component {
 		// }
 
 	}
+	onanalyticspress(item){
+		Actions.push('topicanalysis', { "from": "topics", data: item, topicsdata: this.props.data, subjectData: this.props.subjectData })
+	}
 	updateAnalytics(){
 		//alert(this.state.analyticsData.reference_id)
 		var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
@@ -221,7 +224,7 @@ class Topics extends Component {
 						this.setState
 							({
 								spinner: false,
-								topicsArray: data.topics
+								topicsArray: data.topics.reverse()
 							})
 					} else {
 						this.setState
@@ -325,10 +328,10 @@ class Topics extends Component {
 						</View>
                       <View style={{flex:0.3,justifyContent:"center",alignItems:"center"}}>
 					  {this.props.data.image !== "null" ?
-                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />
+                    <Image source={{ uri: imageUrl + this.props.data.image }} style={{ width: 60, height: 60, resizeMode: "contain", marginRight: 10, }} />
 
                     : <Image source={require('../../assets/images/noimage.png')}
-                      style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+                      style={{ width: 60, height: 60, resizeMode: "contain", marginRight: 10, }} />}
 					  </View>
                     </View>
                  
@@ -345,7 +348,7 @@ class Topics extends Component {
            <Text>Loading...</Text>
         </View> 
         :
-		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)} onTopicPress={this.onTopic.bind(this)} topicData={this.state.topicData} topicsArray={this.state.topicsArray} role={this.state.userdetails.user_role}/>}
+		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)} onTopicPress={this.onTopic.bind(this)} onanalyticspress={this.onanalyticspress.bind(this)} topicData={this.state.topicData} topicsArray={this.state.topicsArray} role={this.state.userdetails.user_role}/>}
       
        </View>
         </View>

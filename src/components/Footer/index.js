@@ -21,6 +21,7 @@ class Footer extends Component {
 
     }
     componentDidMount(){
+      //  alert(this.props.value)
         if(this.props.value){
             this.setState({
                 selected:this.props.value
@@ -35,6 +36,9 @@ class Footer extends Component {
             }
            
         }
+    }
+    static getDerivedStateFromProps(nextProps, prevState) {
+       // alert(nextProps.value)
     }
     onPressIcon(value){
         this.setState({selected:value},()=>{

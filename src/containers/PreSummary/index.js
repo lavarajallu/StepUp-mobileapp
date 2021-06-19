@@ -25,6 +25,10 @@ import { colors } from "../../constants"
 import { baseUrl,imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNSpeedometer from 'react-native-speedometer'
+import AttemptAnalysis from './AttemptAnalysis'
+import TimeSpentChart from '../../components/TimeSpentChart'
+import AssessmentComparisonChart from "../../components/AssessmentComparisonChart"
+
 import BarChartNew from './BarChart'
 const data = [
    { questionno:"1",
@@ -59,10 +63,12 @@ class PreSummary extends Component {
             wrongarray:null,
             testResult:null,
             review: false,
+            prepostdata:{},
+            loadingspi: true
         }
     }
     componentDidMount() {
-          console.log(JSON.stringify(this.props.topicindata))
+         // alert("typeeee"+JSON.stringify(this.props.testtype))
           if(this.props.review){
             this.setState({
               review: true
@@ -84,6 +90,7 @@ class PreSummary extends Component {
                //    alert("hiii")
                    this.setState({token: JSON.parse(token)})
                      this.getDataquestions(data, JSON.parse(token))
+                     this.getprevspost(data, JSON.parse(token))
                } else {
                  console.log("hihii")
                }
@@ -95,12 +102,44 @@ class PreSummary extends Component {
              return null;
            }
        }
+       getprevspost(user,token){
+         console.log("graphhh",baseUrl+"/analytics/student/preVsPost/"+this.props.topicindata.reference_id)
+        var url =baseUrl+"/analytics/student/preVsPost/"+this.props.topicindata.reference_id
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': token
+          },
+        }).then((response) =>
+        
+         response.json())
+          .then((json) => {
+           //alert("jon"+JSON.stringify(json))
+           /// const data = json.data;
+          
+            if (json.data) {
+               this.setState({
+                 prepostdata: json.data,
+                 loadingspi:false
+               },()=>console.log("fff",this.state.prepostdata,this.state.loadingspi))
+            } else {
+              this.setState({prepostdata: {}, loadingspi:false})
+               
+            //  alert(JSON.stringify(json.message))
+             
+            }
+          }
+    
+          )
+          .catch((error) =>  alert("gggg"+error))
+       }
        getDataquestions(user,token){
 
-        console.log("this.props.testid",this.props.testid)
+     //   console.log("this.props.testid",this.props.testid)
         var url =baseUrl+"/user-test/"+this.props.testid
 
-        console.log("urrlll",url)
+        //console.log("urrlll",url)
         fetch(url, {
             method: 'GET',
             headers: {
@@ -116,7 +155,7 @@ class PreSummary extends Component {
             
               if (json.data) {
                   const data =  json.data
-                   console.log("summary",json.data.questions)
+                  // console.log("summary",json)
                    this.setState({
                    
                     questionsarray: json.data.questions 
@@ -133,22 +172,22 @@ class PreSummary extends Component {
                       q => q.is_correct === true,
                     ).length
                     let lost_count = test_result.questions.filter(
-                      q => q.analysis === 'Lost' || q.analysis === null,
+                      q => q.analysis === 'Incorrect' || q.analysis === null,
                     ).length
                     let extra_count = test_result.questions.filter(
                       q => q.analysis === 'Extra Time',
                     ).length
                     let un_ans_count = test_result.questions.filter(
-                      q => q.analysis === 'Un Answered',
+                      q => q.analysis === 'Unanswered ',
                     ).length
                     let lightening_count = test_result.questions.filter(
-                      q => q.analysis === 'Lightning Fast',
+                      q => q.analysis === 'Fast Answer',
                     ).length
                     let shot_count = test_result.questions.filter(
-                      q => q.analysis === 'What a Timing/ Shot',
+                      q => q.analysis === 'Normal Answer',
                     ).length
                     let extra_inning_count = test_result.questions.filter(
-                      q => q.analysis === 'Extra Innings/ Time',
+                      q => q.analysis === 'Slow to Answer',
                     ).length
                     test_result.wrong_ans_count = wrong_ans_count
                     test_result.correct_ans_count = correct_ans_count
@@ -276,129 +315,6 @@ class PreSummary extends Component {
         }
 		
         return (
-            // <View style={styles.mainView}>
-            //     <TouchableOpacity onPress={this.onBack.bind(this)} >
-            //     <Image source={require("../../assets/images/left-arrow.png")}
-            //         style={styles.backimage} />
-            //         </TouchableOpacity>
-            //         {this.state.spinner ? <View style={{ height:"80%",width:"100%",
-            //            backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
-            //           <Text>Loading...</Text>
-            //         </View>:
-            //     <View style={styles.mainsubview}>
-                 
-            //         <View style={{flex:1}}>
-            //         <ScrollView>
-            //         <View style={{backgroundColor:"white",padding:5,
-            //             //  shadowOffset: { width: 0, height: 5 },
-            //             //     shadowOpacity: 1,
-            //             //     shadowRadius: 5,
-            //             //     elevation: 10,
-            //             //     shadowColor: 'lightgrey',
-            //             marginTop:20,
-            //             borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
-                   
-            //        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
-                        
-      
-            //                <RNSpeedometer
-            //             size={windowWidth/2}
-            //             maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
-            //             value={this.state.testResult.score ? this.state.testResult.score : 0}
-            //             currentValueText="Score-o-meter"
-            //             needleHeightRatio={0.7}
-            //             ringWidth={80}
-            //             needleTransitionDuration={3000}
-            //             needleTransition="easeElastic"
-            //             needleColor={'#695077'}
-            //             segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
-            //             labels={[
-            //               {
-            //                 name: 'Poor',
-            //                 labelColor: '#ff5400',
-            //                 activeBarColor: 'orange',
-            //               },
-            //               {
-            //                 name: 'Average',
-            //                 labelColor: '#f4ab44',
-            //                 activeBarColor: 'yellow',
-            //               },
-            //               {
-            //                 name: 'Fair',
-            //                 labelColor: '#14eb6e',
-            //                 activeBarColor: 'green',
-            //               },
-            //               {
-            //                 name: 'Fair',
-            //                 labelColor: '#14eb6e',
-            //                 activeBarColor: 'blue',
-            //               },
-            //             ]}/>
-            //             </View>
-            //         <View style={{
-            //              shadowOffset: { width: 0, height: 5 },paddingVertical:20,
-            //                 shadowOpacity: 1,
-            //                 shadowRadius: 5,
-            //                 borderColor:"lightgrey",borderWidth:0.5,
-            //                 shadowColor: 'lightgrey',
-            //             marginTop:60,borderRadius: 10,
-            //             backgroundColor: 'white',justifyContent:'space-around',marginHorizontal: 20, }}>
-            //               <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
-            //                     <View style={{padding:5,marginHorizontal:30,}}>
-            //                         <View style={{padding:10,flexDirection:"row",flexWrap:"wrap"}}>
-            //                         { stars }
-            //                         </View>
-            //                     </View>
-            //               <View style={{justifyContent: 'center',alignItems:"center" ,paddingVertical:20}}>
-            //                 <ProgressCircle
-            //                     percent={percent}
-            //                     radius={30}
-            //                     borderWidth={5}
-            //                     color={colors.Themecolor}
-            //                     shadowColor="#999"
-            //                     bgColor="white"
-            //                 >
-            //                 <Text style={{ fontSize: 18 }}>{this.state.correctarray.length+'/'+this.state.questionsarray.length }</Text>
-            //               </ProgressCircle>
-            //             </View>
-            //                 <View style={{flexDirection:"row",marginHorizontal:30,justifyContent:"space-around"}}>
-            //                           <View style={{flexDirection:"row",justifyContent:"center"}}>
-            //                          <Image source={require("../../assets/images/right.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
-            //                          <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.correctarray.length} Correct</Text></View>
-            //                          <View style={{flexDirection:"row",justifyContent:"center"}}>
-            //                          <Image source={require("../../assets/images/wrong.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
-            //                          <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.wrongarray.length} Wrong</Text></View>
-            //                         </View>
-            //                  </View>
-            //                 <View style={{shadowOpacity: 1,
-            //                         shadowRadius: 5,
-            //                         borderColor:"lightgrey",borderWidth:0.5,
-            //                         shadowColor: 'lightgrey',marginHorizontal: 20,paddingVertical:10,
-            //                         borderRadius:10,marginTop:40,marginBottom:20,backgroundColor: 'white'}}>
-            //                           <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10,marginVertical:20}}>Score</Text>
-            //                    <SummaryGraph questionsarray={this.state.questionsarray}/>
-                            
-            //                 </View>
-            //                 <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
-            //             style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:colors.Themecolor,justifyContent:"center",alignItems:"center",borderRadius:20}}>
-            //               <Text style={{color:"white"}}>Review Answers</Text>
-            //             </TouchableOpacity>
-            //                 </ScrollView>
-            //         </View>
-                 
-                    
-            //     </View>}
-            //     <View style={styles.nextactivityview}>
-            //         <TouchableOpacity  style={styles.nextinner} onPress={this.onNext.bind(this)}>
-            //         <Text style={styles.activitytext}>Next Activity</Text>
-            //         </TouchableOpacity>
-                    
-            //     </View>
-            //     <View style={styles.subjectouter}>
-            //     <Text style={{color:"white",fontSize:18}}>Summary</Text>
-            //     </View>
-            // </View>
-            <>
             <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
             style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
               <View style={{flex:1}}>
@@ -412,7 +328,8 @@ class PreSummary extends Component {
                   style={{ width: 25, height: 25, tintColor: "white",}} />
               </TouchableOpacity>
              
-                <Text style={{ color: "white", fontSize: 18,marginLeft:10}}>{"Summary"}</Text>
+                <Text style={{ color: "white", fontSize: 18,marginLeft:10}}>{
+                this.props.testtype === "POST" ? "Post-Test Analysis" : this.props.testtype === "PRE" ? "Pre-Test Analysis" : "Summary"}</Text>
                
               </View>
 
@@ -425,7 +342,7 @@ class PreSummary extends Component {
               style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
               </View> */}
           </View>
-                <View style={{flex : this.state.review ?  0.84  :0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+                <View style={{flex : this.state.review ?  0.9  :0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
                 {this.state.spinner ? <View style={{ height:"100%",width:"100%",
                        backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
                       <Text>Loading...</Text>
@@ -443,7 +360,7 @@ class PreSummary extends Component {
                         marginTop:20,
                         borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
                    
-                   <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
+                   <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Performace</Text>
                         
       
                            <RNSpeedometer
@@ -457,30 +374,33 @@ class PreSummary extends Component {
                         needleTransition="easeElastic"
                         needleColor={'#695077'}
                         segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
+                        
+                        labelNoteStyle={{fontSize:20}}
                         labels={[
                           {
                             name: 'Poor',
-                            labelColor: '#ff5400',
-                            activeBarColor: 'orange',
+                            labelColor: '#c54721',
+                          
+                            activeBarColor: '#c54721',
                           },
                           {
                             name: 'Average',
-                            labelColor: '#f4ab44',
-                            activeBarColor: 'yellow',
+                            labelColor: '#d88414',
+                            activeBarColor: '#d88414',
                           },
                           {
                             name: 'Fair',
-                            labelColor: '#14eb6e',
-                            activeBarColor: 'green',
+                            labelColor: '#267093',
+                            activeBarColor: '#267093',
                           },
                           {
                             name: 'Fair',
-                            labelColor: '#14eb6e',
-                            activeBarColor: 'blue',
+                            labelColor: '#a4b96e',
+                            activeBarColor: '#a4b96e',
                           },
                         ]}/>
                         </View>
-                    <View style={{
+                    {/* <View style={{
                          shadowOffset: { width: 0, height: 5 },paddingVertical:20,
                             shadowOpacity: 1,
                             shadowRadius: 5,
@@ -514,20 +434,33 @@ class PreSummary extends Component {
                                      <Image source={require("../../assets/images/wrong.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
                                      <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.wrongarray.length} Wrong</Text></View>
                                     </View>
-                             </View>
-                            <View style={{shadowOpacity: 1,
+                             </View> */}
+                                <View style={{backgroundColor:"white",paddingVertical:10,
+                                shadowOffset: { width: 0, height: 5 },
+                                    shadowOpacity: 1,
                                     shadowRadius: 5,
-                                    borderColor:"lightgrey",borderWidth:0.5,
-                                    shadowColor: 'lightgrey',marginHorizontal: 20,paddingVertical:10,
-                                    borderRadius:10,marginTop:40,marginBottom:20,backgroundColor: 'white'}}>
-                                      <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10,marginVertical:20}}>Score</Text>
-                               <BarChartNew questionsarray={this.state.questionsarray}/>
+                                    elevation: 10,
+                                    shadowColor: 'lightgrey',
+                                marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
+                          
+                          <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Attempt Analysis</Text>
+                          <AttemptAnalysis testResult={this.state.testResult}/>
+                          </View>
+                            <View style={{marginVertical:20}}>
+                                    
+                               {/* <BarChartNew questionsarray={this.state.questionsarray}/> */}
+                               <TimeSpentChart testResult={this.state.testResult} />
                             
                             </View>
+                             {this.props.testtype === "POST" ? 
+                             !this.state.loadingspi ? 
+                            <AssessmentComparisonChart topicPreVsPostData={this.state.prepostdata} /> : null
+                            :null}
+                            {this.props.testtype === "PRE" ? null :
                             <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
                         style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:topicindata.color,justifyContent:"center",alignItems:"center",borderRadius:20}}>
                           <Text style={{color:"white"}}>Review Answers</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> }
                             </ScrollView>
                     </View>
                  
@@ -550,12 +483,6 @@ class PreSummary extends Component {
                 </View> }
               </View>
             </ImageBackground>
-  
-          {/* <View style={{position:"absolute",height:44,backgroundColor:topicindata.color,paddingHorizontal:20,alignSelf:"center",
-          borderRadius:20,top: Platform.OS === 'android' ? 90 : 100,justifyContent:"center",alignItems:"center"}}>
-              <Text style={{color:"white",fontSize:17}}>{"Summary"}</Text>
-              </View> */}
-      </>
         )
     }
 }

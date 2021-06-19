@@ -129,7 +129,7 @@ class VideoView extends  Component{
         pdf_page: 0,
         video_duration: parseInt(this.refs.ve.state.duration) !== 0 ? this.refs.ve.state.duration : duration
       }
-      console.log("bodyyy",body)
+      console.log("bodyyy",body,"    ", baseUrl+'/analytics/'+this.state.analyticsData.reference_id)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
       fetch(url ,{
         method: 'PUT',

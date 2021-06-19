@@ -33,6 +33,8 @@ import BarChartNew from './BarChart'
 //import { BarChart, Grid,XAxis ,YAxis } from 'react-native-svg-charts'
 import * as NewText  from 'react-native-svg'
 import * as scale from 'd3-scale'
+import TimeSpentChart from '../../components/TimeSpentChart'
+
 
 const labels =[
   {
@@ -153,22 +155,22 @@ class PracticeSummary extends Component {
                       q => q.is_correct === true,
                     ).length
                     let lost_count = test_result.questions.filter(
-                      q => q.analysis === 'Lost' || q.analysis === null,
+                      q => q.analysis === 'Incorrect' || q.analysis === null,
                     ).length
                     let extra_count = test_result.questions.filter(
                       q => q.analysis === 'Extra Time',
                     ).length
                     let un_ans_count = test_result.questions.filter(
-                      q => q.analysis === 'Un Answered',
+                      q => q.analysis === 'Unanswered ',
                     ).length
                     let lightening_count = test_result.questions.filter(
-                      q => q.analysis === 'Lightning Fast',
+                      q => q.analysis === 'Fast Answer',
                     ).length
                     let shot_count = test_result.questions.filter(
-                      q => q.analysis === 'What a Timing/ Shot',
+                      q => q.analysis === 'Normal Answer',
                     ).length
                     let extra_inning_count = test_result.questions.filter(
-                      q => q.analysis === 'Extra Innings/ Time',
+                      q => q.analysis === 'Slow to Answer',
                     ).length
                     test_result.wrong_ans_count = wrong_ans_count
                     test_result.correct_ans_count = correct_ans_count
@@ -231,7 +233,7 @@ class PracticeSummary extends Component {
     }
 
     onViewSolutions(){
-      Actions.push('practicesolutions',{testid:this.props.testid,subjectData:this.props.subjectData})
+      Actions.push('practicesolutions',{testid:this.props.testid,subjectData:this.props.subjectData,data:this.props.data})
     }
 
     render() {
@@ -247,153 +249,317 @@ class PracticeSummary extends Component {
              }
                var percent = (this.state.correctarray.length / this.state.questionsarray.length)*10
         }
-        const data = [ 50, 10, 40, 95, 85 ]
+        // const data = [ 50, 10, 40, 95, 85 ]
 
-        const CUT_OFF = 50
-        const Labels = ({  x, y, bandwidth, data }) => (
-            data.map((value, index) => (
-                <NewText.Text
-                    key={ index }
-                    x={ value > CUT_OFF ? x(0) + 10 : x(value) + 10 }
-                    y={ y(index) + (bandwidth / 2) }
-                    fontSize={ 14 }
-                    fill={ value > CUT_OFF ? 'white' : 'black' }
-                    alignmentBaseline={ 'middle' }
-                >
-                    {value}
-                </NewText.Text>
-            ))
-        )
+        // const CUT_OFF = 50
+        // const Labels = ({  x, y, bandwidth, data }) => (
+        //     data.map((value, index) => (
+        //         <NewText.Text
+        //             key={ index }
+        //             x={ value > CUT_OFF ? x(0) + 10 : x(value) + 10 }
+        //             y={ y(index) + (bandwidth / 2) }
+        //             fontSize={ 14 }
+        //             fill={ value > CUT_OFF ? 'white' : 'black' }
+        //             alignmentBaseline={ 'middle' }
+        //         >
+        //             {value}
+        //         </NewText.Text>
+        //     ))
+        // )
+
+        const { data } = this.props;
+        const topicindata = data
 		
         return (
-            <View style={styles.mainView}>
-                <TouchableOpacity onPress={this.onBack.bind(this)} >
-                <Image source={require("../../assets/images/left-arrow.png")}
-                    style={styles.backimage} />
-                    </TouchableOpacity>
-                    {this.state.spinner ? <View style={{ height:"100%",width:"100%",
-                       backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
-                      <Text>Loading...</Text>
-                    </View>:
-                <View style={styles.mainsubview}>
+          <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
+          style={{width:"100%",height:"100%",backgroundColor:topicindata.color}} opacity={0.5}>
+            <View style={{flex:1}}>
+            <View style={{flex:0.08,flexDirection:"row"}}>
+        <View style={{flex:1}}>
+
+            <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
+             
+              <TouchableOpacity onPress={this.onBack.bind(this)}>
+              <Image source={require("../../assets/images/left-arrow.png")}
+                style={{ width: 25, height: 25, tintColor: "white",}} />
+            </TouchableOpacity>
+           
+              <Text style={{ color: "white", fontSize: 18,marginLeft:10}}>{"Summary"}</Text>
+             
+            </View>
+
+            </View>
+            {/* <View style={{flex:0.3,justifyContent:"center"}}>
+            { topicindata.image !== "null" ?
+            <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
+
+            : <Image source={require('../../assets/images/noimage.png')}
+            style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
+            </View> */}
+        </View>
+              <View style={{flex : 0.9,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+              {this.state.spinner ? <View style={{ height:"100%",width:"100%",
+                     backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
+                    <Text>Loading...</Text>
+                  </View>:
+              <View style={styles.mainsubview}>
+               
+                  <View style={{flex:1}}>
                   <ScrollView>
-                
                   <View style={{backgroundColor:"white",padding:5,
-                        //  shadowOffset: { width: 0, height: 5 },
-                        //     shadowOpacity: 1,
-                        //     shadowRadius: 5,
-                        //     elevation: 10,
-                        //     shadowColor: 'lightgrey',
-                        marginTop:40,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
+                      //  shadowOffset: { width: 0, height: 5 },
+                      //     shadowOpacity: 1,
+                      //     shadowRadius: 5,
+                      //     elevation: 10,
+                      //     shadowColor: 'lightgrey',
+                      marginTop:20,
+                      borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
+                 
+                 <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
+                      
+    
+                         <RNSpeedometer
+                      size={windowWidth/2}
+                      maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
+                      value={this.state.testResult.score ? this.state.testResult.score : 0}
+                      currentValueText="Score-o-meter"
+                      needleHeightRatio={0.7}
+                      ringWidth={80}
+                      needleTransitionDuration={3000}
+                      needleTransition="easeElastic"
+                      needleColor={'#695077'}
+                      segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
+                      
+                      labelNoteStyle={{fontSize:20}}
+                      labels={[
+                        {
+                          name: 'Poor',
+                          labelColor: '#c54721',
+                        
+                          activeBarColor: '#c54721',
+                        },
+                        {
+                          name: 'Average',
+                          labelColor: '#d88414',
+                          activeBarColor: '#d88414',
+                        },
+                        {
+                          name: 'Fair',
+                          labelColor: '#267093',
+                          activeBarColor: '#267093',
+                        },
+                        {
+                          name: 'Fair',
+                          labelColor: '#a4b96e',
+                          activeBarColor: '#a4b96e',
+                        },
+                      ]}/>
+                      </View>
+                  {/* <View style={{
+                       shadowOffset: { width: 0, height: 5 },paddingVertical:20,
+                          shadowOpacity: 1,
+                          shadowRadius: 5,
+                          borderColor:"lightgrey",borderWidth:0.5,
+                          shadowColor: 'lightgrey',
+                      marginTop:60,borderRadius: 10,
+                      backgroundColor: 'white',justifyContent:'space-around',marginHorizontal: 20, }}>
+                        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
+                              <View style={{padding:5,marginHorizontal:30,}}>
+                                  <View style={{padding:10,flexDirection:"row",flexWrap:"wrap"}}>
+                                  { stars }
+                                  </View>
+                              </View>
+                        <View style={{justifyContent: 'center',alignItems:"center" ,paddingVertical:20}}>
+                          <ProgressCircle
+                              percent={percent}
+                              radius={30}
+                              borderWidth={5}
+                              color={colors.Themecolor}
+                              shadowColor="#999"
+                              bgColor="white"
+                          >
+                          <Text style={{ fontSize: 18 }}>{this.state.correctarray.length+'/'+this.state.questionsarray.length }</Text>
+                        </ProgressCircle>
+                      </View>
+                          <View style={{flexDirection:"row",marginHorizontal:30,justifyContent:"space-around"}}>
+                                    <View style={{flexDirection:"row",justifyContent:"center"}}>
+                                   <Image source={require("../../assets/images/right.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
+                                   <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.correctarray.length} Correct</Text></View>
+                                   <View style={{flexDirection:"row",justifyContent:"center"}}>
+                                   <Image source={require("../../assets/images/wrong.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
+                                   <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.wrongarray.length} Wrong</Text></View>
+                                  </View>
+                           </View> */}
+                              <View style={{backgroundColor:"white",paddingVertical:10,
+                              shadowOffset: { width: 0, height: 5 },
+                                  shadowOpacity: 1,
+                                  shadowRadius: 5,
+                                  elevation: 10,
+                                  shadowColor: 'lightgrey',
+                              marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
+                        
+                        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
+                        <AttemptAnalysis testResult={this.state.testResult}/>
+                        </View>
+                        <View style={{marginVertical:20}}>
+                             {/* <BarChartNew questionsarray={this.state.questionsarray}/> */}
+                             <TimeSpentChart testResult={this.state.testResult} />
+                          
+                          </View>
+                          <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
+                      style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:topicindata.color,justifyContent:"center",alignItems:"center",borderRadius:20}}>
+                        <Text style={{color:"white"}}>Review Answers</Text>
+                      </TouchableOpacity>
+                          </ScrollView>
+                  </View>
+               
+                  
+              </View>}
+              </View>
+              {/* {this.state.review ?  null  : 
+              <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+              
+              <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+            justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+                 <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Previous Activity</Text>
+                     </TouchableOpacity>
+           
+                     <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+            justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+                 <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Next Activity</Text>
+                     </TouchableOpacity>
+
+              </View> } */}
+            </View>
+          </ImageBackground>
+            // <View style={styles.mainView}>
+            //     <TouchableOpacity onPress={this.onBack.bind(this)} >
+            //     <Image source={require("../../assets/images/left-arrow.png")}
+            //         style={styles.backimage} />
+            //         </TouchableOpacity>
+            //         {this.state.spinner ? <View style={{ height:"100%",width:"100%",
+            //            backgroundColor:"white",justifyContent:"center",alignItems:"center"}}>
+            //           <Text>Loading...</Text>
+            //         </View>:
+            //     <View style={styles.mainsubview}>
+            //       <ScrollView>
+                
+            //       <View style={{backgroundColor:"white",padding:5,
+            //             //  shadowOffset: { width: 0, height: 5 },
+            //             //     shadowOpacity: 1,
+            //             //     shadowRadius: 5,
+            //             //     elevation: 10,
+            //             //     shadowColor: 'lightgrey',
+            //             marginTop:40,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
                    
-                   <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
+            //        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
                         
       
-                           <RNSpeedometer
-                        size={windowWidth/2}
-                        maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
-                        value={this.state.testResult.score ? this.state.testResult.score : 0}
-                        currentValueText="Score-o-meter"
-                        needleHeightRatio={0.7}
-                        ringWidth={80}
-                        needleTransitionDuration={3000}
-                        needleTransition="easeElastic"
-                        needleColor={'#695077'}
-                        segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
-                        labels={[
-                          {
-                            name: 'Poor',
-                            labelColor: '#ff5400',
-                            activeBarColor: 'orange',
-                          },
-                          {
-                            name: 'Average',
-                            labelColor: '#f4ab44',
-                            activeBarColor: 'yellow',
-                          },
-                          {
-                            name: 'Fair',
-                            labelColor: '#14eb6e',
-                            activeBarColor: 'green',
-                          },
-                          {
-                            name: 'Fair',
-                            labelColor: '#14eb6e',
-                            activeBarColor: 'blue',
-                          },
-                        ]}/>
-                        </View>
-                        <View style={{backgroundColor:"white",paddingVertical:10,
-                         shadowOffset: { width: 0, height: 5 },
-                            shadowOpacity: 1,
-                            shadowRadius: 5,
-                            elevation: 10,
-                            shadowColor: 'lightgrey',
-                        marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
+            //                <RNSpeedometer
+            //             size={windowWidth/2}
+            //             maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
+            //             value={this.state.testResult.score ? this.state.testResult.score : 0}
+            //             currentValueText="Score-o-meter"
+            //             needleHeightRatio={0.7}
+            //             ringWidth={80}
+            //             needleTransitionDuration={3000}
+            //             needleTransition="easeElastic"
+            //             needleColor={'#695077'}
+            //             segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
+            //             labels={[
+            //               {
+            //                 name: 'Poor',
+            //                 labelColor: '#ff5400',
+            //                 activeBarColor: 'orange',
+            //               },
+            //               {
+            //                 name: 'Average',
+            //                 labelColor: '#f4ab44',
+            //                 activeBarColor: 'yellow',
+            //               },
+            //               {
+            //                 name: 'Fair',
+            //                 labelColor: '#14eb6e',
+            //                 activeBarColor: 'green',
+            //               },
+            //               {
+            //                 name: 'Fair',
+            //                 labelColor: '#14eb6e',
+            //                 activeBarColor: 'blue',
+            //               },
+            //             ]}/>
+            //             </View>
+            //             <View style={{backgroundColor:"white",paddingVertical:10,
+            //              shadowOffset: { width: 0, height: 5 },
+            //                 shadowOpacity: 1,
+            //                 shadowRadius: 5,
+            //                 elevation: 10,
+            //                 shadowColor: 'lightgrey',
+            //             marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
                    
-                   <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
-                   <AttemptAnalysis testResult={this.state.testResult}/>
-                   </View>
-                        {/* <View style={{backgroundColor:"white",padding:20,
-                         shadowOffset: { width: 0, height: 5 },
-                            shadowOpacity: 1,
-                            shadowRadius: 5,
-                            elevation: 10,
-                            shadowColor: 'lightgrey',
-                        marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20 }}>
-                          <View style={{marginHorizontal:5,}}>
-                                    <View style={{padding:10,flexDirection:"row",flexWrap:"wrap",}}>
-                                    { stars }
-                                    </View>
-                                </View>
-                                <View style={{justifyContent: 'center',alignItems:"center" ,marginVertical:15}}>
-                            <ProgressCircle
-                                percent={percent}
-                                radius={30}
-                                borderWidth={5}
-                                color={colors.Themecolor}
-                                shadowColor="#999"
-                                bgColor="white"
-                            >
-                            <Text style={{ fontSize: 18 }}>{this.state.correctarray.length+'/'+this.state.questionsarray.length }</Text>
-                          </ProgressCircle>
-                        </View>
-                            <View style={{flexDirection:"row",marginHorizontal:30,justifyContent:"space-around"}}>
-                                      <View style={{flexDirection:"row",justifyContent:"center"}}>
-                                     <Image source={require("../../assets/images/right.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
-                                     <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.correctarray.length} Correct</Text></View>
-                                     <View style={{flexDirection:"row",justifyContent:"center"}}>
-                                     <Image source={require("../../assets/images/wrong.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
-                                     <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.wrongarray.length} Wrong</Text></View>
-                                    </View>
-                        </View> */}
+            //        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
+            //        <AttemptAnalysis testResult={this.state.testResult}/>
+            //        </View>
+            //             {/* <View style={{backgroundColor:"white",padding:20,
+            //              shadowOffset: { width: 0, height: 5 },
+            //                 shadowOpacity: 1,
+            //                 shadowRadius: 5,
+            //                 elevation: 10,
+            //                 shadowColor: 'lightgrey',
+            //             marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20 }}>
+            //               <View style={{marginHorizontal:5,}}>
+            //                         <View style={{padding:10,flexDirection:"row",flexWrap:"wrap",}}>
+            //                         { stars }
+            //                         </View>
+            //                     </View>
+            //                     <View style={{justifyContent: 'center',alignItems:"center" ,marginVertical:15}}>
+            //                 <ProgressCircle
+            //                     percent={percent}
+            //                     radius={30}
+            //                     borderWidth={5}
+            //                     color={colors.Themecolor}
+            //                     shadowColor="#999"
+            //                     bgColor="white"
+            //                 >
+            //                 <Text style={{ fontSize: 18 }}>{this.state.correctarray.length+'/'+this.state.questionsarray.length }</Text>
+            //               </ProgressCircle>
+            //             </View>
+            //                 <View style={{flexDirection:"row",marginHorizontal:30,justifyContent:"space-around"}}>
+            //                           <View style={{flexDirection:"row",justifyContent:"center"}}>
+            //                          <Image source={require("../../assets/images/right.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
+            //                          <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.correctarray.length} Correct</Text></View>
+            //                          <View style={{flexDirection:"row",justifyContent:"center"}}>
+            //                          <Image source={require("../../assets/images/wrong.png")} style={{width:79/3,height:79/3,marginRight:10}}/>
+            //                          <Text style={{fontSize:15,alignSelf:"center"}}>{this.state.wrongarray.length} Wrong</Text></View>
+            //                         </View>
+            //             </View> */}
 
                
-                        <View style={{backgroundColor:"white",padding:10,
-                         shadowOffset: { width: 0, height: 5 },
-                            shadowOpacity: 1,
-                            shadowRadius: 5,
-                            elevation: 10,
-                            shadowColor: 'lightgrey',
-                        marginTop:40,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20 }}>
-                          <Text
-                          style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginBottom:20,marginLeft:10}}>Score</Text>
-                           <BarChartNew questionsarray={this.state.questionsarray}/>
-                        </View>
+            //             <View style={{backgroundColor:"white",padding:10,
+            //              shadowOffset: { width: 0, height: 5 },
+            //                 shadowOpacity: 1,
+            //                 shadowRadius: 5,
+            //                 elevation: 10,
+            //                 shadowColor: 'lightgrey',
+            //             marginTop:40,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20 }}>
+            //               <Text
+            //               style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginBottom:20,marginLeft:10}}>Score</Text>
+            //                <BarChartNew questionsarray={this.state.questionsarray}/>
+            //             </View>
 
-                        <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
-                        style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:colors.Themecolor,justifyContent:"center",alignItems:"center",borderRadius:20}}>
-                          <Text style={{color:"white"}}>Review Answers</Text>
-                        </TouchableOpacity>
-                  </ScrollView>
-                  </View>
+            //             <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
+            //             style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:colors.Themecolor,justifyContent:"center",alignItems:"center",borderRadius:20}}>
+            //               <Text style={{color:"white"}}>Review Answers</Text>
+            //             </TouchableOpacity>
+            //       </ScrollView>
+            //       </View>
                  
-                    }
+            //         }
             
-                <View style={styles.subjectouter}>
-                <Text style={{color:"white",fontSize:18}}>Summary</Text>
-                </View>
-            </View>
+            //     <View style={styles.subjectouter}>
+            //     <Text style={{color:"white",fontSize:18}}>Summary</Text>
+            //     </View>
+            // </View>
         )
     }
 }

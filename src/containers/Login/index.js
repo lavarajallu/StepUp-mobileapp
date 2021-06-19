@@ -201,9 +201,14 @@ class Login extends Component {
             alert("Please enter email")
         } else if (password === "") {
             alert("please enter password")
-        } else if (!Validations.email(email)) {
-            alert("please enter valid email")
-        } else {
+        } 
+        // else if(!Validations.phoneNumber(email)){
+            
+        // }
+        // else if (!Validations.email(email)) {
+        //    // alert("please enter valid email")
+        // } 
+        else {
             this.setState({spinner: true})
         //     const body ={
         //         email: email,
@@ -277,7 +282,7 @@ class Login extends Component {
                        <Header title="login" />
                        </View>
                        <View style={{flex:0.7,justifyContent:"space-evenly",paddingHorizontal:20,}}>
-                       <Image source={require("../../assets/images/logo_icon2.png")}
+                       <Image source={require("../../assets/images/logo_icon1.png")}
                             style={{width:72,height:72,alignSelf:"center"}} />
                         <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey", justifyContent: 'center',}}>
                         <TextInput
