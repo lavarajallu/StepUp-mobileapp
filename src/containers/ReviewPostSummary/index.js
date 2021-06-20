@@ -10,6 +10,7 @@ import {
     Platform,
     Image,
     FlatList,
+	BackHandler,
     TouchableOpacity
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -49,7 +50,17 @@ class ReviewPostSummary extends Component{
 		}
 	}
 	componentDidMount(){
+		this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
 		this.getData()
+}
+backAction = () => {
+	this.onBack()
+}
+componentWillUnmount() {
+		this.backHandler.remove();
 }
 getData = async () => {
     try {

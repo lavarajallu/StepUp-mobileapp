@@ -26,7 +26,9 @@ import Snackbar from 'react-native-snackbar';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import MathJax from 'react-native-mathjax';
 var alphabetarray = ["A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-
+const mmlOptions = {
+    jax: ['input/MathML'],
+};
 
 class PracticeAssesment extends Component {
     constructor(props) {
@@ -621,7 +623,30 @@ class PracticeAssesment extends Component {
         justifyContent:"center",
         alignSelf: 'flex-start',}}>
     <MathJax
-        // To set the font size change initial-scale=0.8 from MathJax class
+  mathJaxOptions={{
+    messageStyle: "none",
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"],
+      ],
+      processEscapes: true,
+    },
+    TeX: {
+      extensions: [
+        "AMSmath.js",
+        "AMSsymbols.js",
+        "noErrors.js",
+        "noUndefined.js",
+      ],
+    },
+  }}        // To set the font size change initial-scale=0.8 from MathJax class
         style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
         width: '80%',
         // borderWidth: 2,
@@ -799,7 +824,30 @@ class PracticeAssesment extends Component {
                                                 <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: 10 }}>
                                             <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
                                             <MathJax
-                                                // To set the font size change initial-scale=0.8 from MathJax class
+                                                            mathJaxOptions={{
+                                                                messageStyle: "none",
+                                                                extensions: ["tex2jax.js"],
+                                                                jax: ["input/TeX", "output/HTML-CSS"],
+                                                                tex2jax: {
+                                                                inlineMath: [
+                                                                    ["$", "$"],
+                                                                    ["\\(", "\\)"],
+                                                                ],
+                                                                displayMath: [
+                                                                    ["$$", "$$"],
+                                                                    ["\\[", "\\]"],
+                                                                ],
+                                                                processEscapes: true,
+                                                                },
+                                                                TeX: {
+                                                                extensions: [
+                                                                    "AMSmath.js",
+                                                                    "AMSsymbols.js",
+                                                                    "noErrors.js",
+                                                                    "noUndefined.js",
+                                                                ],
+                                                                },
+                                                            }}                                                // To set the font size change initial-scale=0.8 from MathJax class
                                                 style={{ borderRadius: 5,
                                                     width: '95%',
                                                     borderWidth: 0.5,

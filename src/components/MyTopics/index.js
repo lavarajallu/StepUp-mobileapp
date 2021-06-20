@@ -57,7 +57,7 @@ class MyTopics extends Component {
         }
     }
     getTopics() {
-        var url = baseUrl + '/student/inProgressTopics/2'
+        var url = baseUrl + '/student/inProgressTopics/5'
         console.log("value", url)
         fetch(url, {
             method: 'GET',

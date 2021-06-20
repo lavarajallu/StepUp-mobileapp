@@ -10,9 +10,9 @@
 import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
 import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPapers,MockTestSolutions,
-    MockTestAssesment,MockTestSummary,MockTest,PrePaperSummary,Register,PrePaperSolutions,Announcements,
+    MockTestAssesment,MockTestSummary,MockTest,PrePaperSummary,Register,PrePaperSolutions,Announcements,ViewLiveClass,
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,
-     Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,
+     Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,LiveClassList,
      PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,
  PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,LiveSessionActivity,CalendarNew,TopicAnalysis} from './src/containers'
 
@@ -84,6 +84,8 @@ const App = () => {
         <Scene key="announcements" component={Announcements}/>
         <Scene key="leaderboard" component={LeaderBoard} />
         <Scene key = "livesessionactivity" component={LiveSessionActivity}/>
+        <Scene key="liveclasslist" component={LiveClassList} />
+        <Scene key="viewliveclass" component={ViewLiveClass}/>
       </Stack>
     </Router>
   )

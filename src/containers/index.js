@@ -60,3 +60,5 @@ export { default as Analysis} from './Analysis'
 export { default as PreSolutions } from './PreSolutions';
 
 export { default as LeaderBoard } from './LeaderBoard'
+export { default as LiveClassList } from './LiveClassList'
+export { default as ViewLiveClass } from './ViewLiveClass'

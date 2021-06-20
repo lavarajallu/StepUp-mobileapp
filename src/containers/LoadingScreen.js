@@ -67,10 +67,10 @@ class LoadingScreen extends Component{
         }
        
       }else{
-        this.setState({
-          viewlanguage: true
-        })
-        //Actions.push('login',{deviceToken:this.state.deviceToken})
+        // this.setState({
+        //   viewlanguage: true
+        // })
+        Actions.push('login',{deviceToken:this.state.deviceToken})
       }
     } catch(e) {
        return null;

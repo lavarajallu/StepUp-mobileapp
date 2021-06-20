@@ -316,9 +316,9 @@ onnext(){
     console.log("xxxx",data)
     if(this.state.normaldata.video_played){
       console.log("dflkjlkdf",this.state.normaldata.video_played)
-      // if(this.playerRef){
-      // this.playerRef.seek(this.state.normaldata.video_played);
-      // }
+      if(this.playerRef){
+      this.playerRef.seek(this.state.normaldata.video_played);
+      }
      }
   }
   onLoadEnd = (data)=>{

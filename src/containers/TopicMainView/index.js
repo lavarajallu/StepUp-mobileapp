@@ -788,7 +788,7 @@ class TopicMainView extends Component {
                       <View style={{ flex: 1,  }}>
                         <Image
                           source={{ uri: imageUrl + this.state.topicData.image }}
-                          style={{ width: windowWidth, height: "100%",resizeMode:"stretch"}} />
+                          style={{ width: windowWidth, height: "100%",resizeMode:"cover"}} />
                         	<TouchableOpacity style={{position:"absolute",marginLeft:15,marginTop:10}} onPress={this.onBack.bind(this)}>
                     <Image source={require('../../assets/images/topicback.png')} style={{width:30,height:30,}} />
                   </TouchableOpacity>

@@ -11,6 +11,8 @@ import { PERMISSIONS, requestMultiple } from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 var videoBaseURL, i = 0;
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseUrl } from '../../constants';
 
 
 
@@ -32,11 +34,14 @@ class LiveSessionActivity extends Component {
             htmlURL: this.props.meetingUrl,
             // htmlURL: 'http://newcleusit.com/b/dhr-rj3-tzu',
             isHTMLAvailable: false,
-            isNoteAvailable: false
+            isNoteAvailable: false,
+            showend: false,
+            token:""
         }
     }
 
     componentDidMount() {
+        this.getData()
         requestMultiple([PERMISSIONS.ANDROID.CAMERA, PERMISSIONS.ANDROID.RECORD_AUDIO]).then(
             (statuses) => {
                 console.log('Camera', statuses[PERMISSIONS.ANDROID.CAMERA]);
@@ -44,16 +49,36 @@ class LiveSessionActivity extends Component {
             },
         );
         this.getScriptHTMLAPI();
+        this.backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
     }
+    getData = async () => {
+        try {
+            
+                const token = await AsyncStorage.getItem('@access_token')
+                if (token) {
+                    this.setState({
+                        token: JSON.parse(token)
+                    })
 
-    componentDidMount() {
-        if (!this.state.isForReview) {
-            this.backHandler = BackHandler.addEventListener(
-                "hardwareBackPress",
-                this.backAction
-            );
+                } else {
+
+                }
+        } catch (e) {
+            return null;
         }
     }
+
+    // componentDidMount() {
+    //     if (!this.state.isForReview) {
+    //         this.backHandler = BackHandler.addEventListener(
+    //             "hardwareBackPress",
+    //             this.backAction
+    //         );
+    //     }
+    // }
 
     componentWillUnmount() {
         if (!this.state.isForReview) {
@@ -81,7 +106,8 @@ class LiveSessionActivity extends Component {
 
     goNavBack() {
         console.log('Clicked');
-        this.props.navigation.goBack(null);
+        this.endmeeting()
+        Actions.pop({type:"reset"})
     }
 
     getScriptHTMLAPI() {
@@ -93,17 +119,61 @@ class LiveSessionActivity extends Component {
     }
 
     _onNavigationStateChange(webViewState) {
-        console.log(webViewState.url);
-        if ((webViewState.url.indexOf('/logout') > -1 ||
-            webViewState.title.indexOf('StepUp - ') > -1) && i == 0) {
+        console.log("ggggggggg",webViewState);
+        if(!webViewState.loading){
+            this.setState({showend: true})
+        }
+        
+        if ((webViewState.url.indexOf('/survey') > -1 ||
+            webViewState.title.indexOf('BigBlueButton - ') > -1) && i == 0) {
+                console.log("hhhhhhhh",webViewState.url);
             i++;
+            this.endmeeting()
             Actions.pop({type:"reset"})
-           // this.props.navigation.goBack(null);
+            //this.props.navigation.goBack(null);
         }
     }
 
     handleMessage(message) {
         console.log(message);
+    }
+
+    onEndMeeting(){
+        Alert.alert(
+            '',
+            'Are you sure want to leave the current session?',
+            [
+                {
+                    text: 'NO',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                },
+                { text: 'YES', onPress: () => { this.goNavBack() } },
+            ],
+            { cancelable: false }
+        )
+    }
+
+    endmeeting(){
+        const { data } = this.props
+        console.log("ddddddddd",data)
+        const url = baseUrl+"/live-class/"+data.reference_id+"/end"
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.state.token
+          }
+        }).then((response) => response.json())
+          .then((json) => {
+    
+            const data = json.data;
+            // alert(JSON.stringify(data))
+            console.log("endmeeting......", json)
+          }
+    
+          )
+          .catch((error) => console.error(error))
     }
 
     render() {
@@ -126,6 +196,12 @@ class LiveSessionActivity extends Component {
                     onNavigationStateChange={this._onNavigationStateChange.bind(this)}
                     userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"
                 /> 
+
+                {this.state.showend ? 
+                
+                <TouchableOpacity onPress={this.onEndMeeting.bind(this)} style={{position:"absolute",backgroundColor:"transparent",bottom:0,padding:20,right:0}}>
+                   <Image source={require('../../assets/images/endcall.png')} style={{width:30,height:30}}/>
+                </TouchableOpacity>  :null}
             </View>
         )
     }

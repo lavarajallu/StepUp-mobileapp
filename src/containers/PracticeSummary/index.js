@@ -11,6 +11,7 @@ import {
     StatusBar,
     Image,
     Keyboard,
+    BackHandler,
     TouchableOpacity
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -91,8 +92,18 @@ class PracticeSummary extends Component {
     }
     componentDidMount() {
         //alert(JSON.stringify(this.props.testid))
+        this.backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.backAction
+        );
            this.getData()
          }
+         backAction = () => {
+          this.onBack()
+        }
+        componentWillUnmount() {
+            this.backHandler.remove();
+        }
          getData = async () => {
            try {
              const value = await AsyncStorage.getItem('@user')
@@ -315,7 +326,7 @@ class PracticeSummary extends Component {
                       marginTop:20,
                       borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
                  
-                 <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Performace</Text>
+                 <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Performace</Text>
                       
     
                          <RNSpeedometer
@@ -398,7 +409,7 @@ class PracticeSummary extends Component {
                                   shadowColor: 'lightgrey',
                               marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
                         
-                        <Text style={{textAlign:"left",color:colors.Themecolor,fontSize:15,marginLeft:10}}>Attempt Analysis</Text>
+                        <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Attempt Analysis</Text>
                         <AttemptAnalysis testResult={this.state.testResult}/>
                         </View>
                         <View style={{marginVertical:20}}>

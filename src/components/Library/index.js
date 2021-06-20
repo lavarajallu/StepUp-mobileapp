@@ -63,7 +63,8 @@ class Library extends Component {
 		this.state={
 			announcementsData: [],
 			liveclassesdata:[],
-			spinner: true
+			spinner: true,
+			token:""
 		}
 	}
 
@@ -187,6 +188,40 @@ class Library extends Component {
 		)
 	}
 
+	onLiveItem(item){
+	//	alert("dataa"+JSON.stringify(item.chapter_id))
+	var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
+	var newitem = newarray[Math.floor(Math.random()*newarray.length)];
+		var url = baseUrl + '/chapter/' + item.chapter_id
+
+		fetch(url, {
+            method: 'GET',
+            headers: {
+		'Content-Type': 'application/json',
+		'token': this.state.token
+	},
+}).then((response) =>
+
+	response.json())
+	.then((json) => {
+		console.log("chapter....",JSON.stringify(json))
+		if (json.data) {
+	      // alert("chapter...."+JSON.stringify(json.data))
+		   console.log("livesession",json.data)
+		   json.data.chapter["color"] = newitem
+
+		   Actions.push("topics",{data: json.data.chapter, subjectData: json.data.chapter.subject,screen:"dashboard"})
+
+			
+		} else {
+			
+		}
+	}
+
+	)
+	.catch((error) => console.error("errrrrrrorrr"+error))
+	}
+
 	renderItemLive({item}){
 		var date =  moment(new Date(item.date)).format('MM/DD')
 		var day  =moment(new Date(item.date)).format('ddd'); 
@@ -194,7 +229,7 @@ class Library extends Component {
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 			var bgimage = randomItem
 		return(
-			<View style={{ overflow: "hidden", flexDirection: "row", margin: 10, justifyContent: "space-between", backgroundColor: "transparent",paddingVertical:5 }}>
+			<TouchableOpacity onPress={this.onLiveItem.bind(this,item)} style={{ overflow: "hidden", flexDirection: "row", margin: 10, justifyContent: "space-between", backgroundColor: "transparent",paddingVertical:5 }}>
 			<View style={{ flex: 1, flexDirection: "row",}}>
 				<View style={{ flex: 0.3, backgroundColor: "transparent", justifyContent: "center" }}>
 					<View style={{width:80,height:60,backgroundColor:randomItem,justifyContent:"center",alignItems:"center",opacity:0.1}}>
@@ -218,9 +253,16 @@ class Library extends Component {
 			</View>
 
 
-		</View>
+		</TouchableOpacity>
 		
 		)
+	}
+
+	onliveview(){
+		Actions.push("liveclasslist")
+	}
+	onannounceview(){
+		Actions.push('announcements',{title:"tabs"})
 	}
 
 	render() {
@@ -255,7 +297,9 @@ class Library extends Component {
 						<View style={{ flex: 1 }}>
 						<LinearGradient colors={['#277292', '#277292']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
 								<Text style={{color:"white"}}>{StringsOfLanguages.announcements}</Text>
+								<TouchableOpacity onPress={this.onannounceview.bind(this)}>
 								<Text style={{color:"white"}}>{StringsOfLanguages.seeall}</Text>
+								</TouchableOpacity>
 							</LinearGradient>
 
 							<FlatList data={this.state.announcementsData} renderItem={this.renderItem.bind(this)}/>
@@ -275,7 +319,9 @@ class Library extends Component {
 						<View style={{ flex: 1 }}>
 						<LinearGradient colors={['#deb026', '#deb026']} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={{ flexDirection: "row", justifyContent: "space-between",backgroundColor:"red",height:60,alignItems:"center",paddingHorizontal:10 }}>
 								<Text style={{color:"white"}}>{StringsOfLanguages.liveclasses}</Text>
+								<TouchableOpacity onPress={this.onliveview.bind(this)}>
 								<Text style={{color:"white"}}>{StringsOfLanguages.seeall}</Text>
+								</TouchableOpacity>
 							</LinearGradient>
 
 							<FlatList data={this.state.liveclassesdata} renderItem={this.renderItemLive.bind(this)}/>
@@ -284,7 +330,7 @@ class Library extends Component {
 					</View>
 					:
 					null}
-					<View style={{
+					{/* <View style={{
 						borderWidth: 0, borderColor: "lightgrey", backgroundColor: 'white', shadowColor: 'black',
 						shadowOffset: { width: 0, height: 5 },
 						marginVertical:20,marginHorizontal:20,
@@ -339,54 +385,14 @@ class Library extends Component {
 							
 								  </ImageBackground>
 							  </View>
-						    {/* <View style={{margin:30,height:200,width:300,}}>
-								<View style={{flex:1,flexDirection:"row"}}>
-									<View style={{flex:0.33,justifyContent:"flex-end"}}>
-									<View style={{alignItems:"center"}}>
-										<View style={{width:60,height:60,borderRadius:30,borderWidth:1,borderColor:"blue",}}>
-										<Image source={require('../../assets/images/avatar-9.jpg')} style={{width:60,height:60,borderRadius:30,alignSelf:"center"}}/>
-										</View>
-										<Text style={{marginBottom:10}}>Name</Text>
-										<ImageBackground source={require('../../assets/images/dashboard/new/leader1.png')} style={{width:"100%",height:70,justifyContent:"center",alignItems:"center"}}>
-											<Text style={{fontSize:20,color:"white"}}>2</Text>
-											</ImageBackground>
-									</View>
-									</View>
-									<View style={{flex:0.34,justifyContent:"flex-end"}}>
-									<View style={{alignItems:"center"}}>
-										<View style={{width:60,height:60,borderRadius:30,borderWidth:1,borderColor:"blue",}}>
-										<Image source={require('../../assets/images/avatar-9.jpg')} style={{width:60,height:60,borderRadius:30,alignSelf:"center"}}/>
-										</View>
-										<Text style={{marginBottom:10}}>Name</Text>
-										<ImageBackground source={require('../../assets/images/dashboard/new/leader2.png')} style={{width:"100%",height:93,justifyContent:"center",alignItems:"center",}}>
-										<Text style={{fontSize:20,color:"white"}}>1</Text>
-											</ImageBackground>
-									</View>
-									</View>
-
-									<View style={{flex:0.33,justifyContent:"flex-end"}}>
-									<View style={{alignItems:"center"}}>
-										<View style={{width:60,height:60,borderRadius:30,borderWidth:1,borderColor:"blue",}}>
-										<Image source={require('../../assets/images/avatar-9.jpg')} style={{width:60,height:60,borderRadius:30,alignSelf:"center"}}/>
-										</View>
-										<Text style={{marginBottom:10}}>Name</Text>
-										<ImageBackground source={require('../../assets/images/dashboard/new/leader3.png')} style={{width:"100%",height:63,justifyContent:"center",alignItems:"center"}}>
-										<Text style={{fontSize:20,color:"white"}}>3</Text>
-											</ImageBackground>
-									</View>
-									</View>
-
-								</View> 
-							
-							</View>*/}
-					
+						   
 
 						</View>
-					</View>
+					</View> */}
 					
                     <RecommendedTopics />
 
-					<ReferEarn />
+					{/* <ReferEarn /> */}
 				
 
 				</View>

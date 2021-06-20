@@ -10,7 +10,8 @@ import {
     StatusBar,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+	BackHandler
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -84,7 +85,17 @@ class PracticeReview extends Component{
 		}
 	}
 	componentDidMount(){
+		this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
 		this.getData()
+}
+backAction = () => {
+	this.onBack()
+}
+componentWillUnmount() {
+		this.backHandler.remove();
 }
 getData = async () => {
     try {
@@ -158,7 +169,7 @@ getData = async () => {
 						 }else{
 							newdata[0].tests.map((res,i)=>{
 						
-								   newarraynew.push("Test"+i)
+								   newarraynew.push("Test"+(i+1))
 								   if(res.score){
 									newdataarray.push(res.score)
 								   }else{

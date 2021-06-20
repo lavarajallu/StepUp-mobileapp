@@ -113,7 +113,16 @@ class Topics extends Component {
 	}
 	onBack(){
 		this.updateAnalytics()
-		Actions.chapters({type:"reset",data:this.props.subjectData})
+		//alert(this.props.screen)
+		if(this.props.screen === 'dashboard'){
+			Actions.dashboard({type:"reset"})
+        }else if(this.props.screen === "classlist"){
+			Actions.liveclasslist({type:"reset"})
+
+		}else{
+			Actions.chapters({type:"reset",data:this.props.subjectData})
+
+		}
 	}
 	getData = async () => {
 		try {
@@ -129,8 +138,9 @@ class Topics extends Component {
 						token: JSON.parse(token),
 						userdetails: data
 					})
-					this.getanalytics(data,JSON.parse(token))
+					
 					this.getTopics(data, JSON.parse(token))
+					this.getanalytics(data,JSON.parse(token))
 				} else {
 					//console.log("hihii")
 				}
@@ -205,7 +215,7 @@ class Topics extends Component {
 			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=''&section_id=''"
 		}
 		//var url =baseUrl+"/student/topics/8283c5c7-0369-4bb0-8da0-acf1179833b2/2fd32b4e-86e8-4f0e-af29-b79a0efaf81c/23cdedb8-093a-4aeb-af7e-755fca8d3e2d?school_id=&section_id="
-		console.log("value", url)
+		console.log("topicvaluesssssss", url)
 		fetch(url, {
 			method: 'GET',
 			headers: {
@@ -220,7 +230,7 @@ class Topics extends Component {
 				console.log("sss", data)
 				if (data) {
 					if (data.topics) {
-					//	console.log("topics", json.data.topics)
+					console.log("topics", json.data.topics)
 						this.setState
 							({
 								spinner: false,
@@ -348,7 +358,10 @@ class Topics extends Component {
            <Text>Loading...</Text>
         </View> 
         :
-		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)} onTopicPress={this.onTopic.bind(this)} onanalyticspress={this.onanalyticspress.bind(this)} topicData={this.state.topicData} topicsArray={this.state.topicsArray} role={this.state.userdetails.user_role}/>}
+		<TopicsComponent subjectData={this.props.subjectData} updateAnalytics={this.updateAnalytics.bind(this)}
+		onTopicPress={this.onTopic.bind(this)} onanalyticspress={this.onanalyticspress.bind(this)}
+		screen={this.props.screen}
+		topicData={this.state.topicData} topicsArray={this.state.topicsArray} role={this.state.userdetails.user_role}/>}
       
        </View>
         </View>

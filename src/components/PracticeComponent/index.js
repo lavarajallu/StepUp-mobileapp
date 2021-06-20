@@ -111,7 +111,7 @@ class PracticeComponent extends Component {
     }
     renderItem({ item }) {
         var colorsarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
-		var randomItem = this.chooseName(colorsarray)//colorsarray[Math.floor(Math.random()*colorsarray.length)];
+		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
         var bgcolor = randomItem
         
         var percent = (item.percent)

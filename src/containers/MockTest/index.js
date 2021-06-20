@@ -112,16 +112,19 @@ class MockTest extends Component{
 			<Image source={require('../../assets/images/left-arrow.png')}
 			style={styles.backimage}/>
 			</TouchableOpacity>
+
+			
 			<Text style={{marginTop: 20,fontSize:15}}>Competitive Exam-Mocks</Text>
 			</View>
-			<Image source={require('../../assets/images/abst.png')} style={{width:339/2,height:242/2}}/>
+			<Image source={require('../../assets/images/abst.png')} style={{width:339/2,height:242/2,alignSelf:"center"}}/>
 			</View>
-			<View style={{flex:1,marginTop: 20}}>
-
-			 <FlatList data={data}
+			<View style={{flex:1,marginTop: 20,alignItems:"center"}}>
+			<Image source={require('../../assets/images/comingsoon.jpeg')}
+               style={{width:windowWidth/1.2,height:512}}/>
+			{/*} <FlatList data={data}
 					renderItem={this.renderItem.bind(this)}
-					 />
-			</View>
+					 /> */}
+			</View> 
 
 
 			</View>

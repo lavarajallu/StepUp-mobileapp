@@ -134,7 +134,7 @@ componentDidMount(){
             this.setState({
               meetingUrl: json.data,
               loading:false,
-            },()=> Actions.push("livesessionactivity",{meetingUrl:json.data}))
+            },()=> Actions.push("livesessionactivity",{meetingUrl:json.data,data:item }))
             //json.statusCode
           }else{
             this.setState({loading: false})
@@ -145,6 +145,9 @@ componentDidMount(){
       )
       .catch((error) => console.error(error))
    // Actions.push("livesessionactivity",{data:item})
+  }
+  onViewLive(item){
+    Actions.push("viewliveclass",{data: item,topicindata : this.props.topicData})
   }
         renderItem({ item }) {
       
@@ -181,10 +184,16 @@ componentDidMount(){
               <Text style={{color:"white",fontSize:12}}>VIEW</Text>
             </View>
             : */}
+            {item.end_time ?  
+              <TouchableOpacity onPress={this.onViewLive.bind(this,item)} style={{paddingVertical: 8,paddingHorizontal: 20,borderWidth:1,borderRadius:20,
+                borderColor: 'transparent',backgroundColor: '#695077'}}>
+                 <Text style={{color:"white",fontSize:12}}>View</Text>
+               </TouchableOpacity>
+              : 
              <TouchableOpacity onPress={this.onJoinLiveClass.bind(this,item)} style={{paddingVertical: 8,paddingHorizontal: 20,borderWidth:1,borderRadius:20,
              borderColor: 'transparent',backgroundColor: '#E32346'}}>
               <Text style={{color:"white",fontSize:12}}>JOIN</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
            {/* //} */}
            </View>
           </View>

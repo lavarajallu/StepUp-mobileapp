@@ -135,10 +135,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "com.stepup"
+        applicationId "com.smartgen.stepup"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 53
         versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

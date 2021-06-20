@@ -87,6 +87,59 @@ class RecommendedTopics extends Component {
             return null;
         }
     }
+	onMainTopic(item){
+        var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
+		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
+        var url = baseUrl + '/topic/' + item.reference_id
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            },
+        }).then((response) =>
+
+            response.json())
+            .then((json) => {
+
+                if (json.data) {
+             //    console.log("topiccccccccc....",JSON.stringify(json.data.topic.subject))
+                 
+                    this.setState({
+                        topicItem: json.data.topic,
+                       subjectData:json.data.topic.subject,
+                       chapterData: json.data.topic.chapter
+                    },()=>{
+                        this.state.topicItem["color"] = newitem
+                       // alert(JSON.stringify(this.state.topicItem.color))
+                        Actions.push('topicmainview', { "from": "dashboard", data: this.state.topicItem, topicsdata: this.state.chapterData, subjectData: this.state.subjectData })
+                    })
+                } else {
+                    // var obj = {
+                    //     reference_id:  item.topic_id,
+                    //     name:"topic1"
+                    // }
+                    // var obj1= {
+                    //     reference_id:  item.chapter_id,
+                    //     name:"Chapter1"
+                    // }
+                    // var obj2 ={
+                    //     reference_id:  item.subject_id,
+                    //     name:"subject1"
+                    // }
+                    // this.setState({
+                    //     topicItem: obj,
+                    //     chapterData:obj1,
+                    //     subjectData: obj2
+                    // },()=> Actions.push('topicmainview', { "from": "dashboard", data: this.state.topicItem, topicsdata: this.state.chapterData, subjectData: this.state.subjectData }))
+                    // console.log(JSON.stringify(json.message))
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
+       // 
+    }
 	getTopics() {
 	//	localhost:3000/student/recommendedLearning
 
@@ -134,7 +187,7 @@ class RecommendedTopics extends Component {
 			color = "orange"
 		}
 		return (
-			<View style={{backgroundColor:"white",width:windowWidth/1.3,margin:10,alignSelf:"center",
+			<TouchableOpacity onPress={this.onMainTopic.bind(this,item)} style={{backgroundColor:"white",width:windowWidth/1.3,margin:10,alignSelf:"center",
 			shadowOffset: { width: 0, height: 5 },
 			shadowOpacity: 1,
 			shadowRadius: 5,
@@ -163,7 +216,7 @@ class RecommendedTopics extends Component {
 			
 				</View>
 			   
-			</View>
+			</TouchableOpacity>
 		)
 	}
 	render() {

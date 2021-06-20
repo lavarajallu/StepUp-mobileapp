@@ -1,4 +1,4 @@
-package com.stepup;
+package com.smartgen.stepup;
 
 import com.facebook.react.ReactActivity;
 import android.content.res.Configuration;

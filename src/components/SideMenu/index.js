@@ -28,10 +28,10 @@ const data = [
 		name: "Notifictions",
 		icon: require("../../assets/images/sidemenu/notification.png")
 	},
-	{
-		name: "Refer & Earn",
-		icon: require("../../assets/images/sidemenu/refer.png")
-	},
+	// {
+	// 	name: "Refer & Earn",
+	// 	icon: require("../../assets/images/sidemenu/refer.png")
+	// },
 	{
 		name: "Change Password",
 		icon: require("../../assets/images/sidemenu/changepass.png")
@@ -40,10 +40,10 @@ const data = [
 		name: "Contact Us",
 		icon: require("../../assets/images/sidemenu/call.png")
 	},
-	{
-		name: "Change Language",
-		icon:require("../../assets/images/sidemenu/profile.png")
-	}
+	// {
+	// 	name: "Change Language",
+	// 	icon:require("../../assets/images/sidemenu/profile.png")
+	// }
 ]
 
 

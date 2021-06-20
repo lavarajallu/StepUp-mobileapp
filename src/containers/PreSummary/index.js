@@ -11,6 +11,7 @@ import {
     StatusBar,
     Image,
     Keyboard,
+    BackHandler,
     Platform,
     TouchableOpacity
 } from 'react-native';
@@ -69,6 +70,10 @@ class PreSummary extends Component {
     }
     componentDidMount() {
          // alert("typeeee"+JSON.stringify(this.props.testtype))
+         this.backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.backAction
+        );
           if(this.props.review){
             this.setState({
               review: true
@@ -76,6 +81,12 @@ class PreSummary extends Component {
           }
            this.getData()
          }
+         backAction = () => {
+          this.onBack()
+        }
+        componentWillUnmount() {
+            this.backHandler.remove();
+        }
          getData = async () => {
            try {
              const value = await AsyncStorage.getItem('@user')

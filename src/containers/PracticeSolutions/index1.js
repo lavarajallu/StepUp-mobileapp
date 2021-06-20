@@ -423,6 +423,30 @@ class PracticeSolutions extends Component{
             justifyContent:"center",
             alignSelf: 'flex-start',}}>
         <MathJax
+          mathJaxOptions={{
+            messageStyle: "none",
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+              inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+              ],
+              displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+              ],
+              processEscapes: true,
+            },
+            TeX: {
+              extensions: [
+                "AMSmath.js",
+                "AMSsymbols.js",
+                "noErrors.js",
+                "noUndefined.js",
+              ],
+            },
+          }}
             // To set the font size change initial-scale=0.8 from MathJax class
             style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
             width: '80%',
@@ -598,6 +622,30 @@ class PracticeSolutions extends Component{
              <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: 10 , marginTop:10}}>
                                             <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
                                             <MathJax
+                                              mathJaxOptions={{
+                                                messageStyle: "none",
+                                                extensions: ["tex2jax.js"],
+                                                jax: ["input/TeX", "output/HTML-CSS"],
+                                                tex2jax: {
+                                                  inlineMath: [
+                                                    ["$", "$"],
+                                                    ["\\(", "\\)"],
+                                                  ],
+                                                  displayMath: [
+                                                    ["$$", "$$"],
+                                                    ["\\[", "\\]"],
+                                                  ],
+                                                  processEscapes: true,
+                                                },
+                                                TeX: {
+                                                  extensions: [
+                                                    "AMSmath.js",
+                                                    "AMSsymbols.js",
+                                                    "noErrors.js",
+                                                    "noUndefined.js",
+                                                  ],
+                                                },
+                                              }}
                                                 // To set the font size change initial-scale=0.8 from MathJax class
                                                 style={{ borderRadius: 5,
                                                     width: '95%',
@@ -626,6 +674,7 @@ class PracticeSolutions extends Component{
             // </View>
      
                 )} */}
+                {this.state.selectedItem.question.solution ? 
            <View style={{marginTop:20,marginLeft:10}}>
              <Text style={{fontSize:15,marginBottom:10}}>Solution :</Text>
              <View style={{width: '80%',
@@ -636,6 +685,30 @@ class PracticeSolutions extends Component{
         justifyContent:"center",
         alignSelf: 'flex-start',}}>
     <MathJax
+      mathJaxOptions={{
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+          processEscapes: true,
+        },
+        TeX: {
+          extensions: [
+            "AMSmath.js",
+            "AMSsymbols.js",
+            "noErrors.js",
+            "noUndefined.js",
+          ],
+        },
+      }}
         // To set the font size change initial-scale=0.8 from MathJax class
         style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
         width: '80%',
@@ -645,7 +718,7 @@ class PracticeSolutions extends Component{
         marginLeft:10,
         justifyContent:"center",
         alignSelf: 'flex-start',}} html={this.state.selectedItem.question.solution} /></View>
-             </View>
+             </View> : null}
               </ScrollView>
             </View>
             

@@ -32,17 +32,21 @@ class LeaderBoard extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <ImageBackground source={require('../../assets/images/dashboard/new/leader_bg.png')} style={{ width: windowWidth, height: 311 / 1.1 }}>
+                
+                <ImageBackground source={require('../../assets/images/dashboard/new/leader_bg.png')} 
+                style={{ width: windowWidth, height: windowHeight}}>
                     <View style={{ flex: 1 }}>
-                        <View style={{ flex: 0.25, flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
+                        <View style={{ flex: 0.1, flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
                             <TouchableOpacity onPress={this.onBack.bind(this)}>
                                 <Image source={require("../../assets/images/left-arrow.png")}
                                     style={{ width: 30, height: 30, tintColor: "#FF7150" }} />
                             </TouchableOpacity>
                             <Text style={{ color: "#FF7150", marginLeft: 20, fontSize: 20 }}>{"Leader Board"}</Text>
                         </View>
-                        <View style={{ flex: 0.75, alignItems: "center", justifyContent: "center" }}>
-                            <View style={{ width: 294, height: 180, justifyContent: "flex-end" }}>
+                        <View style={{ flex: 0.9,alignItems:"center"}}>
+                        <Image source={require('../../assets/images/comingsoon.jpeg')}
+               style={{width:windowWidth/1.2,height:512}}/>
+                             {/* <View style={{ width: 294, height: 180, justifyContent: "flex-end" }}>
                                 <ImageBackground source={require('../../assets/images/dashboard/new/leaderimage.png')} style={{ width: 323, height: 102, alignSelf: "center" }}>
 
                             
@@ -79,12 +83,12 @@ class LeaderBoard extends Component {
                                             </View>
                                         </View>
                                     </View>
-                                </View>
-                            </View>
+                                    </View> 
+                            </View> */}
                         </View>
                     </View>
                 </ImageBackground>
-                <View style={{
+                {/* <View style={{
                     height: windowHeight / 1.6, width: windowWidth, backgroundColor: "white", alignSelf: "center",
                     position: "absolute", bottom: 0, borderTopRightRadius: 30, borderTopLeftRadius: 30,
                     shadowColor: 'red',elevation:10,
@@ -95,7 +99,7 @@ class LeaderBoard extends Component {
   shadowRadius: 6,
                 }}>
                     <LeaderComponent />
-                </View>
+                </View>  */}
             </View>
 
         )

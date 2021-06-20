@@ -32,13 +32,14 @@ class TopicsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0,
+            selectedIndex: this.props.screen === 'dashboard' || this.props.screen === 'classlist' ? 1 : 0,
             token:'',
             spinner:true,
             livesessionarray:[]
         };
     }
     componentDidMount(){
+
         this.getData()
       }
        getData = async () => {
@@ -80,7 +81,7 @@ class TopicsComponent extends Component {
       
             response.json())
             .then((json) => {
-                console.log("topicdattaaa", JSON.stringify(json.data))
+                console.log("live dataaaa", JSON.stringify(json.data.data))
                 if(json.data){
                   if(json.data.data.length > 0){
                     this.setState({

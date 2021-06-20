@@ -37,6 +37,7 @@ class WebLinkView extends  Component{
     componentDidMount() {
      this.getData()
     }
+    
     getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@user')
