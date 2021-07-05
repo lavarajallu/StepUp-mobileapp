@@ -83,10 +83,12 @@ class Notifications extends Component {
                         </ImageBackground>
                       <Text style={styles.headText}>Can’t find notifications</Text>
                       <Text style={styles.subtext}>Let’s explore more content around you.</Text>
+                      <TouchableOpacity onPress={()=> Actions.dashboard({type:"reset"})}>
                        <LinearGradient colors={["#A28FB0","#543361","#543361"]}
                 style={styles.gradientstyles}>
                    <Text style={styles.buttonText}>Back to Feed</Text>
                    </LinearGradient>
+                   </TouchableOpacity>
                     </View>
                     <View style={{flex:0.08}}>
                     <Footer openControlPanel={this.openControlPanel} value="notifications" notification_count={this.state.notifications.notification_count}/>
