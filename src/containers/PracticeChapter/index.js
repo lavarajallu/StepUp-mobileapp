@@ -319,7 +319,7 @@ getData = async () => {
   }
 	onItem(item,index){
 		item['color'] = this.props.data.color
-		console.log("itemmm,item", item.name,  index)
+		console.log("itemmm,item", item.name,  this.props.data)
 		if(this.state.subject.name === item.name){
 			Actions.push('practiceassesment',{data: item,subjectData: this.state.data,type:item.type})
 		}else{

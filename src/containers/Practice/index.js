@@ -125,7 +125,13 @@ getData = async () => {
     };
 	render(){
 		return(
-     
+			<Drawer
+			type="overlay"
+                ref={(ref) => this._drawer = ref}
+                 tapToClose={true}
+                 openDrawerOffset={0.25} 
+                content={ <SideMenu closeControlPanel={this.closeControlPanel}/>}
+                >         
 			<View style={styles.mainview}>
 
 			<View style={styles.topview}>
@@ -171,6 +177,7 @@ getData = async () => {
 		     <Footer openControlPanel={this.openControlPanel}/>
 			</View> 
 			</View>
+			</Drawer>
 			)
 	}
 }

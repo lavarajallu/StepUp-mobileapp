@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
+import Toast from 'react-native-simple-toast';
 
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
@@ -89,7 +90,7 @@ class ProgressTopics extends Component{
                 console.log("topicdattaaa", JSON.stringify(json.data))
                 if (json.data) {
                     this.setState({
-                        topicsData: json.data,
+                        topicsData: json.data.reverse(),
                         spinner: false
                     })
                 } else {
@@ -121,34 +122,9 @@ class ProgressTopics extends Component{
 		//this.updateAnalytics()
 		Actions.push('chapters',{data:item})
 	}
-    chooseName = function (a) {
-        // var unique = true;
-        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
-        // var name = a.splice(num,1);
-        // a.push(name);
-        // return num;
-        // console.log("nummm",num)
-        var unique = true;
-        b.length = 6;
-        var num = Math.floor(Math.random() * a.length);
-        var name = a[num];    
-            for (var i = 0; i < a.length; i++) {
-            if (b[i] == name) {
-               this.chooseName(a);
-                unique = false;
-                break;
-                }
-            }
-            if (unique == true) {
-            console.log("name",name);
-            b.unshift(name);
-            
-            }
-            return name
-    }
     onMainTopic(item){
         var newarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
-		var newitem = this.chooseName(newarray);//newarray[Math.floor(Math.random()*newarray.length)];
+		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
         var url = baseUrl + '/topic/' + item.topic_id
         fetch(url, {
             method: 'GET',
@@ -169,7 +145,13 @@ class ProgressTopics extends Component{
                        subjectData:json.data.topic.subject,
                        chapterData: json.data.topic.chapter
                     },()=>{
-                        this.state.topicItem["color"] = newitem
+                        var bgcolor;
+                        if(json.data.topic.subject.color){
+                            bgcolor = json.data.topic.subject.color
+                        }else{
+                            bgcolor = newitem
+                        }
+                       this.state.topicItem["color"] = bgcolor
                        // alert(JSON.stringify(this.state.topicItem.color))
                         Actions.push('topicmainview', { "from": "progresstopics", data: this.state.topicItem, topicsdata: this.state.chapterData, subjectData: this.state.subjectData })
                     })
@@ -224,10 +206,10 @@ class ProgressTopics extends Component{
                     shadowOffset: { width: 0, height: 5 },
                     shadowOpacity: 1,
                     shadowRadius: 5,
-                    elevation: 10, borderRadius: 10, paddingVertical: 5
+                    elevation: 10, borderRadius: 10,height:80
 
                 }}>
-                    <View style={{ flex: 1, flexDirection: "row", padding: 5 ,}}>
+                    <View style={{ flex: 1, flexDirection: "row",}}>
                         <View style={{ flex: 0.2, }}>
                             {item.image ?
 

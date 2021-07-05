@@ -18,6 +18,9 @@ target 'StepUp' do
 
   pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
 

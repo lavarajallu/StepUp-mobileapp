@@ -14,6 +14,7 @@ import {
     FlatList,
     ActivityIndicator
 } from 'react-native';
+
 import { Actions } from 'react-native-router-flux';
 import Modal from 'react-native-modal';
 import styles from "./styles"
@@ -862,262 +863,175 @@ class PreAssesment extends Component {
     render() {
         const { topicindata} = this.props
         return (
-            
-            // this.state.spinner ?<View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-            //    <Text>Loading...</Text>
-            // </View> :
+         
 
-            //     <View style={styles.mainview}>
-            //         <View style={styles.topview}>
-            //             <Text style={styles.toptext}>{this.props.data.activity}</Text>
-            //         </View>
-            //         {this.state.questiosnarray.length > 0 ?
-            //             <View style={{ flex: 1, backgroundColor: "green" }}>
-            //                 <View style={styles.mainbottomview}>
-            //                     <View style={styles.mainshadowview}>
-            //                         <View style={styles.headerview}>
-            //                             <View style={styles.headerleftview}>
-            //                                 <Text style={styles.headtext}>{this.props.data.name}</Text>
-            //                             </View>
-            //                             <View style={styles.headrightview}>
-            //                                 <View style={styles.timerview}>
-            //                                     <Image source={require('../../assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
-            //                                     <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+<MathJax
+  // HTML content with MathJax support
+ //html={'<p>Solve the following quadratic equations by factorization:</p>\n\n<p><span class="math-tex">(\\frac{x-a}{x-b}+ \\frac{x-b}{x-a}=\\frac{a}{b}+\\frac{b}{a})</span></p>\\n'}
+  html={'<p>Solve the following quadratic equations by factorization:</p>\\n\\n<p><span class="math-tex">(\\frac{x-a}{x-b}+ frac{x-b}{x-a}=frac{a}{b}+frac{b}{a})</span></p>\\n'}
+  mathJaxOptions={{
+    messageStyle: 'none',
+    extensions: [ 'tex2jax.js' ],
+    jax: [ 'input/TeX', 'output/HTML-CSS' ],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['(',')'] ],
+      displayMath: [ ['$','$'], ['[',']'] ],
+      processEscapes: true,
+    },
+    TeX: {
+      extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js']
+    } 
+  }}
+ 
+/>
 
-            //                                 </View>
-            //                             </View>
-            //                         </View>
+//             <>
+//             <ImageBackground source={require('./src/assets/images/dashboard/new/activitybg.jpg')}
+//             style={{width:"100%",height:"100%",backgroundColor:"green"}} opacity={0.5}>
+//               <View style={{flex:1}}>
+//               <View style={{flex:0.08,flexDirection:"row"}}>
+//           <View style={{flex:1}}>
 
-            //                         <View style={styles.listview}>
-            //                             <ScrollView
-            //                                 contentInsetAdjustmentBehavior="automatic"
-            //                                 keyboardShouldPersistTaps={'handled'}
-            //                             >
-            //                                 <View style={styles.circlesview}>
-            //                                     <FlatList data={this.state.questiosnarray}
-            //                                      ref={(ref) => { this.flatListRef = ref; }}
-            //                                      initialScrollIndex={0}
-            //                                      getItemLayout={this.getItemLayout}
-            //                                         keyExtractor={(item, index) => String(index)}
-            //                                         renderItem={this.renderItem.bind(this)}
-            //                                         horizontal={true}
-            //                                         showsHorizontalScrollIndicator={false} />
-            //                                 </View>
-            //                                 <View style={styles.questionsview}>
-            //                                     <View style={styles.questioninnerview}>
-            //                                         <Text style={styles.questionnum}>{this.state.questionno+1}. </Text>
-            //                                         {/* <HtmlText style={styles.questiontext} html={this.state.selectedItem.question.question}></HtmlText> */}
-
-            //                                         <Text style={styles.questiontext}>{this.state.selectedItem.question.question.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-            //                                     </View>
-            //                                     {this.state.selectedItem.question.options.map((res, i) =>
-            //                                         <View style={styles.answermain}>
-            //                                             <View style={styles.answersub}>
-            //                                                 <Text style={styles.answernum}>{i+1}. </Text>
-            //                                                 <TouchableOpacity onPress={this.onAnswer.bind(this, res)}
-            //                                                     style={[styles.answertextview, { borderColor: this.state.answerobj.user_answer === res.key ? colors.Themecolor : "lightgrey", }]}>
-            //                                                         {/* <HtmlText style={styles.answertext} html={res.value}></HtmlText> */}
-            //                                                     <Text style={styles.answertext}>{res.value.replace(/<\/?[^>]+(>|$)/g, "")}</Text>
-            //                                                 </TouchableOpacity>
-            //                                             </View>
-            //                                         </View>
-            //                                     )}
-
-            //                                 </View></ScrollView>
-            //                         </View>
-            //                     </View>
-            //                 </View>
-
-            //             </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            //                 <Text>No data</Text>
-            //                 <TouchableOpacity onPress={this.ongoback.bind(this)}>
-            //                     <Text>GO BACK</Text>
-            //                 </TouchableOpacity>
-            //             </View>}
-            //         <Modal isVisible={this.state.isvisible}>
-            //             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            //                 <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
-            //                     <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
-            //                     <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
-            //                     <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
-            //                         <TouchableOpacity onPress={this.onSubmit.bind(this)} >
-            //                             <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-            //                                 <Text style={{ color: "white" }}>SUBMIT</Text>
-            //                             </LinearGradient>
-            //                         </TouchableOpacity>
-            //                         <TouchableOpacity onPress={this.onCancel.bind(this)}>
-            //                             <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-            //                                 <Text style={{ color: "white" }}>CANCEL</Text>
-            //                             </LinearGradient>
-            //                         </TouchableOpacity>
-            //                     </View>
-            //                 </View>
-            //             </View>
-            //         </Modal>
-                   
-            //         {this.state.testloader ?
-            //             <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
-            //                 <ActivityIndicator color="black" />
-            //             </View>
-            //             : null
-            //         }
-            //     </View>
-
-
-
-            <>
-            <ImageBackground source={require('./src/assets/images/dashboard/new/activitybg.jpg')}
-            style={{width:"100%",height:"100%",backgroundColor:"green"}} opacity={0.5}>
-              <View style={{flex:1}}>
-              <View style={{flex:0.08,flexDirection:"row"}}>
-          <View style={{flex:1}}>
-
-              <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
+//               <View style={{flex:1,marginLeft:20,flexDirection:"row",alignItems:"center"}}>
                
-                {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
-                <Image source={require("../../assets/images/left-arrow.png")}
-                  style={{ width: 25, height: 25, tintColor: "white",}} />
-              </TouchableOpacity> */}
+//                 {/* <TouchableOpacity onPress={this.onBack.bind(this)}>
+//                 <Image source={require("../../assets/images/left-arrow.png")}
+//                   style={{ width: 25, height: 25, tintColor: "white",}} />
+//               </TouchableOpacity> */}
              
-                <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{"his.props.data.activity"}</Text>
+//                 <Text style={{ color: "white", fontSize: 18     ,marginLeft:10}}>{"his.props.data.activity"}</Text>
                
-              </View>
+//               </View>
 
-              </View>
-              {/* <View style={{flex:0.3,justifyContent:"center"}}>
-              { topicindata.image !== "null" ?
-              <Image source={{ uri: imageUrl + topicindata.image }} style={{ width: 100, height: 100, resizeMode: "contain", marginRight: 10, }} />
-
-              : <Image source={require('../../assets/images/noimage.png')}
-              style={{ width: 80, height: 80, resizeMode: "contain", marginRight: 10, }} />}
-              </View> */}
-          </View>
-                <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
-                    { this.state.spinner ?
-                    <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-                            <Text>Loading...</Text>
-                        </View> : 
-                         this.state.questiosnarray.length > 0 ?
-                        <View style={{ flex: 1, }}>
-                            <View style={styles.mainbottomview}>
-                                <View style={styles.mainshadowview}>
-                                    <View style={styles.headerview}>
+//               </View>
+             
+//           </View>
+//                 <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
+//                     { this.state.spinner ?
+//                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+//                             <Text>Loading...</Text>
+//                         </View> : 
+//                          this.state.questiosnarray.length > 0 ?
+//                         <View style={{ flex: 1, }}>
+//                             <View style={styles.mainbottomview}>
+//                                 <View style={styles.mainshadowview}>
+//                                     <View style={styles.headerview}>
                                        
-                                        <View style={styles.headrightview}>
-                                            <View style={[styles.timerview,{backgroundColor:"red"}]}>
-                                                <Image source={require('./src/assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
-                                                 <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
+//                                         <View style={styles.headrightview}>
+//                                             <View style={[styles.timerview,{backgroundColor:"red"}]}>
+//                                                 <Image source={require('./src/assets/images/timer.png')} style={{ width: 25, height: 25, alignSelf: "center", marginRight: 10 }} />
+//                                                  <Text style={styles.timertext}>{parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)}</Text>
 
-                                            </View>
-                                        </View>
-                                    </View>
+//                                             </View>
+//                                         </View>
+//                                     </View>
 
-                                    <View style={styles.listview}>
-                                        <ScrollView
-                                            contentInsetAdjustmentBehavior="automatic"
-                                            keyboardShouldPersistTaps={'handled'}
-                                        >
-                                            <View style={styles.circlesview}>
-                                                <FlatList data={this.state.questiosnarray}
-                                                 ref={(ref) => { this.flatListRef = ref; }}
-                                                 initialScrollIndex={0}
-                                                 getItemLayout={this.getItemLayout}
-                                                    keyExtractor={(item, index) => String(index)}
-                                                    renderItem={this.renderItem.bind(this)}
-                                                    horizontal={true}
-                                                    showsHorizontalScrollIndicator={false} />
-                                            </View>
+//                                     <View style={styles.listview}>
+//                                         <ScrollView
+//                                             contentInsetAdjustmentBehavior="automatic"
+//                                             keyboardShouldPersistTaps={'handled'}
+//                                         >
+//                                             <View style={styles.circlesview}>
+//                                                 <FlatList data={this.state.questiosnarray}
+//                                                  ref={(ref) => { this.flatListRef = ref; }}
+//                                                  initialScrollIndex={0}
+//                                                  getItemLayout={this.getItemLayout}
+//                                                     keyExtractor={(item, index) => String(index)}
+//                                                     renderItem={this.renderItem.bind(this)}
+//                                                     horizontal={true}
+//                                                     showsHorizontalScrollIndicator={false} />
+//                                             </View>
                                             
-                                                <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: Platform.OS === 'ios' ? 10 : 10, marginTop:10}}>
-                                            <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
-                                            <MathJax
-                                                // To set the font size change initial-scale=0.8 from MathJax class
-                                                style={{ borderRadius: 5,
-                                                    width: '95%',
-                                                    borderWidth: 0.5,
-                                                    borderColor:"white",
-                                                    alignSelf: 'center',}} html={this.state.selectedItem.question.question} />
-                                        </View>
-                                                <FlatList data={this.state.selectedItem.question.options}
+//                                                 <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: Platform.OS === 'ios' ? 10 : 10, marginTop:10}}>
+//                                             <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
+//                                             <MathJax
+//                                                 // To set the font size change initial-scale=0.8 from MathJax class
+//                                                 style={{ borderRadius: 5,
+//                                                     width: '95%',
+//                                                     borderWidth: 0.5,
+//                                                     borderColor:"white",
+//                                                     alignSelf: 'center',}} html={this.state.selectedItem.question.question} />
+//                                         </View>
+//                                                 <FlatList data={this.state.selectedItem.question.options}
                                               
-                                                    keyExtractor={(item, index) => String(index)}
-                                                    renderItem={this.rednerAnswerItem.bind(this)}
-                                                    //horizontal={true}
-                                                    showsHorizontalScrollIndicator={false} />
-                                                {/* {this.state.selectedItem.question.options.map((res, i) =>
+//                                                     keyExtractor={(item, index) => String(index)}
+//                                                     renderItem={this.rednerAnswerItem.bind(this)}
+//                                                     //horizontal={true}
+//                                                     showsHorizontalScrollIndicator={false} />
+//                                                 {/* {this.state.selectedItem.question.options.map((res, i) =>
                                                    
-                                                )} */}
-</ScrollView>
-                                    </View>
-                                </View>
-                            </View>
+//                                                 )} */}
+// </ScrollView>
+//                                     </View>
+//                                 </View>
+//                             </View>
 
-                        </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <Text>No data</Text>
-                            <TouchableOpacity onPress={this.ongoback.bind(this)}>
-                                <Text>GO BACK</Text>
-                            </TouchableOpacity>
-                        </View>
-    }
-                </View>
-                {this.state.questiosnarray.length > 0  ?
-                <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
-                    <View style={{flex:1,flexDirection:"row"}}>
-                    {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
-                     <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
+//                         </View> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//                             <Text>No data</Text>
+//                             <TouchableOpacity onPress={this.ongoback.bind(this)}>
+//                                 <Text>GO BACK</Text>
+//                             </TouchableOpacity>
+//                         </View>
+//     }
+//                 </View>
+//                 {this.state.questiosnarray.length > 0  ?
+//                 <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
+//                     <View style={{flex:1,flexDirection:"row"}}>
+//                     {this.state.questionno === 0  ? <View style={{flex:0.5}}/> : 
+//                      <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-start"}}>
 
-                 <TouchableOpacity style={{ height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
-              justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
-                   <Text style={{ textAlign:"center",fontSize:12}}>Previous</Text>
-                       </TouchableOpacity></View> }
-                       <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
-                       {this.state.questionno + 1 === this.state.questiosnarray.length ?
-                         <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
-                         justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
-                  <Text style={{ textAlign:"center",fontSize:12,}}>Submit</Text>
-                      </TouchableOpacity> :
-                       <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
-                          justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
-                   <Text style={{ textAlign:"center",fontSize:12,}}>Next</Text>
-                       </TouchableOpacity>
-                           }               
-                           </View>
-                    </View> 
+//                  <TouchableOpacity style={{ height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+//               justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+//                    <Text style={{ textAlign:"center",fontSize:12}}>Previous</Text>
+//                        </TouchableOpacity></View> }
+//                        <View style={{flex:0.5,justifyContent:"flex-start",alignItems:"flex-end"}}>
+//                        {this.state.questionno + 1 === this.state.questiosnarray.length ?
+//                          <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+//                          justifyContent:"center",alignItems:"center"}} onPress={this.onSubmitText.bind(this)}>
+//                   <Text style={{ textAlign:"center",fontSize:12,}}>Submit</Text>
+//                       </TouchableOpacity> :
+//                        <TouchableOpacity style={{height:30,width:100,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
+//                           justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+//                    <Text style={{ textAlign:"center",fontSize:12,}}>Next</Text>
+//                        </TouchableOpacity>
+//                            }               
+//                            </View>
+//                     </View> 
            
   
-                </View> : null }
-              </View>
-            </ImageBackground>
+//                 </View> : null }
+//               </View>
+//             </ImageBackground>
   
 
-                       <Modal isVisible={this.state.isvisible}>
-                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
-                                 <Image source={require("./src/assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
-                                 <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
-                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
-                                     <TouchableOpacity onPress={this.onSubmit.bind(this)} >
-                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-                                             <Text style={{ color: "white" }}>SUBMIT</Text>
-                                         </LinearGradient>
-                                     </TouchableOpacity>
-                                     <TouchableOpacity onPress={this.onCancel.bind(this)}>
-                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-                                             <Text style={{ color: "white" }}>CANCEL</Text>
-                                         </LinearGradient>
-                                     </TouchableOpacity>
-                                 </View>
-                             </View>
-                         </View>
-                     </Modal>
+//                        <Modal isVisible={this.state.isvisible}>
+//                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+//                              <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+//                                  <Image source={require("./src/assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
+//                                  <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
+//                                  <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+//                                      <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+//                                          <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+//                                              <Text style={{ color: "white" }}>SUBMIT</Text>
+//                                          </LinearGradient>
+//                                      </TouchableOpacity>
+//                                      <TouchableOpacity onPress={this.onCancel.bind(this)}>
+//                                          <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+//                                              <Text style={{ color: "white" }}>CANCEL</Text>
+//                                          </LinearGradient>
+//                                      </TouchableOpacity>
+//                                  </View>
+//                              </View>
+//                          </View>
+//                      </Modal>
                    
-                     {this.state.testloader ?
-                         <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
-                             <ActivityIndicator color="black" />
-                         </View>
-                         : null
-                     }
-              </>
+//                      {this.state.testloader ?
+//                          <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+//                              <ActivityIndicator color="black" />
+//                          </View>
+//                          : null
+//                      }
+//               </>
         )
     }
 }

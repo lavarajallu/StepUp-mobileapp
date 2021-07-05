@@ -27,44 +27,7 @@ class Notifications extends Component {
     constructor(props) {
         super(props)
         this.state={
-            notifications:{
-                notification_count: 5,
-                notificcation_data:[
-                    {
-                        title: "Today",
-                        data: [{
-                            "name": "You have Live class at 08:30 pm",
-                            "description": "description",
-                            "time": "10:30 am",
-                            "new": true,
-                        }, {
-                            "name": "You have Live class at 02:30 pm",
-                            "description": "description",
-                            "time": "4:30 am",
-                            "new": false,
-                        }]
-                    },
-                    {
-                        title: "Yesterday",
-                        data: [{
-                            "name": "You have Live class at 07:30 pm",
-                            "description": "description",
-                            "time": "10:30 am",
-                            "new": true,
-                        }, {
-                            "name": "You have Live class at 02:30 pm",
-                            "description": "description",
-                            "time": "4:30 am",
-                            "new": false,
-                        }, {
-                            "name": "You have Live class at 05:30 pm",
-                            "description": "description",
-                            "time": "5:30 am",
-                            "new": false,
-                        }]
-                    },
-                ]
-            },
+            notifications:[],
         }
     }
 
@@ -111,7 +74,9 @@ class Notifications extends Component {
                     </View>
                 </View>
                 {this.state.notifications.length === 0 ?
-                <View style={styles.bottomView}>
+                <View style={{flex:0.92,}}>
+                <View style={{flex:1}}>
+                    <View style={{flex:0.92}}>
                     <ImageBackground source={require("../../assets/images/refer/notilogo.png")}
                         style={styles.referlogo}>
                             <Image source={require('../../assets/images/refer/notify.png')} style={styles.logoicon}/>
@@ -122,7 +87,14 @@ class Notifications extends Component {
                 style={styles.gradientstyles}>
                    <Text style={styles.buttonText}>Back to Feed</Text>
                    </LinearGradient>
-                </View> :
+                    </View>
+                    <View style={{flex:0.08}}>
+                    <Footer openControlPanel={this.openControlPanel} value="notifications" notification_count={this.state.notifications.notification_count}/>
+                    </View>
+                </View>
+             
+             </View>
+                 :
                 <View style={{flex:0.92,}}>
                     <View style={{flex:1}}>
                         <View style={{flex:0.92}}>

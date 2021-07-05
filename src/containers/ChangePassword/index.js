@@ -149,11 +149,15 @@ getData = async () => {
                         value={this.state.currentpassword}
                         onChangeText={this.onChangeText.bind(this)}/> */}
                          <TextInput 
+                                                     placeholderTextColor={"grey"}
+
                         style={styles.textInput}
                         placeholder="New Password"
                         value={this.state.newpass}
                         onChangeText={this.onChangeNew.bind(this)}/>
                          <TextInput 
+                                                     placeholderTextColor={"grey"}
+
                         style={styles.textInput}
                         placeholder="Confirm Password"
                         value={this.state.cnfPass}

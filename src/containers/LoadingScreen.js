@@ -60,6 +60,7 @@ class LoadingScreen extends Component{
           Actions.push('dashboard')
         }else{
           StringsOfLanguages.setLanguage('en');
+          Actions.push('dashboard')
         }
           //  Actions.push('dashboard')
         }else{

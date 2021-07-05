@@ -110,7 +110,7 @@ updateAnalytics(){
   getSubjects(user,toekn)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = baseUrl+'/student/subjects/'+user.reference_id//+//"?offset=0&limit=4&order_by=name&sort_order=DESC"
+         var url = baseUrl+'/student/subjects/'+user.reference_id
          console.log("value",url)
         fetch(url ,{
                  method: 'GET',
@@ -204,6 +204,7 @@ getanalytics(user,token){
 			.catch((error) => console.error(error))
 }
 	renderItem({ item,index }) {
+		console.log("itemmmm.....m",item)
 		var colorsarray = imagesarray//["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
 		 var bgimage = randomItem;
@@ -215,6 +216,7 @@ getanalytics(user,token){
 		var progress = 0+ (0.4 * Math.random())
 		var percent = (item.percent);
 		var color;
+		var bgcolor;
 		if(percent > 50 ){
 			color = "green"
 		}else if (color< 50) {
@@ -224,13 +226,19 @@ getanalytics(user,token){
 		}
 		var newarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var newitem = newarray[index] //newarray[Math.floor(Math.random()*newarray.length)];
-		item["color"] = newitem
+		if(item.color) {
+			bgcolor = item.color
+		}else{
+			item["color"] = newitem
+            bgcolor = newitem
+		}
+	
 		return (
 			<TouchableOpacity onPress={this.onChapter.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}
 			style={{ marginHorizontal:10, height:155,width:windowWidth/1.7,borderWidth:0.1,borderColor: 'transparent',overflow:"hidden",borderRadius:10,alignSelf:"center",marginTop:10}}>
 					 
 					  <ImageBackground source={require('../../assets/images/dashboard/new/chapters_bg.png')} 
-					  style={{width:windowWidth/1.7,height:145,alignSelf:"center",backgroundColor:item.color}}
+					  style={{width:windowWidth/1.7,height:145,alignSelf:"center",backgroundColor:bgcolor}}
 					  opacity={0.5}>
  
 						  <View style={{flex:1}}>
@@ -247,7 +255,7 @@ getanalytics(user,token){
 								   
 									  </View>
 									   <View style={{flex:0.6,justifyContent:"center",alignItems:"flex-start",}}>
-									   <Text style={{color:"white",fontSize:15,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
+									   <Text style={{color:"white",fontSize:15,fontWeight:"bold",paddingLeft:20}}>{item.name}</Text>
 										  
 									  </View>
 								  </View>

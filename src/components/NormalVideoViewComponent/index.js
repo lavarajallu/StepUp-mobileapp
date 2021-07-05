@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  { StatusBar,  View,  Text,  TouchableOpacity, Image,  PixelRatio, Platform,  Button,  Dimensions, } from 'react-native';
+import  { StatusBar,  View,  Text,  TouchableOpacity,TouchableNativeFeedback, Image, Platform,  PanResponder,  Dimensions, } from 'react-native';
 import YouTube, { YouTubeStandaloneIOS, YouTubeStandaloneAndroid } from 'react-native-youtube';
 import Modal from 'react-native-modal';
 import getVideoId from 'get-video-id';
@@ -7,86 +7,26 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import VideoQuestionModal from '../VideoQuestionModal'
 import Video from 'react-native-video';
 var initial = 0
+const windowWidth = Dimensions.get('window').width;
+const windowHeigh = Dimensions.get('window').height
+import Slider from '@react-native-community/slider';
+
 import styles from './styles'
+import * as Progress from 'react-native-progress';
+
 import { LineChart } from 'react-native-chart-kit';
 import { parse } from 'react-native-svg';
 import Orientation from 'react-native-orientation';
-
+import Sample from './sample';
 import { colors, imageUrl } from '../../constants';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 // import AWS from 'aws-sdk/dist/aws-sdk-react-native';
 
 // const credentials = new AWS.Crendentials({ accessKeyId: 'AKIAZR3HR6PZJ3FGC25V', secretAccessKey: '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'})
 // const s3 = new AWS.S3({ credentials, signatureVersion: 'v1', region: 'ap-south-1'});
-const questionsarray=[{
-  questionid:1,
-  question:"The digit immediate to the right of the ten lakhs shows____place.",
-  correctanswer: 2,
-  options:[
-    {
-      answerId:1,
-      answer:"Answer 1"
-    },
-    {
-      answerId:2,
-      answer:"Answer 2"
-    },
-    {
-      answerId:3,
-      answer:"Answer 3"
-    },
-    {
-      answerId:4,
-      answer:"Answer 4"
-    },
-  ]
-},
-{
-  questionid:2,
-  question:"The digit immediate to the right of the ten lakhs shows____place.",
-  correctanswer: 3,
-  options:[
-    {
-      answerId:1,
-      answer:"Answer 1"
-    },
-    {
-      answerId:2,
-      answer:"Answer 2"
-    },
-    {
-      answerId:3,
-      answer:"Answer 3"
-    },
-    {
-      answerId:4,
-      answer:"Answer 4"
-    },
-  ]
-}]
-const question2 = {
-  questionid:2,
-  question:"The digit immediate to the right of the ten lakhs shows____place.",
-  correctanswer: 3,
-  options:[
-    {
-      answerId:1,
-      answer:"Answer 1"
-    },
-    {
-      answerId:2,
-      answer:"Answer 2"
-    },
-    {
-      answerId:3,
-      answer:"Answer 3"
-    },
-    {
-      answerId:4,
-      answer:"Answer 4"
-    },
-  ]
-}
-var currentTime;
+
+
+var currentTime = 0;
 export default class NormalVideoViewComponent extends Component {
   state = {
     isReady: false,
@@ -111,19 +51,25 @@ export default class NormalVideoViewComponent extends Component {
       spinner: true,
       normaldata : this.props.data,
       visisted: false,
+      showpausebutton: true,
       videoid:'',
       array:["10","20"],
       pausedtime:null,
+      currentTime: 0,
+      duration:0,
       data:null,
       show: null,
       questiondisplay:null,
       fullscreen: false,
-      isPlaying: false,
+      isPlaying: true,
       index: 0,
       questionsarray:[],
       loading: true,
       videourl:'',
       newarr:[],
+      setX:[],
+      getViewX:0,
+      getViewY:0,
       
     }
     this.onProgress=this.onProgress.bind(this);
@@ -131,6 +77,7 @@ export default class NormalVideoViewComponent extends Component {
     this.onRewatch = this.onRewatch.bind(this)
     this.onPause = this.onPause.bind(this)
     this.handlescreenfull = this.handlescreenfull.bind(this)
+    this._panResponder;
  }
  _youTubeRef = React.createRef();
  componentDidMount(){
@@ -141,7 +88,22 @@ export default class NormalVideoViewComponent extends Component {
   //  if(this.props.data){
   //   var videoid = getVideoId(this.props.data[0].url);
   // }
-
+  this._panResponder = PanResponder.create({
+    // Ask to be the responder:
+    onStartShouldSetPanResponder: (evt, gestureState) => true,
+    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+    onMoveShouldSetPanResponder: (evt, gestureState) => true,
+    onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+    onPanResponderGrant: (evt, gestureState) => { },
+    onPanResponderMove: (evt, gestureState) => { },
+    onPanResponderTerminationRequest: (evt, gestureState) => true,
+    onPanResponderRelease: (evt, gestureState) => {
+        this.visibleInteractivePoints();
+    },
+    onPanResponderTerminate: (evt, gestureState) => { },
+    onShouldBlockNativeResponder: (evt, gestureState) => { true; },
+});
+//BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
 
  
  
@@ -189,7 +151,7 @@ export default class NormalVideoViewComponent extends Component {
   
    }else{
      this.setState({
-       loading: false
+       loading: false,
      })
    }
   
@@ -221,6 +183,9 @@ export default class NormalVideoViewComponent extends Component {
  
   
 }
+
+
+
 onquestionSubmit(time){
    console.log("ddddd",this.state.questionsarray[this.state.index+1])
 
@@ -306,20 +271,21 @@ onnext(){
 }
 
  onLoad = (data) => {
-  
-     this.setState({duration:Math.round(data.duration)})
+       console.log("onloaddd",data)
+       //this.setInteractiveAxis(data);
+     this.setState({duration:parseInt(data.duration)})
     
     
    
   }
   onLoadStart = (data) =>{
     console.log("xxxx",data)
-    if(this.state.normaldata.video_played){
-      console.log("dflkjlkdf",this.state.normaldata.video_played)
-      if(this.playerRef){
-      this.playerRef.seek(this.state.normaldata.video_played);
-      }
-     }
+    // if(this.state.normaldata.video_played){
+    //   console.log("dflkjlkdf",this.state.normaldata.video_played)
+    //   if(this.playerRef){
+    //   this.playerRef.seek(this.state.normaldata.video_played);
+    //   }
+    //  }
   }
   onLoadEnd = (data)=>{
     console.log("enddddd")
@@ -351,15 +317,17 @@ onnext(){
   }
 onProgress(data){
   //alert("dmf;ldf")
+      //this.checkForPoints(parseInt(data.currentTime))
+
         // this.setState({
-        //   currentTime: data.currentTime
+        //   currentTime: parseInt(data.currentTime)
         // })
-        currentTime = data.currentTime
+        currentTime = parseInt(data.currentTime)
         const elapsed_sec =parseInt(data.currentTime)
           
          
           //let result = this.state.newarr.filter(o1 => parseInt(o1) === elapsed_sec);
-         console.log("progress",elapsed_sec, "   ", this.state.pausedtime)
+        // console.log("progress",elapsed_sec, "   ", this.state.pausedtime)
         //  console.log("filterer",result)
           if(elapsed_sec ===  this.state.pausedtime){
           
@@ -467,6 +435,25 @@ handlescreenfull(val){
   : Orientation.lockToPortrait();
   })
   
+
+} handleMainButtonTouch(){
+  this.setState( state =>{
+      return{
+          isPlaying : !state.isPlaying
+      }
+  })
+}
+
+ toHHMMSS = (secs) => {
+  var sec_num = parseInt(secs, 10)
+  var hours   = Math.floor(sec_num / 3600)
+  var minutes = Math.floor(sec_num / 60) % 60
+  var seconds = sec_num % 60
+
+  return [hours,minutes,seconds]
+      .map(v => v < 10 ? "0" + v : v)
+      .filter((v,i) => v !== "00" || i > 0)
+      .join(":")
 }
 render(){
   const data=[]
@@ -483,10 +470,11 @@ render(){
       { 
        
         if(res.value === parseInt(newrews)){
-          timesarray.push( <Image source={require('../../assets/images/videos/point.png')}
+          timesarray.push(
+            <Image source={require('../../assets/images/videos/point.png')}
                style={{width:10,height:10}} />
-               )
-          
+               
+          )
         }
         else{
           timesarray.push( <Text style={{color: "transparent",fontSize:13}} >?</Text>)
@@ -497,8 +485,11 @@ render(){
   )}
  return (
   this.state.loading ? <Text>Loading...</Text> :
+  <TouchableNativeFeedback
+  onPress={() => this.setState({showpausebutton: !this.state.showpausebutton})}
+>
  <View style={styles.mainView}>
-  <View style={{width:"100%",height:this.state.fullscreen ? "100%" : "100%"}}>
+  <View style={{width:"100%",height:this.state.fullscreen ? "100%" : "100%",backgroundColor:"black"}}>
     <View style={{flex:1}}>
       <View style={{flex:1}}>
       <Video source={{uri: imageUrl+this.state.normaldata.url,
@@ -521,16 +512,29 @@ render(){
        onLoad={this.onLoad}
        onError={(err)=>console.log("errorrr",err)}
        resizeMode={this.state.fullscreen ? "cover":"contain"}
-       onProgress ={this.onProgress} />
+       onProgress ={this.onProgress}
+    />
+    {/* {this.state.showpausebutton ? 
+    <View style={{position:"absolute",top:this.state.fullscreen ? windowWidth/2 :windowHeigh/2.7,alignSelf:"center"}}>
+    <TouchableOpacity onPress={this.handleMainButtonTouch.bind(this)}>
+                             {!this.state.isPlaying ? 
+                             <Image source={require('../../assets/images/pause.png')}
+                             style={{width:20,height:20}} /> : 
+                             <Image source={require('../../assets/images/play.png')}
+                             style={{width:20,height:20,tintColor:"black"}} /> 
+                            }
+                         </TouchableOpacity>
+    </View> : null} */}
+   
       <TouchableOpacity onPress={this.onfullscreen.bind(this)}
         style={{top:this.state.fullscreen ? 50 :50,elevation:20,position:"absolute",padding:10,backgroundColor:"transparent",right:10}}>
         {this.state.fullscreen ? 
           <Image source={require("../../assets/images/halfscreen.png")}
           style={{width:20,height:20,tintColor:"white"}}/>:
        <Image source={require("../../assets/images/fullscreen.png")}
-       style={{width:20,height:20,tintColor:colors.Themecolor}}/>}
+       style={{width:20,height:20,tintColor:"white"}}/>}
        </TouchableOpacity>
-        <View style={[styles.absview,{bottom:25}]}>
+         <View style={[styles.absview,{bottom:25}]}>
       <View style={styles.subview}>
         <View style={styles.subleftview}/>
         <View style={styles.submiddleview}>
@@ -541,7 +545,69 @@ render(){
         </View>
         <View style={styles.sublastright}/>
       </View>
-    </View>
+    </View> 
+    {/* <View style={[styles.absview,{bottom:this.state.fullscreen ? 40 :40,height:40,borderRadius:10}]}>
+      <View style={{flex:1,flexDirection:"row"}}>
+        <View style={{ flex:0.2,justifyContent:"center",alignItems:"center"}}>
+        </View>
+        <View style={{flex: 0.65,}}>
+        <View style={[styles.subright,{marginLeft:5,}]}>
+        {timesarray}
+          </View>
+        </View>
+        <View style={{flex:0.15,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+        </View>
+      </View>
+    </View>  */}
+       {/* <View style={[styles.absview,{bottom:this.state.fullscreen ? 30 :30,height:30,borderRadius:20,backgroundColor:"rgba(211,211,211,0.3)"}]}>
+      <View style={{flex:1,flexDirection:"row"}}>
+        <View style={{ flex:0.2,justifyContent:"space-evenly",alignItems:"center",flexDirection:"row"}}>
+        <TouchableOpacity onPress={this.handleMainButtonTouch.bind(this)}>
+                             {!this.state.isPlaying ? 
+                             <Image source={require('../../assets/images/pause.png')}
+                             style={{width:15,height:15,tintColor:"white"}} /> : 
+                             <Image source={require('../../assets/images/play.png')}
+                             style={{width:15,height:15,tintColor:"white"}} /> 
+                            }
+                         </TouchableOpacity>
+                                 <Text style={{color:"white",fontSize:12}}>{this.toHHMMSS(this.state.currentTime)}</Text>
+
+        </View>
+        <View style={{flex: 0.65,}}>
+        <View style={styles.subright}>
+          {this.state.duration > 0 ? 
+        
+        <Slider
+        style={{width: "100%", height: 20}}
+        minimumValue={0}
+        maximumValue={this.state.duration}
+        minimumTrackTintColor="#FFFFFF"
+    maximumTrackTintColor="#000000"
+        thumbImage={require('../../assets/images/thumb1.png')}
+        
+        value={this.state.currentTime} // Which is updated by videoRef.onProgress listener
+        onSlidingStart={(value)=>{
+          console.log("slidingstarte",value, currentTime)
+        }}
+           onValueChange={value => {
+            console.log("prsl",value,""    ,currentTime)
+             if(parseInt(value) > parseInt(currentTime)){
+              console.log("prigressvl",value,""    ,currentTime) 
+
+             }else{
+              this.setState({currentTime : parseInt(value)})
+              this.playerRef.seek(parseInt(value))}} 
+
+             }
+      />
+           : null}
+          </View>
+        </View>
+        <View style={{flex:0.15,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+        <Text style={{color:"white",fontSize:12}}>{this.toHHMMSS(this.state.duration)}</Text>
+        </View>
+      </View>
+    </View>  */}
 
       </View>
     </View>
@@ -553,6 +619,7 @@ render(){
   
      
     </View> 
+    </TouchableNativeFeedback>
    )
  }
 }

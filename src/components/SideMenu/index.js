@@ -40,6 +40,12 @@ const data = [
 		name: "Contact Us",
 		icon: require("../../assets/images/sidemenu/call.png")
 	},
+	{
+		name:"Buy Package",
+		icon:require("../../assets/images/box.png")
+
+	}
+	
 	// {
 	// 	name: "Change Language",
 	// 	icon:require("../../assets/images/sidemenu/profile.png")
@@ -105,6 +111,9 @@ getData = async () => {
 			Actions.push('profile')
 		}else if (item.name === "Change Language"){
 			 Actions.push('settings')
+		}else if(item.name === 'Buy Package'){
+			Actions.push('buypackages')
+
 		}
 	}
 	renderItem = ({ item }) => {

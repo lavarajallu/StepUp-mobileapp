@@ -18,6 +18,7 @@ import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 import LinearGradient from 'react-native-linear-gradient';
+import Communications from 'react-native-communications';
 
 class ContactUs extends Component {
     constructor(props) {
@@ -86,7 +87,9 @@ class ContactUs extends Component {
                                 <Image source={require('../../assets/images/refer/phone.png')}
                                 style={styles.phoneicon}/>
                             </ImageBackground>
+                            <TouchableOpacity onPress={() => Communications.phonecall('0987654321', true)}>
                             <Text style={styles.subtext}>0987654321</Text>
+                            </TouchableOpacity>
                          </View>
                          <View style={styles.contentView}>
                          <ImageBackground source={require('../../assets/images/refer/circle.png')}
@@ -94,7 +97,10 @@ class ContactUs extends Component {
                                 <Image source={require('../../assets/images/refer/link.png')}
                                 style={styles.linkicon}/>
                             </ImageBackground>
+                            <TouchableOpacity onPress={() => Communications.web('http://www.smartstepup.com/')}>
+
                             <Text style={styles.subtext}>www.smartstepup.com</Text>
+                            </TouchableOpacity>
                          </View>
                          <View style={styles.contentView}>
                          <ImageBackground source={require('../../assets/images/refer/circle.png')}
@@ -102,7 +108,10 @@ class ContactUs extends Component {
                                 <Image source={require('../../assets/images/refer/mail.png')}
                                 style={styles.mailicon}/>
                             </ImageBackground>
+                            <TouchableOpacity onPress={() => Communications.email(['support@smartstepup.com'],null,null,'','')}>
+
                             <Text style={styles.subtext}>support@smartstepup.com</Text>
+                            </TouchableOpacity>
                          </View>
                          
                         </View>

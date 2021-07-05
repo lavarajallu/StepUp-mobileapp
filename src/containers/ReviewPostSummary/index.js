@@ -57,7 +57,7 @@ class ReviewPostSummary extends Component{
 		this.getData()
 }
 backAction = () => {
-	this.onBack()
+	Actions.topicmainview({from:this.props.from,type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData})
 }
 componentWillUnmount() {
 		this.backHandler.remove();

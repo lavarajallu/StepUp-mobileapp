@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
         flex: 0.92, alignItems: "center" ,marginTop:30
     },
     referlogo:{
-        width: 267 / 1.2, height: 258 / 1.2 ,justifyContent:"center",alignItems:"center"
+        width: 267 / 1.2, height: 258 / 1.2 ,justifyContent:"center",alignItems:"center",alignSelf:"center"
     },
     logoicon:{
-        width:120/1.2,height:93/1.2
+        width:120/1.3,height:93/1.3,alignSelf:"center"
     },
     headText:{
         fontSize: 24,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         color: "#847393",
     },
     gradientstyles:{
-        width:"80%",height:42,borderRadius:30,justifyContent:"center",alignItems:"center",marginTop:30
+        width:"80%",height:42,borderRadius:30,justifyContent:"center",alignItems:"center",marginTop:30,alignSelf:"center"
     },
     buttonText:{
         fontSize: 16,

@@ -204,11 +204,11 @@ class TopicAnalysis extends Component {
                    let progressItemList=[]
                     if(json.data.topicTimeSpent){
                         var timeSpentData = json.data.topicTimeSpent
-                        
+                        console.log("timespecnt graph",timeSpentData)
                         if(Object.keys(timeSpentData)?.length>0){
                           let totalTime=Object.values(timeSpentData).reduce((a, b) => a + b, 0)
                           Object.keys(timeSpentData).map((key)=>{
-                            let progressItem= { name: key, y: timeSpentData[key]/totalTime, x: timeSpentData[key]/totalTime };
+                            let progressItem= { name: key, y: timeSpentData[key]/totalTime, x: timeSpentData[key]/totalTime,value:timeSpentData[key] };
                             progressItemList.push(progressItem) 
                           })
                           console.log("progressIte",progressItemList)
@@ -255,15 +255,14 @@ class TopicAnalysis extends Component {
                         <View style={{ flex: 0.1, flexDirection: "row" }}>
                             <View style={{ flex: 1 }}>
 
-                                <View style={{ flex: 1, marginLeft: 20, flexDirection: "row", alignItems: "center" ,
-                                }}>
+                                <View style={{ flex: 1, marginLeft: 20, flexDirection: "row", alignItems: "center" }}>
 
                                     <TouchableOpacity onPress={this.onBack.bind(this)}>
                                         <Image source={require("../../assets/images/left-arrow.png")}
-                                            style={{ width: 30, height: 30, tintColor: "white",  }} />
+                                            style={{ width: 30, height: 30, tintColor: "white", marginTop: 10 }} />
                                     </TouchableOpacity>
 
-                                    <Text style={{ color: "white", fontSize: 20, marginLeft: 10 , marginRight:20}}>{data.name} Analysis</Text>
+                                    <Text style={{ color: "white", fontSize: 15, marginLeft: 10 , marginRight:20}}>{data.name} Analysis</Text>
 
                                 </View>
 
@@ -278,7 +277,7 @@ class TopicAnalysis extends Component {
 
                              <Text style={{textAlign:"center",paddingVertical:10,color:"white",fontWeight:"bold"}}>Topic Analysis</Text>
                            </View>
-                            {/* <VictoryPie
+                            <VictoryPie
                                 data={this.state.topicpercentarray}
                                 // width={250}
                                 height={300}
@@ -290,7 +289,7 @@ class TopicAnalysis extends Component {
                                 labelRadius={({ innerRadius }) => innerRadius + 5}
                                 colorScale={['#F94D48','#A3BA6D']}
                                 style={{ labels: { fill: "white", fontSize: 15, fontWeight: "bold" , marginLeft:8} }}
-                            /> 
+                            />
                             <View style={{flexDirection:"row",justifyContent:"center"}}>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
                                     <View style={{height:10,width:10,borderRadius:5,backgroundColor:"#A3BA6D"}}></View>
@@ -300,9 +299,7 @@ class TopicAnalysis extends Component {
                                     <View style={{height:10,width:10,borderRadius:5,backgroundColor:"#F94D48"}}></View>
                                     <Text style={{marginLeft:8}}>Incomplete</Text>
                                 </View>
-                            </View>*/}
-                        <Text style={{paddingVertical:10,fontSize:15,marginLeft:15,textAlign:"center"}}>Time Spent</Text>
-
+                            </View>
                             <VictoryPie
                                 data={this.state.topicactivitesdata}
                                 // width={250}
@@ -316,13 +313,13 @@ class TopicAnalysis extends Component {
                                 colorScale={colorarray}
                                // style={{ labels: { fill: "white", fontSize: 15, fontWeight: "bold" , marginLeft:8} }}
                             />
-                              <View style={{flexDirection:"row",marginHorizontal:30,flexWrap:"wrap",marginBottom:20}}>
+                              <View style={{flexDirection:"row",marginHorizontal:30,flexWrap:"wrap",marginBottom:20,justifyContent:"center"}}>
                             {this.state.topicactivitesdata.map((res,i)=>
-                          
+                               res.value  ?
                                 <View style={{flexDirection:"row",alignItems:"center",marginLeft:10}}>
                                     <View style={{height:10,width:10,borderRadius:5,backgroundColor:colorarray[i]}}></View>
                                     <Text style={{marginLeft:8}}>{res.name}</Text>
-                                </View>
+                                </View> : null
                             
                             )}
                             </View> 
@@ -343,7 +340,7 @@ class TopicAnalysis extends Component {
                              <Text>Loading...</Text></View> :
                         <>
                         <ColumnChart
-                            type1="Easy"
+                            type="Easy"
                             question={this.state.studenteasydaata?.diffLevel?.Easy}
                         />
 
@@ -359,8 +356,7 @@ class TopicAnalysis extends Component {
                       {this.state.timespinner ? <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                              <Text>Loading...</Text></View> :
                       <>
-                    <View style={{width:windowWidth/1.25,backgroundColor:data.color,alignSelf:"center",borderRadius:10,
-                    marginVertical:20}}>
+                    <View style={{width:windowWidth/1.25,backgroundColor:data.color,alignSelf:"center",borderRadius:10,marginVertical:10}}>
 
                         <Text style={{textAlign:"center",paddingVertical:10,color:"white",fontWeight:"bold"}}>Time Taken For Each Question</Text>
                         </View>

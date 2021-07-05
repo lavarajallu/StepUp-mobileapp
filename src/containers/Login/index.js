@@ -238,7 +238,7 @@ class Login extends Component {
                  }).then((response) => response.json())
                  .then((json) =>{
                      const data = json.data;
-                     console.log("ddd",json)
+                     console.log("ddd.........",data)
                      if(data){
                         this.setState({spinner: false})
                          const userdata = data.user;
@@ -287,6 +287,8 @@ class Login extends Component {
                         <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,borderBottomWidth: 1, borderColor: "lightgrey", justifyContent: 'center',}}>
                         <TextInput
                             style={{width:"100%",paddingLeft:8}}
+                            placeholderTextColor={"grey"}
+
                             placeholder={StringsOfLanguages.emailtextinput}
                             blurOnSubmit={false}
                             value={this.state.email}
@@ -299,8 +301,9 @@ class Login extends Component {
                         
                         <TextInput
                             ref={(input) => { this.secondTextInput = input; }}
+                            placeholderTextColor={"grey"}
                             style={{paddingLeft:8,width:"85%",
-    
+                            
                             borderColor: '#2e2e2e'}}
                             placeholder={StringsOfLanguages.passwordtextinput}
                             value={this.state.password}

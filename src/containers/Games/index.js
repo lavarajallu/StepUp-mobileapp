@@ -195,7 +195,7 @@ class Games extends  Component{
             Actions.push('normalvideoview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
           }else if(newobj.type === "PRE" || newobj.type==='OBJ' || newobj.type === 'POST' ||newobj.type === 'SUB'){
             Actions.push('preassesment',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-          }else if(newobj.type ==="PDF"){
+          }else if(newobj.type ==="PDF" || newobj.type === "HTML5"){
             Actions.push('pdfview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
           }else if(newobj.type ==="WEB"){
             Actions.push('weblinkview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -219,7 +219,7 @@ class Games extends  Component{
         Actions.push('normalvideoview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
       }else if(newobj.type==='OBJ' || newobj.type === 'POST' || newobj.type === 'SUB'){
         Actions.push('preassesment',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-      }else if(newobj.type ==="PDF"){
+      }else if(newobj.type ==="PDF"|| newobj.type === "HTML5"){
         Actions.push('pdfview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
       }else if(newobj.type ==="WEB"){
         Actions.push('weblinkview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})

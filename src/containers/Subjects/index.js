@@ -137,32 +137,6 @@ class Subjects extends Component{
 		//this.updateAnalytics()
 		Actions.push('chapters',{data:item})
 	}
-     chooseName = function (a) {
-        // var unique = true;
-        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
-        // var name = a.splice(num,1);
-        // a.push(name);
-        // return num;
-        // console.log("nummm",num)
-        var unique = true;
-        b.length = 6;
-        var num = Math.floor(Math.random() * a.length);
-        var name = a[num];    
-            for (var i = 0; i < a.length; i++) {
-            if (b[i] == name) {
-               this.chooseName(a);
-                unique = false;
-                break;
-                }
-            }
-            if (unique == true) {
-            console.log("name",name);
-            b.unshift(name);
-            
-            }
-            return name
-    }
-    
       renderItem({ item ,index }) {
         // var imagesarray=[
         //     require('../../assets/images/dashboard/new/sub1.png'),
@@ -171,12 +145,12 @@ class Subjects extends Component{
         //     require('../../assets/images/dashboard/new/sub4.png')
         // ]
 		var colorsarray =["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
-		var randomItem = this.chooseName(colorsarray)//colorsarray[Math.floor(Math.random()*colorsarray.length)];
-        var bgcolor = randomItem
+		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
+        var bgcolor;
 		
         colorsarray.splice(randomItem)
 		const url = imageUrl +item.image
-        console.log("ssssss",item.percent)
+        console.log("ssssss",item.color)
 		var progress = 0+ (0.4 * Math.random())
 		var percent = (item.percent)
 		var color;
@@ -189,14 +163,20 @@ class Subjects extends Component{
 		}
 		console.log("urlll",url)
         colorsarray.push(randomItem)
-        item["color"] = bgcolor
+        if(item.color) {
+			bgcolor = item.color
+		}else{
+            item["color"] = randomItem
+            bgcolor = randomItem
+		}
+        //item["color"] = bgcolor
 		return (
 		   <TouchableOpacity onPress={this.onChapter.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}
 		   style={{ height:155,backgroundColor: 'transparent',width:windowWidth/1.1,borderWidth:0.1,borderColor: 'transparent',
            marginVertical:5,overflow:"hidden",borderRadius:10,alignSelf:"center"}}>
 					
 					 <ImageBackground source={require('../../assets/images/dashboard/new/subjects_bg.png')} 
-					 style={{width:windowWidth/1.1,height:135,alignSelf:"center",backgroundColor:item.color}}
+					 style={{width:windowWidth/1.1,height:135,alignSelf:"center",backgroundColor:bgcolor}}
                      opacity={0.5}>
 
                          <View style={{flex:1}}>
@@ -213,7 +193,7 @@ class Subjects extends Component{
                                   
                                      </View>
                                       <View style={{flex:0.7,justifyContent:"center",alignItems:"flex-start",}}>
-                                      <Text style={{color:"white",fontSize:20,fomtWeight:"bold",paddingLeft:20}}>{item.name}</Text>
+                                      <Text style={{color:"white",fontSize:20,fontWeight:"bold",paddingLeft:20}}>{item.name}</Text>
                                          
                                      </View>
                                  </View>

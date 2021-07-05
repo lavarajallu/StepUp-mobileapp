@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 		flex: 0.1, justifyContent: "center"
 	},
 	rowIcon:{
-		width: 20, height: 24 
+		width: 20, height: 24 , tintColor:"white"
 	},
 	rowNext:{
 		width: 10, height: 10, tintColor:"white" 

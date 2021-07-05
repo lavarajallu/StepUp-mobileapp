@@ -7,7 +7,8 @@ import { colors } from "../../constants"
 const styles = StyleSheet.create({
 
   mainView:{
-    backgroundColor:"rgba(255,255,255,0.9)",borderRadius:15,paddingHorizontal:10,
+    backgroundColor:"rgba(255,255,255,0.9)",
+    borderRadius:15,paddingHorizontal:10,
   // backgroundColor:"transparent"
   },
   mainView1:{
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
    marginVertical:15
   },
   answeritemsub:{
-    paddingHorizontal:20,paddingVertical:10
-    ,borderRadius:25,marginHorizontal:10,flexDirection:"row",alignItems:"center"
+    paddingHorizontal:20
+    ,borderRadius:10,marginHorizontal:10,flexDirection:"row",alignItems:"center"
   },
   answeruncheck:{
     height:25,width:25,borderRadius:25/2,backgroundColor:"white",justifyContent:"center"

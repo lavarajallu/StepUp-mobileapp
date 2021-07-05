@@ -15,7 +15,8 @@ export default class Profile extends Component {
         super(props);
         this.state={
             userDetails: null,
-            profile_pic: null
+            profile_pic: null,
+            profileprcent:0
             
         }
     }
@@ -31,7 +32,48 @@ getData = async () => {
       if(value !== null) {
         var data = JSON.parse(value)
 		console.log("dataaa",data)
-        this.setState({userDetails: data,profile_pic: data.profile_pic})
+      
+            if(Object.keys(data)?.length>0){
+                //let totalTime=Object.values(data).reduce((a, b) => a + b, 0)
+                var count = 0
+               // Object.keys(data).map((key,value)=>{
+                 // console.log("objjjj",data[key])
+                   if(data['profile_pic']){
+                       count = count+1
+                   }
+                //    if(data['first_name']){
+                //        count = count +1
+                //    }
+                   if(data['last_name']){
+                    count = count +1
+                }
+                if(data['dob']){
+                    count = count +1
+                }
+                if(data['mobile_number']){
+                    count = count +1
+                }
+                if(data['email']){
+                    count = count +1
+                }
+                // if(data['state']){
+                //     count = count +1
+                // }
+                if(data['grade']){
+                    count = count +1
+                }
+                if(data['grade']){
+                    count = count +1
+                }
+                if(data['gender']){
+                    count = count +1
+                }
+               // })
+                
+                var profileprcent = count/8
+                console.log("counttt",count,profileprcent)
+            }
+        this.setState({userDetails: data,profile_pic: data.profile_pic,profileprcent: profileprcent.toFixed(2)})
             
        
       }else{
@@ -116,10 +158,10 @@ getData = async () => {
                                     justifyContent:"space-evenly",alignItems:"center",
                                     boxShadow:" 0px 4px 28px rgba(105, 80, 119, 0.2)"}}>
                                    <View>
-                                   <Progress.Bar progress={0.6} width={windowWidth/1.25} height={5} color={"#695077"}/>
+                                   <Progress.Bar progress={this.state.profileprcent} width={windowWidth/1.25} height={5} color={"#695077"}/>
                                    </View>
                                    
-                                    <Text>80%</Text>
+                                    <Text>{this.state.profileprcent * 100}%</Text>
                                     </View>
                                     
                                   
@@ -200,7 +242,7 @@ getData = async () => {
                         value={this.state.userDetails ? this.state.userDetails.email: null}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
                     </View>
-                    <View style={{flexDirection:'row',alignItems:"center",marginLeft:20,paddingVertical:20}}>
+                    {/* <View style={{flexDirection:'row',alignItems:"center",marginLeft:20,paddingVertical:20}}>
                         <Image
                         source={require('../../assets/images/refer/placeicon.png')}
                         style={{width:23,height:23}}/>
@@ -209,7 +251,7 @@ getData = async () => {
                         editable={false}
                         value={this.state.userDetails ? this.state.userDetails.state: null}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
-                    </View>
+                    </View> */}
                     <View style={{flexDirection:'row',alignItems:"center",marginLeft:20,paddingVertical:20}}>
                         <Image
                         source={require('../../assets/images/refer/boardicon.png')}
@@ -217,7 +259,7 @@ getData = async () => {
                         <TextInput 
                         placeholder="board"
                         editable={false}
-                        value={this.state.userDetails ? this.state.userDetails.grade ?.board_id : null}
+                        value={this.state.userDetails ? this.state.userDetails.board ? this.state.userDetails.board.name : null : null}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
                     </View>
                     <View style={{flexDirection:'row',alignItems:"center",marginLeft:20,paddingVertical:20}}>

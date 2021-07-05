@@ -96,7 +96,7 @@ class PdfViewNew extends Component {
       activity_id: this.props.data.reference_id,
     }
 
-    console.log("analyticsss", body)
+    console.log("analyticsss........", body)
     var url = baseUrl + '/analytics'
     console.log("value", url)
     fetch(url, {
@@ -122,7 +122,7 @@ class PdfViewNew extends Component {
           // duration: Snackbar.LENGTH_SHORT,
           // });
         } else {
-          console.log(JSON.stringify(json.message))
+          console.log("analyticsserror",JSON.stringify(json.message))
         }
       }
 
@@ -130,8 +130,14 @@ class PdfViewNew extends Component {
       .catch((error) => console.error(error))
   }
   getActivityInfo(token) {
+    var url;
     const { data } = this.props
-    const url = baseUrl+"/activities/forStudent/"+data.reference_id//baseUrl+"/activities/info/" + data.reference_id
+    if(this.props.data.type === 'HTML5'){
+      url = baseUrl+"/activities/info/" + data.reference_id
+    }else{
+     url = baseUrl+"/activities/forStudent/"+data.reference_id//baseUrl+"/activities/info/" + data.reference_id
+    }
+    console.log("urllll",url)
     fetch(url, {
       method: 'GET',
       headers: {
@@ -141,13 +147,20 @@ class PdfViewNew extends Component {
     }).then((response) => response.json())
       .then(async(json) => {
 
-        const data = json.data;
-         console.log("dataaaa",data)
-        if (data) {
-
-          var url = data.url;
+       
+         console.log("dataaa.....a",json)
+        if (json.data) {
+          const data = json.data;
+          var url;
+          if(this.props.data.type === 'HTML5'){
+            url = data[0].url;
+          }else{
+            url = data.url;
+          }
+          
+          console.log("urlurl",url)
           var newdata = url.split(".")
-         // alert(JSON.stringify(newdata[newdata.length-1]))
+       //  alert(JSON.stringify(newdata[newdata.length-1]))
           if(newdata[newdata.length-1] === 'pdf'){
             var string = data.pdfpages
              var newarr = string.split(',');
@@ -165,7 +178,7 @@ class PdfViewNew extends Component {
               })
           }else if (newdata[newdata.length-1] === 'html'){
             this.setState({
-              notesdata: data.url,
+              notesdata: data[0].url,
               ishtml: true,
               spinner: false,
               typedata: newdata[newdata.length-1],
@@ -191,7 +204,8 @@ class PdfViewNew extends Component {
           // })
 
         } else {
-          alert(JSON.stringify(json.message))
+          console.log("errorororrrdata",json.message)
+         // alert(JSON.stringify(json.message))
 
         }
       }
@@ -293,7 +307,7 @@ class PdfViewNew extends Component {
         Actions.push('normalvideoview', { index: index + 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata,from :this.props.from })
       } else if (newobj.type === "PRE" || newobj.type === 'OBJ' || newobj.type === 'POST' || newobj.type === 'SUB') {
         Actions.push('preassesment', { index: index + 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata ,from :this.props.from})
-      } else if (newobj.type === "PDF") {
+      } else if (newobj.type === "PDF" || newobj.type === "HTML5") {
         Actions.push('pdfview', { index: index + 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata ,from :this.props.from})
       } else if (newobj.type === "WEB") {
         Actions.push('weblinkview', { index: index + 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata ,from :this.props.from})
@@ -317,7 +331,7 @@ class PdfViewNew extends Component {
         Actions.push('normalvideoview', { index: index - 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata,from :this.props.from })
       } else if (newobj.type === 'OBJ' || newobj.type === 'POST' || newobj.type === 'SUB') {
         Actions.push('preassesment', { index: index - 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata,from :this.props.from })
-      } else if (newobj.type === "PDF") {
+      } else if (newobj.type === "PDF" || newobj.type === "HTML5") {
         Actions.push('pdfview', { index: index - 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata,from :this.props.from })
       } else if (newobj.type === "WEB") {
         Actions.push('weblinkview', { index: index - 1, smartres: this.props.smartres, data: newobj, topicData: this.props.topicData, subjectData: this.props.subjectData, topicindata: this.props.topicindata ,from :this.props.from})

@@ -16,6 +16,7 @@ import {
   TouchableHighlight,
   ActivityIndicator
 } from 'react-native';
+import FastImage from 'react-native-fast-image'
 
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
@@ -415,11 +416,17 @@ class TopicMainView extends Component {
       //alert(this.state.smartres[index-1].status)
       var status = this.state.smartres[index - 1].status
       if (status === 0) {
-        Toast.show('Please complete the previous activity to open this.', Toast.LONG);
+        if(!item.preTestStatus){
+          alert("Please complete the Pre Assesment to open this.")
+        }else{
+          alert("Please complete the previous activity to open this.")
+        }
+        
+       // Toast.show('Please complete the previous activity to open this.', Toast.LONG);
       } else if (status === 1 || status === 2) {
         if (item.type === 'WEB') {
           Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
-        } else if (item.type === "PDF") {
+        } else if (item.type === "PDF" || item.type === "HTML5") {
           Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
         }
         else if (item.type === 'VIDEO') {
@@ -441,7 +448,7 @@ class TopicMainView extends Component {
     } else {
       if (item.type === 'WEB') {
         Actions.push('weblinkview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
-      } else if (item.type === "PDF") {
+      } else if (item.type === "PDF" || item.type === "HTML5") {
         Actions.push('pdfview', { index: index, smartres: newarray, data: item, topicData: this.props.topicsdata, subjectData: this.props.subjectData, topicindata: this.props.data, from: this.props.from })
       }
       else if (item.type === 'VIDEO') {
@@ -558,9 +565,14 @@ class TopicMainView extends Component {
            <View style={{width:windowWidth/1.1,}}>
 				<View style={{flex:1,flexDirection:"row",}}>
 				<View style={{flex:0.15,justifyContent:"center",alignItems:"center",backgroundColor:"#F4F2F4"}}>
-
-<Image source={{ uri: imageUrl + item.faIcon }}
-	style={{ width: 25, height: 25, tintColor:"#969397" }} /> 
+        <FastImage
+       	style={{ width: 25, height: 25, }}
+         tintColor="#969397"
+        source={{
+          uri: imageUrl + item.faIcon ,
+        }}
+        //resizeMode={FastImage.resizeMode.contain}
+    />
 		
 				</View>
 				<View style={{flex:0.6,flexDirection:"row",alignItems:"center",paddingLeft:10,paddingVertical:15,}}>
@@ -659,8 +671,14 @@ class TopicMainView extends Component {
 				<View style={{flex:1,flexDirection:"row"}}>
 				<View style={{flex:0.15,justifyContent:"center",alignItems:"center",backgroundColor:"#F4F2F4"}}>
 
-<Image source={{ uri: imageUrl + item.faIcon }}
-	style={{ width: 25, height: 25, tintColor:"#969397" }} /> 
+        <FastImage
+       	style={{ width: 25, height: 25, }}
+         tintColor="#969397"
+        source={{
+          uri: imageUrl + item.faIcon ,
+        }}
+        //resizeMode={FastImage.resizeMode.contain}
+    />
 		
 				</View>
 				<View style={{flex:0.6,flexDirection:"row",alignItems:"center",paddingLeft:10,paddingVertical:15}}>

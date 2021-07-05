@@ -111,6 +111,8 @@ class ForgotPassword extends Component {
                         <TextInput
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
+                            placeholderTextColor={"grey"}
+
                             style={styles.textinput}
                             blurOnSubmit={false}
                             keyboardType={"email-address"}

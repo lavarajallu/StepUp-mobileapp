@@ -84,39 +84,14 @@ class PracticeComponent extends Component {
             })
         }
     }
-    chooseName = function (a) {
-        // var unique = true;
-        // var num = a[Math.floor(Math.random() * a.length-5) | 0];
-        // var name = a.splice(num,1);
-        // a.push(name);
-        // return num;
-        // console.log("nummm",num)
-        var unique = true;
-        b.length = 6;
-        var num = Math.floor(Math.random() * a.length);
-        var name = a[num];    
-            for (var i = 0; i < a.length; i++) {
-            if (b[i] == name) {
-               this.chooseName(a);
-                unique = false;
-                break;
-                }
-            }
-            if (unique == true) {
-            console.log("name",name);
-            b.unshift(name);
-            
-            }
-            return name
-    }
     renderItem({ item }) {
         var colorsarray =["#FF603D","#0A7FD7","#9863DF","#5D9702","#0D7B5A","#D09A12"]
 		var randomItem = colorsarray[Math.floor(Math.random()*colorsarray.length)];
-        var bgcolor = randomItem
+        var bgcolor ;
         
         var percent = (item.percent)
 
-        console.log("item,item", bgcolor)
+        console.log("item,item", item)
         const url = imageUrl + item.image
         var progress = 0 + (0.4 * Math.random())
         // var percent = (item.percent) * 100;
@@ -128,12 +103,18 @@ class PracticeComponent extends Component {
         } else {
             color = "orange"
         }
-        item["color"] = bgcolor
+        if(item.color) {
+			bgcolor = item.color
+		}else{
+            item["color"] = randomItem
+            bgcolor = randomItem
+		}
+       console.log("itemmmmmmmmm",item)
         return (
             <TouchableHighlight onPress={() => this.onItem(item)} underlayColor="transparent" activeOpacity={0.9} style={{ backgroundColor: 'transparent', borderWidth: 0.1, borderColor: 'transparent', margin: 5, flex: 1 }}>
 
 <ImageBackground source={require('../../assets/images/dashboard/pattern.png')}
-					style={[styles.rectview, { backgroundColor: item.color }]} opacity={0.5} >
+					style={[styles.rectview, { backgroundColor: bgcolor}]} opacity={0.5} >
                     <View style={styles.subview}>
                         <View style={styles.topsubview}>
 
@@ -150,7 +131,7 @@ class PracticeComponent extends Component {
                         </View>
                         <View style={styles.bottomsubview}>
                             <View style={styles.countview}>
-                                <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3,flexDirection:"row",justifyContent:"space-between" }}>
+                                <View style={{ paddingVertical: 10, width: "100%", borderRadius: 3,justifyContent:"center" }}>
                                 <View style={{alignItems:"center",justifyContent:"center"}}>
 							        <View style={styles.innercountview}>
 									  <Image source={require('../../assets/images/1.png')} style={styles.iconview} />
@@ -160,13 +141,13 @@ class PracticeComponent extends Component {
 								 {/* <View style={styles.innercountview}>
 									 <Image source={require('../../assets/images/magnifier.png')} style={styles.iconview} />
 								 </View> */}
-									   <View style={{alignItems:"center",justifyContent:"center"}}>
+									   {/* <View style={{alignItems:"center",justifyContent:"center"}}>
 								  <View style={styles.innercountview}>
 									  <Image source={require('../../assets/images/2.png')} style={styles.iconview} />
 									  <Text style={styles.icontext}>{item.topicsCount}</Text>
 								  </View>
 								  <Text style={{color:"white",fontSize:8}}>Topic</Text>
-								  </View>
+								  </View> */}
                                     </View> 
                             </View>
                         </View>

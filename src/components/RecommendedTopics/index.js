@@ -16,6 +16,7 @@ import {
 	FlatList
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
 
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
@@ -110,7 +111,13 @@ class RecommendedTopics extends Component {
                        subjectData:json.data.topic.subject,
                        chapterData: json.data.topic.chapter
                     },()=>{
-                        this.state.topicItem["color"] = newitem
+						var bgcolor;
+                        if(json.data.topic.subject.color){
+                            bgcolor = json.data.topic.subject.color
+                        }else{
+                            bgcolor = newitem
+                        }
+                        this.state.topicItem["color"] = bgcolor
                        // alert(JSON.stringify(this.state.topicItem.color))
                         Actions.push('topicmainview', { "from": "dashboard", data: this.state.topicItem, topicsdata: this.state.chapterData, subjectData: this.state.subjectData })
                     })
@@ -222,11 +229,12 @@ class RecommendedTopics extends Component {
 	render() {
 		return (
 			this.state.spinner ? null :
+			this.state.topicsData.length > 0 ?
 			<View>
-			<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center" }}>
+			<View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center",marginTop:20 }}>
 			<Text style={{ marginLeft:15,fontSize:16,color:"#656565",fontWeight:"600"}}>{StringsOfLanguages.recommendedtopics}</Text>
 			<TouchableOpacity>
-			<Text style={{marginRight:15,fontSize:14,color:"#656565"}}>{StringsOfLanguages.seeall}</Text>
+			{/* //<Text style={{marginRight:15,fontSize:14,color:"#656565"}}>{StringsOfLanguages.seeall}</Text> */}
 			</TouchableOpacity>
 		  
 			</View>
@@ -234,7 +242,7 @@ class RecommendedTopics extends Component {
 					renderItem={this.renderItem.bind(this)}
 					horizontal={true}
 					showsHorizontalScrollIndicator={false} />
-	</View>
+	</View>  :null
 		)
 	}
 }

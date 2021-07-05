@@ -159,6 +159,7 @@ class PracticeSummary extends Component {
                   var previousTest =  json.data;
                    if (previousTest && Object.keys(previousTest).length) {
                     let test_result = { ...previousTest }
+                    console.log("hsjjss",test_result.questions)
                     let wrong_ans_count = test_result.questions.filter(
                       q => q.is_correct === false,
                     ).length
@@ -166,22 +167,22 @@ class PracticeSummary extends Component {
                       q => q.is_correct === true,
                     ).length
                     let lost_count = test_result.questions.filter(
-                      q => q.analysis === 'Incorrect' || q.analysis === null,
+                      q => q.analysis === 'Lost' || q.analysis === null,
                     ).length
                     let extra_count = test_result.questions.filter(
                       q => q.analysis === 'Extra Time',
                     ).length
                     let un_ans_count = test_result.questions.filter(
-                      q => q.analysis === 'Unanswered ',
+                      q => q.analysis === 'Un Answered',
                     ).length
                     let lightening_count = test_result.questions.filter(
-                      q => q.analysis === 'Fast Answer',
+                      q => q.analysis === 'Lightning Fast',
                     ).length
                     let shot_count = test_result.questions.filter(
-                      q => q.analysis === 'Normal Answer',
+                      q => q.analysis === 'What a Timing/Shot',
                     ).length
                     let extra_inning_count = test_result.questions.filter(
-                      q => q.analysis === 'Slow to Answer',
+                      q => q.analysis === 'Extra Inning',
                     ).length
                     test_result.wrong_ans_count = wrong_ans_count
                     test_result.correct_ans_count = correct_ans_count
@@ -326,45 +327,54 @@ class PracticeSummary extends Component {
                       marginTop:20,
                       borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
                  
-                 <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Performace</Text>
+                 <Text style={{textAlign:"left",fontSize:18,marginLeft:10}}>Performace</Text>
                       
-    
-                         <RNSpeedometer
-                      size={windowWidth/2}
-                      maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
-                      value={this.state.testResult.score ? this.state.testResult.score : 0}
-                      currentValueText="Score-o-meter"
-                      needleHeightRatio={0.7}
-                      ringWidth={80}
-                      needleTransitionDuration={3000}
-                      needleTransition="easeElastic"
-                      needleColor={'#695077'}
-                      segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
-                      
-                      labelNoteStyle={{fontSize:20}}
-                      labels={[
-                        {
-                          name: 'Poor',
-                          labelColor: '#c54721',
+                 <RNSpeedometer
+                        size={windowWidth/1.5}
+                        minValue={0}
+                    maxValue={100}
+
+                        //maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
+                        value={this.state.testResult.score ? Math.round(this.state.testResult.score * 100 /this.state.testResult.marks) : 0}
+                        currentValueText="Score-o-meter"
+                        needleHeightRatio={0.7}
+                        ringWidth={80}
+                        needleTransitionDuration={3000}
+                        needleTransition="easeElastic"
+                        needleColor={'#695077'}
+                        segmentColors={['#c54721', '#d88414', '#267093', '#a4b96e']}
                         
-                          activeBarColor: '#c54721',
-                        },
-                        {
-                          name: 'Average',
-                          labelColor: '#d88414',
-                          activeBarColor: '#d88414',
-                        },
-                        {
-                          name: 'Fair',
-                          labelColor: '#267093',
-                          activeBarColor: '#267093',
-                        },
-                        {
-                          name: 'Fair',
-                          labelColor: '#a4b96e',
-                          activeBarColor: '#a4b96e',
-                        },
-                      ]}/>
+                        labelNoteStyle={{fontSize:20}}
+                        labels={[
+                          {
+                            name: 'Poor',
+                            labelColor: '#c54721',
+                          
+                            activeBarColor: '#c54721',
+                          },
+                          {
+                            name: 'Poor',
+                            labelColor: '#c54721',
+                          
+                            activeBarColor: '#c54721',
+                          },
+                          {
+                            name: 'Average',
+                            labelColor: '#d88414',
+                            activeBarColor: '#d88414',
+                          },
+                          {
+                            name: 'Fair',
+                            labelColor: '#267093',
+                            activeBarColor: '#267093',
+                          },
+                          {
+                            name: 'Fair',
+                            labelColor: '#a4b96e',
+                            activeBarColor: '#a4b96e',
+                          },
+                        ]}/>
+                     
                       </View>
                   {/* <View style={{
                        shadowOffset: { width: 0, height: 5 },paddingVertical:20,
@@ -409,7 +419,7 @@ class PracticeSummary extends Component {
                                   shadowColor: 'lightgrey',
                               marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
                         
-                        <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Attempt Analysis</Text>
+                        <Text style={{textAlign:"left",fontSize:18,marginLeft:10}}>Attempt Analysis</Text>
                         <AttemptAnalysis testResult={this.state.testResult}/>
                         </View>
                         <View style={{marginVertical:20}}>

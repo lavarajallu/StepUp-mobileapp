@@ -164,9 +164,9 @@ class Chapters extends Component {
   getChapter(user, toekn) {
     var url;
     if (user.user_role === 'Student') {
-      url = baseUrl + "/student/chapters/" + user.grade_id + "/" + this.state.userData.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
+      url = baseUrl + "/student/chapters/" + user.grade_id + "/" + this.state.userData.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id+"&order_by=index&sort_order=ASC"
     } else if (user.user_role === 'General Student') {
-      url = baseUrl + "/student/chapters/" + user.grade_id + "/" + this.state.userData.reference_id + "?school_id=''&section_id=''"
+      url = baseUrl + "/student/chapters/" + user.grade_id + "/" + this.state.userData.reference_id + "?school_id=''&section_id=''&order_by=index&sort_order=ASC"
     }
 
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
@@ -190,7 +190,7 @@ class Chapters extends Component {
             this.setState
               ({
                 spinner: false,
-                chaptersData: data.chapters.reverse()
+                chaptersData: data.chapters
               })
           } else {
             this.setState

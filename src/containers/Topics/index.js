@@ -210,9 +210,9 @@ class Topics extends Component {
 		var url;
 		console.log("fff",user.grade_id , "")
 		if (user.user_role === 'Student') {
-			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
+			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id+"&order_by=index&sort_order=ASC"
 		} else if (user.user_role === 'General Student') {
-			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=''&section_id=''"
+			url = baseUrl + "/student/topics/" + user.grade.reference_id + "/" + subjectData.reference_id + "/" + data.reference_id + "?school_id=''&section_id=''&order_by=index&sort_order=ASC"
 		}
 		//var url =baseUrl+"/student/topics/8283c5c7-0369-4bb0-8da0-acf1179833b2/2fd32b4e-86e8-4f0e-af29-b79a0efaf81c/23cdedb8-093a-4aeb-af7e-755fca8d3e2d?school_id=&section_id="
 		console.log("topicvaluesssssss", url)
@@ -226,15 +226,14 @@ class Topics extends Component {
 
 			response.json())
 			.then((json) => {
-				const data = json.data;
-				console.log("sss", data)
-				if (data) {
+				if (json.data) {
+					const data = json.data;
 					if (data.topics) {
-					console.log("topics", json.data.topics)
+					console.log("topics////////", json.data.topics)
 						this.setState
 							({
 								spinner: false,
-								topicsArray: data.topics.reverse()
+								topicsArray: data.topics
 							})
 					} else {
 						this.setState

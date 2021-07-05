@@ -70,10 +70,8 @@ class PreSummary extends Component {
     }
     componentDidMount() {
          // alert("typeeee"+JSON.stringify(this.props.testtype))
-         this.backHandler = BackHandler.addEventListener(
-          "hardwareBackPress",
-          this.backAction
-        );
+         this.backHandler=BackHandler.addEventListener('hardwareBackPress', this.backAction);
+
           if(this.props.review){
             this.setState({
               review: true
@@ -82,10 +80,16 @@ class PreSummary extends Component {
            this.getData()
          }
          backAction = () => {
-          this.onBack()
+          // alert(this.state.review)
+           if(this.props.review){
+              Actions.pop({type:"reset"})
+           }else{
+            Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
+
+           }
         }
         componentWillUnmount() {
-            this.backHandler.remove();
+           this.backHandler.remove();
         }
          getData = async () => {
            try {
@@ -176,6 +180,7 @@ class PreSummary extends Component {
                    var previousTest =  json.data;
                    if (previousTest && Object.keys(previousTest).length) {
                     let test_result = { ...previousTest }
+                    console.log("hsjjss",test_result.questions)
                     let wrong_ans_count = test_result.questions.filter(
                       q => q.is_correct === false,
                     ).length
@@ -183,22 +188,22 @@ class PreSummary extends Component {
                       q => q.is_correct === true,
                     ).length
                     let lost_count = test_result.questions.filter(
-                      q => q.analysis === 'Incorrect' || q.analysis === null,
+                      q => q.analysis === 'Lost' || q.analysis === null,
                     ).length
                     let extra_count = test_result.questions.filter(
                       q => q.analysis === 'Extra Time',
                     ).length
                     let un_ans_count = test_result.questions.filter(
-                      q => q.analysis === 'Unanswered ',
+                      q => q.analysis === 'Un Answered',
                     ).length
                     let lightening_count = test_result.questions.filter(
-                      q => q.analysis === 'Fast Answer',
+                      q => q.analysis === 'Lightning Fast',
                     ).length
                     let shot_count = test_result.questions.filter(
-                      q => q.analysis === 'Normal Answer',
+                      q => q.analysis === 'What a Timing/Shot',
                     ).length
                     let extra_inning_count = test_result.questions.filter(
-                      q => q.analysis === 'Slow to Answer',
+                      q => q.analysis === 'Extra Inning',
                     ).length
                     test_result.wrong_ans_count = wrong_ans_count
                     test_result.correct_ans_count = correct_ans_count
@@ -261,7 +266,7 @@ class PreSummary extends Component {
       var newarray = this.props.smartres;
       var newobj = newarray[this.props.index-1]
       var index= this.props.index
-     // alert(JSON.stringify(newobj))
+     console.log("onprevious",this.props.index, " " ,newobj)
      if(newobj){
       if(newobj.type === 'YOUTUBE'){
         Actions.push('videoview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -269,7 +274,7 @@ class PreSummary extends Component {
         Actions.push('normalvideoview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
       }else if(newobj.type==='OBJ' || newobj.type === 'POST' || newobj.type === 'SUB'){
         Actions.push('preassesment',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-      }else if(newobj.type ==="PDF"){
+      }else if(newobj.type ==="PDF" || newobj.type === "HTML5"){
         Actions.push('pdfview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
       }else if(newobj.type ==="WEB"){
         Actions.push('weblinkview',{index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -287,7 +292,7 @@ class PreSummary extends Component {
         var newarray = this.props.smartres;
           var newobj = newarray[this.props.index+1]
           var index= this.props.index
-          //alert(JSON.stringify(newobj))
+          console.log("next",this.props.index," ",newobj)
         if(newobj){
           if(newobj.type === 'YOUTUBE'){
             Actions.push('videoview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -295,7 +300,7 @@ class PreSummary extends Component {
             Actions.push('normalvideoview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
           }else if(newobj.type === "PRE" || newobj.type==='OBJ' || newobj.type === 'POST' || newobj.type === 'SUB'){
             Actions.push('preassesment',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-          }else if(newobj.type ==="PDF"){
+          }else if(newobj.type ==="PDF" || newobj.type === "HTML5"){
             Actions.push('pdfview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
           }else if(newobj.type ==="WEB"){
             Actions.push('weblinkview',{index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -371,13 +376,16 @@ class PreSummary extends Component {
                         marginTop:20,
                         borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,height:windowWidth/2 }}>
                    
-                   <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Performace</Text>
+                   <Text style={{textAlign:"left",fontSize:18,marginLeft:10}}>Performace</Text>
                         
       
-                           <RNSpeedometer
-                        size={windowWidth/2}
-                        maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
-                        value={this.state.testResult.score ? this.state.testResult.score : 0}
+                   <RNSpeedometer
+                        size={windowWidth/1.5}
+                        minValue={0}
+                    maxValue={100}
+
+                        //maxValue={this.state.testResult.marks ? this.state.testResult.marks : 20}
+                        value={this.state.testResult.score ? Math.round(this.state.testResult.score * 100 /this.state.testResult.marks) : 0}
                         currentValueText="Score-o-meter"
                         needleHeightRatio={0.7}
                         ringWidth={80}
@@ -388,6 +396,12 @@ class PreSummary extends Component {
                         
                         labelNoteStyle={{fontSize:20}}
                         labels={[
+                          {
+                            name: 'Poor',
+                            labelColor: '#c54721',
+                          
+                            activeBarColor: '#c54721',
+                          },
                           {
                             name: 'Poor',
                             labelColor: '#c54721',
@@ -410,6 +424,7 @@ class PreSummary extends Component {
                             activeBarColor: '#a4b96e',
                           },
                         ]}/>
+                        
                         </View>
                     {/* <View style={{
                          shadowOffset: { width: 0, height: 5 },paddingVertical:20,
@@ -454,7 +469,7 @@ class PreSummary extends Component {
                                     shadowColor: 'lightgrey',
                                 marginTop:60,borderRadius: 10,justifyContent:'space-around',marginHorizontal: 20,}}>
                           
-                          <Text style={{textAlign:"left",fontSize:16,marginLeft:10}}>Attempt Analysis</Text>
+                          <Text style={{textAlign:"left",fontSize:18,marginLeft:10}}>Attempt Analysis</Text>
                           <AttemptAnalysis testResult={this.state.testResult}/>
                           </View>
                             <View style={{marginVertical:20}}>

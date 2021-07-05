@@ -27,6 +27,10 @@ import RNPickerSelect from 'react-native-picker-select';
 import { createNativeWrapper } from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { baseUrl, imageUrl } from '../../constants';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 var radio_props = [
     { label: 'Male', value: 0 },
     { label: 'Female', value: 1 }
@@ -38,7 +42,7 @@ class EditProfile extends Component {
         this.state = {
             profilepic: null,
             name: "",
-            dob: "",
+            dob: "dob",
             mobile_number: "",
             email: "",
             state: "",
@@ -50,7 +54,8 @@ class EditProfile extends Component {
             gradesData:[],
             picture:"",
             token:'',
-            userID:""
+            userID:"",
+            picker: false
         }
     }
     async componentDidMount() {
@@ -100,13 +105,13 @@ class EditProfile extends Component {
     seData(data){
        console.log("ddddd",data)
         this.setState({
-            name: data.name,
-            dob: data.dob,
-            mobile_number: data.mobile_number,
-            email: data.email,
-            state: data.state,
-            boardvalue: data.grade ?.board_id,
-            grade: data.grade.name,
+            name: data.name? data.name : "",
+            dob: data.dob?data.dob:"select dob",
+            mobile_number: data.mobile_number ? data.mobile_number : "",
+            email: data.email ? data.email : "",
+            state: data.state ? data.state : "",
+            boardvalue: data.board ?data.board.name : "",
+            grade: data.grade ? data.grade.name : "",
             profilepic: data.profile_pic ? imageUrl +data.profile_pic: null,
             gradeselect: data.grade.reference_id
         },()=>console.log("JSasfdf"))
@@ -334,7 +339,7 @@ class EditProfile extends Component {
         var name=this.state.name;
         var email = this.state.email;
         var mobile_number = this.state.mobile_number;
-        var state = this.state.state;
+       // var state = this.state.state;
         var dob = this.state.dob;
         var gender
         if(this.state.genderval === 0){
@@ -350,7 +355,7 @@ class EditProfile extends Component {
         name,
       //  email,
         mobile_number,
-        state,
+      //  state,
         dob,
         gender,
        // board_id,
@@ -410,6 +415,23 @@ class EditProfile extends Component {
             .catch((error) => console.log(error))
      
     }
+     showDatePicker = () => {
+         this.setState({
+             picker: true
+         })
+      };
+    
+       hideDatePicker = () => {
+        this.setState({
+            picker: false
+        })      
+    };
+    
+       handleConfirm = (date) => {
+        console.warn("A date has been picked: ", moment(date).format('L'));
+        this.setState({dob: moment(date).format('L')})
+        this.hideDatePicker();
+      };
     render() {
         const selectedItem = {
             title: 'Selected item title',
@@ -531,11 +553,16 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/dobicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                    <TextInput
+                                        <TouchableOpacity onPress={()=>this.setState({ picker: !this.state.picker })} 
+                                        style={{ height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 ,justifyContent:"center"}}>
+                                            <Text style={{color:"#695077"}}>{this.state.dob}</Text>
+                                        </TouchableOpacity>
+                                        
+                                    {/* <TextInput
                                         placeholder="dob"
                                         value={this.state.dob}
                                         onChangeText={(text) => this.setState({ dob: text })}
-                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
+                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} /> */}
                                 </View>
 
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
@@ -559,7 +586,7 @@ class EditProfile extends Component {
                                         onChangeText={(text) => this.setState({ email: text })}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
                                 </View>
-                                <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
+                                {/* <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
                                     <Image
                                         source={require('../../assets/images/refer/placeicon.png')}
                                         style={{ width: 23, height: 23 }} />
@@ -568,7 +595,7 @@ class EditProfile extends Component {
                                         value={this.state.state}
                                         onChangeText={(text) => this.setState({ state: text })}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
-                                </View>
+                                </View> */}
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
                                     <Image
                                         source={require('../../assets/images/refer/boardicon.png')}
@@ -603,21 +630,6 @@ class EditProfile extends Component {
                                         placeholder="Grade"
                                         value={this.state.grade}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
-                                   {/* <View
-
-style={{
-    height: 40, width: windowWidth / 1.3,
-    borderColor: "#695077",
-    borderBottomWidth: 1, marginLeft: 20, justifyContent: "center",
-}}>
-<RNPickerSelect
-    value={this.state.gradeselect}
-    onValueChange={(val)=>this.setState({gradeselect: val})}
-    style={pickerSelectStyles}
-    items={this.state.gradesData}
-/>
-
-</View> */}
                                 </View>
 
                                 <TouchableOpacity
@@ -635,9 +647,12 @@ style={{
                                     <Text style={{ color: "white", fontSize: 16 }}>UPDATE PROFILE</Text>
                                 </TouchableOpacity>
                             </ScrollView>
-
-
-
+                            <DateTimePickerModal
+                                    isVisible={this.state.picker}
+                                    mode="date"
+                                    onConfirm={this.handleConfirm}
+                                    onCancel={this.hideDatePicker}
+                                />
                         </View>
                     </View>
                 </View>

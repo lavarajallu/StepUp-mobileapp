@@ -138,7 +138,7 @@ android {
         applicationId "com.smartgen.stepup"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 53
+        versionCode 55
         versionName "1.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

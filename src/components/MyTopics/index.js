@@ -72,7 +72,7 @@ class MyTopics extends Component {
              //   console.log("topicdattaaa.................", JSON.stringify(json))
                 if (json.data) {
                     this.setState({
-                        topicsData: json.data,
+                        topicsData: json.data.reverse(),
                         spinner: false
                     })
                 } else {
@@ -93,6 +93,7 @@ class MyTopics extends Component {
     }
 
     onMainTopic(item){
+     console.log("dfdfdsfdsfdsfdsfdsf",item)
         var newarray = ["#6a5177","#d88212","#277292","#a3ba6d","#deb026","#c44921"];
 		var newitem = newarray[Math.floor(Math.random()*newarray.length)];
         var url = baseUrl + '/topic/' + item.topic_id
@@ -106,16 +107,23 @@ class MyTopics extends Component {
 
             response.json())
             .then((json) => {
-
+             //   alert(JSON.stringify(json))
                 if (json.data) {
              //    console.log("topiccccccccc....",JSON.stringify(json.data.topic.subject))
-                 
+             
                     this.setState({
                         topicItem: json.data.topic,
                        subjectData:json.data.topic.subject,
                        chapterData: json.data.topic.chapter
                     },()=>{
-                        this.state.topicItem["color"] = newitem
+                        
+                        var bgcolor;
+                        if(json.data.topic.subject.color){
+                            bgcolor = json.data.topic.subject.color
+                        }else{
+                            bgcolor = newitem
+                        }
+                        this.state.topicItem["color"] = bgcolor
                        // alert(JSON.stringify(this.state.topicItem.color))
                         Actions.push('topicmainview', { "from": "dashboard", data: this.state.topicItem, topicsdata: this.state.chapterData, subjectData: this.state.subjectData })
                     })
@@ -169,7 +177,10 @@ class MyTopics extends Component {
                 <TouchableOpacity onPress={this.onMainTopic.bind(this, item)} style={{
                     backgroundColor: "white", width: windowWidth / 1.5, alignSelf: "center",
                     
-                  
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 1,
+                    shadowRadius: 2,
+                    elevation: 10, 
                 }}>
                     <View style={{ flex: 1, flexDirection: "row",}}>
                         <View style={{ flex: 0.3, }}>

@@ -150,8 +150,8 @@ onItem(item){
 getGrades(value,item)
 {
     //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-         var url = baseUrl+'/grade?offset=0&limit=10&board='+item.reference_id+'&branch=-1'
-         console.log("value",url)
+    var url = baseUrl+'/grade?board='+item.reference_id+'&branch=-1&offset=0&limit=10000'
+    console.log("value",url)
         fetch(url ,{
                  method: 'GET',
                  headers: {

@@ -25,6 +25,7 @@ import Drawer from 'react-native-drawer'
 import { colors, imageUrl } from "../../constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ViewSlider from 'react-native-view-slider'
+import ImageSlider from 'react-native-image-slider';
 
 import StringsOfLanguages from '../../StringsOfLanguages';
 import { color } from 'react-native-reanimated';
@@ -145,6 +146,11 @@ class Dashboard extends Component {
 
 	render() {
 		const url = imageUrl + this.state.profile_pic
+		const images = [
+			require('../../assets/images/slider-1.jpg'),
+			require('../../assets/images/slider-2.jpg'),
+			
+		  ];
 		return (
 			<View style={{ flex: 1 }}>
 				<View style={styles.mainview}>
@@ -160,15 +166,43 @@ class Dashboard extends Component {
 
 								closeControlPanel={this.closeControlPanel} />}
 						>
-							<View style={{ width: "100%", height: "100%", }}>
-								<View style={{ flex: 1 }}>
+							<View style={{flex:1 }}>
+								<View style={{ flex: 0.92 }}>
 									<ScrollView contentContainerStyle={{ flexGrow: 1, }}>
 										{/* <View style={{ flex: 0.2, marginHorizontal: 15, marginVertical: 15 }}>
 											<Image source={require('../../assets/images/dashboardlogo1.png')}
 												style={{ width: 117, height: 57 }} />
 										</View> */}
+										<View style={{flex:1}}>
 										<View style={{ flex: 0.3, }}>
-											<ViewSlider
+										<ImageSlider
+											loopBothSides
+											autoPlayWithInterval={5000}
+											images={images}
+											style={{height:200,flex:0}}
+											customSlide={({ index, item, style, width }) => (
+												// It's important to put style here because it's got offset inside
+												<>
+												<View style={{
+													//paddingHorizontal: 20,
+													//justifyContent: 'space-around',
+													width: windowWidth,
+													//padding: 10,
+													alignItems: 'center',
+													height: 200,
+													flexDirection:"row",
+													//backgroundColor:"red"
+												}}>
+													<Image source={item}
+										style={{ resizeMode:"contain"}} />
+												
+												
+
+												</View>
+												</>
+
+											)}/>
+											{/* <ViewSlider
 												renderSlides={
 													<>
 														<View style={{
@@ -219,13 +253,14 @@ class Dashboard extends Component {
 													position: 'absolute',
 													bottom: 0
 												}}     // Container style of the pagination dots
-												//autoSlide = {true}    //The views will slide automatically
+												autoSlide = {true}    //The views will slide automatically
 												slideInterval={1000}    //In Miliseconds
-											/>
+											/> */}
 										</View>
-										<View style={{ flex: 0.72, marginHorizontal: 0,marginTop:10 }}>
+										<View style={{ flex: 0.7, marginHorizontal: 0,marginTop:10 }}>
 
 											<Library />
+										</View>
 										</View>
 									</ScrollView>
 								</View>

@@ -107,7 +107,7 @@ class LiveSessionActivity extends Component {
     goNavBack() {
         console.log('Clicked');
         this.endmeeting()
-        Actions.pop({type:"reset"})
+        Actions.push("survey",{data: this.props.data})
     }
 
     getScriptHTMLAPI() {

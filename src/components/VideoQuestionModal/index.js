@@ -22,20 +22,30 @@ import styles from './styles';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+import MathJax from 'react-native-mathjax';
 
 
 class VideoQuestionModal extends Component{
 	constructor(props){
 		super(props);
     this.state={
-      questiondata:this.props.data.question,
+      questiondata:"",
       answerobj:{},
       showCorrectView: null,
       attempt:false,
-      mewdata: this.props.data
+      mewdata: this.props.data,
+      loading: true
     }
 	}
   componentDidMount(){
+    
+    if(this.props.data){
+      console.log("didmount",this.props.data)
+      this.setState({
+        questiondata: this.props.data.question,
+        loading: false
+      },()=>console.log("didmount222",this.state.questiondata))
+    }
     //alert("Dsfdfdfd"+JSON.stringify(this.props.data))
   }
  async  onAnswer(data){
@@ -150,6 +160,7 @@ class VideoQuestionModal extends Component{
     return newarray;
   }
   onContinue(){
+    this.setState({showCorrectView: null})
      this.props.onquestionSubmit()
   }
 
@@ -161,11 +172,54 @@ class VideoQuestionModal extends Component{
 	render(){
       console.log("skdlksd",this.state.answerobj)
     		return(
+          !this.state.loading ? 
           this.state.showCorrectView === null ?       
        <View style={styles.mainView}>
         <View style={styles.questionview}>
-        <Text style={styles.questionhint}>Hi there, a quick question for you:</Text>
-          <Text style={styles.questiontext}>{this.state.questiondata.question}</Text>
+        {/* <Text style={styles.questionhint}>Hi there, a quick question for you:</Text> */}
+          {/* <Text style={styles.questiontext}>{this.state.questiondata.question}</Text> */}
+          <View style={{width: '100%',
+        borderWidth: 1,
+        borderRadius:10,
+        borderColor: "lightgrey",
+        backgroundColor:"white",
+        marginTop:10,
+        overflow:"hidden",
+        justifyContent:"center",
+        alignSelf: 'flex-start',}}>
+    <MathJax
+     mathJaxOptions={{
+      messageStyle: "none",
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+        displayMath: [
+          ["$$", "$$"],
+          ["\\[", "\\]"],
+        ],
+        processEscapes: true,
+      },
+      TeX: {
+        extensions: [
+          "AMSmath.js",
+          "AMSsymbols.js",
+          "noErrors.js",
+          "noUndefined.js",
+        ],
+      },
+    }}
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '100%',
+        // borderWidth: 2,
+        // borderRadius:10,
+        marginLeft:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        justifyContent:"center",
+        alignSelf: 'center',}} html={this.state.questiondata.question} /></View>
         </View>
         <View style={styles.answersview}>
           <View style={styles.answersubview}>
@@ -181,7 +235,49 @@ class VideoQuestionModal extends Component{
                       <View style={styles.answergrey}/>
                    }
 
-                   <Text style={styles.answertext}>{res.value}</Text>
+<View style={{width: '80%',
+      //  borderWidth: 1,
+        borderRadius:10,
+        //borderColor: "lightgrey",
+        backgroundColor:"white",
+       // marginTop:10,
+       marginLeft:10,
+        overflow:"hidden",
+        justifyContent:"center",
+        alignSelf: 'center',}}>
+    <MathJax
+     mathJaxOptions={{
+      messageStyle: "none",
+      extensions: ["tex2jax.js"],
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+        displayMath: [
+          ["$$", "$$"],
+          ["\\[", "\\]"],
+        ],
+        processEscapes: true,
+      },
+      TeX: {
+        extensions: [
+          "AMSmath.js",
+          "AMSsymbols.js",
+          "noErrors.js",
+          "noUndefined.js",
+        ],
+      },
+    }}
+        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+        width: '80%',
+        marginTop:1,
+        // borderWidth: 2,
+        // borderRadius:10,
+        // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
+        justifyContent:"center",
+        alignSelf: 'flex-start',}} html={res.value} /></View>
                    </View>
                </TouchableHighlight>
              )}
@@ -250,7 +346,7 @@ class VideoQuestionModal extends Component{
             </ImageBackground>
           
     </View>
-      </View> 
+      </View>  : null
 
 
 			)

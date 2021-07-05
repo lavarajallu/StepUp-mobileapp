@@ -11,9 +11,9 @@ import React, { Component } from 'react';
 import { Router, Stack, Scene } from 'react-native-router-flux';
 import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPapers,MockTestSolutions,
     MockTestAssesment,MockTestSummary,MockTest,PrePaperSummary,Register,PrePaperSolutions,Announcements,ViewLiveClass,
-     ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,
+     ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,Survey,
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,LiveClassList,
-     PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,
+     PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,BuyPackages,
  PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,LiveSessionActivity,CalendarNew,TopicAnalysis} from './src/containers'
 
  import VideoActivity from './Video'
@@ -23,8 +23,8 @@ const App = () => {
   return (
     <Router>
       <Stack key="root" hideNavBar={true}>
-        <Scene key="video" component={VideoActivity} />
-         <Scene key = 'loadingscreen' component={LoadingScreen}  initial={true} />
+        <Scene key="video" component={VideoActivity}  />
+         <Scene key = 'loadingscreen' component={LoadingScreen} initial={true}/>
         <Scene key="login" component={Login} />
         <Scene key="register" component={Register} />
         <Scene key="forgotPassword" component={ForgotPassword}  />
@@ -86,6 +86,9 @@ const App = () => {
         <Scene key = "livesessionactivity" component={LiveSessionActivity}/>
         <Scene key="liveclasslist" component={LiveClassList} />
         <Scene key="viewliveclass" component={ViewLiveClass}/>
+
+        <Scene key= "buypackages" component={BuyPackages}/>
+        <Scene key = "survey" component={Survey}  />
       </Stack>
     </Router>
   )

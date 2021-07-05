@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useRef } from 'react';
 import {
     SafeAreaView,
     StyleSheet,
@@ -21,7 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview';
 import { Actions } from 'react-native-router-flux';
-import NormalVideoViewComponent from '../../components/NormalVideoViewComponent'
+import NormalVideoViewComponent from '../../components/NormalVideoViewComponent/newindex'
 import VideoQuestionModal from '../../components/VideoQuestionModal';
 import Toast from 'react-native-simple-toast';
 import { baseUrl , imageUrl} from "../../constants"
@@ -42,6 +42,8 @@ class NormalVideo extends  Component{
             token:"",
             showfullscreen:false
         }
+        this.videocomref = React.createRef();
+
         this.onRewatch = this.onRewatch.bind(this)
     }
     componentDidMount() {
@@ -124,12 +126,12 @@ class NormalVideo extends  Component{
           .catch((error) => console.error(error))
     }
     updateAnalytics(data,duration){
-      console.log("mmmmmm",this.refs.ve.state.currentTime)
+      console.log("mmmmmm",data,duration)
       var body = {
         activity_status : 0,
-        video_played: Math.round(this.refs.ve.currentTime) ? Math.round(this.refs.ve.currentTime)  : Math.round(data),
+        video_played:  Math.round(data),
         pdf_page: 0,
-        video_duration: Math.round(this.refs.ve.state.duration)
+        video_duration: Math.round(duration)
       }
       console.log("bodyyy",body,baseUrl+'/analytics/'+this.state.analyticsData.reference_id)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
@@ -239,7 +241,7 @@ class NormalVideo extends  Component{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin' : "https://lms.iconeducate.com/",
+            'Access-Control-Allow-Origin' : "https://api.iqcandy.com",
             'Access-Control-Allow-Credentials' : "true",
 
             'token': this.state.token
@@ -265,7 +267,8 @@ class NormalVideo extends  Component{
     
       }
     onBack(){
-      this.refs.ve.getcurrentTime();
+      this.funcComRef("gettime","Val")
+      //this.refs.ve.getcurrentTime();
       // this.updateAnalytics();
       //  Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
      
@@ -294,7 +297,7 @@ class NormalVideo extends  Component{
           Actions.normalvideoview({type:"reset",type:"reset",index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
         }else if(newobj.type === "PRE" || newobj.type==='OBJ' || newobj.type === 'POST' || newobj.type === 'SUB'){
           Actions.preassesment({type:"reset",index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-        }else if(newobj.type ==="PDF"){
+        }else if(newobj.type ==="PDF" || newobj.type === "HTML5"){
           Actions.pdfview({type:"reset",index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
         }else if(newobj.type ==="WEB"){
           Actions.weblinkview({type:"reset",index:index+1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -324,7 +327,7 @@ class NormalVideo extends  Component{
           Actions.normalvideoview({type:"reset",index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
         }else if(newobj.type==='OBJ' || newobj.type === 'POST' || newobj.type === 'SUB'){
           Actions.preassesment({type:"reset",index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
-        }else if(newobj.type ==="PDF"){
+        }else if(newobj.type ==="PDF" || newobj.type === "HTML5"){
           Actions.pdfview({type:"reset",index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
         }else if(newobj.type ==="WEB"){
           Actions.weblinkview({type:"reset",index:index-1,smartres:this.props.smartres,data:newobj,topicData: this.props.topicData,subjectData:this.props.subjectData,topicindata: this.props.topicindata,from :this.props.from})
@@ -353,24 +356,31 @@ class NormalVideo extends  Component{
         Actions.push('video')
     }
     onPause(data){
+      console.log("kjdnfjkdnfjkdsnfkld",data)
       this.setState({
         data:data,
        
 
       },()=>this.setState({ newmodal : true}))
     }
-    onquestionSubmit(value){
+     onquestionSubmit = (value) =>{
+     //s console.log("dklkdjfkdjfk",NormalVideoViewComponent)
       this.setState({
         newmodal : false
 
-      },()=>this.refs.ve.onquestionSubmit(value))
+      },()=>
+      this.funcComRef("questionsubmit",value))
+     // this.refs.ve.onquestionSubmit(value))
 
     }
     onRewatch(){
+      console.log("onreeeee",NormalVideoViewComponent.pausedtime)
       this.setState({
         newmodal : false
       
-      },()=> this.refs.ve.onRewatch(this.state.data)
+      },()=> 
+      this.funcComRef("rewatch",this.state.data)
+      //this.videocomref.onRewatch(this.state.data)
       // setTimeout(() => {
       //   this.refs.ve.onRewatch(this.state.data)
       // }, 200)
@@ -378,12 +388,13 @@ class NormalVideo extends  Component{
     }
 
     onfullscreen(value){
-      if(this.refs.ve){
+      if(this.funcComRef){
       
       //alert(this.refs.ve)
             this.setState({
               showfullscreen: !this.state.showfullscreen
-            },()=>this.refs.ve.handlescreenfull(this.state.showfullscreen))
+            },()=>this.funcComRef("fullscreen",this.state.showfullscreen))
+            //this.refs.ve.handlescreenfull(this.state.showfullscreen))
     }
 
     }
@@ -473,11 +484,15 @@ class NormalVideo extends  Component{
           </View> } 
           <View style={stylefull}>
           {this.state.normalvideodata ? 
-                 <NormalVideoViewComponent ref = "ve" 
+                 <NormalVideoViewComponent
+                 forwardRef={(c) => {
+                  this.funcComRef = c;
+                }}
                  onActivityNext={this.onActivityNext.bind(this)}
                  onBackNew={this.onBackNew.bind(this)}
                 onActivityPrevious={this.onActivityPrevious.bind(this)}
-                 onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
+                 onfullscreen={this.onfullscreen.bind(this)} questionsArray={this.state.questionsArray} 
+                 onBack={this.onNewBack.bind(this)} onPause={this.onPause.bind(this)} data={this.state.normalvideodata}/>: 
                  <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                   <Text>Loading...</Text></View>} 
           </View>

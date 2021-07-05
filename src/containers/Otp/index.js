@@ -172,6 +172,8 @@ class Otp extends Component {
                               <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
                         
                         <TextInput
+                                                    placeholderTextColor={"grey"}
+
                             ref={(input) => { this.firstTextInput = input; }}
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
@@ -191,6 +193,8 @@ class Otp extends Component {
                         <View style={{width:windowWidth/1.25,alignSelf:"center",height:50,}}>
                         
                         <TextInput
+                                                    placeholderTextColor={"grey"}
+
                             ref={(input) => { this.secondTextInput = input; }}
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
@@ -220,7 +224,8 @@ class Otp extends Component {
                         <View>
                         <Text style={styles.helptext}>An OTP has been sent to your email</Text>
                         <TextInput
-                          
+                                                      placeholderTextColor={"grey"}
+
                             style={styles.textinput}
                             blurOnSubmit={false}
                             value={this.state.otp}

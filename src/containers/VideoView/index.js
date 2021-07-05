@@ -23,11 +23,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebView } from 'react-native-webview';
 import { Actions } from 'react-native-router-flux';
-import VideoViewComponent from '../../components/VideoViewComponent'
+import VideoViewComponent from '../../components/VideoViewComponent/newindex'
 import VideoQuestionModal from '../../components/VideoQuestionModal';
 
 import { baseUrl,imageUrl } from "../../constants"
 import Snackbar from 'react-native-snackbar';
+import StringsOfLanguages from '../../StringsOfLanguages';
 
 class VideoView extends  Component{
     constructor(props){
@@ -127,7 +128,7 @@ class VideoView extends  Component{
         activity_status : 0,
         video_played: data,
         pdf_page: 0,
-        video_duration: parseInt(this.refs.ve.state.duration) !== 0 ? this.refs.ve.state.duration : duration
+        video_duration: duration
       }
       console.log("bodyyy",body,"    ", baseUrl+'/analytics/'+this.state.analyticsData.reference_id)
       var url = baseUrl+'/analytics/'+this.state.analyticsData.reference_id
@@ -290,7 +291,7 @@ class VideoView extends  Component{
         if(data){
           this.updateAnalytics(data,duration)
         }else{
-          this.updateAnalytics(0)
+          this.updateAnalytics(0,duration)
         }
          Actions.topicmainview({type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData,from :this.props.from})
         
@@ -314,15 +315,17 @@ class VideoView extends  Component{
       this.onPrevious2()
     }
     onBack(){
-      this.refs.ve.getcurrentTime();
+     // alert(":hii")
+      this.funcComRef("gettime","Val")
+     // this.refs.ve.getcurrentTime();
       //this.updateAnalytics()
       
     }
     onNext(){
-      this.refs.ve.onNext();
+      this.funcComRef("next");
     }
     onPrevious(){
-      this.refs.ve.onPrevious();
+      this.funcComRef("previous");
     }
     onOk(){
         this.setState({
@@ -349,22 +352,23 @@ class VideoView extends  Component{
       this.setState({
         newmodal : false
 
-      },()=>this.refs.ve.onquestionSubmit(value))
+      },()=>this.funcComRef("questionsubmit",value))
 
     }
     onRewatch(){
       this.setState({
         newmodal : false
 
-      },()=>this.refs.ve.onRewatch(this.state.data))
+      },()=> this.funcComRef("rewatch",this.state.data)
+      )
     }
     onfullscreen(value){
-      if(this.refs.ve){
+      if(this.funcComRef){
       
       //alert(this.refs.ve)
             this.setState({
               showfullscreen: !this.state.showfullscreen
-            },()=>this.refs.ve.handlescreenfull(this.state.showfullscreen))
+            },()=>this.funcComRef("fullscreen",this.state.showfullscreen))
     }
 
     }
@@ -481,24 +485,27 @@ class VideoView extends  Component{
           <View style={stylefull}>
           {this.state.youtubedata ? 
                  <VideoViewComponent ref = {"ve"}
+                 forwardRef={(c) => {
+                  this.funcComRef = c;
+                }}
                   onActivityNext={this.onActivityNext.bind(this)}
                   onBackNew={this.onBackNew.bind(this)}
                  onActivityPrevious={this.onActivityPrevious.bind(this)}
                  onfullscreen={this.onfullscreen.bind(this)} onPause={this.onPause.bind(this)} data={this.state.youtubedata} questionsArray={this.state.questionsArray}/>: 
                   <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-                  <Text>Loading...</Text></View>}
+                  <Text>{StringsOfLanguages.loading}</Text></View>}
           </View>
           {this.state.showfullscreen ? null :
           <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
           
           <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
         justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
-             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Previous Activity</Text>
+             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>{StringsOfLanguages.previousactivity}</Text>
                  </TouchableOpacity>
        
                  <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
         justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
-             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Next Activity</Text>
+             <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>{StringsOfLanguages.nextactivity}</Text>
                  </TouchableOpacity>
 
           </View> }

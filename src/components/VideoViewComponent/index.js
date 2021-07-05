@@ -268,9 +268,9 @@ onStateChange (e){
 }
  onReady(){
    if(this._youTubeRef){
-    if(this.state.youtubedata.video_played){
-      this._youTubeRef.current?.seekTo(this.state.youtubedata.video_played,true);
-    }
+    // if(this.state.youtubedata.video_played){
+    //   this._youTubeRef.current?.seekTo(this.state.youtubedata.video_played,true);
+    // }
     initial =1;
     const interval = setInterval(async () => {
      const elapsed_sec = await this._youTubeRef.current.getCurrentTime();

@@ -111,6 +111,7 @@ class Analysis extends Component {
             chaptersData: [],
             loading: false,
             piesections: [],
+            piesectiondatacount:null,
             pieloading:true,
             allavergae:"",
             allsectiondata:[],
@@ -362,9 +363,16 @@ class Analysis extends Component {
                         //     loading: false,
 
                         // })
+                       
+                        var count = 0
+                        {json.data.map((res,i)=>{
+                            count = count + res.percentage
+                        })}
+                        console.log("piesections",count,"    ",json.data)
                         this.setState({
                             piesections : json.data,
                             pieloading:false,
+                            piesectiondatacount : count
                         })
 
                     } else {
@@ -513,7 +521,7 @@ class Analysis extends Component {
                     </ImageBackground>
                     <View style={{
                         height: windowHeight / 1.2, width: windowWidth, backgroundColor: "white", alignSelf: "center",
-                        position: "absolute", bottom: 0, borderTopRightRadius: 30, borderTopLeftRadius: 30
+                        position: "absolute", bottom: 0, borderTopRightRadius: 20, borderTopLeftRadius: 20,overflow:"hidden"
                     }}>
                         {this.state.spinner ? <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                             <ActivityIndicator color={"black"} />
@@ -535,7 +543,7 @@ class Analysis extends Component {
                                                                 style={{
                                                                     borderBottomWidth: 3,
                                                                     borderColor: this.state.selectedTab.name === res.name ? "#A44084" : "transparent",
-                                                                    paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center"
+                                                                    paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center",
                                                                 }}>
                                                                 <ImageBackground source={res.image} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center",alignSelf:"center" }}>
 
@@ -547,14 +555,14 @@ class Analysis extends Component {
                                                                 style={{
                                                                     borderBottomWidth: 3,
                                                                     borderColor: this.state.selectedTab.name === res.name ? "#A44084" : "transparent",
-                                                                    paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center"
+                                                                    paddingHorizontal: 10, marginHorizontal: 10, justifyContent: "center",
                                                                 }}>
-                                                                <ImageBackground source={bgcolor} style={{ width: 80, height: 80, justifyContent: "center", alignItems: "center" ,alignSelf:"center"}}>
-                                                                    <Image source={{uri: imageUrl +res.image}} style={{ width: 35, height: 35,
+                                                                <View style={{ width: 75, height: 75,borderRadius: 75/2, justifyContent: "center", alignItems: "center" ,alignSelf:"center",backgroundColor:res.color ? res.color: bgcolor}}>
+                                                                    <Image source={{uri: imageUrl +res.image}} style={{ width: 40, height: 40,
                                                                      alignSelf: "center",  }} />
 
-                                                                </ImageBackground>
-                                                                <Text style={{ textAlign: "center", color: "#656565" }}>{res.name}</Text>
+                                                                </View>
+                                                                <Text style={{ textAlign: "center", color: "#656565" ,paddingTop:Platform.OS === 'ios' ?10 : 0}}>{res.name}</Text>
                                                             </TouchableOpacity>
                                                     )
                                                 })}
@@ -656,12 +664,13 @@ class Analysis extends Component {
                                                                         <View>
                                                                             <View style={{ flexDirection: "row" }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Easy</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 , color:"#88C400"}}>Easy</Text>
     
     
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center", }}>
                                                                                     <Progress.Bar progress={res.easy / 100} width={windowWidth / 2} height={10}
+                                                                                    borderColor={"#0A7FD7"}
                                                                                         color={res.easy > 50 ? "#88C400" : 50 < res.easy < 30 ? "#0A7FD7" : "#FE3939"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>
@@ -671,12 +680,13 @@ class Analysis extends Component {
     
                                                                             <View style={{ flexDirection: "row", marginTop: 20 }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Medium</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 ,color:"#0A7FD7"}}>Medium</Text>
     
     
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center" }}>
                                                                                     <Progress.Bar progress={res.medium / 100} width={windowWidth / 2} height={10}
+                                                                                    borderColor={"#0A7FD7"}
                                                                                         color={res.medium > 50 ? "#88C400" : 50 < res.medium < 30 ? "#0A7FD7" : "#FE3939"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>
@@ -686,12 +696,13 @@ class Analysis extends Component {
     
                                                                             <View style={{ flexDirection: "row", marginTop: 20 }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Hard</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 ,color:"#FE3939"}}>Hard</Text>
     
     
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center", }}>
                                                                                     <Progress.Bar progress={res.hard / 100} width={windowWidth / 2} height={10}
+                                                                                    borderColor={"#0A7FD7"}
                                                                                         color={res.hard < 30 ? "#FE3939" : res.hard < 70 ? "#0A7FD7" : "#88C400"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>
@@ -812,9 +823,15 @@ class Analysis extends Component {
                                                                 justifyContent: "center"
                                                             }}>
                                                                 {this.state.pieloading ? <Text style={{textAlign:"center"}}>Loading....</Text> : 
+                                                                this.state.piesectiondatacount > 0 ?
                                                                 <>
                                                                <SemiCircleDonut chapters={this.state.piesections}/>
                                                                <Text style={{marginVertical:10,textAlign:"center",fontWeight:"bold"}}>Bloom's Taxonomy Average</Text>
+                                                               
+                                                               </> : null
+                                                             
+                                                               }
+                                                               <>
                                                                <ActivityRings data={bloomsdata} config={activityConfig} /> 
                                                                <View style={{flexDirection:"row",flexWrap:"wrap",marginHorizontal:30,alignItems:"center",justifyContent:"center"}}>
                                                                     {bloomsdata.map((res,i)=>(
@@ -823,10 +840,7 @@ class Analysis extends Component {
                                                                             <Text style={{marginLeft:5}}>{res.label}</Text>
                                                                         </View>
                                                                     ))}
-                                                                    </View>
-                                                               </>
-                                                             
-                                                               }
+                                                                    </View></>
                                                                 {/* <ProgressCircle style={{ height: 150, }} progress={this.state.piesections / 100}
                                                                     strokeWidth={10} progressColor={"#FF603D"}>
 
@@ -873,12 +887,13 @@ class Analysis extends Component {
                                                                         <View>
                                                                             <View style={{ flexDirection: "row" }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Easy</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 ,color:"#88C400"}}>Easy</Text>
 
 
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center", }}>
                                                                                     <Progress.Bar progress={res.easy / 100} width={windowWidth / 2} height={10}
+                                                                                     borderColor={"#0A7FD7"}
                                                                                         color={res.easy > 50 ? "#88C400" : 50 < res.easy < 30 ? "#0A7FD7" : "#FE3939"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>
@@ -888,12 +903,13 @@ class Analysis extends Component {
 
                                                                             <View style={{ flexDirection: "row", marginTop: 20 }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Medium</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11,color:"#0A7FD7" }}>Medium</Text>
 
 
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center" }}>
                                                                                     <Progress.Bar progress={res.medium / 100} width={windowWidth / 2} height={10}
+                                                                                    borderColor={"#0A7FD7"}
                                                                                         color={res.medium > 50 ? "#88C400" : 50 < res.medium < 30 ? "#0A7FD7" : "#FE3939"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>
@@ -903,12 +919,13 @@ class Analysis extends Component {
 
                                                                             <View style={{ flexDirection: "row", marginTop: 20 }}>
                                                                                 <View style={{ flex: 0.2, justifyContent: "center" }}>
-                                                                                    <Text style={{ textAlign: "left", fontSize: 11 }}>Hard</Text>
+                                                                                    <Text style={{ textAlign: "left", fontSize: 11 , color:"#FE3939"}}>Hard</Text>
 
 
                                                                                 </View>
                                                                                 <View style={{ flex: 0.65, justifyContent: "center", }}>
                                                                                     <Progress.Bar progress={res.hard / 100} width={windowWidth / 2} height={10}
+                                                                                    borderColor={"#0A7FD7"}
                                                                                         color={res.hard < 30 ? "#FE3939" : res.hard < 70 ? "#0A7FD7" : "#88C400"} />
                                                                                 </View>
                                                                                 <View style={{ flex: 0.15, justifyContent: "center" }}>

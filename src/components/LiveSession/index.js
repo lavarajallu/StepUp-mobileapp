@@ -9,6 +9,7 @@ import {
     Dimensions,
     StatusBar,
     Image,
+    Alert,
     Keyboard,
     TouchableOpacity,
     FlatList
@@ -111,46 +112,63 @@ componentDidMount(){
   //     )
   //     .catch((error) => console.error(error))
  // }
+ 
   onJoinLiveClass(item){
-    var live_class_id = item.reference_id;
-    let date = moment(new Date()).format('YYYY-MM-DD')
-    let time = moment(new Date()).format('HH:mm')
-    var url = baseUrl+`/live-class/${live_class_id}/join/attendee?date=${date}&time=${time}`
-    console.log("tt",url)
-    fetch(url, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'token': this.state.token
-      }
-  }).then((response) =>
-
-      response.json())
-      .then((json) => {
-          console.log("topicdattaaa", JSON.stringify(json))
-        //  alert(JSON.stringify(json))
-          if(json.statusCode === 200){
-            console.log("joinn",json)
-            this.setState({
-              meetingUrl: json.data,
-              loading:false,
-            },()=> Actions.push("livesessionactivity",{meetingUrl:json.data,data:item }))
-            //json.statusCode
-          }else{
-            this.setState({loading: false})
-            Toast.show(json.message, Toast.LONG);
-          }
-      }
-
-      )
-      .catch((error) => console.error(error))
-   // Actions.push("livesessionactivity",{data:item})
+    Alert.alert(
+      "Step Up",
+      "Are you sure you want to join the class?",
+      [
+          {
+              text: "Yes", onPress: () => {
+                var live_class_id = item.reference_id;
+                let date = moment(new Date()).format('YYYY-MM-DD')
+                let time = moment(new Date()).format('HH:mm')
+                var url = baseUrl+`/live-class/${live_class_id}/join/attendee?date=${date}&time=${time}`
+                console.log("tt",url)
+                fetch(url, {
+                  method: 'GET',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'token': this.state.token
+                  }
+              }).then((response) =>
+            
+                  response.json())
+                  .then((json) => {
+                      console.log("topicdattaaa", JSON.stringify(json))
+                    //  alert(JSON.stringify(json))
+                      if(json.statusCode === 200){
+                        console.log("joinn",json)
+                        this.setState({
+                          meetingUrl: json.data,
+                          loading:false,
+                        },()=> Actions.push("livesessionactivity",{meetingUrl:json.data,data:item }))
+                        //json.statusCode
+                      }else{
+                        this.setState({loading: false})
+                        Toast.show(json.message, Toast.LONG);
+                      }
+                  }
+            
+                  )
+                  .catch((error) => console.error(error))
+               // Actions.push("livesessionactivity",{data:item})
+              }
+          },{
+              text: "No", onPress: () => {
+                  //Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type, from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+              }
+          },
+      ]
+  );
+   
   }
   onViewLive(item){
     Actions.push("viewliveclass",{data: item,topicindata : this.props.topicData})
   }
         renderItem({ item }) {
-      
+         console.log("ieteremrere",item.reference_id,item.name)
+         //9932892b-d24f-4cf0-a0f1-7c9417a23236
         return (
           <View style={styles.itemview}>
           <View style={styles.itemsubview}>

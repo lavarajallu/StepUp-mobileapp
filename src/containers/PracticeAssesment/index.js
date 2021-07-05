@@ -12,6 +12,7 @@ import {
     Keyboard,
     TouchableOpacity,
     FlatList,
+    BackHandler,
     ActivityIndicator
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -26,9 +27,7 @@ import Snackbar from 'react-native-snackbar';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import MathJax from 'react-native-mathjax';
 var alphabetarray = ["A","B","c","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-const mmlOptions = {
-    jax: ['input/MathML'],
-};
+
 
 class PracticeAssesment extends Component {
     constructor(props) {
@@ -49,9 +48,16 @@ class PracticeAssesment extends Component {
         }
     }
     componentDidMount() {
+		this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.backAction);
 
         this.getData()
         this.starttimer()
+    }
+    backAction = () => {
+     //   alert("hiiiii")
+        //this.props.navigation.goBack(null);
+        return true;
+       // Actions.topicmainview({from:this.props.from,type:"reset",data:this.props.topicindata,topicsdata:this.props.topicData,screen:"summary",subjectData:this.props.subjectData})
     }
 
     getData = async () => {
@@ -289,15 +295,26 @@ class PracticeAssesment extends Component {
         }).then((response) =>
             response.json())
             .then((json) => {
-               // alert(JSON.stringify(json))
+             console.log("qusessss......",JSON.stringify(json.data))
                 if (json.data) {
                     const data = json.data
+                    let questions = []
+                    data.questions && data.questions.map(data => {
+                        let obj = {
+                          question: data.reference_id,
+                          user_answer: null,
+                          test_taken_time: 1,
+                        }
+                        questions.push(obj)
+                      })
+                
                     this.setState({
                         testid: data.reference_id,
                         questiosnarray: data.questions,
                         selectedItem: data.questions[0],
                         questionno: 0,
-                        spinner: false
+                        spinner: false,
+                        finalarray: questions
                     })
 
 
@@ -361,6 +378,8 @@ class PracticeAssesment extends Component {
                           this.setState({
                               answerobj : res
                           })
+                      }else {
+                          console.log("else.......")
                       }
                   })
               }
@@ -426,6 +445,7 @@ class PracticeAssesment extends Component {
       }
 
     onSubmit() {
+        console.log("finalyarray",this.state.finalarray)
         this.setState({
             isvisible: false
         }, () => {
@@ -506,27 +526,37 @@ class PracticeAssesment extends Component {
         Actions.practicechapter({type:"reset",data: this.props.subjectData})
     }
     onAnswer(res) {
-        //alert(JSON.stringify( this.state.selectedItem))
+        console.log("answerrr...",this.state.finalarray)
         var answerkey = res.key;
         var questionId = this.state.selectedItem.reference_id
         var timecount = this.state.seconds;
         console.log(this.state.secondstime - timecount)
         var timess = this.state.secondstime - timecount
-        var obj = {
-            "question": questionId,
-            "user_answer": answerkey,
-            "test_taken_time": timess
-        }
+        // var obj = {
+        //     "question": questionId,
+        //     "user_answer": answerkey,
+        //     "test_taken_time": timess
+        // }
         //console.log("slkd", obj)
        // if(this.state.finalarray)
-        this.state.finalarray.map((res,i)=>{
-            if(res.question === this.state.selectedItem.reference_id){
-                this.state.finalarray.splice(i,1)
-            }else{
+        // this.state.finalarray.map((res,i)=>{
+        //     if(res.question === this.state.selectedItem.reference_id){
+        //         this.state.finalarray.splice(i,1)
+        //     }else{
                
-            }
-        })
-        this.state.finalarray.push(obj);
+        //     }
+        // })
+        let data = [...this.state.finalarray]
+    let index =data.findIndex(p => p.question === this.state.selectedItem.reference_id)
+    let obj = data[index]
+    if (obj) {
+      obj.user_answer = answerkey
+      data[index] = Object.assign({}, obj)
+      this.setState({finalarray: data})
+    }
+
+
+        //this.state.finalarray.push(obj);
         
         this.setState({
 
@@ -535,61 +565,15 @@ class PracticeAssesment extends Component {
         })
       
             this.setState({
-             //   questionno: this.state.questionno + 1,
                 answerobj : obj 
             }, () => {
-                // var nextItem = this.state.questiosnarray[this.state.questionno];
-                // this.setState({
-                //     selectedItem: nextItem,
-                //    // answerobj : {}
-
-                // }, () => this.state.finalarray.map((res,i)=>{
-                   
-                //     if(res.question === this.state.selectedItem.reference_id){
-                       
-                //         // console.log("ffff",res.question ,  "  ", this.state.selectedItem.reference_id)
-                //         this.setState({
-                //             answerobj : res
-                //         },()=>
-                //         {this.state.answerobj = res;
-                //        // alert("Hiiii"+JSON.stringify(this.state.answerobj))
-                //     })
-                //     }else{
-                //         this.setState({
-                //             answerobj:{}
-                //         })
-                //     }
-                // }))
+               
             })
             this.scrollToIndex(this.state.questionno)
         
 
 
-        // var question = this.state.selectedItem;
-        // var answer = res;
-
-        // var answerid = res.answerid
-        // var questionno = this.state.selectedItem.questionno;
-        // var question = this.state.selectedItem.question;
-        // var correctanswer = this.state.selectedItem.correctanswer;
-        // var result;
-        // if(answerid === correctanswer){
-        //     result = true;
-        // }else{
-        //     result = false
-        // }
-        // var obj = {
-
-        //     questionno,
-        //     question,
-        //     answerid,
-        //     correctanswer,
-        //     result
-        // }
-        // this.setState({
-        //     answerobj : obj
-        // },()=>console.log("dddd",this.state.answerobj))
-        // //finalarray.push(obj);
+       
     }
     getItemLayout = (data, index) => (
         { length: 50, offset: 50 * index, index }
@@ -623,30 +607,31 @@ class PracticeAssesment extends Component {
         justifyContent:"center",
         alignSelf: 'flex-start',}}>
     <MathJax
-  mathJaxOptions={{
-    messageStyle: "none",
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX", "output/HTML-CSS"],
-    tex2jax: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-    },
-    TeX: {
-      extensions: [
-        "AMSmath.js",
-        "AMSsymbols.js",
-        "noErrors.js",
-        "noUndefined.js",
-      ],
-    },
-  }}        // To set the font size change initial-scale=0.8 from MathJax class
+      mathJaxOptions={{
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+          processEscapes: true,
+        },
+        TeX: {
+          extensions: [
+            "AMSmath.js",
+            "AMSsymbols.js",
+            "noErrors.js",
+            "noUndefined.js",
+          ],
+        },
+      }}
+        // To set the font size change initial-scale=0.8 from MathJax class
         style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
         width: '80%',
         // borderWidth: 2,
@@ -654,7 +639,9 @@ class PracticeAssesment extends Component {
         // borderColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "lightgrey",
         marginLeft:10,
         justifyContent:"center",
-        alignSelf: 'flex-start',}} html={item.value} /></View>
+        alignSelf: 'flex-start',}}
+        html={item.value} 
+       /></View>
 </TouchableOpacity>
        )
     }
@@ -824,30 +811,31 @@ class PracticeAssesment extends Component {
                                                 <View style={{ flexDirection: 'row', paddingStart: 15, paddingEnd: 10 }}>
                                             <Text style={{ fontSize: 13, marginTop: 10 }}>{this.state.questionno+1}.</Text>
                                             <MathJax
-                                                            mathJaxOptions={{
-                                                                messageStyle: "none",
-                                                                extensions: ["tex2jax.js"],
-                                                                jax: ["input/TeX", "output/HTML-CSS"],
-                                                                tex2jax: {
-                                                                inlineMath: [
-                                                                    ["$", "$"],
-                                                                    ["\\(", "\\)"],
-                                                                ],
-                                                                displayMath: [
-                                                                    ["$$", "$$"],
-                                                                    ["\\[", "\\]"],
-                                                                ],
-                                                                processEscapes: true,
-                                                                },
-                                                                TeX: {
-                                                                extensions: [
-                                                                    "AMSmath.js",
-                                                                    "AMSsymbols.js",
-                                                                    "noErrors.js",
-                                                                    "noUndefined.js",
-                                                                ],
-                                                                },
-                                                            }}                                                // To set the font size change initial-scale=0.8 from MathJax class
+                                              mathJaxOptions={{
+                                                messageStyle: "none",
+                                                extensions: ["tex2jax.js"],
+                                                jax: ["input/TeX", "output/HTML-CSS"],
+                                                tex2jax: {
+                                                  inlineMath: [
+                                                    ["$", "$"],
+                                                    ["\\(", "\\)"],
+                                                  ],
+                                                  displayMath: [
+                                                    ["$$", "$$"],
+                                                    ["\\[", "\\]"],
+                                                  ],
+                                                  processEscapes: true,
+                                                },
+                                                TeX: {
+                                                  extensions: [
+                                                    "AMSmath.js",
+                                                    "AMSsymbols.js",
+                                                    "noErrors.js",
+                                                    "noUndefined.js",
+                                                  ],
+                                                },
+                                              }}
+                                                // To set the font size change initial-scale=0.8 from MathJax class
                                                 style={{ borderRadius: 5,
                                                     width: '95%',
                                                     borderWidth: 0.5,

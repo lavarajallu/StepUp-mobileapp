@@ -19,9 +19,9 @@
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
-      android:usesCleartextTraffic="true" 
       tools:targetApi="28"
       android:icon="@mipmap/ic_launcher"
+      android:usesCleartextTraffic="true"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:configChanges="layoutDirection|locale"
