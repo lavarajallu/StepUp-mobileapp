@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     SafeAreaView,
-    StyleSheet,
+    BackHandler,
     ImageBackground,
     ScrollView,
     View,
@@ -40,7 +40,15 @@ class Notifications extends Component {
       openControlPanel = () => {
         this._drawer.open()
       };
-
+      componentDidMount(){
+        this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
+      }
+      backAction = ()=>{
+        Actions.dashboard({type:"reset"})
+      }
     render() {
         return (
             <Drawer

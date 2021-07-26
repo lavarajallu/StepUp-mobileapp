@@ -16,12 +16,12 @@ import {
 	FlatList
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Toast from 'react-native-simple-toast';
 
 import { Actions } from 'react-native-router-flux';
 import * as Progress from 'react-native-progress';
 import StringsOfLanguages from '../../StringsOfLanguages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
 import styles from "./styles"
 import { baseUrl , imageUrl } from '../../constants';
@@ -211,17 +211,17 @@ class RecommendedTopics extends Component {
 	style={{ width: 50, height: 50, resizeMode: "contain" }} />}
 		
 				</View>
-				<View style={{flex:0.75,flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingLeft:10}}>
+				<View style={{flex:0.5,flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingLeft:10}}>
 				 <Text>{item.name}</Text>
-				<View style={{justifyContent:"center",alignItems:"center"}}>
+				 </View>
+				<View style={{flex:0.25,justifyContent:"center",alignItems:"center"}}>
 				<LinearGradient colors={["#F63D80", "#FD6C71"]}
 				style={{height:25,justifyContent:"center",alignItems:"center",paddingHorizontal:15,borderRadius:20,marginRight:10}}>
-					<Text style={{color:"white",fontSize:12}}>Start</Text>
+					<Text style={{color:"white",fontSize:12}}>{"Start"}</Text>
 				</LinearGradient>
 				</View>
 				</View>
 			
-				</View>
 			   
 			</TouchableOpacity>
 		)
@@ -241,6 +241,7 @@ class RecommendedTopics extends Component {
 			<FlatList data={this.state.topicsData}
 					renderItem={this.renderItem.bind(this)}
 					horizontal={true}
+					extraData={true}
 					showsHorizontalScrollIndicator={false} />
 	</View>  :null
 		)

@@ -9,6 +9,7 @@ import {
 	Dimensions,
 	Platform,
 	Image,
+	BackHandler,
 	ActivityIndicator,
 	TouchableOpacity
 } from 'react-native';
@@ -109,17 +110,29 @@ class Topics extends Component {
 	}
 	componentDidMount() {
 		//alert("dfdfdf"+JSON.stringify(this.props.subjectData))
+		this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
 		this.getData()
 	}
+	  backAction = ()=>{
+		  //alert("hi")
+		 this.onBack()
+	  }
+	  componentWillUnmount() {
+		this.backHandler.remove();
+	  }
 	onBack(){
 		this.updateAnalytics()
-		//alert(this.props.screen)
+		
 		if(this.props.screen === 'dashboard'){
 			Actions.dashboard({type:"reset"})
         }else if(this.props.screen === "classlist"){
 			Actions.liveclasslist({type:"reset"})
 
 		}else{
+			//alert(this.props.screen)
 			Actions.chapters({type:"reset",data:this.props.subjectData})
 
 		}

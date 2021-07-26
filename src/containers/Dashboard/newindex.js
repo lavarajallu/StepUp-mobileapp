@@ -147,8 +147,8 @@ class Dashboard extends Component {
 	render() {
 		const url = imageUrl + this.state.profile_pic
 		const images = [
-			require('../../assets/images/slider-1.jpg'),
-			require('../../assets/images/slider-2.jpg'),
+			require('../../assets/images/slider-11.jpg'),
+			require('../../assets/images/slider-22.jpg'),
 			
 		  ];
 		return (
@@ -189,7 +189,7 @@ class Dashboard extends Component {
 													width: windowWidth,
 													//padding: 10,
 													alignItems: 'center',
-													height: 200,
+													height: 210,
 													flexDirection:"row",
 													//backgroundColor:"red"
 												}}>

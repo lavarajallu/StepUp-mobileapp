@@ -139,6 +139,8 @@ class ViewLiveClass extends  Component{
                     this.state.liverecording ? 
                     
                       <WebView
+                      androidHardwareAccelerationDisabled={true}
+
                               source={{
                                 uri: this.state.liverecording
                               }}

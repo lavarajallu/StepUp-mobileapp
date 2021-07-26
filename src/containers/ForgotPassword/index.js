@@ -45,9 +45,11 @@ class ForgotPassword extends Component {
         var email = this.state.email;
         if (email === "") {
             alert("Please enter email")
-        } else if (!Validations.email(email)) {
-            alert("please enter valid email")
-        } else {
+        } 
+        // else if (!Validations.email(email)) {
+        //     alert("please enter valid email")
+        // }
+         else {
             this.setState({ spinner: true })
            var body = { email: email }
            console.log("Boyyy",body)
@@ -107,7 +109,7 @@ class ForgotPassword extends Component {
                         <Image source={require("../../assets/images/forgoticon.png")}
                             style={styles.forgoticon} />
                         <Text style={styles.forgottext}>Forgot Password?</Text>
-                        <Text style={styles.pleasetext}>Please Enter your email address </Text>
+                        <Text style={styles.pleasetext}>Please Enter your email address or Mobile number </Text>
                         <TextInput
                             labelStyle={styles.labelstyle}
                             inputStyle={styles.input}
@@ -116,7 +118,7 @@ class ForgotPassword extends Component {
                             style={styles.textinput}
                             blurOnSubmit={false}
                             keyboardType={"email-address"}
-                            placeholder={"Email"}
+                            placeholder={"Email/Mobile Number"}
                             onChangeText={this.onChangeEmail}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         ></TextInput>
@@ -177,7 +179,7 @@ class ForgotPassword extends Component {
               />
               <Text style={styles.forgottext}>Forgot Password?</Text>
               <Text style={styles.pleasetext}>
-                Please Enter your email address
+                Please Enter your email address or mobile number
               </Text>
               <TextInput
                 labelStyle={styles.labelstyle}
@@ -185,7 +187,7 @@ class ForgotPassword extends Component {
                 style={styles.textinput}
                 blurOnSubmit={false}
                 keyboardType={"email-address"}
-                placeholder={"Email"}
+                placeholder={"Email/Mobile Number"}
                 onChangeText={this.onChangeEmail}
                 onSubmitEditing={() => Keyboard.dismiss()}
               ></TextInput>

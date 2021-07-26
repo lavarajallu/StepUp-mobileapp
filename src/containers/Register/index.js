@@ -185,7 +185,7 @@ class Register extends Component {
                 state: "AP",
                 provision: "AP",
                 pincode: pincode,
-                gender: "",
+               // gender: "",
                 profile_pic: "",
                 user_role: "General Student"
             }

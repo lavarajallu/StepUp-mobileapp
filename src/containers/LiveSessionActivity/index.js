@@ -187,6 +187,8 @@ class LiveSessionActivity extends Component {
                     sourceUri={this.state.htmlURL}
                 /> */}
                  <WebView
+                                  androidHardwareAccelerationDisabled={true}
+
                     style={{ height: '100%', width: '100%', backgroundColor: "white" }}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}

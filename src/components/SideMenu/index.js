@@ -62,7 +62,8 @@ class SideMenu extends Component {
 			userName: "null",
 			profile_pic: "null",
 			gradeName:"null",
-			schoolname:"null"
+			schoolname:"null",
+			username:""
 		}
 	}
 	componentDidMount(){
@@ -87,8 +88,22 @@ getData = async () => {
     }
   }
   setData(data){
+	var username
+	if(data.name){
+		username = data.name
+	}else{
+		if(data.first_name){
+			if(data.last_name){
+				username  = data.first_name + " " + data.last_name
+			}else{
+				username = data.first_name
+			}
+		}else if(data.last_name){
+			username = data.last_name
+		}
+	}
 	  this.setState({
-		  userName: data.name,
+		  userName: username,
 		  profile_pic: data.profile_pic ? imageUrl +data.profile_pic : "null",
 		  gradeName: data.grade ? data.grade.name  : "null",
 		   schoolname: data.school ? data.school.name : "null"})

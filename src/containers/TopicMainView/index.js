@@ -12,6 +12,7 @@ import {
   Alert,
   Image,
   Keyboard,
+  BackHandler,
   TouchableOpacity,
   TouchableHighlight,
   ActivityIndicator
@@ -72,9 +73,19 @@ class TopicMainView extends Component {
     }
   }
   componentDidMount() {
-    //alert(JSON.stringify(this.props.data))
+    this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
     this.getData()
   }
+  backAction = ()=>{
+     this.onBack()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+ 
   getData = async () => {
     try {
       const value = await AsyncStorage.getItem('@user')

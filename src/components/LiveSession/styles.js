@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 		flex:1
 	},
 	itemview:{
-		flex:1,padding:10,backgroundColor: 'white',marginHorizontal:20,borderWidth:1,borderRadius: 10,borderColor:"transparent",
+		flex:1,padding:10,backgroundColor: 'white',marginHorizontal:20,borderWidth:0.5,borderRadius: 10,borderColor:"grey",
 			    shadowOffset: { width: 0, height: 5 },marginVertical:5,
 			    shadowOpacity: 1,
 			    shadowColor:"black",

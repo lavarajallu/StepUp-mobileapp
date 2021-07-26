@@ -155,7 +155,7 @@ handleReady = (data) => {
     this._youTubeRef?.getDuration().then(
  
          getDuration => {
-             console.log("dsjreadyklkld",getDuration)
+             console.log("youtubedatayoutubedata",youtubedata)
              setDuration(parseInt(getDuration))
          })
           if(youtubedata.video_played){

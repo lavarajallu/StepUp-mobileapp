@@ -25,11 +25,14 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import { createNativeWrapper } from 'react-native-gesture-handler';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { baseUrl, imageUrl } from '../../constants';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Validations } from '../../helpers'
+
 import moment from 'moment';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import StringsOfLanguages from '../../StringsOfLanguages';
 
 var radio_props = [
     { label: 'Male', value: 0 },
@@ -51,21 +54,22 @@ class EditProfile extends Component {
             profile_pic: "",
             genderval: null,
             boardsData: [],
-            gradesData:[],
-            picture:"",
-            token:'',
-            userID:"",
-            picker: false
+            gradesData: [],
+            picture: "",
+            token: '',
+            userID: "",
+            picker: false,
+            countrycode: "+91"
         }
     }
     async componentDidMount() {
         const value = await AsyncStorage.getItem('@access_token')
         if (value !== null) {
             console.log('val', value)
-            this.setState({token:JSON.parse(value) })
+            this.setState({ token: JSON.parse(value) })
             this.getBoards(JSON.parse(value))
         }
-        
+
     }
 
     getData = async () => {
@@ -92,7 +96,7 @@ class EditProfile extends Component {
 
 
                 this.seData(data)
-               
+
 
 
             } else {
@@ -102,24 +106,48 @@ class EditProfile extends Component {
             return null;
         }
     }
-    seData(data){
-       console.log("ddddd",data)
+    seData(data) {
+        console.log("ddddd", data)
+        var username
+        if (data.name) {
+            username = data.name
+        } else {
+            if (data.first_name) {
+                if (data.last_name) {
+                    username = data.first_name + " " + data.last_name
+                } else {
+                    username = data.first_name
+                }
+            } else if (data.last_name) {
+                username = data.last_name
+            }
+        }
+        var countrycoide = "";
+        var numberphone = ""
+        if(data.mobile_number){
+            
+                countrycoide = data.mobile_number.substring(0, data.mobile_number.length - 10), 
+                numberphone =  data.mobile_number.substring(data.mobile_number.length - 10, data.mobile_number.length)
+        
+        }
+       
         this.setState({
-            name: data.name? data.name : "",
-            dob: data.dob?data.dob:"select dob",
-            mobile_number: data.mobile_number ? data.mobile_number : "",
+            name: username,
+            dob: data.dob ? data.dob : "",
+            mobile_number: numberphone,
+            countrycode: countrycoide,
             email: data.email ? data.email : "",
             state: data.state ? data.state : "",
-            boardvalue: data.board ?data.board.name : "",
+            boardvalue: data.board ? data.board.name : "",
             grade: data.grade ? data.grade.name : "",
-            profilepic: data.profile_pic ? imageUrl +data.profile_pic: null,
+            profilepic: data.profile_pic ? imageUrl + data.profile_pic : null,
             gradeselect: data.grade.reference_id
-        },()=>console.log("JSasfdf"))
+        }, () => console.log("JSasfdf"))
 
     }
     getBoards(value) {
         console.log(value)
-        fetch(baseUrl+'/board', {
+        fetch(baseUrl + '/board', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -134,11 +162,13 @@ class EditProfile extends Component {
                 if (data) {
                     if (data.boards) {
                         console.log("boards", json.data.boards)
-                        var boardarray =[]
-                        {data.boards.map((res,i)=>{
-                            var obj={"label":res.name,"value":res.reference_id}
-                            boardarray.push(obj)
-                        })}
+                        var boardarray = []
+                        {
+                            data.boards.map((res, i) => {
+                                var obj = { "label": res.name, "value": res.reference_id }
+                                boardarray.push(obj)
+                            })
+                        }
                         this.setState
                             ({
                                 spinner: false,
@@ -209,17 +239,17 @@ class EditProfile extends Component {
         // });
         launchCamera(
             {
-              mediaType: 'photo',
-              includeBase64: false,
-              maxHeight: 200,
-              maxWidth: 200,
+                mediaType: 'photo',
+                includeBase64: false,
+                maxHeight: 200,
+                maxWidth: 200,
             },
             (response) => {
-              console.log("imageee",response)
-              let source = { uri: response.uri };
-              this.setState({ profilepic: response.uri, picture:  response });
+                console.log("imageee", response)
+                let source = { uri: response.uri };
+                this.setState({ profilepic: response.uri, picture: response });
             },
-          )
+        )
     }
     openPicker = () => {
         // ImagePicker.openPicker({
@@ -245,193 +275,192 @@ class EditProfile extends Component {
         // });
         launchImageLibrary(
             {
-              mediaType: 'photo',
-              includeBase64: false,
-              maxHeight: 200,
-              maxWidth: 200,
+                mediaType: 'photo',
+                includeBase64: false,
+                maxHeight: 200,
+                maxWidth: 200,
             },
             (response) => {
-              console.log("imageee",response)
-              let source = { uri: response.uri };
-              this.setState({ profilepic: response.uri, picture:  response });
+                console.log("imageee", response)
+                let source = { uri: response.uri };
+                this.setState({ profilepic: response.uri, picture: response });
             },
-          )
+        )
     }
 
-    onBoardsPress = (value)=>{
+    onBoardsPress = (value) => {
         this.setState({
             boardvalue: value
-        },()=>this.getGrades(this.state.token,value))
+        }, () => this.getGrades(this.state.token, value))
     }
-    getGrades(token,value)
-    {
+    getGrades(token, value) {
         //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
-             var url = baseUrl+'/grade?offset=0&limit=10&board='+value+'&branch=-1'
-             console.log("value",url)
-            fetch(url ,{
-                     method: 'GET',
-                     headers: {
-                         'Content-Type': 'application/json',
-                         'token': token
-                     }
-                     }).then((response) =>
-                     
-                      response.json())
-                     .then((json) =>{
-                         const data = json.data;
-                         console.log("sss",data)
-                         if(data){
-                           if(data.grades){
-                            console.log("boards",json.data.grades)
-                            var gradesarray = []
-                            {data.grades.map((res,i)=>{
-                                var obj={"label":res.name,"value":res.reference_id}
+        var url = baseUrl + '/grade?offset=0&limit=10&board=' + value + '&branch=-1'
+        console.log("value", url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': token
+            }
+        }).then((response) =>
+
+            response.json())
+            .then((json) => {
+                const data = json.data;
+                console.log("sss", data)
+                if (data) {
+                    if (data.grades) {
+                        console.log("boards", json.data.grades)
+                        var gradesarray = []
+                        {
+                            data.grades.map((res, i) => {
+                                var obj = { "label": res.name, "value": res.reference_id }
                                 gradesarray.push(obj)
-                            })}
-                               this.setState
-                               ({
-                                   spinner: false,
-                                   gradesData: gradesarray
-                               })
-                           }else{
-                            this.setState
+                            })
+                        }
+                        this.setState
                             ({
-                               spinner: false,
-                                gradesData: []
-                            }) 
-                           }
-                            //  AsyncStorage.setItem('@access-token', data.access_token)
-                            //  Actions.push('dashboard')
-                         }else{
-                             alert(JSON.stringify(json))
-                             this.setState
-                             ({
                                 spinner: false,
-                                 gradesData: []
-                             })
-                         }
-                     }
-                      
-                     )
-                     .catch((error) => console.error(error))
-                 //Actions.push('boards')
+                                gradesData: gradesarray
+                            })
+                    } else {
+                        this.setState
+                            ({
+                                spinner: false,
+                                gradesData: []
+                            })
+                    }
+                    //  AsyncStorage.setItem('@access-token', data.access_token)
+                    //  Actions.push('dashboard')
+                } else {
+                    alert(JSON.stringify(json))
+                    this.setState
+                        ({
+                            spinner: false,
+                            gradesData: []
+                        })
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
+        //Actions.push('boards')
     }
-     createFormData = (photo, body) => {
+    createFormData = (photo, body) => {
         const data = new FormData();
-        if(photo){
+        if (photo) {
             data.append('image', {
                 name: photo.fileName,
                 type: photo.type,
                 uri:
-                  Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
-              });
+                    Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
+            });
         }
-        
-      
+
+
         Object.keys(body).forEach((key) => {
-          data.append(key, body[key]);
+            data.append(key, body[key]);
         });
-      
+
         return data;
-      };
-    update(){
+    };
+    update() {
         //alert("JI")
-        var name=this.state.name;
+        var name = this.state.name;
         var email = this.state.email;
-        var mobile_number = this.state.mobile_number;
-       // var state = this.state.state;
+        var mobilenumber = this.state.mobile_number;
         var dob = this.state.dob;
         var gender
-        if(this.state.genderval === 0){
-            gender ='Male'
-        }else if(this.state.genderval === 1){
-            gender= 'Female'
+        if (this.state.genderval === 0) {
+            gender = 'Male'
+        } else if (this.state.genderval === 1) {
+            gender = 'Female'
         }
         var profilepic = this.state.picture;
         var board_id = this.state.boardvalue;
-       var grade_id = this.state.gradeselect
-       console.log("dcc",grade_id)
-       var normladata ={
-        name,
-      //  email,
-        mobile_number,
-      //  state,
-        dob,
-        gender,
-       // board_id,
-       // grade_id
-       }
-        console.log("sdsdsds",normladata)
-    //    let formdata = new FormData();
-    //    formdata.append("name", name);
-    //    formdata.append("email", email);
-    //    formdata.append('mobile_number', mobile_number)
-    //    formdata.append("state", state);
-    //    formdata.append("gender", gender);
-    //    formdata.append("image", this.state.picture);
-    //    formdata.append('grade_id', grade_id)
-    //    formdata.append("board_id", board_id);
-    //     console.log("submit",formdata)
-        fetch(baseUrl+'/user/student/'+this.state.userID, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'multipart/form-data',
-                'token': this.state.token
-            },
-            body: this.createFormData(this.state.picture, normladata)
+        var grade_id = this.state.gradeselect
+        console.log("dcc", grade_id)
+        var mobile_number = this.state.countrycode + mobilenumber
+        var normladata = {
+            name,
+            //  email,
+            mobile_number,
+            //  state,
+            dob,
+            gender,
+            // board_id,
+            // grade_id
+        }
+        console.log("sdsdsds", normladata)
+        if (mobilenumber === "") {
+            Alert.alert('Step Up', "please enter phone number")
+
+        } else if (dob === "") {
+            Alert.alert('Step Up', "please enter dob")
+        } else if (!Validations.phoneNumber(mobilenumber)) {
+            Alert.alert('Step Up', "please enter valid phone number")
+        } else {
+            fetch(baseUrl + '/user/student/' + this.state.userID, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'token': this.state.token
+                },
+                body: this.createFormData(this.state.picture, normladata)
             }).then((response) => response.json())
-            .then((json) =>{
-                console.log("jsonjson",json)
-                const data = json.data;
-                if( json.data){
-                    this.setState({
-                        loading: false
-                     })
-                     console.log("updateeeee",data)
-                    AsyncStorage.setItem('@user', JSON.stringify(data))
-                    Alert.alert(
-                        "Step Up",
-                         json.message,
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          },
-                          { text: "OK", onPress: () => {
-                           Actions.dashboard();
-                          }}
-                        ]
-                      );
-                }else{
-                    this.setState({
-                        loading: false
-                     })
-                    alert(JSON.stringify(json))
+                .then((json) => {
+                    console.log("jsonjson", json)
+                    const data = json.data;
+                    if (json.data) {
+                        this.setState({
+                            loading: false
+                        })
+                        console.log("updateeeee", data)
+                        AsyncStorage.setItem('@user', JSON.stringify(data))
+                        Alert.alert(
+                            "Step Up",
+                            json.message,
+                            [
+                                {
+                                    text: "OK", onPress: () => {
+                                        Actions.dashboard();
+                                    }
+                                }
+                            ]
+                        );
+                    } else {
+                        this.setState({
+                            loading: false
+                        })
+                        alert(JSON.stringify(json))
+                    }
                 }
-            }
-             
-            )
-            .catch((error) => console.log(error))
-     
+
+                )
+                .catch((error) => console.log(error))
+        }
+
+
+
     }
-     showDatePicker = () => {
-         this.setState({
-             picker: true
-         })
-      };
-    
-       hideDatePicker = () => {
+    showDatePicker = () => {
+        this.setState({
+            picker: true
+        })
+    };
+
+    hideDatePicker = () => {
         this.setState({
             picker: false
-        })      
+        })
     };
-    
-       handleConfirm = (date) => {
+
+    handleConfirm = (date) => {
         console.warn("A date has been picked: ", moment(date).format('L'));
-        this.setState({dob: moment(date).format('L')})
+        this.setState({ dob: moment(date).format('L') })
         this.hideDatePicker();
-      };
+    };
     render() {
         const selectedItem = {
             title: 'Selected item title',
@@ -452,7 +481,7 @@ class EditProfile extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.topmiddleview}>
-                                <Text style={styles.topHead}>Edit Profile</Text>
+                                <Text style={styles.topHead}>{StringsOfLanguages.editprofile}</Text>
                             </View>
                             <View style={styles.toprightview}>
 
@@ -468,8 +497,8 @@ class EditProfile extends Component {
 
                             <TouchableOpacity onPress={this.selectPhotoTapped}>
                                 {this.state.profilepic
-                                 ?
-                                    <Image source={{uri:this.state.profilepic}} style={{ width: 100, height: 100, borderRadius: 100 / 2, alignSelf: 'center' }} /> :
+                                    ?
+                                    <Image source={{ uri: this.state.profilepic }} style={{ width: 100, height: 100, borderRadius: 100 / 2, alignSelf: 'center' }} /> :
                                     <Image source={{ uri: 'https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png' }}
                                         style={{ width: 100, height: 100, borderRadius: 100 / 2, alignSelf: 'center' }} />}
                             </TouchableOpacity>
@@ -522,7 +551,7 @@ class EditProfile extends Component {
                                                             index={i}
                                                             isSelected={this.state.genderval === i}
                                                             onPress={(value) => {
-                                                              //  alert(value)
+                                                                //  alert(value)
                                                                 this.setState({ genderval: value })
                                                             }}
                                                             borderWidth={1}
@@ -553,11 +582,11 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/dobicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                        <TouchableOpacity onPress={()=>this.setState({ picker: !this.state.picker })} 
-                                        style={{ height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 ,justifyContent:"center"}}>
-                                            <Text style={{color:"#695077"}}>{this.state.dob}</Text>
-                                        </TouchableOpacity>
-                                        
+                                    <TouchableOpacity onPress={() => this.setState({ picker: !this.state.picker })}
+                                        style={{ height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20, justifyContent: "center" }}>
+                                        <Text style={{ color: "#695077" }}>{this.state.dob === "" ? "dob" : this.state.dob}</Text>
+                                    </TouchableOpacity>
+
                                     {/* <TextInput
                                         placeholder="dob"
                                         value={this.state.dob}
@@ -569,11 +598,31 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/phoneicon.png')}
                                         style={{ width: 23, height: 22 }} />
+                                    <View
+
+                                        style={{
+                                            height: 40, width: 60,
+                                            borderColor: "#695077",
+                                            borderBottomWidth: 1, marginLeft: 20, justifyContent: "center", alignItems: "center"
+                                        }}>
+                                        <RNPickerSelect
+                                            value={this.state.countrycode}
+                                            style={pickerSelectStyles}
+                                            useNativeAndroidPickerStyle={false} 
+                                            onValueChange={(value) => this.setState({ countrycode: value })}
+                                            items={[
+                                                { label: '+91', value: '+91' },
+                                               // { label: '+66', value: '+66' },
+                                            ]}
+                                        />
+
+
+                                    </View>
                                     <TextInput
                                         placeholder="phone number"
                                         value={this.state.mobile_number}
                                         onChangeText={(text) => this.setState({ mobile_number: text })}
-                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
+                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.8, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
                                     <Image
@@ -600,8 +649,8 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/boardicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                         <TextInput
-                                          editable={false}
+                                    <TextInput
+                                        editable={false}
                                         placeholder="Board"
                                         value={this.state.boardvalue}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
@@ -625,15 +674,15 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/gradeicon.png')}
                                         style={{ width: 23, height: 23 }} />
-                                         <TextInput
-                                         editable={false}
+                                    <TextInput
+                                        editable={false}
                                         placeholder="Grade"
                                         value={this.state.grade}
                                         style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
                                 </View>
 
                                 <TouchableOpacity
-                                onPress={this.update.bind(this)}
+                                    onPress={this.update.bind(this)}
                                     style={{
                                         height: 41,
                                         width: "80%",
@@ -644,15 +693,15 @@ class EditProfile extends Component {
                                         marginVertical: 30,
                                         justifyContent: "center"
                                     }}>
-                                    <Text style={{ color: "white", fontSize: 16 }}>UPDATE PROFILE</Text>
+                                    <Text style={{ color: "white", fontSize: 16 }}>{"Update Profile"}</Text>
                                 </TouchableOpacity>
                             </ScrollView>
                             <DateTimePickerModal
-                                    isVisible={this.state.picker}
-                                    mode="date"
-                                    onConfirm={this.handleConfirm}
-                                    onCancel={this.hideDatePicker}
-                                />
+                                isVisible={this.state.picker}
+                                mode="date"
+                                onConfirm={this.handleConfirm}
+                                onCancel={this.hideDatePicker}
+                            />
                         </View>
                     </View>
                 </View>
@@ -664,25 +713,23 @@ class EditProfile extends Component {
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 4,
-        color: 'black',
-        paddingRight: 30, // to ensure the text is never behind the icon
-    },
-    inputAndroid: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 30,
         borderWidth: 1,
         borderWidth: 0.5,
-        borderColor: 'purple',
+        borderColor: 'transparent',
         borderRadius: 8,
         color: '#695077',
         // marginBottom:10,
-        paddingRight: 30, // to ensure the text is never behind the icon
+        paddingRight: 10, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 16,
+        borderWidth: 1,
+        borderWidth: 0.5,
+        borderColor: 'transparent',
+        borderRadius: 8,
+        color: '#695077',
+        // marginBottom:10,
+        paddingRight: 10, // to ensure the text is never behind the icon
     },
 });
 export default EditProfile

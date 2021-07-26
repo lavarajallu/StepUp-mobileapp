@@ -79,7 +79,9 @@ class ChartWeb extends Component {
         return (
           <View style={this.props.style}>
               <WebView
-              androidHardwareAccelerationDisabled
+//androidHardwareAccelerationDisabled
+androidHardwareAccelerationDisabled={true}
+
                 onLayout={this.reRenderWebView.bind(this)}
                //   onLayout={this.reRenderWebView}
                   style={styles.full}
@@ -128,7 +130,8 @@ var flattenText = function(item,key) {
 var styles = StyleSheet.create({
     full: {
         flex:1,
-        backgroundColor:'transparent'
+        backgroundColor:'transparent',
+        opacity: 0.99
     }
 });
 

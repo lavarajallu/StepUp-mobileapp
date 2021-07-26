@@ -868,22 +868,32 @@ class PreAssesment extends Component {
 <MathJax
   // HTML content with MathJax support
  //html={'<p>Solve the following quadratic equations by factorization:</p>\n\n<p><span class="math-tex">(\\frac{x-a}{x-b}+ \\frac{x-b}{x-a}=\\frac{a}{b}+\\frac{b}{a})</span></p>\\n'}
-  html={'<p>Solve the following quadratic equations by factorization:</p>\\n\\n<p><span class="math-tex">(\\frac{x-a}{x-b}+ frac{x-b}{x-a}=frac{a}{b}+frac{b}{a})</span></p>\\n'}
-  mathJaxOptions={{
-    messageStyle: 'none',
-    extensions: [ 'tex2jax.js' ],
-    jax: [ 'input/TeX', 'output/HTML-CSS' ],
-    tex2jax: {
-      inlineMath: [ ['$','$'], ['(',')'] ],
-      displayMath: [ ['$','$'], ['[',']'] ],
-      processEscapes: true,
-    },
-    TeX: {
-      extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js']
-    } 
-  }}
- 
-/>
+  html={'<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAAAgCAIAAAC0BzBmAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAzNJREFUaEPtWjt22zAQlHIWyYWeTgCeQEmjKq07sXQa3SBdGrKMOreu1JisUkonyHMR8i7MLj4kAULmgoJF6hmsIgQEZoeD2cU+z6uqmoVnJAa+jLRv2BYZCOyPqYPAfmB/TAbG3DtoP7DvxkBZ5mkcRfP6iaI4L93WuMVsAk6oOO/pKRKGxLFdVkjYRbbjVLJEjUwhHhrO2RSgOmDgUZlES/53mcNCTlOtu767Ag3nvfn+4ulUVaenheYcyxU/EFN6aDjvjX0rw8XbGa1ntZwS/xYsXZza+QEPZbWM2C7JsoSxaRlq97wL39FQNnGoYRwRfEDKcHIdnOzuPJYtLDgb35fZiyUyn8m84SmbSWumiJP8tYsiS5BTlEkr4xYwyJOyiADIBuZFlpYxOfN/HfsXcGKHTVUOHKkuIFFeOEN1VtaAF7SPabBfL8cnwdltqV285xzSYPZ7cAr2rZoQg2QlDuDQwysgf+EoXUNRh7fN9a3ZryO04+TsWxxJjU6c/LZ2TElbmCaR/xEmeQEnsm8XOQmpB/X6WMJW8Neu32ww+DQPdh4jOBMnVpyiEFo/aEV0fjygQ243lETZPyePm8ZAz7+i1LlrYCn4y9cXiEqrQuXQ92/6baEfvLcZJk5gv/z3t7N8mf5E8v2V0JvfZI2bdylC7EI/2mORlFVlhNX9TTFxAvuLh7Wxfh4/vq0xmWnnoYTWFsgWOlrwP2XOf8BPd6VeEw0/QxxB6xH6Ycm+OaiWo+v5NL8fBQ0nOs9mi3XY4cj7hNg/PG6f9yu1OgxEUfonjX/N9icwwPPhmIofPF2fX16djeIa+vHdw9corZuaoIPljzNw/9zqP8jvceH2y0MyP+G1oCzv9+MUhtC6CcpWoark2u1EVR2pGs5XMiKbEpYIWQK3qeZGjhU9XKWM/qa1ZFAlqHk9699+QKAknG49TgMFj9H56tIf7ORmDGCfFIMT+5+VfBKTQyY59Th5yq4zMfdWf1XRB/ju5Jd0YZ/T3dwA8FswKJ6x/Llt4TN5VskA6QemY34iVV/qcdEX/rwz5xA6+UuFiZ4ZcHEez1uH5cJfEo6qgaD9MekP7I/J/n/Xo34sktUXigAAAABJRU5ErkJggg==" style="height:32px; width:127px" /></p>'}
+   //mathJaxOptions={{
+    //     messageStyle: "none",
+    //     extensions: ["tex2jax.js"],
+    //     jax: ["input/TeX", "output/HTML-CSS"],
+    //     tex2jax: {
+    //       inlineMath: [
+    //         ["$", "$"],
+    //         ["\\(", "\\)"],
+    //       ],
+    //       displayMath: [
+    //         ["$$", "$$"],
+    //         ["\\[", "\\]"],
+    //       ],
+    //       processEscapes: true,
+    //     },
+    //     TeX: {
+    //       extensions: [
+    //         "AMSmath.js",
+    //         "AMSsymbols.js",
+    //         "noErrors.js",
+    //         "noUndefined.js",
+    //       ],
+    //     },
+    //   }}
+      />
 
 //             <>
 //             <ImageBackground source={require('./src/assets/images/dashboard/new/activitybg.jpg')}

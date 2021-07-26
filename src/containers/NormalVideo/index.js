@@ -185,13 +185,13 @@ class NormalVideo extends  Component{
       this.onNext1()
     }
     onActivityPrevious(data,duration){
-      console.log("fffff",data,"vvv",duration)
+      console.log("previoussssssssss",data,"vvv",duration)
       if(data){
         this.updateAnalytics(data,duration)
       }else{
         this.updateAnalytics(0,0)
       }
-      this.onPrevious2()
+      this.onPrevious1()
     }
     getVideoquestions(){
       const body ={
@@ -250,7 +250,7 @@ class NormalVideo extends  Component{
           .then((json) => {
     
             const data = json.data;
-            console.log("videodataaaa",data)
+            //console.log("videodataaaa",data)
            
             if (data) {
               this.setState({normalvideodata: data})
@@ -265,6 +265,14 @@ class NormalVideo extends  Component{
           )
           .catch((error) => console.error(error))
     
+      }
+      onActivityPreviousfirst(){
+        this.funcComRef("previous","Val")
+
+      }
+      onActivityNextfirst(){
+        this.funcComRef("next","Val")
+
       }
     onBack(){
       this.funcComRef("gettime","Val")
@@ -283,7 +291,7 @@ class NormalVideo extends  Component{
     
       )
     }
-    onNext(){
+    onNext1(){
         
      //    this.updateAnalytics()
         var newarray = this.props.smartres;
@@ -310,7 +318,7 @@ class NormalVideo extends  Component{
     //  })
 
     }
-    onPrevious(){
+    onPrevious1(){
      // this.updateAnalytics()
       this.setState({
         newmodal : false
@@ -500,12 +508,12 @@ class NormalVideo extends  Component{
           <View style={{flex:0.08,flexDirection:"row",justifyContent:"space-between",marginLeft:10,marginRight:10,alignItems:"center"}}>
           
           <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
-        justifyContent:"center",alignItems:"center"}} onPress={this.onPrevious.bind(this)}>
+        justifyContent:"center",alignItems:"center"}} onPress={this.onActivityPreviousfirst.bind(this)}>
              <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Previous Activity</Text>
                  </TouchableOpacity>
        
                  <TouchableOpacity style={{ height:30,borderRadius:20,backgroundColor:"white",paddingHorizontal:10,
-        justifyContent:"center",alignItems:"center"}} onPress={this.onNext.bind(this)}>
+        justifyContent:"center",alignItems:"center"}} onPress={this.onActivityNextfirst.bind(this)}>
              <Text style={{ textAlign:"center",fontSize:12,color:topicindata.color}}>Next Activity</Text>
                  </TouchableOpacity>
 

@@ -6,7 +6,7 @@ import * as Progress from 'react-native-progress';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { imageUrl } from '../../constants';
-
+import moment from 'moment'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -16,7 +16,8 @@ export default class Profile extends Component {
         this.state={
             userDetails: null,
             profile_pic: null,
-            profileprcent:0
+            profileprcent:0,
+            username:""
             
         }
     }
@@ -73,7 +74,21 @@ getData = async () => {
                 var profileprcent = count/8
                 console.log("counttt",count,profileprcent)
             }
-        this.setState({userDetails: data,profile_pic: data.profile_pic,profileprcent: profileprcent.toFixed(2)})
+            var username
+            if(data.name){
+                username = data.name
+            }else{
+                if(data.first_name){
+                    if(data.last_name){
+                        username  = data.first_name + " " + data.last_name
+                    }else{
+                        username = data.first_name
+                    }
+                }else if(data.last_name){
+                    username = data.last_name
+                }
+            }
+        this.setState({userDetails: data,username:username,profile_pic: data.profile_pic,profileprcent: profileprcent.toFixed(2)})
             
        
       }else{
@@ -196,7 +211,7 @@ getData = async () => {
                         <TextInput 
                         placeholder="Name"
                         editable={false}
-                        value={this.state.userDetails ? this.state.userDetails.name: null}
+                        value={this.state.username}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20,}}/>
                     </View>
 
@@ -218,7 +233,7 @@ getData = async () => {
                         <TextInput 
                         placeholder="dob"
                         editable={false}
-                        value={this.state.userDetails ? this.state.userDetails.dob: null}
+                        value={this.state.userDetails ? moment(this.state.userDetails.dob).format('L'): null}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
                     </View>
 

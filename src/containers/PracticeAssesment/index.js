@@ -44,14 +44,19 @@ class PracticeAssesment extends Component {
             questionno: 0,
             seconds: 1200, secondstime: 1200, testid: "", token: "", testloader: false,
               analyticsData:{},
-            token:""
+            token:"",
+            modalshow: false,
+
         }
     }
     componentDidMount() {
 		this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.backAction);
-
+       
         this.getData()
-        this.starttimer()
+        setTimeout(()=>{
+            this.setState({modalshow: true})
+        },500)
+       // this.starttimer()
     }
     backAction = () => {
      //   alert("hiiiii")
@@ -63,18 +68,19 @@ class PracticeAssesment extends Component {
     getData = async () => {
         try {
             const value = await AsyncStorage.getItem('@user')
-            //alert(JSON.stringify(value))
+           // alert(JSON.stringify(value))
             if (value !== null) {
                 var data = JSON.parse(value)
                 this.setState({
-                    useDetails: data
+                    useDetails: data,
+                   
                 })
                 const token = await AsyncStorage.getItem('@access_token')
                 if (token && data) {
 
                     this.setState({ token: JSON.parse(token) })
                     //  this.getanalytics(data,JSON.parse(token))
-                    this.getQuestions()
+                   // this.getQuestions()
 
                 } else {
                     console.log("hihii")
@@ -175,101 +181,7 @@ class PracticeAssesment extends Component {
           )
           .catch((error) => console.error(error))
         }
-    onAssesment() {
-        var url = baseUrl + "/user-test/assigned-activity/" + this.props.data.reference_id
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'token': this.state.token
-            }
-        }).then((response) => response.json())
-            .then((json) => {
-
-
-                if (json.data) {
-                    const data = json.data;
-                  //  alert("dff"+JSON.stringify(data))
-                    if(this.props.data.type === "PRE"){
-                        if (json.data.total_count > 0) {
-                            this.setState({
-                                spinner: false
-                            })
-                            Alert.alert(
-                                "Step Up",
-                                "Sorry you have reached your maximum number of attempts in this assesment",
-                                [
-                                    {
-                                        text: "OK", onPress: () => {
-                                            this.ongoback()
-                                        }
-                                    }
-                                ]
-                            );
-                        } else {
-    
-                            this.getQuestions()
-    
-                        }
-                    }else if(this.props.data.type === 'POST'){
-                        //alert("hiii"+json.data.total_count)
-                        if(json.data.total_count == 1){
-                            //alert("hiii")
-                            Alert.alert(
-                                "Step Up",
-                                "You have alredy attempted one time Do you want to start a new test or review previous test ? ",
-                                [
-                                    {
-                                        text: "Cancel", onPress: () => {
-                                            this.ongoback()
-                                        }
-                                    },
-                                    {
-                                        text: "New Test", onPress: () => {
-                                            this.getQuestions()
-                                        }
-                                    },{
-                                        text: "Review Previous Test", onPress: () => {
-                                            this.ongoback()
-                                        }
-                                    },
-
-                                ]
-                            );
-                        }
-                        else if (json.data.total_count >= 2) {
-                            this.setState({
-                                spinner: false
-                            })
-                            Alert.alert(
-                                "Step Up",
-                                "Sorry you have reached your maximum number of attempts in this assesment",
-                                [
-                                    {
-                                        text: "OK", onPress: () => {
-                                            this.ongoback()
-                                        }
-                                    }
-                                ]
-                            );
-                        } else {
-    
-                            this.getQuestions()
-    
-                        }
-                    }else{ this.getQuestions()}
-                    
-
-                } else {
-                    alert(JSON.stringify(json.message))
-
-                }
-            }
-
-            )
-            .catch((error) => console.error(error))
-    }
+   
     getQuestions() {
        var body;
         if(this.props.data.type){
@@ -314,7 +226,8 @@ class PracticeAssesment extends Component {
                         selectedItem: data.questions[0],
                         questionno: 0,
                         spinner: false,
-                        finalarray: questions
+                        finalarray: questions,
+                        
                     })
 
 
@@ -521,6 +434,21 @@ class PracticeAssesment extends Component {
         this.setState({
             isvisible: true
         })
+    }
+    onok(){
+        this.setState({
+            modalshow: false
+        },()=>{
+              
+            this.starttimer()
+            this.getQuestions()        })
+    }
+    onStartcancel(){
+        this.setState({
+            modalshow: false
+        },()=>{
+            Actions.practicechapter({type:"reset",data: this.props.subjectData})
+                })
     }
     ongoback() {
         Actions.practicechapter({type:"reset",data: this.props.subjectData})
@@ -892,28 +820,71 @@ class PracticeAssesment extends Component {
                 </View> : null }
               </View>
             </ImageBackground>
-
+            {/* {this.state.modalshow ? 
+                         <View style={{ height:windowHeight,position:"absolute",backgroundColor:"lightgrey" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Text style={{ fontSize: 15, textAlign: 'center', marginTop: 10 }}>You are about to begin the Assesment. Once you begin you have 5min to finish the test</Text>
+                                 <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10, fontWeight:"600" }}> Are you ready to begin? </Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                    
+                                     <TouchableOpacity onPress={this.onStartcancel.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onok.bind(this)}>
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>OK</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                 </View>
+                             </View>
+                         </View> : null
+              } */}
+                   
                        <Modal isVisible={this.state.isvisible}>
                          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                              <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
                                  <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
                                  <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
                                  <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
-                                     <TouchableOpacity onPress={this.onSubmit.bind(this)} >
-                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
-                                             <Text style={{ color: "white" }}>SUBMIT</Text>
-                                         </LinearGradient>
-                                     </TouchableOpacity>
+                                     
                                      <TouchableOpacity onPress={this.onCancel.bind(this)}>
                                          <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
                                              <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>SUBMIT</Text>
                                          </LinearGradient>
                                      </TouchableOpacity>
                                  </View>
                              </View>
                          </View>
                      </Modal>
-                   
+                     <Modal isVisible={this.state.modalshow}>
+                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Text style={{ fontSize: 15, textAlign: 'center', marginTop: 10 }}>You are about to begin the Assesment. Once you begin you have 20mins to finish the test</Text>
+                                 <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10, fontWeight:"600" }}> Are you ready to begin? </Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                    
+                                     <TouchableOpacity onPress={this.onStartcancel.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onok.bind(this)}>
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>OK</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                 </View>
+                             </View>
+                         </View>
+                     </Modal>
+                     
                      {this.state.testloader ?
                          <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
                              <ActivityIndicator color="black" />

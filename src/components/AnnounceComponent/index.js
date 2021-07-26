@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles'
-
+import moment from 'moment'
 
 class AnnounceComponent extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class AnnounceComponent extends Component {
                 <View style={styles.itemmiddleview}>
                     <Text style={styles.middleheadtext}>{item.title}</Text>
                     <Text style={styles.descriptiontext}>{item.description}</Text>
-                    <Text style={styles.timetext}>{item.from_date}</Text>
+                    <Text style={styles.timetext}>{moment(item.from_date).format('L')}</Text>
                 </View>
                 <View style={styles.itemrightview}>
                 {!item.is_read ? 

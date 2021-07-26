@@ -10,6 +10,7 @@ import {
     StatusBar,
     Image,
     Keyboard,
+    BackHandler,
     TouchableOpacity,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -36,7 +37,15 @@ class CalendarNew extends Component {
             basicview: true
         }
     }
-
+    componentDidMount(){
+        this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
+      }
+      backAction = ()=>{
+        Actions.dashboard({type:"reset"})
+      }
     onBack(){
         Actions.dashboard({type:"reset"})
     }

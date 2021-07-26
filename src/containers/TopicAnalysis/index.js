@@ -127,7 +127,7 @@ class TopicAnalysis extends Component {
             response.json())
             .then((json) => {
                //st data = json.data;
-                console.log("sss", json)
+                console.log("json.datajson.data", json.data)
                 if(json.data){
                     const studentTopicPerformanceAnalysisData  = json.data
                     if (studentTopicPerformanceAnalysisData?.qusType) {

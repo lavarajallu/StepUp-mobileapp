@@ -191,7 +191,7 @@ class PracticeSolutions extends Component{
             
               if (json.data) {
                   const data =  json.data
-                   console.log("summary",json.data.questions[0])
+                   console.log("newsummryquesssssss",json.data.questions[0])
                    this.setState({
                     // analysis: json.data.analysis,
                     // marks:json.data.marks,

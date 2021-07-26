@@ -48,7 +48,8 @@ class PreAssesment extends Component {
             questionno: 0,
             seconds: 300, secondstime: 300, testid: "", token: "", testloader: false,
               analyticsData:{},
-            token:""
+            token:"",
+            modalshow: false
         }
     }
     componentDidMount() {
@@ -76,9 +77,9 @@ class PreAssesment extends Component {
                 if (token && data) {
 
                     this.setState({ token: JSON.parse(token) })
-                      this.getanalytics(data,JSON.parse(token))
+                    
+                    this.getanalytics(this.state.useDetails,this.state.token)
                     this.onAssesment()
-
                 } else {
                     console.log("hihii")
                 }
@@ -89,6 +90,22 @@ class PreAssesment extends Component {
         } catch (e) {
             return null;
         }
+    }
+    onok(){
+        this.setState({
+            modalshow: false
+        },()=>{
+              
+            this.starttimer()
+            this.getQuestions()  
+        })
+    }
+    onStartcancel(){
+        this.setState({
+            modalshow: false
+        },()=>{
+        Actions.topicmainview({from:this.props.from, type:"reset",data: this.props.topicindata, topicsdata: this.props.topicData, screen: "summary", subjectData: this.props.subjectData })
+        })
     }
      removeHtmlTags = value => {
         // let sourceHTML = value.getElementsByTagName("p");
@@ -238,11 +255,10 @@ class PreAssesment extends Component {
                                 ]
                             );
                         } else {
-                            this.starttimer()
-                            // this.setState({
-                            //     spinner: false
-                            // })
-                            this.getQuestions()
+                            this.setState({
+                                modalshow: true
+                            })
+
     
                         }
                     }else if(this.props.data.type === 'POST'){
@@ -260,8 +276,7 @@ class PreAssesment extends Component {
                                     },
                                     {
                                         text: "New Test", onPress: () => {
-                                            this.starttimer()
-                                            this.getQuestions()
+                                           this.setState({modalshow: true})
                                         }
                                     },{
                                         text: "Review Previous Test", onPress: () => {
@@ -292,11 +307,7 @@ class PreAssesment extends Component {
                                 ]
                             );
                         } else {
-                            this.starttimer()
-                            // this.setState({
-                            //     spinner: false
-                            // })
-                            this.getQuestions()
+this.setState({modalshow: true})
                            
     
                         }
@@ -940,14 +951,37 @@ class PreAssesment extends Component {
                                  <Image source={require("../../assets/images/finger.png")} style={{ width: 96 / 1.5, height: 96 / 1.5, alignSelf: 'center' }} />
                                  <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10 }}>{this.state.timeup ? "Time up! Please submit your assessment" : "Are you sure you want to submit assesment?"}</Text>
                                  <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                    
+                                     <TouchableOpacity onPress={this.onCancel.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
                                      <TouchableOpacity onPress={this.onSubmit.bind(this)} >
                                          <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
                                              <Text style={{ color: "white" }}>SUBMIT</Text>
                                          </LinearGradient>
                                      </TouchableOpacity>
-                                     <TouchableOpacity onPress={this.onCancel.bind(this)}>
+                                 </View>
+                             </View>
+                         </View>
+                     </Modal>
+
+                     <Modal isVisible={this.state.modalshow}>
+                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Text style={{ fontSize: 15, textAlign: 'center', marginTop: 10 }}>You are about to begin the Assesment. Once you begin you have 5min to finish the test</Text>
+                                 <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10, fontWeight:"600" }}> Are you ready to begin? </Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                    
+                                     <TouchableOpacity onPress={this.onStartcancel.bind(this)}>
                                          <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
                                              <Text style={{ color: "white" }}>CANCEL</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onok.bind(this)}>
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>OK</Text>
                                          </LinearGradient>
                                      </TouchableOpacity>
                                  </View>

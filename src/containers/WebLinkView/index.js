@@ -300,6 +300,8 @@ class WebLinkView extends  Component{
               <View style={{flex:0.84,backgroundColor:"white",marginLeft:10,marginRight:10,borderRadius:20,overflow:"hidden"}}>
               {this.state.weblinkdata ? 
                  	 <WebView
+                    androidHardwareAccelerationDisabled={true}
+
                             source={{
                               uri: this.state.weblinkdata.url
                             }}

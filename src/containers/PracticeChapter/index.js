@@ -179,7 +179,7 @@ getData = async () => {
 				const data = json.data;
 				if(data){
 				  if(data){
-					  console.log("previous tests",data.length)
+					  console.log("previous ...tests",data)
 					  this.setState
 					  ({
 						  spinner:false,
@@ -224,7 +224,7 @@ getData = async () => {
 				const data = json.data;
 				if(data){
 				  if(data.chapters){
-					  console.log("subjects",data.subject)
+					  console.log("subjects...;;;;;;;;.",data.chapters.length)
 					  this.setState
 					  ({
 						 // spinner: false,
@@ -255,39 +255,11 @@ getData = async () => {
   }
   getNewList(){
 	if (this.state.newchapters.length > 0) {
-
-		// var dummy1 = { 'reference_id': 'dummy', 'name': 'dummy',tests:[{reference_id:"-2"}] };
-		// var dummy2 = { 'reference_id': '-1', 'name': 'SubjectQuiz', };
-		// var newArray = [];
-		// let level = 1
-		// this.state.newchapters.map((pc, i) => {
-		//   if (pc.tests.length) {
-		// 	level = i + 1
-		//   }
-		// })
-		// this.setState({
-		// 	setCompletionLevelTest: level+1
-		// })
-		// //setCompletionLevelTest(level + 1)
-		// newArray = [...newArray, dummy1];
-		// for (let i = 0; i < this.state.newchapters.length; i++) {
-		// 	if(i===1){
-		// 		if(this.state.newchapters[i-1].tests.length > 0){
-		// 			this.state.newchapters[i].locked = false;
-		// 		}else{
-		// 			this.state.newchapters[i].locked = true;
-		// 		}
-				
-		// 	}
-			
-		// 	newArray = [...newArray, this.state.newchapters[i]];
-		// }
-		// newArray = [...newArray, dummy2];.
-		let newArray = this.state.newchapters.slice(0, 9)
+		let newArray = this.state.newchapters
 		newArray.unshift({ name: 'Start' ,tests:[{"name":"test1"}]})
 		newArray.push({name:this.state.subject.name,reference_id:this.state.subject.reference_id,tests:[],type:"Subject"})
       //  newArray.push(this.state.subject)
-		console.log("newArray",newArray)
+	//	console.log("newArray",newArray)
 		this.setState({
 			chaptersDataNew: newArray,
 			spinner: false

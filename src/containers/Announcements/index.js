@@ -11,8 +11,10 @@ import {
     Image,
     Keyboard,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    BackHandler
 } from 'react-native';
+import moment from 'moment'
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
@@ -25,8 +27,6 @@ import AnnounceComponent from '../../components/AnnounceComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl, colors, imageUrl } from "../../constants"
 import Modal from 'react-native-modal';
-import { G } from 'react-native-svg';
-import moment from 'moment'
 
 class Announcements extends Component {
     constructor(props) {
@@ -80,12 +80,19 @@ class Announcements extends Component {
         }
     }
     async componentDidMount(){
+        this.backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			this.backAction
+		);
         const value = await AsyncStorage.getItem('@access_token')
         if(value !== null) {
             console.log("vv",value)
            this.setState({token: JSON.parse(value)},()=>this.getAnnouncements())
         }
     }
+      backAction = ()=>{
+        Actions.dashboard({type:"reset"})
+      }
     reducer = (acc, cur) => {
         const item = acc.find((x) => x.from_date === cur.from_date);
         console.log("acccc",item)
@@ -293,9 +300,9 @@ class Announcements extends Component {
                                 </View>
                                 <View style={styles.toprightview}>
                                 <Text style={styles.counttext}>{this.state.datacount}</Text>
-                            <Text style={styles.inboxText}>Inbox</Text>
+                            {/* <Text style={styles.inboxText}>Inbox</Text>
                             <Image source={require("../../assets/images/refer/delete.png")}
-                            style={styles.deleteButton}/>
+                            style={styles.deleteButton}/> */}
                                 </View>
                             </View>
                     </View>
@@ -351,8 +358,8 @@ class Announcements extends Component {
               <View style={{width:"100%",height:1,backgroundColor:colors.Themecolor}}/>
                 <Text style={{fontSize:15,color:colors.Themecolor,marginHorizontal:20,paddingVertical:10}}>{this.state.selectedItem.description}</Text>
                 <View>
-                    <Text>From Date:  {this.state.selectedItem.from_date}</Text>
-                    <Text style={{marginTop:10}}>To Date:   {this.state.selectedItem.to_date}</Text>
+                    <Text>From Date:  {moment(this.state.selectedItem.from_date).format('L')}</Text>
+                    <Text style={{marginTop:10}}>To Date: {moment(this.state.selectedItem.to_date).format('L')}</Text>
                 </View>
                 <TouchableOpacity onPress={()=>this.setState({isvisible:false})} style={{paddingVertical:10,paddingHorizontal:30,backgroundColor:colors.Themecolor}}>
                     <Text style={{color:"white"}}>Close</Text>

@@ -118,6 +118,11 @@ componentDidMount(){
       "Step Up",
       "Are you sure you want to join the class?",
       [
+        {
+          text: "No", onPress: () => {
+              //Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type, from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
+          }
+      },
           {
               text: "Yes", onPress: () => {
                 var live_class_id = item.reference_id;
@@ -153,10 +158,6 @@ componentDidMount(){
                   )
                   .catch((error) => console.error(error))
                // Actions.push("livesessionactivity",{data:item})
-              }
-          },{
-              text: "No", onPress: () => {
-                  //Actions.push('reviewpostsummary',{ type:"reset",testtype:this.props.data.type, from :this.props.from,activityid: this.props.data.reference_id, index: this.props.index, smartres: this.props.smartres, topicData: this.props.topicData, topicindata: this.props.topicindata, subjectData: this.props.subjectData })
               }
           },
       ]

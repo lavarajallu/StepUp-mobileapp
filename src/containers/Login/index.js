@@ -29,7 +29,7 @@ import Header from '../../components/Header'
 import { Validations } from '../../helpers'
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import StringsOfLanguages from './../../StringsOfLanguages';
-import { baseUrl } from '../../constants';
+import { baseUrl , colors} from '../../constants';
 
 var isAuthTokenValid 
 class Login extends Component {
@@ -41,7 +41,9 @@ class Login extends Component {
             checked: false,
             hidePassword: true,
             spinner:false,
-            device_token:''
+            device_token:'',
+            showOTP: false,
+            otp:""
         };
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -267,9 +269,119 @@ class Login extends Component {
       setPasswordVisibility = () => {
         this.setState({ hidePassword: !this.state.hidePassword });
     }
+    onchangeotp(text) {
+        this.setState({ otp: text },()=>console.log("otppp",this.state.otp))
+    }
+    onVerify() {
+        var mobile = this.state.otp;
+        var email = this.state.email
+        if (mobile === "") {
+            alert("Please enter OTP")
+        }
+
+        else {
+            this.setState({ loading: true })
+            var body = { email: email, otp: mobile }
+            console.log("Boyyy", body)
+            
+           // this.loginapi()
+            // fetch(baseUrl + '/user/verify-otp', {
+            //     method: 'POST',
+            //     headers: {
+            //         Accept: 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(body)
+            // }).then((response) =>
+            
+            //     response.json()
+            //     )
+            //     .then((json) => {
+            //        //   alert(JSON.stringify(json))
+            //         if (json) {
+            //             if (json.statusCode === 200) {
+            //                 this.setState({ loading: false })
+            //                 this.loginapi()
+            //             }
+            //             else {
+            //                 this.setState({ loading: false })
+            //                 this.loginapi()
+            //                // alert(json.message)
+            //             }
+            //         }
+            //     }
+
+            //     )
+            //     .catch((error) => console.error(error))
+        }
+    }
     render() {
        
         return (
+            this.state.showOTP ?
+            <>
+                <>
+                    <ImageBackground
+                        style={[styles.containter]}
+                        source={require("../../assets/images/backblue.png")}
+                    />
+                    <View style={{
+                        backgroundColor: "white",
+                        height: "90%",
+                        margin: 20,
+                        borderWidth: 1,
+                        borderRadius: 20,
+                        borderColor: "transparent",
+                        overflow: "hidden",
+                    }}>
+                        <Header title="registerotp" />
+                        <Image source={require("../../assets/images/logo_icon1.png")}
+                            style={{ width: 60, height: 60, alignSelf: "center", marginTop: 10 }} />
+                        <View>
+                            <Text style={{ fontSize: 15, alignSelf: "center", color: "#9B9C9C", marginVertical: 15 }}>An OTP has been sent to your email</Text>
+                            <TextInput
+                            placeholderTextColor={"grey"}
+
+                                style={{
+                                    borderBottomWidth: 1, borderColor: "#959595",
+                                    marginHorizontal: 15,
+                                    borderColor: '#2e2e2e',
+                                    marginTop:20,
+                                    height:40
+                                }}
+                                blurOnSubmit={false}
+                                value={this.state.otp}
+                                keyboardType={"number-pad"}
+                                returnKeyType={"done"}
+                                placeholder={"Enter OTP"}
+                                onChangeText={this.onchangeotp.bind(this)}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                            ></TextInput>
+
+                            <View style={{
+                                marginVertical: 10, marginHorizontal: 15, flexDirection: "row", justifyContent: "center", alignItems: 'center'
+                            }}>
+                                <TouchableOpacity onPress={this.onVerify.bind(this)}>
+                                    <View style={{
+                                        width: 367 / 3, height: 90 / 3,
+                                        marginVertical: 20,
+                                        borderRadius: 20, overflow: "hidden", justifyContent: "center", alignSelf: 'center', backgroundColor: colors.Themecolor
+                                    }}>
+                                        <Text style={{
+                                            textAlign: "center", color: "white", fontSize: 15
+                                        }}>Verify</Text>
+                                    </View></TouchableOpacity>
+                            </View>
+
+                        </View>
+                    </View>
+                </>
+                 {this.state.loading ?
+                    <View style={{ position: 'absolute', backgroundColor: "rgba(255,255,255,0.3)", justifyContent: "center", height: "100%", width: "100%" }}>
+                        <ActivityIndicator color={"black"} />
+                    </View> : null}
+                    </>
+                :
             
             <>
               

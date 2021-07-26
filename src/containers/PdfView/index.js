@@ -474,6 +474,8 @@ class PdfViewNew extends Component {
       this.state.ishtml ? 
       
       <WebView
+      androidHardwareAccelerationDisabled={true}
+
                                         style={{}}
                                         source={{ uri: imageUrl+this.state.notesdata }}
                                         mixedContentMode="always"

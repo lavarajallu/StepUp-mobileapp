@@ -167,9 +167,10 @@ class TopicsComponent extends Component {
        </View>
        </TouchableOpacity></View>
        <View style={{flex:0.15,justifyContent:"center",alignItems:"center"}}>
+           {percent === 100 ? 
            <TouchableOpacity onPress={this.onAnalytics.bind(this,item)}>
          <Image source={require('../../assets/images/magnifier.png')} style={{width:20,height:20,tintColor: this.props.topicData.color}}/>
-         </TouchableOpacity>
+         </TouchableOpacity> : null}
        </View>
    </View>
    <Progress.Bar progress={percent/100} width={windowWidth/1.15} height={5} color={color}

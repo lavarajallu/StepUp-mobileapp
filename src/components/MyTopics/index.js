@@ -57,7 +57,7 @@ class MyTopics extends Component {
         }
     }
     getTopics() {
-        var url = baseUrl + '/student/inProgressTopics/5'
+        var url = baseUrl + '/student/inProgressTopics/5&order_by=created_at'
         console.log("value", url)
         fetch(url, {
             method: 'GET',
@@ -72,7 +72,7 @@ class MyTopics extends Component {
              //   console.log("topicdattaaa.................", JSON.stringify(json))
                 if (json.data) {
                     this.setState({
-                        topicsData: json.data.reverse(),
+                        topicsData: json.data,
                         spinner: false
                     })
                 } else {

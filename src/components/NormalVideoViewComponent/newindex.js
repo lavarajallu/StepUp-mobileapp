@@ -87,6 +87,10 @@ var timesarray =[]
         handlescreenfull(value)
        }else if(name === "gettime"){
         getcurrentTime()
+       }else if(name === 'previous'){
+        onPrevious()
+       }else if(name === 'next'){
+           onNext()
        }
     } );
 onquestionSubmit = (time) => {
@@ -121,6 +125,8 @@ onLoad = (data) => {
     setCurrentTime(parseInt(normaldata.video_played))
     playerRef.current.seek(parseInt(normaldata.video_played));
 
+  }else{
+    setCurrentTime(0)
   }
   
 
@@ -141,6 +147,7 @@ onLoad = (data) => {
   }
    onPrevious =  async() => {
     if(playerRef){
+      console.log("dsdsdsdsdsdsd",currentTime)
       props.onActivityPrevious(currentTime,duration)
     }
    
@@ -288,7 +295,7 @@ onLoad = (data) => {
              left: 0,
              bottom: 0,
              right:0,
-             elevation:10,}}
+             elevation:20,}}
              onLoad={onLoad}
              onError={(err)=>console.log("errorrr",err)}
              resizeMode={fullscreen ? "cover":"contain"}

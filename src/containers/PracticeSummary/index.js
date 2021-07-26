@@ -364,12 +364,12 @@ class PracticeSummary extends Component {
                             activeBarColor: '#d88414',
                           },
                           {
-                            name: 'Fair',
+                            name: 'Good',
                             labelColor: '#267093',
                             activeBarColor: '#267093',
                           },
                           {
-                            name: 'Fair',
+                            name: 'Excellent',
                             labelColor: '#a4b96e',
                             activeBarColor: '#a4b96e',
                           },
