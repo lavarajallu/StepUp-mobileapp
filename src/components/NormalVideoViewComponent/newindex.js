@@ -314,7 +314,7 @@ onLoad = (data) => {
         <View style={{ flex:0.2,justifyContent:"center",alignItems:"center"}}>
         </View>
         <View style={{flex: 0.65,}}>
-        <View style={[styles.subright,{marginLeft:5,}]}>
+        <View style={[styles.subright,{marginLeft:5}]}>
         {timesarray}
           </View>
         </View>

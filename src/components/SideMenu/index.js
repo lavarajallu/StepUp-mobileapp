@@ -41,17 +41,46 @@ const data = [
 		icon: require("../../assets/images/sidemenu/call.png")
 	},
 	{
-		name:"Buy Package",
-		icon:require("../../assets/images/box.png")
+		name: "Knowledge Map",
+		icon: require("../../assets/images/sidemenu/heatmap.png")
+	},
+	// {
+	// 	name:"Buy Package",
+	// 	icon:require("../../assets/images/box.png")
 
-	}
+	// }
 	
 	// {
 	// 	name: "Change Language",
 	// 	icon:require("../../assets/images/sidemenu/profile.png")
 	// }
 ]
-
+var normladata = [
+	{
+		name: "Profile",
+		icon: require("../../assets/images/sidemenu/profile.png")
+	},
+	{
+		name: "Notifictions",
+		icon: require("../../assets/images/sidemenu/notification.png")
+	},
+	// {
+	// 	name: "Refer & Earn",
+	// 	icon: require("../../assets/images/sidemenu/refer.png")
+	// },
+	{
+		name: "Change Password",
+		icon: require("../../assets/images/sidemenu/changepass.png")
+	},
+	{
+		name: "Contact Us",
+		icon: require("../../assets/images/sidemenu/call.png")
+	},
+	{
+		name: "Knowledge Map",
+		icon: require("../../assets/images/sidemenu/heatmap.png")
+	},
+]
 
 class SideMenu extends Component {
 	constructor(props) {
@@ -63,7 +92,8 @@ class SideMenu extends Component {
 			profile_pic: "null",
 			gradeName:"null",
 			schoolname:"null",
-			username:""
+			username:"",
+			usertype:""
 		}
 	}
 	componentDidMount(){
@@ -105,8 +135,9 @@ getData = async () => {
 	  this.setState({
 		  userName: username,
 		  profile_pic: data.profile_pic ? imageUrl +data.profile_pic : "null",
-		  gradeName: data.grade ? data.grade.name  : "null",
+		  gradeName: data.grade ? data.grade.name  : "null",usertype : data.user_role,
 		   schoolname: data.school ? data.school.name : "null"})
+		   
   }
 	onCLose() {
 		this.props.closeControlPanel()
@@ -128,6 +159,9 @@ getData = async () => {
 			 Actions.push('settings')
 		}else if(item.name === 'Buy Package'){
 			Actions.push('buypackages')
+
+		}else if(item.name === 'Knowledge Map'){
+			Actions.push('heatmap')
 
 		}
 	}
@@ -189,7 +223,7 @@ getData = async () => {
 							</View>
 						</View>
 						<View style={styles.middleBottom}>
-							<FlatList data={data}
+							<FlatList data={this.state.usertype === "General Student" ? data : normladata}
 								renderItem={this.renderItem.bind(this)}
 							/>
 

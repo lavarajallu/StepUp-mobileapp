@@ -147,9 +147,10 @@ class Dashboard extends Component {
 	render() {
 		const url = imageUrl + this.state.profile_pic
 		const images = [
-			require('../../assets/images/slider-11.jpg'),
-			require('../../assets/images/slider-22.jpg'),
-			
+			require('../../assets/images/sliders/s_engage.png'),
+			require('../../assets/images/sliders/s_explore.png'),
+			require('../../assets/images/sliders/s_evaluate.png'),
+
 		  ];
 		return (
 			<View style={{ flex: 1 }}>
@@ -179,7 +180,7 @@ class Dashboard extends Component {
 											loopBothSides
 											autoPlayWithInterval={5000}
 											images={images}
-											style={{height:200,flex:0}}
+											style={{height:180,flex:0}}
 											customSlide={({ index, item, style, width }) => (
 												// It's important to put style here because it's got offset inside
 												<>
@@ -189,7 +190,7 @@ class Dashboard extends Component {
 													width: windowWidth,
 													//padding: 10,
 													alignItems: 'center',
-													height: 210,
+													height: 180,
 													flexDirection:"row",
 													//backgroundColor:"red"
 												}}>

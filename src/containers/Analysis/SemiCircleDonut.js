@@ -158,7 +158,7 @@ class SemiCircleDonut extends Component {
 
     return (
         this.state.spinner ? <Text>Loading....</Text> :
-         <ChartView style={{height:400}} config={this.state.chartOptions} options={this.state.options} originWhitelist={['']}></ChartView>
+         <ChartView style={{height:400,overflow:"hidden"}} config={this.state.chartOptions} options={this.state.options} originWhitelist={['']}></ChartView>
     )
   }
 }

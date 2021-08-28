@@ -14,7 +14,7 @@ import { Login,ViewSolutions,Practice,PrePaperReview,MockTestReview,MockTestPape
      ForgotPassword,TopicMainView,PrePaperAssesment,PreQuestionPapers,ReviewPostSummary,Subjects,ProgressTopics,Survey,
      Otp, Boards,PreviousPapers,Grades,Dashboard,Chapters,Topics,PostSummary,PostAssesment,LeaderBoard,LiveClassList,
      PreAssesment,PreSummary,TopicInDetails,WebLinkView, PracticeChapter,PracticeAssesment,PracticeSummary,Settings,BuyPackages,
- PracticeSolutions,PracticeReview,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,LiveSessionActivity,CalendarNew,TopicAnalysis} from './src/containers'
+ PracticeSolutions,PracticeReview,HeatMap,Profile,Games,VideoView,EditProfile,Analysis,ObjectAssesment,Notifications,PdfViewNew,NormalVideo,ReferView,ChangePassword,ContactUs, PreSolutions,LiveSessionActivity,CalendarNew,TopicAnalysis} from './src/containers'
 
  import VideoActivity from './Video'
  import LoadingScreen from './src/containers/LoadingScreen'
@@ -89,6 +89,8 @@ const App = () => {
 
         <Scene key= "buypackages" component={BuyPackages}/>
         <Scene key = "survey" component={Survey}  />
+
+        <Scene key="heatmap" component={HeatMap} />
       </Stack>
     </Router>
   )

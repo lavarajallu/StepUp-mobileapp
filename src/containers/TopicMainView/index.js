@@ -323,6 +323,9 @@ class TopicMainView extends Component {
     } else if (this.props.from === 'progresstopics') {
       Actions.progresstopics({ type: "reset" })
     }
+    else if(this.props.from === 'heatmap'){
+      Actions.pop()
+    }
 
     else {
       Actions.topics({ type: "reset", data: this.props.topicsdata, subjectData: this.props.subjectData })

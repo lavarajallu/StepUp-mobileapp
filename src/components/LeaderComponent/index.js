@@ -11,6 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import SegmentedControlTab from "react-native-segmented-control-tab";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+import { imageUrl } from '../../constants';
 
 import styles from "./styles"
 const data = [
@@ -47,6 +48,9 @@ class LeaderComponent extends Component {
             selectedIndex : 0
         };
     }
+    componentDidMount(){
+        console.log("this.props.leaderdata",this.props.leaderdata)
+    }
     handleIndexChange = index => {
         this.setState({
           ...this.state,
@@ -59,14 +63,22 @@ class LeaderComponent extends Component {
               width:windowWidth/1.05,marginVertical:10,alignSelf:"center"}}>
                   <View style={{flex:1,flexDirection:"row"}}>
                       <View style={{flex:0.15,justifyContent:"center",alignItems:"center"}}>
-                          <Text style={{color:"#3F3E3E"}}>{item.id}</Text>
+                      <View style={{width:25,height:25,backgroundColor:"green",borderRadius:25/2,justifyContent:"center",alignItems:"center"}}>
+                      <Text style={{color:"white"}}>{index+1}</Text>
+
+                                                                </View>
                       </View>
                       <View style={{flex:0.65,flexDirection:"row",alignItems:"center"}}>
+                        {item.profile_pic ? 
+                    <Image source={{uri: imageUrl+item.profile_pic}} style={{ width: 40, height: 40, borderRadius: 20, alignSelf: "center" }} />
+
+                        :
                       <Image source={require('../../assets/images/avatar-9.jpg')} style={{ width: 40, height: 40, borderRadius: 20, alignSelf: "center" }} />
+                        }
                       <Text style={{marginLeft:10}}>{item.name}</Text>
                       </View>
                       <View style={{flex:0.2,justifyContent:"center",alignItems:"center"}}>
-                      <Text>{item.score}</Text>
+                      <Text>{item.points}</Text>
                       </View>
                   </View>
               </View>
@@ -76,9 +88,9 @@ class LeaderComponent extends Component {
     render() {
       
         return (
-           <View style={{flex:1}}>
-               <View style={{borderRadius:30,padding:10,marginVertical:10}}>
-               <SegmentedControlTab
+           <View style={{flex:1,}}>
+               <View>
+               {/* <SegmentedControlTab
                     values={["Today", "Week", "All"]}
                     borderRadius={30}
                     tabStyle={{backgroundColor:"#EDDEFE",}}
@@ -87,7 +99,7 @@ class LeaderComponent extends Component {
                     onTabPress={this.handleIndexChange}
                     activeTabTextStyle={{color:"white"}}
                       tabTextStyle={{color:"#9863DF"}}
-                    />
+                    /> 
                </View>
               
             {this.state.selectedIndex === 0 ?
@@ -127,8 +139,19 @@ class LeaderComponent extends Component {
                 </LinearGradient>
                 </View>
                    }
+                   />*/}
+                   <FlatList data={this.props.leaderdata} 
+                   renderItem={this.renderToday.bind(this)}
+                //    ListFooterComponent={()=>
+                //     <View style={{margin:20,alignItems:"center",justifyContent:"center"}}>
+
+                //     <LinearGradient colors={["#2E61AE","#DB338E"]}  start={{ x: 0, y: 0.5 }} style={{height:50,paddingHorizontal:20,width:150,borderRadius:30,alignItems:"center",justifyContent:"center"}}>
+                //     <Text style={{color:"white",fontSize:15}}>View More</Text>
+                // </LinearGradient>
+                // </View>
+                //    }
                    />
-                 </View>}
+                 </View>
                
            </View>
         );

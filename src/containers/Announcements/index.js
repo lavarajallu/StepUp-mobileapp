@@ -14,7 +14,6 @@ import {
     FlatList,
     BackHandler
 } from 'react-native';
-import moment from 'moment'
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
 const windowWidth = Dimensions.get('window').width;
@@ -25,8 +24,11 @@ import Footer from '../../components/Footer'
 import SideMenu from "../../components/SideMenu"
 import AnnounceComponent from '../../components/AnnounceComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseUrl, colors, imageUrl } from "../../constants"
+import { baseUrl, colors, imageUrl, Strings } from "../../constants"
 import Modal from 'react-native-modal';
+import { G } from 'react-native-svg';
+import moment from 'moment'
+import StringsOfLanguages from '../../StringsOfLanguages';
 
 class Announcements extends Component {
     constructor(props) {
@@ -90,6 +92,7 @@ class Announcements extends Component {
            this.setState({token: JSON.parse(value)},()=>this.getAnnouncements())
         }
     }
+  
       backAction = ()=>{
         Actions.dashboard({type:"reset"})
       }
@@ -190,7 +193,7 @@ class Announcements extends Component {
    
                             }]
                             this.setState({
-                               announcementsData:groupedData,loading: false,datacount:json.data.length
+                               announcementsData:groupedData,loading: false,datacount:json.data.data.length
                            })
                           console.log("newrr",newarray)
                          }else{
@@ -296,12 +299,12 @@ class Announcements extends Component {
                             </TouchableOpacity>
                                 </View>
                                 <View style={styles.topmiddleview}>
-                                <Text style={styles.topHead}>Announcements</Text>
+                                <Text style={styles.topHead}>{StringsOfLanguages.announcements}</Text>
                                 </View>
                                 <View style={styles.toprightview}>
                                 <Text style={styles.counttext}>{this.state.datacount}</Text>
-                            {/* <Text style={styles.inboxText}>Inbox</Text>
-                            <Image source={require("../../assets/images/refer/delete.png")}
+                            <Text style={styles.inboxText}>{StringsOfLanguages.inbox}</Text>
+                            {/* <Image source={require("../../assets/images/refer/delete.png")}
                             style={styles.deleteButton}/> */}
                                 </View>
                             </View>
@@ -310,7 +313,7 @@ class Announcements extends Component {
                 {this.state.loading ? 
 
                 <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-                    <Text>Loading...</Text>
+                    <Text>{StringsOfLanguages.loading}</Text>
                 </View>
              
                  : 
@@ -323,13 +326,13 @@ class Announcements extends Component {
                         style={styles.referlogo}>
                             <Image source={require('../../assets/images/refer/notify.png')} style={styles.logoicon}/>
                         </ImageBackground>
-                      <Text style={styles.headText}>Can’t find notifications</Text>
-                      <Text style={styles.subtext}>Let’s explore more content around you.</Text>
+                      <Text style={styles.headText}>{StringsOfLanguages.cantfindannounce}</Text>
+                      <Text style={styles.subtext}>{StringsOfLanguages.explorecontent}</Text>
                       
                        <LinearGradient colors={["#A28FB0","#543361","#543361"]}
                 style={styles.gradientstyles}>
                     <TouchableOpacity onPress={this.onBacktoFeed.bind(this)} >
-                   <Text style={styles.buttonText}>Back to Feed</Text></TouchableOpacity>
+                   <Text style={styles.buttonText}>{StringsOfLanguages.backtofeed}</Text></TouchableOpacity>
                    </LinearGradient>
                         </View>
                         <View style={{flex:0.08}}>
@@ -352,17 +355,24 @@ class Announcements extends Component {
                 }
             </View>
             <Modal isVisible={this.state.isvisible}>
-            <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15,width:windowWidth/1.2,height:"60%"}}>
+            <View style={{padding:10,backgroundColor: 'white',borderRadius: 15,marginVertical: 15,
+            width:windowWidth/1.2,height:"60%"}}>
             <View style={{flex:1,justifyContent:"space-around",alignItems:"center"}}>
-              <Text style={{fontSize:20,color:colors.Themecolor}}>{this.state.selectedItem.title}</Text>
-              <View style={{width:"100%",height:1,backgroundColor:colors.Themecolor}}/>
+              <Text style={{fontSize:20,color:colors.Themecolor,marginTop:10,marginBottom:10}}>{this.state.selectedItem.title}</Text>
+              <View style={{width:"100%",height:1,backgroundColor:colors.Themecolor,marginTop:20}}/>
+              <View style={{height:300,marginTop:20}}>
+              <ScrollView> 
                 <Text style={{fontSize:15,color:colors.Themecolor,marginHorizontal:20,paddingVertical:10}}>{this.state.selectedItem.description}</Text>
+
+                </ScrollView>
+              </View>
+               
                 <View>
-                    <Text>From Date:  {moment(this.state.selectedItem.from_date).format('L')}</Text>
-                    <Text style={{marginTop:10}}>To Date: {moment(this.state.selectedItem.to_date).format('L')}</Text>
+                    <Text>{StringsOfLanguages.fromdate}:  {moment(this.state.selectedItem.from_date).format('L')}</Text>
+                    <Text style={{marginTop:10}}>{StringsOfLanguages.todate}:   {moment(this.state.selectedItem.to_date).format('L')}</Text>
                 </View>
-                <TouchableOpacity onPress={()=>this.setState({isvisible:false})} style={{paddingVertical:10,paddingHorizontal:30,backgroundColor:colors.Themecolor}}>
-                    <Text style={{color:"white"}}>Close</Text>
+                <TouchableOpacity onPress={()=>this.setState({isvisible:false})} style={{paddingVertical:10,marginTop:30,marginBottom:20,paddingHorizontal:30,backgroundColor:colors.Themecolor}}>
+                    <Text style={{color:"white"}}>{StringsOfLanguages.close}</Text>
                 </TouchableOpacity>
             </View>
            

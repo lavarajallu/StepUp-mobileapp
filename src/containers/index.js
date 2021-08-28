@@ -27,8 +27,8 @@ export { default as WebLinkView} from "./WebLinkView";
  export { default as PreviousPapers } from "./PreviousPapers";
  export { default as PreQuestionPapers } from "./PreQuestionPapers"
  export { default as ReviewPostSummary } from "./ReviewPostSummary"
- export { default as PrePaperAssesment } from "./PrePaperAssesment"
- export { default as PrePaperSummary } from "./PrePaperSummary";
+ export { default as PrePaperAssesment } from "./PrePaperAssesment/index1"
+ export { default as PrePaperSummary } from "./PrePaperSummary/index1";
  export { default as PrePaperSolutions } from "./PrePaperSolutions";
   export { default as PrePaperReview } from "./PrePaperReview";
 
@@ -64,3 +64,5 @@ export { default as LiveClassList } from './LiveClassList'
 export { default as ViewLiveClass } from './ViewLiveClass'
 export { default as BuyPackages} from './BuyPackages'
 export { default as Survey} from './Survey'
+
+export { default as HeatMap} from './HeatMap'

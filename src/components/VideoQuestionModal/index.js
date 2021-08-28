@@ -176,7 +176,7 @@ class VideoQuestionModal extends Component{
           this.state.showCorrectView === null ?       
        <View style={styles.mainView}>
         <View style={styles.questionview}>
-        {/* <Text style={styles.questionhint}>Hi there, a quick question for you:</Text> */}
+        <Text style={styles.questionhint}>Hi there, a quick question for you:</Text>
           {/* <Text style={styles.questiontext}>{this.state.questiondata.question}</Text> */}
           <View style={{width: '100%',
         borderWidth: 1,
@@ -188,31 +188,31 @@ class VideoQuestionModal extends Component{
         justifyContent:"center",
         alignSelf: 'flex-start',}}>
     <MathJax
-     mathJaxOptions={{
-      messageStyle: "none",
-      extensions: ["tex2jax.js"],
-      jax: ["input/TeX", "output/HTML-CSS"],
-      tex2jax: {
-        inlineMath: [
-          ["$", "$"],
-          ["\\(", "\\)"],
-        ],
-        displayMath: [
-          ["$$", "$$"],
-          ["\\[", "\\]"],
-        ],
-        processEscapes: true,
-      },
-      TeX: {
-        extensions: [
-          "AMSmath.js",
-          "AMSsymbols.js",
-          "noErrors.js",
-          "noUndefined.js",
-        ],
-      },
-    }}
-        style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
+      mathJaxOptions={{
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+          processEscapes: true,
+        },
+        TeX: {
+          extensions: [
+            "AMSmath.js",
+            "AMSsymbols.js",
+            "noErrors.js",
+            "noUndefined.js",
+          ],
+        },
+      }}
+        style={{ //backgrbackgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
         width: '100%',
         // borderWidth: 2,
         // borderRadius:10,
@@ -222,7 +222,9 @@ class VideoQuestionModal extends Component{
         alignSelf: 'center',}} html={this.state.questiondata.question} /></View>
         </View>
         <View style={styles.answersview}>
+         
           <View style={styles.answersubview}>
+          <ScrollView style={{flex:1}}>
              {this.state.questiondata.options.map((res,i)=>
                	<TouchableHighlight onPress={this.onAnswer.bind(this,res)} underlayColor="transparent" activeOpacity={0.9}
                     style={styles.answeritem}>
@@ -271,7 +273,7 @@ class VideoQuestionModal extends Component{
       },
     }}
         style={{ //backgroundColor: this.state.answerobj.user_answer === item.key ? topicindata.color : "transparent",
-        width: '80%',
+        width: '100%',
         marginTop:1,
         // borderWidth: 2,
         // borderRadius:10,
@@ -282,6 +284,8 @@ class VideoQuestionModal extends Component{
                </TouchableHighlight>
              )}
 
+         
+          </ScrollView>
           </View>
         </View>
 

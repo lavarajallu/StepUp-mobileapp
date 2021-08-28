@@ -69,7 +69,7 @@ class MyTopics extends Component {
 
             response.json())
             .then((json) => {
-             //   console.log("topicdattaaa.................", JSON.stringify(json))
+                 console.log("topicdattaaa.................", JSON.stringify(json))
                 if (json.data) {
                     this.setState({
                         topicsData: json.data,
@@ -216,7 +216,7 @@ class MyTopics extends Component {
                    
 
                 </TouchableOpacity>
-                 <Progress.Bar progress={percent/100} width={windowWidth/1.5} height={5} color={color}
+                  <Progress.Bar progress={item.progress/100} width={windowWidth/1.5} height={5} color={color}
 			unfilledColor={"lightgrey"} borderColor={"transparent"}/>
             </View>
 
@@ -243,11 +243,11 @@ class MyTopics extends Component {
                           
                             </View>
                         <View style={{marginTop:20}}>
-                        <FlatList data={this.state.topicsData}
+                         <FlatList data={this.state.topicsData}
                             renderItem={this.renderItem.bind(this)}
                             keyExtractor={(item, index) => item + index}
                             horizontal={true}
-                            showsHorizontalScrollIndicator={false} />
+                            showsHorizontalScrollIndicator={false} /> 
                         </View>
                        
 

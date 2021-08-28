@@ -801,7 +801,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepUp/StepUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_TEAM = RT4F6YNJ69;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = StepUp/Info.plist;
@@ -831,7 +831,7 @@
 				CODE_SIGN_ENTITLEMENTS = StepUp/StepUp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_TEAM = RT4F6YNJ69;
 				INFOPLIST_FILE = StepUp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

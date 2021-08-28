@@ -94,7 +94,7 @@ const TimeSpentChart = props => {
   return (
     spinner ? <Text>Loading....</Text> :
     <View>
-<ChartView style={{height:800}} config={chartConfig} options={chartOptions} originWhitelist={['']}></ChartView>
+<ChartView style={{height:800,overflow:"hidden"}} config={chartConfig} options={chartOptions} originWhitelist={['']}></ChartView>
 <View style={{flexDirection:"row",marginTop:15,justifyContent:"center"}}>
 <View style={{flexDirection:"row",marignLeft:10,justifyContent:"center",alignItems:"center",marginRight:10}}>
         <View style={{width:10,height:10,backgroundColor:"#7CB5EC"}}/>

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         height: 16, width: 21, marginLeft: 20
     },
     topHead:{
-        marginLeft: 20, color: "#695077",
+        marginLeft: 20, color: "#695077",fontSize:20
     },
     bottomView:{
         flex: 0.92, 

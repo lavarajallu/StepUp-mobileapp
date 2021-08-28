@@ -12,6 +12,9 @@ import {
   Platform,
   TouchableOpacity
 } from 'react-native';
+import Modal from 'react-native-modal';
+import LinearGradient from 'react-native-linear-gradient';
+
 import Snackbar from 'react-native-snackbar';
 import { Actions } from 'react-native-router-flux';
 import styles from "./styles"
@@ -33,7 +36,10 @@ class Chapters extends Component {
       spinner: true,
       chaptersData: [],
       analyticsData: {},
-      token:""
+      token:"",
+      validpackages:{},
+      userDetails:"",
+      isvisible: false
     }
   }
   onBack() {
@@ -61,10 +67,17 @@ class Chapters extends Component {
         const token = await AsyncStorage.getItem('@access_token')
         if (token) {
           this.setState({
-            token: JSON.parse(token)
+            token: JSON.parse(token),
+            userDetails: data,
           })
           this.getChapter(data, JSON.parse(token))
           this.getanalytics(data, JSON.parse(token))
+          console.log("tokenn",token)
+          if (data.user_role === "General Student") {
+            this.validatepackages(data)
+          }
+    
+         
         } else {
 
         }
@@ -75,6 +88,32 @@ class Chapters extends Component {
     } catch (e) {
       return null;
     }
+  }
+  validatepackages(data){
+    //package/validate/${email}
+    console.log("validpackages",data)
+    var url = "http://api.newcleusit.com"+'/package/validate/'+data.email
+    fetch(url ,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': this.state.token
+      },
+      }).then((response) =>
+      
+       response.json())
+      .then((json) =>{
+        console.log("validpresponseeeeeackages",json)
+        if(json.data){
+           console.log("validpackages",json.data)
+           this.setState({validpackages: json.data})
+        }else{
+          console.log(JSON.stringify(json.message))
+        }
+      }
+       
+      )
+      .catch((error) => console.error(error))
   }
   onFront(){
     this.updateAnalytics()
@@ -215,6 +254,23 @@ class Chapters extends Component {
       .catch((error) => console.error(error))
     //Actions.push('boards')
   }
+  onlockmodal(value){
+    this.setState({
+      isvisible: value
+    })
+  }
+  onNo(){
+    this.setState({
+      isvisible: false
+    })
+  }
+  onYes(){
+    this.setState({
+      isvisible: false
+    },()=>{
+      Actions.push('buypackages')
+    })
+  }
   render() {
     return (
 
@@ -269,7 +325,11 @@ style={{ width: 70, height: 70, resizeMode: "contain", marginRight: 10, }} />}
            <Text>Loading...</Text>
         </View> 
         :
-        <ChapterComponent onBack={this.onBack.bind(this)} onFront={this.onFront.bind(this)} userData={this.state.userData} chapters={this.state.chaptersData} />}
+        <ChapterComponent
+        validpackages={this.state.validpackages}
+        userDetails={this.state.userDetails}
+        onlockmodal={this.onlockmodal.bind(this)}
+        onBack={this.onBack.bind(this)} onFront={this.onFront.bind(this)} userData={this.state.userData} chapters={this.state.chaptersData} />}
       
        </View>
         </View>
@@ -278,6 +338,27 @@ style={{ width: 70, height: 70, resizeMode: "contain", marginRight: 10, }} />}
           <Footer openControlPanel={this.openControlPanel} />
         </View>
       </View>
+      <Modal isVisible={this.state.isvisible}>
+                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                             <View style={{ padding: 10, backgroundColor: 'white', borderRadius: 15, marginVertical: 15 }}>
+                                 <Text style={{ fontSize: 15, textAlign: 'center', marginTop: 10 }}>You are not subscribed to view this chapter</Text>
+                                 <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10, fontWeight:"600" }}> Do you want to subscribe? </Text>
+                                 <View style={{ flexDirection: 'row', justifyContent: "space-around", marginTop: 20 }}>
+                                    
+                                     <TouchableOpacity onPress={this.onNo.bind(this)}>
+                                         <LinearGradient colors={['#f14d65', '#fc8798']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>No</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                     <TouchableOpacity onPress={this.onYes.bind(this)}>
+                                         <LinearGradient colors={['#239816', '#32e625']} style={{ paddingHorizontal: 30, paddingVertical: 10, borderRadius: 20 }}>
+                                             <Text style={{ color: "white" }}>YES</Text>
+                                         </LinearGradient>
+                                     </TouchableOpacity>
+                                 </View>
+                             </View>
+                         </View>
+                     </Modal>
     </Drawer>
     )
   }

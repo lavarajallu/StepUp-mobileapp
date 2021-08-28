@@ -1,51 +1,50 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, Image, TouchableOpacity, StatusBar, StyleSheet, ActivityIndicator, TextInput } from 'react-native'
+import { View, Text, Dimensions, FlatList, Image, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator, TextInput, ImageBackground } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 // import COLORS from '../styles/color';
 // import MESSAGE from '../values/message';
 // import DBMigrationHelper from '../dbhelper/DBMigrationHelper';
 import LinearGradient from 'react-native-linear-gradient';
 import SimpleToast from 'react-native-simple-toast';
+import RazorpayCheckout from 'react-native-razorpay';
 import { baseUrl, colors } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-//import RazorpayCheckout from 'react-native-razorpay';
-// import { STRING, url } from '../values/string';
-// import GLOBALSTYLE from '../values/style';
-// import { log } from 'react-native-reanimated';
-
+import { Actions } from 'react-native-router-flux';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+var url = 'http://api.newcleusit.com'
 var db, selectedItems = [], gst = '0', resourceBaseURL;
-
+var interval;
 class BuyPackages extends Component {
 
     constructor(props) {
         super(props);
 
-       // db = DBMigrationHelper.getInstance();
+        // db = DBMigrationHelper.getInstance();
         this.state = {
-            grades: [],
-            isGradesAvailable: false,
-            isLoading: true,
-            isProcessing: false,
-            referralCode: '',
-            promoCode: '',
-            ispromocodeApplied: false,
-            promoCodeAppliedText: '',
-            discountOnGrade: '',
-            scratchCard: '',
-            isScratchCardApplied: false,
-            scratchCardAppliedText: '',
-            discountedTotalAmount: 0,
-            grandTotal: 0,
-            amount: 0,
-            discountedAmount: 0,
-            amountWithGST: 0,
-            gstText: '',
-            proceedText: 'PROCEED',
-            userDetails: '',
-            orderID: '',
-            token:"",
-            userDetails:""
+            seconds:120,
+            timeup: false,
+            token: "",
+            userDetails: "",
+            subjects: [],
+            spinner: true,
+            finalarray: [],
+            total: 0,
+            sgst: 0,
+            cgst: 0,
+            finaltotal: 0,
+            promocode: "",
+            activationcode: "",
+            grouppackage: [],
+            discount_amount: 0,
+            discount_coupon: '',
+            orderID: "",
+            error: "",
+            promostatus: false,
+            promostatusref: '',
+            // countdown:2,
+            setMinutes: 0,
+            setSeconds: 0,
         };
     }
 
@@ -63,43 +62,77 @@ class BuyPackages extends Component {
 
     getData = async () => {
         try {
-          const value = await AsyncStorage.getItem('@user')
-          //  alert(JSON.stringify(value))
-          if (value !== null) {
-            var data = JSON.parse(value)
-            console.log("buyspackage", data)
-            const token = await AsyncStorage.getItem('@access_token')
-            if (token) {
-              this.setState({
-                token: JSON.parse(token),
-                userDetails: data
-              })
-              this.getGradeData()
-             // this.getanalytics(data, JSON.parse(token))
+            const value = await AsyncStorage.getItem('@user')
+            //  alert(JSON.stringify(value))
+            if (value !== null) {
+                var data = JSON.parse(value)
+                console.log("buyspackage", data)
+                const token = await AsyncStorage.getItem('@access_token')
+                if (token) {
+                    this.setState({
+                        token: JSON.parse(token),
+                        userDetails: data
+                    })
+                    this.getsubjects()
+                    // this.getanalytics(data, JSON.parse(token))
+                } else {
+
+                }
+
             } else {
-    
+                console.log("errorrr")
             }
-    
-          } else {
-            console.log("errorrr")
-          }
         } catch (e) {
-          return null;
+            return null;
         }
-      }
+    }
 
-    getGradeData() {
-       console.log("mndmdndf",this.state.userDetails.grade)
-       var gDetail = [];
-       this.state.userDetails.grade["isSelected"] = false
-       gDetail.push(this.state.userDetails.grade)
-       this.setState({
-        grades: gDetail,
-        isLoading: false,
-        isGradesAvailable: true
-    }, () => {
+    getsubjects() {
+        var url = 'http://api.newcleusit.com' + '/package/grade/' + this.state.userDetails.grade_id
+        console.log("value", url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        }).then((response) =>
 
-    });
+            response.json())
+            .then((json) => {
+                // alert(JSON.stringify(json))
+                const data = json.data;
+                if (data) {
+                    console.log("dkcnkldnk", data)
+                    if (data.subjectPackages) {
+                        this.setState
+                            ({
+                                spinner: false,
+                                subjects: data.subjectPackages,
+                                grouppackage: data.groupPackage
+                            })
+                    } else {
+                        this.setState
+                            ({
+                                spinner: false,
+                                subjects: []
+                            })
+                    }
+                    //  AsyncStorage.setItem('@access-token', data.access_token)
+                    //  Actions.push('dashboard')
+                } else {
+                    // alert(JSON.stringify(json.message))
+                    this.setState
+                        ({
+                            spinner: false,
+                            subjects: []
+                        })
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
+        //Actions.push('boards')
     }
 
     onCheckBoxClick(item, index) {
@@ -206,477 +239,514 @@ class BuyPackages extends Component {
     }
 
     async orderIDAPI() {
-        console.log("Selecteditemsss",selectedItems)
-      //  if (selectedItems.length > 0) {
-            this.setState({
-                isProcessing: true
-            })
-           var url = baseUrl + "/payment/order"
-            return fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({amount: 101}),
-            })
-                .then((response) => response.json())
-                .then((result) => {
-                    this.setState({
-                        isProcessing: false
-                    });
-                    console.log("resultresultresult",result)
-                    if (!result) {
-                        alert('Server error. Are you online?');
-                        
-                      }else{
-                        const {  order_id } = result.data;
+        //{ package_id: subject.package_id, package_name: subject.package_name, isGrade: false }
+        console.log("kdmkdmf", this.state.grouppackage, "vvv", this.state.finalarray)
+        var newobj;
+        if (this.state.finalarray.length === this.state.subjects.length) {
+            newobj = {
+                "package_id": this.state.grouppackage[0].reference_id,
+                "package_name": this.state.grouppackage[0].package_name,
+                "isGrade": true,
+                subjects: this.state.finalarray,
+            }
+        } else {
+            newobj = {
+                "package_id": this.state.finalarray[0].package_id,
+                "package_name": this.state.finalarray[0].package_name,
+                "isGrade": false,
+                subjects: this.state.finalarray,
+            }
+        }
 
-                        this.setState({
-                                    orderID: order_id,
-                                }, () => {
-                                   // this.initiatePayment(data.Amount);
-                                });
+        let totalPackage = newobj
+        console.log("ggggg", totalPackage)
 
-                      }
-                  
-                  
+        let data = {
+            package: JSON.stringify(totalPackage),
+            package_price: this.state.total,
+            discount_amount: this.state.discount_amount,
+            cgst: this.state.cgst,
+            sgst: this.state.sgst,
+            discount_coupon: this.state.discount_coupon,
+            total_price: this.state.finaltotal,
+            payment_type: 'PaymentGateWay'
+        }
 
-                    // if (responseJson.id.length > 0) {
-                    //     this.setState({
-                    //         orderID: responseJson.id,
-                    //     }, () => {
-                    //         this.initiatePayment(data.Amount);
-                    //     });
-                    // } else {
-                    //     SimpleToast.show(MESSAGE.orderNotGenerated);
-                    // }
-                })
-                .catch((error) => {
-                    console.log("dklnkdnfkdf",error)
-                    this.setState({
-                        isProcessing: false,
-                    });
+        console.log("Selecteditemsss", data)
+        // //  if (selectedItems.length > 0) {
+        this.setState({
+            isProcessing: true
+        })
+        var url = "http://api.newcleusit.com" + "/payment/order"
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                this.setState({
+                    isProcessing: false
                 });
-        // } else {
-        //     SimpleToast.show(MESSAGE.selectSems);
-        // }
+                console.log("resultresultresult", result)
+                if (!result) {
+                    alert('Server error. Are you online?');
+
+                } else {
+                    //    const { amount,  order_id, currency } = result.data;
+
+                    console.log("donneeeeeee")
+                    this.setState({
+                        orderID: result.id,
+                    }, () => {
+                        this.initiatePayment(result);
+                    });
+
+                }
+            })
     }
 
     async promoCodeAPI() {
         this.setState({
             isProcessing: true
         });
-
-        return fetch(await url(STRING.baseURL) + STRING.getPromoCodeDetails + this.state.promoCode, {
-            method: 'GET',
+        var url = "http://api.newcleusit.com" + "/promoCode/validate/" + this.state.promocode
+        fetch(url, {
+            method: 'PUT',
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                'Content-Type': 'application/json',
+                'token': this.state.token
             }
         })
-            .then(response => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then(([statusCode, responseJson]) => {
-                this.setState({
-                    isProcessing: false
-                });
-
-                console.log(responseJson);
-                if (statusCode == 400) {
-                    SimpleToast.show(responseJson.message);
-                } else {
-                    let amt;
-                    if (responseJson.gradeId == null || responseJson.gradeId == 'null' || responseJson.gradeId == '') {
-                        amt = this.state.amount - responseJson.promoDiscount;
-                    } else if (selectedItems.includes(responseJson.gradeId)) {
-                        amt = this.state.amount - responseJson.promoDiscount;
-                    } else {
-                        amt = this.state.amount;
+            .then((response) => response.json())
+            .then((result) => {
+                console.log("promocodeeedaa", result)
+                if (result.statusCode === 200) {
+                    console.log(result.data)
+                    if (result.data.discount_type === 'Money') {
+                        this.setState({
+                            discount_amount: result.data.discount
+                        })
+                        // setDiscountAmount(result.data.data.max_discount)
+                    }
+                    else if (result.data.discount_type === 'Percentage') {
+                        let percentage = (package_price * result.data.discount) / 100
+                        // if (percentage <= result.data.data.max_discount) {
+                        this.setState({
+                            discount_amount: Math.round(percentage)
+                        })
+                        //   setDiscountAmount(Math.round(percentage))
+                        // } else {
+                        // setDiscountAmount(result.data.data.max_discount)
+                        // }
                     }
 
+                    // setError('')
                     this.setState({
-                        discountedAmount: responseJson.promoDiscount,
-                        discountedTotalAmount: responseJson.promoDiscount,
-                        discountOnGrade: responseJson.gradeId,
-                        // amount: (selectedItems.includes(responseJson.gradeId)) ? (this.state.amount - responseJson.promoDiscount) : this.state.amount,
-                        amount: amt,
-                        amountWithGST: 0,
-                        ispromocodeApplied: true,
-                        // promoCodeAppliedText: 'Promo discount ' + responseJson.promoDiscount + ' INR on ' + responseJson.gradeName,
-                        promoCodeAppliedText: 'Promo code applied!',
-                    }, () => {
-                        this.calculateGST();
+                        error: "",
+                        promostatus: true,
+                        promostatusref: result.data.reference_id,
+                        discount_coupon: this.state.promocode,
+                        isProcessing: false
+
+                    },()=>this.starttimer())
+                    
+                    // setPromoStatus(true)
+                    // setPromoStatusRef(result.data.data.reference_id)
+                    // setDiscountCoupon(values.promo)
+                    // countdown(2)
+                }
+                else {
+                    this.setState({
+                        error: result.message,
+                        promostatus: false,
+                        promostatusref: '',
+                        isProcessing:false,
+                        discount_coupon: '',
+                        //countdown:2
                     })
+                    // console.log(result.data)
+                    // setError(result.data.message)
+                    // setPromoStatus(false)
+                    // setPromoStatusRef('')
+                    // setDiscountCoupon('')
                 }
+
             })
-            .catch((error) => {
-                this.setState({
-                    isProcessing: false,
-                });
-            });
+           
+                // this.setState({
+                //     discount_amount: 100,
+                //     error: "",
+                //     promostatus: true,
+                //     promostatusref: "dsdsdsd",
+                //     discount_coupon: this.state.promocode,
+                // },()=>this.starttimer())
+           
     }
+    starttimer() {
+        var interval = setInterval(() => {
+           if(this.state.seconds === 0){
+            clearInterval(interval);
+            this.setState({
+                   timeup:true
+               },()=>{
+                   this.setState({
+                       promostatus: false,
+                       promocode:"",
+                       seconds:121,
+                       discount_amount:0,
 
-    async scratchCardAPI() {
-        if (selectedItems.length == 0) {
-            SimpleToast.show(MESSAGE.zeroeGrades);
-            return;
-        }
+                   })
+               })
+           }
+               this.setState({ seconds: this.state.seconds - 1 })
+           }, 1000)
+       }
 
-        if (selectedItems.length > 1) {
-            SimpleToast.show(MESSAGE.noMultipleGrades);
-            return;
-        }
 
-        this.setState({
-            isProcessing: true
-        });
 
-        console.log(await url(STRING.baseURL) + STRING.getScratchCardDetails + this.state.scratchCard);
-        return fetch(await url(STRING.baseURL) + STRING.getScratchCardDetails + this.state.scratchCard, {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-            .then(response => {
-                const statusCode = response.status;
-                const data = response.json();
-                return Promise.all([statusCode, data]);
-            })
-            .then(([statusCode, responseJson]) => {
-                this.setState({
-                    isProcessing: false
-                });
-
-                if (statusCode == 400) {
-                    SimpleToast.show(responseJson.message);
-                } else {
-                    // db.getOneGrade(grade => {
-                    //     if (grade == null) {
-                    //         SimpleToast.show(MESSAGE.gradeNotEnrolled + responseJson.gradeName);
-                    //     } else {
-                    //         if (grade.transactionId != null && grade.transactionId != '' && grade.transactionId != 'null') {
-                    //             SimpleToast.show(MESSAGE.gradeAlreadyPurchased);
-                    //         } else {
-                                this.setState({
-                                    isScratchCardApplied: true,
-                                    scratchCardAppliedText: 'Scratchcard applied on ' + responseJson.gradeName,
-                                }, () => {
-                                    this.updateSemesterAPI(null, responseJson);
-                                })
-                    //         }
-                    //     }
-                    // }, responseJson.gradeId);
-                }
-            })
-            .catch((error) => {
-                this.setState({
-                    isProcessing: false,
-                });
-            });
-    }
-
-    initiatePayment(amount) {
+    initiatePayment(data) {
         var options = {
-            description: 'StepUp App',
-            image: 'https://stepupimages.s3.ap-south-1.amazonaws.com/img_stepup_round.png',
-            currency: 'INR',
-            key: 'rzp_live_e6NDJMBj35YklJ',
-            // key: 'rzp_test_T3tuSIDZofAwuF',
-            amount: amount,
-            name: this.state.userDetails.name,
-            order_id: this.state.orderID,//Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.
+            description: 'Test Transaction',
+            image: require('../../assets/images/logo_icon1.png'),
+            currency: data.currency,
+            key: 'rzp_test_2TAQIETR3fIP95',
+            amount: data.amount.toString(),
+            name: "Smartgen Corp",
+            order_id: data.id,//Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.
             prefill: {
+                name: this.state.userDetails.first_name + ' ' + this.state.userDetails.last_name,
                 email: this.state.userDetails.email,
-                contact: this.state.userDetails.phoneNumber,
-                name: this.state.userDetails.name
+                contact: this.state.userDetails.mobile_number,
             },
-            theme: { color: "blue"}
-        }
 
-        RazorpayCheckout.open(options).then((data) => {
-            this.updateSemesterAPI(data, null);
+            notes: {
+                address: '',
+            },
+            theme: {
+                color: '#61dafb',
+            },
+
+        }
+        RazorpayCheckout.open(options).then((response) => {
+           console.log("dfhjdhfkd",response)
+
+//            { razorpay_signature: 'f16c45674273ea12ea49fc0a5646e6a08d972cd3191d17a3a31175ace9929699',
+//   razorpay_order_id: 'order_Hnk5Ef54dlEyKW',
+//   checkout_logo: 'https://cdn.razorpay.com/logo.png',
+//   razorpay_payment_id: 'pay_Hnk5MRK8IYYNAT',
+//   custom_branding: false,
+//   org_name: 'Razorpay Software Private Ltd',
+//   org_logo: '' }
+            const newdata = {
+                orderCreationId: data.id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+                reference_id:  data.id
+            };
+
+            var url = "http://api.newcleusit.com" + "/payment/success"
+            return fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(newdata),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': this.state.token
+                }
+            })
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log("razorradattaaaaaaa", result)
+                    if (result.statusCode === 200) {
+                        Actions.dashboard({ type: "reset" })
+                    }
+
+                })
         }).catch((error) => {
             SimpleToast.show(error.description);
         });
     }
 
-    async updateSemesterAPI(orderData, scratchCardData) {
-
-        try {
-            let jsonArray = [], jsonObject = {}, fullURL = '';
-            if (orderData == null) {
-                fullURL = await url(STRING.baseURL) + STRING.paymentCallback + 'true';
-                this.state.grades.forEach(element => {
-                    if (element.GradeId == scratchCardData.GradeId) {
-                        jsonArray[0] = {
-                            // GradeId: scratchCardData.gradeId,
-                            GradeId: selectedItems[0],
-                            LanguageId: scratchCardData.languageID,
-                            ActualAmount: element.actualAmount,
-                            PaidAmount: 0,
-                        };
-                    }
-                })
-
-                jsonObject = {
-                    EmailId: this.state.userDetails.email,
-                    TransactionId: '',
-                    OrderId: '',
-                    SignatureId: '',
-                    PromoCode: '',
-                    ReferalCode: '',
-                    ScratchCard: this.state.scratchCard,
-                    GradesDetail: jsonArray,
-                };
-            } else {
-                fullURL = await url(STRING.baseURL) + STRING.paymentCallback + 'false';
-                let count = 0;
-                this.state.grades.forEach(element => {
-                    let discount = 0;
-                    if (element.gradeId == this.state.discountOnGrade) {
-                        discount = this.state.discountedTotalAmount;
-                    } else {
-                        discount = 0;
-                    }
-                    let gstAmount = (Number(element.actualAmount) * gst) / 100;
-
-                    if (selectedItems.includes(element.gradeId)) {
-                        jsonArray[count] = {
-                            GradeId: element.gradeId,
-                            LanguageId: element.languageId,
-                            ActualAmount: element.actualAmount,
-                            PaidAmount: ((Number(element.actualAmount) - discount) + gstAmount).toFixed(0),
-                        }
-                        count++;
-                    }
-                });
-
-                jsonObject = {
-                    EmailId: this.state.userDetails.email,
-                    TransactionId: orderData.razorpay_payment_id,
-                    OrderId: this.state.orderID,
-                    SignatureId: orderData.razorpay_signature,
-                    PromoCode: this.state.promoCode,
-                    ReferalCode: this.state.referralCode,
-                    ScratchCard: '',
-                    GradesDetail: jsonArray,
-                };
-            }
-
-            this.setState({
-                isProcessing: true
-            });
-
-            console.log(fullURL);
-            console.log(jsonObject);
-
-            return fetch(fullURL, {
-                method: 'POST',
-                body: JSON.stringify(jsonObject),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    this.setState({
-                        isProcessing: false
-                    });
-
-                    if (responseJson.length > 0) {
-                        db.updateGrades(data => {
-                            if (data == 400) {
-                                SimpleToast.show(MESSAGE.wentWrong);
-                            } else {
-                                this.setState({
-                                    proceedText: 'PROCEED',
-                                    promoCodeAppliedText: '',
-                                    ispromocodeApplied: false,
-                                }, () => {
-                                    this.getUserData();
-                                    this.props.navigation.replace('gradeActivity');
-                                });
-                            }
-                        }, responseJson);
-                    } else {
-                        SimpleToast.show(MESSAGE.wentWrong);
-                    }
-                })
-                .catch((error) => {
-                    this.setState({
-                        isProcessing: false,
-                    });
-                });
-        } catch (error) {
-            console.log(error);
-        }
-
-
-    }
 
     buttonPressed = () => {
         this.props.navigation.goBack(null)
     };
-    onBack(){
-
+    onBack() {
+Actions.dashboard({type:"reset"})
     }
 
+    onCheck(item, value) {
+        console.log("this.state.groupPackage", this.state.grouppackage)
+        var newarray = [];
+        var count = 0
+        //   item.checked = value;
+        if (this.state.finalarray.length > 0) {
+
+            this.state.finalarray.map((res, i) => {
+                if (res.reference_id === item.reference_id) {
+                    this.state.finalarray.splice(i, 1)
+                    count = 0
+                } else {
+                    count = count + 1
+                }
+            })
+            if (count > 0) {
+                item.checked = value;
+                item.is_grade = false
+                newarray.push(item)
+                this.state.finalarray.push(item);
+            } else {
+                item.checked = value;
+                item.is_grade = false
+            }
+        } else {
+            item.checked = value;
+            item.is_grade = false
+            newarray.push(item)
+            this.state.finalarray.push(item);
+
+        }
+        var totalval = 0
+        var totalgst = 0
+        this.state.finalarray.map((res, i) => {
+            totalval = totalval + parseInt(res.package_cost);
+
+        })
+
+        totalgst = Math.round((totalval * 9) / 100, 2)
+        if (this.state.finalarray.length === this.state.subjects.length) {
+            console.log("finallllllllll....", parseInt(this.state.grouppackage[0].package_cost))
+            totalval = parseInt(this.state.grouppackage[0].package_cost)
+            totalgst = Math.round((this.state.grouppackage[0].package_cost * 9) / 100, 2)
+        }
+        this.setState({
+            newarray: this.state.finalarray,
+            total: totalval,
+            sgst: totalgst,//this.state.finalarray.length*45,
+            cgst: totalgst,//this.state.finalarray.length*45,
+            finaltotal: parseInt(totalval + totalgst + totalgst)
+        })
+        // var finaltotal = this.state.total + this.state.sgst + this.state.cgst;
+        // this.setState({
+        //     finaltotal: finaltotal
+        // })
+        console.log("finall", this.state.finalarray)
+
+    }
+    renderItem({ item, index }) {
+        return (
+            <View style={{ flexDirection: "row", padding: 10, margin: 10, alignItems: 'center', width: windowWidth / 2.5 }}>
+                {item.checked ?
+                    <TouchableOpacity onPress={this.onCheck.bind(this, item, false)}>
+                        <Image source={require("../../assets/images/check.png")} style={{
+                            width: 17, height: 17, alignSelf: "center", tintColor: "#959595"
+                        }} />
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress={this.onCheck.bind(this, item, true)}>
+                        <Image source={require("../../assets/images/uncheck.png")} style={{
+                            width: 17, height: 17, alignSelf: "center", tintColor: "#959595"
+                        }} />
+                    </TouchableOpacity>
+                }
+
+                <Text style={{ fontSize: 18, marginLeft: 10 }}>{item.subject_Name}</Text>
+            </View>
+        )
+    }
+
+    onPay() {
+        this.orderIDAPI()
+    }
+    onactivationapply(){
+        console.log("kdmkdmf", this.state.grouppackage, "vvv", this.state.finalarray)
+        var newobj;
+        if (this.state.finalarray.length === this.state.subjects.length) {
+            newobj = {
+                "package_id": this.state.grouppackage[0].reference_id,
+                "package_name": this.state.grouppackage[0].package_name,
+                "isGrade": true,
+                subjects: this.state.finalarray,
+            }
+        } else {
+            newobj = {
+                "package_id": this.state.finalarray[0].package_id,
+                "package_name": this.state.finalarray[0].package_name,
+                "isGrade": false,
+                subjects: this.state.finalarray,
+            }
+        }
+
+        let totalPackage = newobj
+        console.log("ggggg", totalPackage)
+
+        let data = {
+            package: JSON.stringify(totalPackage),
+            package_price: this.state.total,
+            discount_amount: this.state.discount_amount,
+            cgst: this.state.cgst,
+            sgst: this.state.sgst,
+            discount_coupon: "",
+            total_price: this.state.finaltotal,
+            payment_type: 'ScratchCard',
+            scratch_card: this.state.activationcode
+        }
+
+        console.log("Selecteditemsss", data)
+        // //  if (selectedItems.length > 0) {
+        this.setState({
+            isProcessing: true
+        })
+        var url = "http://api.newcleusit.com" + "/payment/scratchOrder"
+         fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'token': this.state.token
+            }
+          })
+            .then((response) => response.json())
+            .then((result) => {
+                this.setState({
+                    isProcessing: false
+                });
+                console.log("resultresultresult", result)
+                
+            })
+            Actions.dashboard({type:"reset"})
+        
+    }
     render() {
         return (
-            <View style={{ height: '100%', width: '100%' }}>
-                <StatusBar hidden={true} />
-                <Image
+            <View style={{ flex: 1, }}>
+                <ImageBackground
                     style={{ width: '100%', height: '100%' }}
-                    source={require('../../assets/images/Mobile_bg_1.png')}
-                />
-                <Image
-                    style={{ width: 150, height: 150, alignSelf: "flex-end", position: 'absolute', }}
-                    source={require('../../assets/images/dash_image.png')}
-                />
-                <TouchableOpacity style={{ justifyContent: 'center', flex: 0.33, position: 'absolute', padding: 12 }}
-                    onPress={this.onBack.bind(this)}>
-                    <Image
-                        style={{  height: 18, width: 23, marginLeft: 20}}
-                        source={require('../../assets/images/refer/back.png')} />
-                </TouchableOpacity>
-                <Text style={{ marginTop: 35, padding: 12, textAlign: 'left', fontSize: 18, color: colors.Themecolor, position: 'absolute' }} >Buy Packages</Text>
+                    source={require('../../assets/images/Mobile_bg_1.png')}>
+                    <View style={{ flex: 0.15, flexDirection: "row" }}>
+                        <View style={{ flex: 0.4, justifyContent: "space-evenly", paddingLeft: 20 }}>
+                            <TouchableOpacity onPress={this.onBack.bind(this)}>
+                                <Image
+                                    style={{ height: 18, width: 23 }}
+                                    source={require('../../assets/images/refer/back.png')} />
+                            </TouchableOpacity>
+                            <Text style={{ fontSize: 20, color: colors.Themecolor, }} >Buy Packages</Text>
 
-                <View style={{ alignSelf: 'center', marginTop: 150, position: 'absolute', width: '80%', height: '55%' }}>
-                    {this.state.isLoading
-                        ?
-                        <View style={{ margin: 15 }}>
-                            <ActivityIndicator size="small" />
                         </View>
-                        :
-                        this.state.isGradesAvailable ?
-                            <FlatList
-                                data={this.state.grades}
-                                style={{ alignSelf: 'center', width: '100%' }}
-                                renderItem={({ item, index }) => (
-                                    <View style={{ backgroundColor: "white", elevation: 4, 
-                                    borderColor:"white", borderRadius: 10, margin: 6, flexDirection:"row", }}>
-                                        <CheckBox
-                                            disabled={item.transactionId != null && item.transactionId != '' && item.transactionId != 'null' ? true : false}
-                                            title={item.gradeName}
-                                            checked={item.isSelected}
-                                            checkedIcon={<Image source={require('../../assets/images/check.png')} />}
-                                            uncheckedIcon={(item.transactionId != null && item.transactionId != '' && item.transactionId != 'null') ? <Image source={require('../../assets/images/uncheck.png')} /> : <Image source={require('../../assets/images/uncheck.png')} />}
-                                            containerStyle={{ backgroundColor: "white", borderColor: "white", justifyContent:"center",borderRadius: 10, height: 70 }}
-                                            textStyle={{ color: (item.transactionId != null && item.transactionId != '' && item.transactionId != 'null') ? '#9f9e9e' : "black" }}
-                                            onPress={() => this.onCheckBoxClick(item, index)}
-                                             />
-                                         {item.transactionId != null && item.transactionId != '' && item.transactionId != 'null' ?
-                                            <Text style={{ color:"grey", position: 'absolute', bottom: 10, right: 20 }} numberOfLines={1}>Expiry on {item.endDate.substring(0, item.endDate.indexOf("T"))}</Text>
-                                            : 
-                                            <View style={{flexDirection:"row",justifyContent:"space-evenly",flex:1,alignItems:"center"}}>
-                                            <Text style={{textAlign:"center"}}>{item.name}</Text>
-                                             <Text style={{ color: "black", }} numberOfLines={1}>Price: {'\u20B9'}{"100"}</Text>
-                                           </View>
-                                }
-                                    </View>
-                                )}
-                                keyExtractor={(item, index) => index.toString()}
+                        <View style={{ flex: 0.6 }}>
+                            <Image
+                                style={{ width: 150, height: 150, alignSelf: "flex-end", }}
+                                source={require('../../assets/images/dash_image.png')}
                             />
-                            :
-                            <Text style={{ paddingTop: 15, paddingBottom: 5, textAlign: 'center', fontSize: 16, color: ":darkgrey" }} >{"No"}</Text>
-                    }
-                </View>
+                        </View>
 
-                <View style={{ width: '100%', flexDirection: 'column', alignSelf: "center", position: 'absolute', bottom: 0 }}>
-                    {/* <TouchableOpacity style={{ justifyContent: 'center', flex: 0.25 }} onPress={() => this.props.navigation.navigate('')}> */}
-                    <View>
-                        {this.state.isScratchCardApplied ?
-                            <Text style={{ backgroundColor: "lightgrey", textAlignVertical: 'center', height: 40, marginTop: 5, paddingStart: 10 }}>{this.state.scratchCardAppliedText}</Text>
-                            :
-                            <TextInput style={{ backgroundColor: "lightgrey", height: 40, marginTop: 5, paddingStart: 10 }} placeholder="Having scratchcard?"
-                                placeholderTextColor={"darkgrey"}
-                                onChangeText={
-                                    scratchCard => this.setState({ scratchCard })
-                                }>
-                            </TextInput>
-                        }
-                        <TouchableOpacity
-                            style={{ 
-                                alignSelf: 'flex-end', position: 'absolute', height: '100%',justifyContent:"center",alingnItems:"center"}}
-                            onPress={() => { this.scratchCardAPI() }}>
-                            {this.state.isScratchCardApplied ?
-                                <Text style={{ color: "blue", paddingEnd: 8}}></Text>
-                                :
-                                <Text style={{ color: "blue", paddingEnd: 8 }}> APPLY </Text>
-                            }
-                        </TouchableOpacity>
                     </View>
-                    <View>
-                        {this.state.ispromocodeApplied ?
-                            <Text style={{ backgroundColor: "lightgrey", textAlignVertical: 'center', height: 40, marginTop: 5, paddingStart: 10 }}>{this.state.promoCodeAppliedText}</Text>
-                            :
-                            <TextInput style={{ backgroundColor: "lightgrey", height: 40, marginTop: 5, paddingStart: 10 }} placeholder="Having promo code?"
-                                placeholderTextColor={"darkgrey"}
-                                onChangeText={
-                                    promoCode => this.setState({ promoCode })
-                                }>
-                            </TextInput>
+                    
+                    <View style={{ flex: 0.9, }}>
+                    <ScrollView>
+                        {this.state.spinner ? <Text>Loading...</Text> :
+                        this.state.subjects.length > 0 ?
+                            <View style={{ marginHorizontal: 20, justifyContent: "center", marginBottom: 20 }}>
+                                <FlatList data={this.state.subjects}
+                                    renderItem={this.renderItem.bind(this)}
+                                    // horizontal
+                                    numColumns={2}
+                                />
+                            </View> : 
+                            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                                <Text>No Data</Text>
+                            </View>
+
                         }
-                        <TouchableOpacity
-                            style={{ alignSelf: 'flex-end', position: 'absolute', height: '100%' ,justifyContent:"center", alignItems:"center"}}
-                            onPress={() => { this.promoCodeAPI() }}>
-                            {this.state.ispromocodeApplied ?
-                                <Text style={{ height: '100%', textAlignVertical: 'center', color: "blue", paddingEnd: 8 }}></Text>
-                                :
-                                <Text style={{ color: "blue", paddingEnd: 8}}> APPLY </Text>
-                            }
-                        </TouchableOpacity>
-                    </View>
-                    {/* <TextInput style={{ backgroundColor: COLORS.grey_light, height: 40, marginTop: 5, paddingStart: 10 }} placeholder="Having referral code?"
-                        placeholderTextColor={COLORS.darkGrey}
-                        onChangeText={
-                            referralCode => this.setState({ referralCode })
-                        }>
-                    </TextInput> */}
-                    <Text style={{ alignSelf: 'center' }}>{this.state.gstText}</Text>
-                    {this.state.isProcessing ?
-                        <LinearGradient colors={["orange", "pink"]} style={{ height: 35, borderRadius: 5, margin: 4, justifyContent: 'center' }}>
-                            <ActivityIndicator color={"white"} />
-                        </LinearGradient>
-                        :
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => this.orderIDAPI()}>
-                            <LinearGradient colors={[colors.Themecolor, colors.Themecolor]} 
-                            style={{ height: 35, borderRadius: 5,  }}>
-                                <Text style={styles.submitButtonText}>{this.state.proceedText}</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-                    }
-                </View>
-            </View >
+                        {this.state.total > 0 ?
+                            <>
+                               <>
+                                <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-evenly" }}>
+                                    <TextInput style={{
+                                        borderColor: "lightgrey", borderBottomWidth: 1,
+                                        height: 50, paddingStart: 10, width: windowWidth / 1.5, fontSize: 18
+                                    }}
+                                        placeholder="Having Promocode?"
+                                        placeholderTextColor={"darkgrey"}
+                                        onChangeText={
+                                            promocode => this.setState({ promocode })
+                                        }>
+                                    </TextInput>
+                                    {this.state.promocode === "" ? null :
+                                    <TouchableOpacity
+                                        onPress={this.promoCodeAPI.bind(this)}
+                                        style={{ paddingHorizontal: 10, justifyContent: "center", alignItems: "center" }}>
+                                        <Text style={{ fontSize: 18 }}>Apply</Text>
+                                    </TouchableOpacity>}
+                                </View>
+                                {this.state.promocode === "" ? null :
+                                this.state.error !== "" ? <Text style={{color:"red",marginLeft:20}}>Invalid Coupon</Text>: null}
+                                </>
+                                <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-evenly" }}>
+                                    <TextInput style={{
+                                        borderColor: "lightgrey", borderBottomWidth: 1,
+                                        height: 50, paddingStart: 10, width: windowWidth / 1.5, fontSize: 18
+                                    }}
+                                        placeholder="Having Activationcode?"
+                                        placeholderTextColor={"darkgrey"}
+                                        onChangeText={
+                                            activationcode => this.setState({ activationcode })
+                                        }>
+                                    </TextInput>
+                                    {this.state.activationcode === "" ? null :
+                                    <TouchableOpacity
+                                    onPress={this.onactivationapply.bind(this)}
+                                     style={{ paddingHorizontal: 10, justifyContent: "center", alignItems: "center" }}>
+                                        <Text style={{ fontSize: 18 }}>Apply</Text>
+                                    </TouchableOpacity>}
+                                </View>
+                                <View style={{ margin: 10 }}>
+                                    <View style={{ flexDirection: "row", padding: 10, justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>Price</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>₹ {this.state.total}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", padding: 10, justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>CGST (9%)</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>₹ {this.state.cgst}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", padding: 10, justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>SGST (9%)</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>₹ {this.state.sgst}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", padding: 10, justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>Discount (-)</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>₹ {this.state.discount_amount}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: "row", paddingHorizontal: 10, paddingVertical: 15, justifyContent: "space-between" }}>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>Total</Text>
+                                        <Text style={{ fontSize: 20, fontWeight: "400" }}>₹ {this.state.finaltotal - this.state.discount_amount}</Text>
+                                    </View>
+                                </View>
+                                    <TouchableOpacity onPress={this.onPay.bind(this)}
+                                        style={{ flexDirection: "row", height:50, backgroundColor: colors.Themecolor,
+                                         width: windowWidth / 2.5, alignSelf: "center", justifyContent: "center", alignItems: "center" }}>
+                                        <Text style={{ fontSize: 18, color: "white" }}>Pay Now </Text>
+                                        {this.state.seconds !== 120 ? 
+                                        <Text style={{ fontSize: 15, color: "white" }}>({parseInt(this.state.seconds / 60, 10)}:{parseInt(this.state.seconds % 60, 10)})</Text>:
+                                        null}
+                                    </TouchableOpacity> 
+                            </> : null}
+                    </ScrollView></View>
+
+                </ImageBackground>
+                {this.state.isProcessing ?
+                         <View style={{ width: "100%", height: "100%", backgroundColor: "transparent", position: "absolute", justifyContent: "center", alignItems: "center" }}>
+                             <ActivityIndicator color="black" />
+                         </View>
+                         : null}
+            </View>
         )
     }
 }
 
 export default BuyPackages
 
-const styles = StyleSheet.create({
-    container: {
-        width: '80%',
-        padding: 20,
-        marginBottom: 100,
-        alignSelf: "center",
-        position: 'absolute', //Here is the trick
-        bottom: 0, //Here is the trick
-    },
-    input: {
-        padding: 8,
-        height: 45,
-        marginTop: 30,
-        borderWidth: 0.01,
-        borderRadius: 4,
-        elevation: 2
-    },
-    submitButtonText: {
-        color: "white",
-        textAlign: 'center',
-        height: '100%',
-        textAlignVertical: 'center'
-    }
-})

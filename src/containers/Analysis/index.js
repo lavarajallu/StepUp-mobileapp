@@ -246,7 +246,7 @@ class Analysis extends Component {
         console.log("this.state.selected", this.state.selectedTab)
         var grade_id = this.state.user.grade_id;
         var subjectId = this.state.selectedTab.reference_id
-        var url = baseUrl + '/student/bloomsTaxonomy/' + grade_id + '/' + subjectId
+        var url = baseUrl + '/taxonomy/student/subject-wise/' + grade_id + '/' + subjectId
         this.setState({ bloomsloading: true })
         fetch(url, {
             method: 'GET',
@@ -262,19 +262,24 @@ class Analysis extends Component {
                 if (json.data) {
                     console.log("bloomsdataa", json.data)
                     if (json.data) {
-                        var count = 0
-                        const keys = Object.keys(json.data);
-
-                        console.log(keys);
-
-                        keys.forEach((key, index) => {
-                            console.log(`${key}: ${json.data[key]}`);
-                            count = count + json.data[key]
-
-                        });
-                        console.log("bloomssection", count, "    ", json.data)
+                        var colorsarray = ['#6A5177', '#A3BA6D', '#D88212', '#F94D48', '#D19DE6', '#30A6DC']
+                        var newarraynew = []
+                        var count = 0 
+                        json.data.map((res,i)=>{
+                            var obj =  {
+                                label: res.type,
+                                value: res.percentage/100,
+                                totalQuestions: res.totalQuestions,
+                                correctAnswers: res.correctAnswers,
+                                color: colorsarray[i],
+                                backgroundColor: "lightgrey"
+                            }
+                            count = count + res.percentage
+                            newarraynew.push(obj)
+                        })
+                        console.log("bloomssection", newarraynew)
                         this.setState({
-                            blommsData: json.data,
+                            blommsData: newarraynew,
                             bloomsloading: false,
                             bloomsectioncount: count
                         })
@@ -436,16 +441,16 @@ class Analysis extends Component {
             }
 
             )
-            .catch((error) => console.error("dddddd"+error))
+            .catch((error) => console.error(error))
         //Actions.push('boards')
     }
     getChaptersdata() {
         const { user, token } = this.state
         var url;
         if (user.user_role === 'Student') {
-            url = baseUrl + "/student/learningAnalytics/chapterTest/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id +"&order_by=index&sort_order=ASC"
+            url = baseUrl + "/student/learningAnalytics/chapterTest/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=" + user.school_id + "&section_id=" + user.section_id
         } else if (user.user_role === 'General Student') {
-            url = baseUrl + "/student/learningAnalytics/chapterTest/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=''&section_id=''&order_by=index&sort_order=ASC"
+            url = baseUrl + "/student/learningAnalytics/chapterTest/" + user.grade_id + "/" + this.state.selectedTab.reference_id + "?school_id=''&section_id=''"
         }
 
         //grade?offset=0&limit=10&order_by=name&sort_order=DESC&board=1a060a8b-2e02-4bdf-8b70-041070f3747c&branch=-1
@@ -465,7 +470,7 @@ class Analysis extends Component {
                 console.log("sss", data)
                 if (data) {
                     if (data) {
-                        console.log("newchapterssdataaaaa", json.data)
+                        console.log("newdata", json.data)
                         this.setState
                             ({
 
@@ -820,12 +825,16 @@ class Analysis extends Component {
                                                                     this.state.bloomsectioncount > 0 ?
                                                                         <>
                                                                             <Text style={{ marginVertical: 10, textAlign: "center", fontWeight: "bold" }}>Bloom's Taxonomy Average</Text>
-                                                                            <ActivityRings data={this.state.blommsData} config={activityConfig} />
+                                                                            {/* <PolarRadialBar subjectTaxonomyData={this.state.bloomsdata} /> */}
+
+<ActivityRings data={this.state.blommsData} config={activityConfig} />
                                                                             <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: 30, alignItems: "center", justifyContent: "center" }}>
                                                                                 {this.state.blommsData.map((res, i) => (
                                                                                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", marginLeft: 10 }}>
                                                                                         <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: res.color }} />
                                                                                         <Text style={{ marginLeft: 5 }}>{res.label}</Text>
+                                                                                        <Text style={{ marginLeft: 5 }}>{"("}{res.value*100}{"%)"}</Text>
+
                                                                                     </View>
                                                                                 ))}
                                                                             </View>

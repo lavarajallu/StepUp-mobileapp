@@ -118,7 +118,7 @@ const PolarRadialBar = () => {
     }
 };
   return (
-    <ChartView style={{height:400}} config={conf} options={options}  highcharts={Highcharts}></ChartView>
+    <ChartView style={{height:400,overflow:"hidden"}} config={conf} options={options}  highcharts={Highcharts}></ChartView>
   )
 }
 

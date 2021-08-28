@@ -79,8 +79,7 @@ class ChartWeb extends Component {
         return (
           <View style={this.props.style}>
               <WebView
-//androidHardwareAccelerationDisabled
-androidHardwareAccelerationDisabled={true}
+                androidHardwareAccelerationDisabled={true}
 
                 onLayout={this.reRenderWebView.bind(this)}
                //   onLayout={this.reRenderWebView}

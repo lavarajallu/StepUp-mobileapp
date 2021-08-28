@@ -124,7 +124,7 @@ const AssessmentComparisonChart = props => {
   return (
     spinner ? <Text>Loading....</Text> :
 <View style={{alignItems:"center"}}>
-<ChartView style={{height:300,width:windowWidth/1.1}} config={chartConfig} options={chartOptions} originWhitelist={['']}></ChartView>
+<ChartView style={{height:300,width:windowWidth/1.1,overflow:"hidden"}} config={chartConfig} options={chartOptions} originWhitelist={['']}></ChartView>
 </View>
   )
 }

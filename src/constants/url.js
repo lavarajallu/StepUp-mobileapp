@@ -1,5 +1,5 @@
 
-export const baseUrl = "http://139.59.78.167:3001"
+export const baseUrl ="http://api.newcleusit.com"// "http://139.59.78.167:3001"
 
 
 //"http://143.110.248.126:3001"

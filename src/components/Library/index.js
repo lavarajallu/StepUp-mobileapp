@@ -274,7 +274,7 @@ class Library extends Component {
 				<View style={styles.subview}>
 					<LearningComponent />
 					
-					<LibraryComponent />
+				<LibraryComponent /> 
 					<View style={{height:1,width:windowWidth/1.2,backgroundColor: 'lightgrey',opacity:0.8,marginVertical:30,alignSelf:"center"}}/>
 					<MyTopics />
 					
