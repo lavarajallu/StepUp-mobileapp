@@ -233,7 +233,7 @@ getData = async () => {
                         <TextInput 
                         placeholder="dob"
                         editable={false}
-                        value={this.state.userDetails ? moment(this.state.userDetails.dob).format('L'): null}
+                        value={this.state.userDetails ? this.state.userDetails.dob ? moment(this.state.userDetails.dob).format('L'): "" : ""}
                         style={{height:40,width:windowWidth/1.3,borderColor:"#695077",borderBottomWidth:1,marginLeft:20}}/>
                     </View>
 

@@ -20,13 +20,13 @@ export default function ProgressItem({ name, score, performedTests }) {
     <>
     
     <View style={{
-        width:windowWidth/2.3,
+        width:windowWidth/2.15,
         height: 80,
         color: `${statusText === '#F94D48' ? "#fff" : statusText === '#D88212' ? "#000" : "#fff"}`,
         backgroundColor : performedTests > 0 ? statusText : 'grey',
         alignItems:"center",
         margin: 5,
-        justifyContent:"center"
+        justifyContent:"center",
     }}>
           <Text style={{color:prgStatusStyle.color,textAlign:"center"}}>{name}</Text>
       </View>

@@ -258,6 +258,8 @@ class Login extends Component {
                            // alert("hiii")
                             this.onresend();
                             this.setState({ spinner: false, showOTP: true })
+                        }else{
+                            alert(json.message)
                         }
                       //  alert(json.message)
                     }

@@ -92,7 +92,7 @@ class Chapters extends Component {
   validatepackages(data){
     //package/validate/${email}
     console.log("validpackages",data)
-    var url = "http://api.newcleusit.com"+'/package/validate/'+data.email
+    var url = baseUrl+'/package/validate/'+data.email
     fetch(url ,{
       method: 'GET',
       headers: {

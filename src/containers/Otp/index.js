@@ -268,7 +268,8 @@ class Otp extends Component {
                             style={styles.textinput}
                             blurOnSubmit={false}
                             value={this.state.otp}
-                            keyboardType={"numeric"}
+                            keyboardType={"number-pad"}
+                            returnKeyType={"done"}
                             placeholder={"Enter OTP"}
                             onChangeText={this.onChangeMobile}
                             onSubmitEditing={() => Keyboard.dismiss()}

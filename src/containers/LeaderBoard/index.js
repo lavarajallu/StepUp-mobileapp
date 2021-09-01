@@ -142,7 +142,7 @@ class LeaderBoard extends Component {
                     this.setState({
                         spinner: false,
                         leadercriteria: json.data,
-                        currentstudent: newObj
+                       // currentstudent: newObj
                     })
 
                 } else {
@@ -174,7 +174,7 @@ class LeaderBoard extends Component {
                 if (json.data) {
 
                     let cUserRank = json.data.find((sr) => sr.reference_id === this.state.userDetails.reference_id)
-                   // let newObj = { ...cUserRank }
+                      let newObj
                     if (cUserRank) {
                         newObj = { ...cUserRank }
                         const rank = json.data.findIndex((sr) => sr.reference_id === this.state.userDetails.reference_id)
@@ -356,7 +356,7 @@ class LeaderBoard extends Component {
                                 </View>}
                     </View>
                     <View style={{ flex: 0.08, flexDirection: "row", alignItems: "center", backgroundColor: colors.Themecolor }}>
-                        <Footer openControlPanel={this.openControlPanel} value="leaderboard" />
+                        <Footer openControlPanel={this.openControlPanel} />
 
                     </View>
                 </View>

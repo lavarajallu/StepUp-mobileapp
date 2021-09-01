@@ -598,7 +598,7 @@ class EditProfile extends Component {
                                     <Image
                                         source={require('../../assets/images/refer/phoneicon.png')}
                                         style={{ width: 23, height: 22 }} />
-                                    <View
+                                    {/* <View
 
                                         style={{
                                             height: 40, width: 60,
@@ -617,12 +617,12 @@ class EditProfile extends Component {
                                         />
 
 
-                                    </View>
+                                    </View> */}
                                     <TextInput
                                         placeholder="phone number"
                                         value={this.state.mobile_number}
                                         onChangeText={(text) => this.setState({ mobile_number: text })}
-                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.8, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
+                                        style={{ color: '#695077', height: 40, width: windowWidth / 1.3, borderColor: "#695077", borderBottomWidth: 1, marginLeft: 20 }} />
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: "center", paddingVertical: 10 }}>
                                     <Image

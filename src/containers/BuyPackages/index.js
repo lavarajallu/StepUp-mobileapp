@@ -409,10 +409,11 @@ class BuyPackages extends Component {
 
     initiatePayment(data) {
         var options = {
-            description: 'Test Transaction',
+            description: 'StepUp App',
             image: require('../../assets/images/logo_icon1.png'),
             currency: data.currency,
-            key: 'rzp_test_2TAQIETR3fIP95',
+            key:"rzp_live_LNMso9pixJAFJj",
+            //key: 'rzp_test_2TAQIETR3fIP95',
             amount: data.amount.toString(),
             name: "Smartgen Corp",
             order_id: data.id,//Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.

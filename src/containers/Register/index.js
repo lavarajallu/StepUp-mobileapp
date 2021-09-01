@@ -39,8 +39,43 @@ var radio_props = [
 ];
 var states = [
     { label: "Andhra Pradesh", value: "Andhra Pradesh", },
-    { label: "Telengana", value: "Telengana", }
-]
+    { label: "Arunachal Pradesh", value: "Arunachal Pradesh", },
+     { label: "Assam", value: "Assam", },
+     { label: "Bihar", value: "Bihar", },
+     { label: "Chhattisgarh", value: "Chhattisgarh", },
+     { label: "Goa", value: "Goa", },
+     { label: "Gujarat", value: "Gujarat", },
+     { label: "Haryana", value: "Haryana", },
+     { label: "Himachal Pradesh", value: "Himachal Pradesh", },
+     { label: "Jharkhand", value: "Jharkhand", },
+     { label: "Karnataka", value: "Karnataka", },
+     { label: "Kerela", value: "Kerela", },
+     { label: "Madhya Pradesh", value: "Madhya Pradesh", },
+     { label: "Maharastra", value: "Maharastra", },
+     { label: "Manipur", value: "Manipur", },
+     { label: "Meghalaya", value: "Meghalaya", },
+     { label: "Mizoram", value: "Mizoram", },
+     { label: "Nagaland", value: "Nagaland", },
+     { label: "Odisha", value: "Odisha", },
+     { label: "Punjab", value: "Punjab", },
+     { label: "Rajasthan", value: "Rajasthan", },
+     { label: "Sikkim", value: "Sikkim", },
+     { label: "Tamil Nadu", value: "Tamil Nadu", },
+     { label: "Tripura", value: "Tripura", },
+     { label: "Uttarakhand", value: "Uttarakhand", },
+     { label: "Uttar Pradesh", value: "Uttar Pradesh", },
+     { label: "West Bengal", value: "West Bengal", },
+     { label: "Puducherry", value: "Puducherry", },
+     { label: "Ladakh", value: "Ladakh", },
+     { label: "Jammu & Kashmir", value: "Jammu & Kashmir", },
+     { label: "MizoramDadra and Nagar Haveli and Daman & Diu", value:"MizoramDadra and Nagar Haveli and Daman & Diu"},
+     { label: "Delhi", value: "Delhi", },
+     { label: "Chandigarh", value: "Chandigarh", },
+     { label: "Andaman and Nicobar Islands", value: "Andaman and Nicobar Islands", },
+
+
+
+    ]
 class Register extends Component {
     constructor(props) {
         super(props);
