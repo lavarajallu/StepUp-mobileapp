@@ -167,21 +167,21 @@ class Register extends Component {
             Alert.alert('Step Up', "Please enter First Name")
         } else if (LName === "") {
             Alert.alert('Step Up', "please enter Last Name")
-        }else if (genderval === null) {
+        } else if (genderval === null) {
             Alert.alert('Step Up', "please select gender")
         } else if (email === "") {
             Alert.alert('Step Up', "please enter Email")
-        }else if (password === "") {
+        } else if (password === "") {
             Alert.alert('Step Up', "please enter Password")
         } else if (confPassword === "") {
             Alert.alert('Step Up', "please enter Confirm Password")
         } else if (mobile_number === "") {
             Alert.alert('Step Up', "please enter Mobile number")
-        }  else if (statevalue === "") {
+        } else if (statevalue === "") {
             Alert.alert('Step Up', "please select state")
         } else if (pincode === "") {
             Alert.alert('Step Up', "please enter Pincode")
-        }  else if (!Validations.email(email)) {
+        } else if (!Validations.email(email)) {
             Alert.alert('Step Up', "please enter valid email")
         } else if (password != confPassword) {
             Alert.alert('Step Up', "password and confirm password doesn't match")
@@ -222,8 +222,8 @@ class Register extends Component {
                 body: JSON.stringify(body)
             }).then((response) => response.json())
                 .then((json) => {
-                    console.log("JSOpmmmm",json)
-                   // const data = json.data;
+                    console.log("JSOpmmmm", json)
+                    // const data = json.data;
                     if (json.data) {
                         //this.loginapi()
                         this.setState({
@@ -352,8 +352,8 @@ class Register extends Component {
                         }
                         else {
                             this.setState({ loading: false })
-                            this.loginapi()
-                            // alert(json.message)
+                            //  this.loginapi()
+                            alert(json.message)
                         }
                     }
                 }
@@ -372,6 +372,43 @@ class Register extends Component {
             //selectedsubid: this.state.subjectslist[index - 1].id
 
         })
+    }
+    onresend() {
+        this.setState({ spinner: true })
+        var body = { email: this.state.email,verified_account: true }
+        console.log("Boyyy", body)
+        fetch(baseUrl + '/user/forgot-password', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).then((response) =>
+            response.json())
+            .then((json) => {
+                // alert(JSON.stringify(json))
+                if (json) {
+                    this.setState({ spinner: false })
+                    if (json.statusCode === 200) {
+
+                        Alert.alert(
+                            "Step Up",
+                            json.message,
+                            [
+                                { text: "OK" }
+                            ]
+                        );
+                    } else {
+                        alert(json.message)
+                    }
+                    // this.setState({ spinner: false })
+                    // Actions.push('otp',{email: email})
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
     }
 
     render() {
@@ -420,7 +457,10 @@ class Register extends Component {
                                     onChangeText={this.onchangeotp.bind(this)}
                                     onSubmitEditing={() => Keyboard.dismiss()}
                                 ></TextInput>
-
+                                <TouchableOpacity onPress={this.onresend.bind(this)}
+                                    style={{ marginTop: 10, marginRight: 10, fontSize: 18, alignSelf: "flex-end" }}>
+                                    <Text style={{ color: colors.Themecolor }}>Resent OTP?</Text>
+                                </TouchableOpacity>
                                 <View style={{
                                     marginVertical: 10, marginHorizontal: 15, flexDirection: "row", justifyContent: "center", alignItems: 'center'
                                 }}>
@@ -483,7 +523,7 @@ class Register extends Component {
                                     onChangeText={this.onChangeLName}
                                     onSubmitEditing={() => Keyboard.dismiss()}
                                 >Last Name</FloatingLabel>
-                               
+
                                 <View style={{ paddingLeft: 20, paddingTop: 20 }}>
                                     <RadioForm
                                         formHorizontal={true}
@@ -534,7 +574,7 @@ class Register extends Component {
                                     onChangeText={this.onChangeEmail}
                                     onSubmitEditing={() => Keyboard.dismiss()}
                                 >Email</FloatingLabel>
-   <FloatingLabel
+                                <FloatingLabel
                                     placeholderTextColor={"grey"}
 
                                     labelStyle={styles.labelstyle}
@@ -599,7 +639,7 @@ class Register extends Component {
                                     onChangeText={this.onChangePincode}
                                     onSubmitEditing={() => Keyboard.dismiss()}
                                 >Pin Code</FloatingLabel>
-                             
+
                                 <View style={styles.subview}>
                                     <TouchableOpacity onPress={this.onCancel.bind(this)} style={styles.createview}>
                                         <Text style={styles.createtext}>Cancel</Text>
@@ -712,7 +752,7 @@ class Register extends Component {
                                         onChangeText={this.onChangeEmail}
                                         onSubmitEditing={() => Keyboard.dismiss()}
                                     >Email</FloatingLabel>
-                                     <FloatingLabel
+                                    <FloatingLabel
                                         labelStyle={styles.labelstyle}
                                         inputStyle={styles.input}
                                         style={styles.textinput}
@@ -771,7 +811,7 @@ class Register extends Component {
                                         onChangeText={this.onChangePincode}
                                         onSubmitEditing={() => Keyboard.dismiss()}
                                     >Pin Code</FloatingLabel>
-                                   
+
                                     <View style={styles.subview}>
                                         <TouchableOpacity onPress={this.onCancel.bind(this)} style={styles.createview}>
                                             <Text style={styles.createtext}>Cancel</Text>

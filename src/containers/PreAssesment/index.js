@@ -394,7 +394,7 @@ this.setState({modalshow: true})
                         questionno: 0,
                         spinner: false
                     })
-                    alert(JSON.stringify(json.message))
+                   // alert(JSON.stringify(json.message))
 
                 }
             }

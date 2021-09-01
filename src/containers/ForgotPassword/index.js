@@ -51,7 +51,7 @@ class ForgotPassword extends Component {
         // }
          else {
             this.setState({ spinner: true })
-           var body = { email: email }
+           var body = { email: email,verified_account: false }
            console.log("Boyyy",body)
            fetch(baseUrl+'/user/forgot-password', {
             method: 'POST',
@@ -122,7 +122,7 @@ class ForgotPassword extends Component {
                             onChangeText={this.onChangeEmail}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         ></TextInput>
-
+ 
 
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onSubmit.bind(this)}>

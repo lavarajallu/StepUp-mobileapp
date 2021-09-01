@@ -17,6 +17,7 @@ const TimeSpentChart = props => {
         let spentTimeData = []
         let spentTimeColors = []
         testResult.questions.forEach((tq, i) => {
+          console.log("yttqttq",tq)
           labels.push(i + 1)
           idealTimeData.push(tq.assigned_time)
           spentTimeData.push(tq.test_taken_time)

@@ -12,7 +12,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Actions } from 'react-native-router-flux';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-var url = 'http://api.newcleusit.com'
 var db, selectedItems = [], gst = '0', resourceBaseURL;
 var interval;
 class BuyPackages extends Component {
@@ -88,7 +87,7 @@ class BuyPackages extends Component {
     }
 
     getsubjects() {
-        var url = 'http://api.newcleusit.com' + '/package/grade/' + this.state.userDetails.grade_id
+        var url = baseUrl + '/package/grade/' + this.state.userDetails.grade_id
         console.log("value", url)
         fetch(url, {
             method: 'GET',
@@ -277,7 +276,7 @@ class BuyPackages extends Component {
         this.setState({
             isProcessing: true
         })
-        var url = "http://api.newcleusit.com" + "/payment/order"
+        var url = baseUrl + "/payment/order"
         return fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
@@ -313,7 +312,7 @@ class BuyPackages extends Component {
         this.setState({
             isProcessing: true
         });
-        var url = "http://api.newcleusit.com" + "/promoCode/validate/" + this.state.promocode
+        var url = baseUrl + "/promoCode/validate/" + this.state.promocode
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -449,7 +448,7 @@ class BuyPackages extends Component {
                 reference_id:  data.id
             };
 
-            var url = "http://api.newcleusit.com" + "/payment/success"
+            var url = baseUrl + "/payment/success"
             return fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(newdata),
@@ -601,7 +600,7 @@ Actions.dashboard({type:"reset"})
         this.setState({
             isProcessing: true
         })
-        var url = "http://api.newcleusit.com" + "/payment/scratchOrder"
+        var url = baseUrl + "/payment/scratchOrder"
          fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),

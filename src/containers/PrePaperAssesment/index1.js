@@ -96,22 +96,27 @@ class PrePaperAssesment extends Component {
 
     getQuestions() {
         console.log("dsnfjnvkdv", this.props.item)
-        var url = baseUrl + "/previous-questions?previous_question_paper_id=" + this.props.item.reference_id
+      //  var url = baseUrl + "/previous-questions?previous_question_paper_id=" + this.props.item.reference_id
+      var url = baseUrl + "/user-previous-test"
         console.log("urlll", url)
         fetch(url, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'token': this.state.token
-            }
+            },
+            body: JSON.stringify({
+                "previous_question_paper_id": this.props.item.reference_id
+            })
         }).then((response) =>
+
             response.json())
             .then((json) => {
                 console.log("qusessss......", JSON.stringify(json.data))
                 if (json.data) {
                     const data = json.data
                     let questions = []
-                    data.previousQuestions && data.previousQuestions.map(data => {
+                    data.questions && data.questions.map(data => {
                         let obj = {
                             question: data.reference_id,
                             user_answer: null,
@@ -121,11 +126,12 @@ class PrePaperAssesment extends Component {
                     })
 
                     this.setState({
-                        questiosnarray: data.previousQuestions,
-                        selectedItem: data.previousQuestions[0],
+                        questiosnarray: data.questions,
+                        selectedItem: data.questions[0],
                         questionno: 0,
                         spinner: false,
                         finalarray: questions,
+                        testid: data.reference_id
 
                     }, () => console.log("testid", this.state.testid))
 
@@ -137,7 +143,7 @@ class PrePaperAssesment extends Component {
                         questionno: 0,
                         spinner: false
                     })
-                    alert(JSON.stringify(json.message))
+                   // alert(JSON.stringify(json.message))
 
                 }
             }
@@ -264,28 +270,11 @@ class PrePaperAssesment extends Component {
             isvisible: false
         }, () => {
             this.setState({ testloader: true })
-            var url = baseUrl + "/user-previous-test"
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': this.state.token
-                },
-                body: JSON.stringify({
-                    "previous_question_paper_id": this.props.item.reference_id
-                })
-            }).then((response) =>
-
-                response.json())
-                .then((json) => {
-
-
-                    if (json.data) {
-                        const data = json.data
-                        console.log("jsonssss", json.data)
-                        var url = baseUrl + "/user-previous-test/" +  json.data.reference_id
+            
+                        var url = baseUrl + "/user-previous-test/" + this.state.testid
                         var body = newbody
-                        console.log("bodyyy", url)
+                        var testid_id =  this.state.testid
+                        console.log("bodyyy....", body)
 
                         fetch(url, {
                             method: 'PUT',
@@ -300,12 +289,12 @@ class PrePaperAssesment extends Component {
                             .then((json) => {
                                 // alert("jon"+JSON.stringify(json))
                                 /// const data = json.data;
-
+                                    console.log("finallll",json)
                                 if (json.data) {
                                     const data = json.data
-                                    console.log("jsonssss finalllllll", json.data)
+                                    console.log("jsonssss finalllllll", json.data.reference_id, testid_id)
                                     this.setState({ testloader: false })
-                                      Actions.push('prepapersummary', { testdata: json.data})
+                                      Actions.push('prepapersummary', { testdata: json.data,testid: testid_id,item: this.props.newdata})
                                     // Alert.alert(
                                     //     "Step Up",
                                     //     json.message,
@@ -330,17 +319,8 @@ class PrePaperAssesment extends Component {
                             )
                             .catch((error) => alert("gggg" + error))
 
-                    } else {
-                        this.setState({ testloader: fasle })
-
-                        alert(JSON.stringify(json.message))
-
                     }
-                }
-
                 )
-                .catch((error) => alert("gggg" + error))
-        })
     }
     onCancel() {
         this.setState({
@@ -376,11 +356,11 @@ class PrePaperAssesment extends Component {
         this.setState({
             modalshow: false
         }, () => {
-            Actions.practicechapter({ type: "reset", data: this.props.subjectData })
+            Actions.prequestionpapers({ type: "reset", item: this.props.newdata })
         })
     }
     ongoback() {
-        Actions.practicechapter({ type: "reset", data: this.props.subjectData })
+        Actions.prequestionpapers({ type: "reset", item: this.props.newdata })
     }
     onAnswer(res) {
         console.log("answerrr...", this.state.finalarray)
@@ -509,7 +489,7 @@ class PrePaperAssesment extends Component {
                   style={{ width: 25, height: 25, tintColor: "white",}} />
               </TouchableOpacity> */}
 
-                                    <Text style={{ color: "white", fontSize: 18, marginLeft: 10 }}>{"Practice Test"}</Text>
+                                    <Text style={{ color: "white", fontSize: 18, marginLeft: 10 }}>{this.props.item.title + " Paper Test"}</Text>
 
                                 </View>
 
@@ -585,9 +565,9 @@ class PrePaperAssesment extends Component {
                                                                     borderWidth: 0.5,
                                                                     borderColor: "white",
                                                                     alignSelf: 'center',
-                                                                }} html={this.state.selectedItem.question} />
+                                                                }} html={this.state.selectedItem.question.question} />
                                                         </View>
-                                                        <FlatList data={this.state.selectedItem.options}
+                                                        <FlatList data={this.state.selectedItem.question.options}
 
                                                             keyExtractor={(item, index) => String(index)}
                                                             renderItem={this.rednerAnswerItem.bind(this)}

@@ -239,13 +239,19 @@ class PrePaperSummary extends Component {
             .catch((error) =>  alert("gggg"+error))
        }
     onBack(){
-      // alert(JSON.stringify(this.props.topicData))
+      // alert(JSON.stringify(this.props.from))
       //  Actions.practicechapter({type:"reset",data: this.props.subjectData})
-        //Actions.main()
+      if(this.props.from === "reviewscreen"){
+        Actions.prepaperreview({"data": this.props.selectedata,"item":this.props.item})
+      }else{
+        Actions.prequestionpapers({type:"reset",item: this.props.item})
+
+      }
     }
 
     onViewSolutions(){
-      Actions.push('practicesolutions',{testid:this.props.testid,subjectData:this.props.subjectData,data:this.props.data})
+      Actions.push('prepapersolutions',
+      {testid:this.props.testid,testdata: this.props.testdata})
     }
 
     render() {
@@ -265,7 +271,7 @@ class PrePaperSummary extends Component {
 		
         return (
           <ImageBackground source={require('../../assets/images/dashboard/new/activitybg.jpg')}
-          style={{width:"100%",height:"100%",backgroundColor:color.Themecolor}} opacity={0.5}>
+          style={{width:"100%",height:"100%",backgroundColor:colors.Themecolor}} opacity={0.5}>
             <View style={{flex:1}}>
             <View style={{flex:0.08,flexDirection:"row"}}>
         <View style={{flex:1}}>
@@ -409,7 +415,8 @@ class PrePaperSummary extends Component {
                           
                           </View>
                           <TouchableOpacity onPress={this.onViewSolutions.bind(this)}
-                      style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,backgroundColor:color.Themecolor,justifyContent:"center",alignItems:"center",borderRadius:20}}>
+                      style={{height:40,width:200,alignSelf:"center",marginVertical:30,paddingHorizontal:20,
+                      backgroundColor:colors.Themecolor,justifyContent:"center",alignItems:"center",borderRadius:20}}>
                         <Text style={{color:"white"}}>Review Answers</Text>
                       </TouchableOpacity>
                           </ScrollView>

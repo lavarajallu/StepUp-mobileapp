@@ -146,12 +146,12 @@ fetch(url, {
 		return(
 			<TouchableHighlight onPress={this.onItem.bind(this,item)} underlayColor="transparent" activeOpacity={0.9}>
 			<View
-			style={{width:566/1.6,height:60,borderWidth:1,borderColor:colors.Themecolor,flexDirection:"row",
-			marginVertical: 10,justifyContent:"space-between",alignItems:"center",alignSelf:"center"}}>
-				<View style={{flex:0.25}}>
-				<ImageBackground source={require('../../assets/images/pp1.png')} style={{width:42*1.4,height:43*1.4,justifyContent:"center",alignItems:"center"}}>
-					<Image source={require('../../assets/images/object.png')} style={{width:746/23,height:930/23}}/>
-				</ImageBackground></View>
+			style={{width:566/1.6,height:80,borderWidth:1,borderColor:colors.Themecolor,flexDirection:"row",
+			marginVertical: 20,justifyContent:"space-between",alignItems:"center",alignSelf:"center"}}>
+				<View style={{flex:0.25,justifyContent:"center",alignItems:"center"}}>
+				<Image source={require('../../assets/images/object.png')} style={{width:746/15,height:930/15}}/>
+
+				</View>
 				<View style={{flex:0.75,justifyContent:"center",alignItems:"flex-start",}}>
 			<Text style={{color:colors.Themecolor,fontSize:18,fontWeight:"600"}}>{item.title}</Text></View>
 			</View>
@@ -165,7 +165,7 @@ fetch(url, {
     this._drawer.open()
     };
 	onBack(){
-		Actions.pop()
+		Actions.dashboard()
 	}
 	render(){
 		return(

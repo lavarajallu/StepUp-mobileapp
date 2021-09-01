@@ -22,6 +22,7 @@ import Modal from 'react-native-modal';
 import Drawer from 'react-native-drawer'
 import SideMenu from "../../components/SideMenu"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { color } from 'react-native-elements/dist/helpers';
 
 
 class PreQuestionPapers extends Component {
@@ -112,6 +113,7 @@ class PreQuestionPapers extends Component {
 		this._drawer.open()
 	};
 	renderItem({ item }) {
+		console.log("datataaa",item)
 		return (
 			<TouchableOpacity onPress={this.onItem.bind(this,item)}
 				style={{
@@ -124,7 +126,7 @@ class PreQuestionPapers extends Component {
 					alignItems:"center",
 					elevation: 10, shadowColor: 'grey'
 				}}>
-				<Text>{item.title}</Text>
+				<Text style={{color:colors.Themecolor}}>{item.title}</Text>
 				{/*<View style={{width:24,height:24,borderRadius: 12,backgroundColor: colors.Themecolor,justifyContent:"center",alignItems:"center"}}>
 							<Image source={require('../../assets/images/left-arrow.png')}
 							 style={{width:18,height:18,tintColor: 'white',transform:[{rotate:"180deg"}]}}/>
@@ -134,7 +136,7 @@ class PreQuestionPapers extends Component {
 		)
 	}
 	onBack() {
-		Actions.pop()
+		Actions.previouspapers({type:"reset"})
 	}
 	onClose() {
 		this.setState({
@@ -146,14 +148,15 @@ class PreQuestionPapers extends Component {
 		this.setState({
 			isvisible: false,
 			newmodal: false,
-		}, () => Actions.push('prepaperassesment',{"item":this.state.SelectedItem}))
+		}, () => Actions.push('prepaperassesment',{"item":this.state.SelectedItem,newdata: this.props.item}))
 
 	}
 	onReview() {
+		console.log("dndndnkfdsf",this.props.item)
 		this.setState({
 			isvisible: false,
 			newmodal: false,
-		}, () => Actions.push('prepaperreview'))
+		}, () => Actions.push('prepaperreview',{"data":this.state.SelectedItem,"item":this.props.item}))
 	}
 	onBackdrop() {
 		this.setState({

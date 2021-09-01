@@ -125,11 +125,6 @@ onItem(item){
                     "Step Up",
                      json.message,
                     [
-                      {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                      },
                       { text: "OK", onPress: () => {
                        Actions.dashboard();
                       }}

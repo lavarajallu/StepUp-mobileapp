@@ -19,7 +19,7 @@ const windowHeight = Dimensions.get('window').height;
 import Header from '../../components/Header'
 import { Validations } from '../../helpers'
 import { Actions } from 'react-native-router-flux';
-import { baseUrl } from '../../constants';
+import { baseUrl,colors } from '../../constants';
 class Otp extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +53,45 @@ class Otp extends Component {
         this.setState({
             confpassword: text
         })
+    }
+    onresend() {
+        this.setState({ spinner: true })
+       // var mobile = this.state.mobile;
+        var email = this.props.email
+        var body = { email: email,verified_account: false }
+        console.log("Boyyy", body)
+        fetch(baseUrl + '/user/forgot-password', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).then((response) =>
+            response.json())
+            .then((json) => {
+                // alert(JSON.stringify(json))
+                if (json) {
+                    this.setState({ spinner: false })
+                    if (json.statusCode === 200) {
+
+                        Alert.alert(
+                            "Step Up",
+                            json.message,
+                            [
+                                { text: "OK" }
+                            ]
+                        );
+                    } else {
+                        alert(json.message)
+                    }
+                    // this.setState({ spinner: false })
+                    // Actions.push('otp',{email: email})
+                }
+            }
+
+            )
+            .catch((error) => console.error(error))
     }
     onVerify() {
         var mobile = this.state.mobile;
@@ -234,7 +273,10 @@ class Otp extends Component {
                             onChangeText={this.onChangeMobile}
                             onSubmitEditing={() => Keyboard.dismiss()}
                         ></TextInput>
-
+ <TouchableOpacity onPress={this.onresend.bind(this)}
+                                    style={{ marginTop: 10, marginRight: 10, fontSize: 18, alignSelf: "flex-end" }}>
+                                    <Text style={{ color: colors.Themecolor }}>Resent OTP?</Text>
+                                </TouchableOpacity>
                         <View style={styles.subview}>
                             <TouchableOpacity onPress={this.onVerify}>
                                 <View style={styles.submiticon}>
